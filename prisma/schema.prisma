@@ -9,15 +9,15 @@ datasource db {
 
 model Airport {
   id        String    @id
-  userId    String
+
   createdAt DateTime  @default(now())
   updatedAt DateTime
-  Service   Service[]
-  User      User[]
+  services   Service[]
+  companies      Company[]
 }
 
 model Booking {
-  id                    String    @id
+  id                    String    @id @default(uuid())
   createdAt             DateTime  @default(now())
   updatedAt             DateTime
   BookingOnBusinessName String?
@@ -49,7 +49,7 @@ model Booking {
 }
 
 model Customer {
-  id             String    @id
+  id             String    @id @default(uuid())
   email          String    @unique
   createdAt      DateTime  @default(now())
   updatedAt      DateTime
@@ -77,13 +77,13 @@ model Invoice {
 }
 
 model Notification {
-  id           String   @id
-  userId       String
+  id           String   @id @default(uuid())
+  companyId       String
   createdAt    DateTime @default(now())
   updatedAt    DateTime
   serviceId    String
   servicePrice Float
-  User         User     @relation(fields: [userId], references: [id])
+  companies         Company     @relation(fields: [companyId], references: [id])
 }
 
 model Payment {
@@ -95,8 +95,8 @@ model Payment {
 }
 
 model Service {
-  id                String      @id
-  userId            String
+  id                String      @id @default(uuid())
+  companyId            String
   createdAt         DateTime    @default(now())
   updatedAt         DateTime
   address           String
@@ -114,15 +114,16 @@ model Service {
   timeToAirport     String?
   title             String
   zipcode           String
-  User              User        @relation(fields: [userId], references: [id])
+  company           Company        @relation(fields: [companyId], references: [id])
   Airport           Airport[]
 }
 
-model User {
-  id           String         @id
+model Company {
+  id           String         @id @default(uuid())
+  userId      String @unique
   email        String         @unique
   createdAt    DateTime       @default(now())
-  updatedAt    DateTime
+  updatedAt    DateTime @updatedAt
   address      String
   commision    Float          @default(0)
   contact      String
@@ -132,7 +133,7 @@ model User {
   place        String
   zipcode      String
   Notification Notification[]
-  Service      Service[]
+  services      Service[]
   Airport      Airport[]
 }
 
