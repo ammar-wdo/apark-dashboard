@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Airport {
+  id        String    @id
+  userId    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  Service   Service[]
+  User      User[]
+}
+
+model Booking {
+  id                    String    @id
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime
+  BookingOnBusinessName String?
+  ExtraServiceFee       Float
+  Status                String
+  address               String?
+  arrivalDate           DateTime
+  bookingCode           String    @unique
+  carColor              String
+  carLicense            String
+  carModel              String
+  companyName           String?
+  customerId            String
+  daysofparking         DateTime
+  departureDate         DateTime
+  discount              Float
+  flightNumber          Int?
+  parkingId             String    @unique
+  parkingPrice          Float
+  paymentStatus         String
+  paymentmethod         String
+  place                 String?
+  returnFlightNumber    Int?
+  total                 Float
+  vatNumber             Int?
+  zipcode               String?
+  Customer              Customer  @relation(fields: [customerId], references: [id])
+  Payment               Payment[]
+}
+
+model Customer {
+  id             String    @id
+  email          String    @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime
+  address        String?
+  carColor       String
+  carLicense     String
+  carModel       String
+  companyAddress String?
+  companyPlace   String?
+  companyZipcode String?
+  firstname      String
+  invoiceEmail   String    @unique
+  isCompany      Boolean   @default(false)
+  lastname       String
+  phone          String
+  place          String?
+  zipcode        String?
+  Booking        Booking[]
+}
+
+model Invoice {
+  id        String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+}
+
+model Notification {
+  id           String   @id
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime
+  serviceId    String
+  servicePrice Float
+  User         User     @relation(fields: [userId], references: [id])
+}
+
+model Payment {
+  id        String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  bookingId String
+  Booking   Booking  @relation(fields: [bookingId], references: [id])
+}
+
+model Service {
+  id                String      @id
+  userId            String
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime
+  address           String
+  arrivalTodos      String?
+  city              String
+  departureTodos    String?
+  description       String
+  distanceToAirport String?
+  facilities        String[]
+  importantInfo     String?
+  latitude          String?
+  logo              String
+  longitude         String?
+  parkingType       ParkingType @default(shuttle)
+  timeToAirport     String?
+  title             String
+  zipcode           String
+  User              User        @relation(fields: [userId], references: [id])
+  Airport           Airport[]
+}
+
+model User {
+  id           String         @id
+  email        String         @unique
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime
+  address      String
+  commision    Float          @default(0)
+  contact      String
+  invoiceEmail String         @unique
+  isActive     Boolean        @default(false)
+  phone        String
+  place        String
+  zipcode      String
+  Notification Notification[]
+  Service      Service[]
+  Airport      Airport[]
+}
+
+enum ParkingType {
+  shuttle
+  valet
+}
