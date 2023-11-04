@@ -13,7 +13,7 @@ const service = await prisma.service.findUnique({
 
   return (
     <div>
-        <Heading title={service ? 'Edit your service' : 'Add a service'}  description={service ? 'Customize your service' :'Edit your service informations'} />
+        <Heading title={service ? 'Edit your service' : 'Add a service'}  description={service ? 'Customize your service' :'Add your service informations'} />
 
         <ServiceForm service={service} />
 

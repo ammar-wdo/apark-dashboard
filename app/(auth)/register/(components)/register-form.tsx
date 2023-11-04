@@ -1,9 +1,11 @@
 "use client";
 
-import { formSchema } from "../form-schema";
+import { formSchema, registerDefaultValues } from "../form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+
 import {
   Form,
   FormControl,
@@ -17,9 +19,9 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
-import axios from 'axios'
-import { Company } from "@prisma/client";
+
+
+import { useRegister } from "../register.hook";
 
 type Props = {
   userEmail: string;
@@ -29,39 +31,13 @@ type Props = {
 const RegisterForm = ({ userEmail, userId }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      userEmail,
-      userId,
-      address: "",
-      contact: "",
-      invoiceEmail: "",
-      phone: "",
-      place: "",
-      zipcode: "",
-    },
+    defaultValues: registerDefaultValues(userEmail,userId),
   });
-  const { toast } = useToast()
-  const router = useRouter()
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-  try {
 
-const company:Company = await axios.post('/api/company',values)
-toast({
-    title: "Success",
-    description: "Youre company is registerd",
-  })
-router.push(`/${company.id}`)
-    
-  } catch (error) {
-    console.log(error)
-    toast({
-        title:'Error',
-        description:'Something went wrong',
-        variant:'destructive'
-    })
-  }
-  }
+  const { onSubmit } =useRegister()
+
+
 
   const isLoading = form.formState.isSubmitting;
 
@@ -118,7 +94,16 @@ router.push(`/${company.id}`)
               <FormItem>
                 <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                <PhoneInput
+                enableSearch={true}
+                buttonStyle={{border:'none'}}
+                containerStyle={{borderRadius:'7px',width:'100%',border:'0.4px #ECECEC solid',}}
+                inputStyle={{border:'none',width:'100%',backgroundColor:'transparent'}}
+                
+ 
+  value={form.getValues('phone')}
+  onChange={phone => form.setValue('phone',phone)}
+/>
                 </FormControl>
 
                 <FormMessage />

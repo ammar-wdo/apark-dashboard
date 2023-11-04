@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.26.2",
+    "@edgestore/react": "^0.1.4",
+    "@edgestore/server": "^0.1.4",
     "@hookform/resolvers": "^3.3.2",
     "@prisma/client": "^5.5.2",
     "@radix-ui/react-label": "^2.0.2",
@@ -23,7 +25,9 @@
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.47.0",
+    "react-phone-input-2": "^2.15.1",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"

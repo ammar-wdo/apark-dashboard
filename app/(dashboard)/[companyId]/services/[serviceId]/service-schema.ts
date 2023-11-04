@@ -1,5 +1,6 @@
 "use client"
  
+import { Service ,ParkingType} from "@prisma/client"
 import * as z from "zod"
  
 export const serviceSchema = z.object({
@@ -19,9 +20,24 @@ export const serviceSchema = z.object({
    title:z.string().min(1),
    zipcode:z.string().min(1),
    
-
-
-
-
   
 })
+
+
+export const serviceDefaultValues = (service:Service | null)=>({
+   address:service?.address || '',
+arrivalTodos:service?.arrivalTodos || '',
+city:service?.city || '',
+departureTodos:service?.departureTodos || '',
+description:service?.description || '',
+distanceToAirport:service?.distanceToAirport || '',
+facilities:service?.facilities || [],
+importantInfo:service?.importantInfo || '',
+latitude:service?.latitude || '',
+logo:service?.logo || '',
+longitude:service?.longitude || '',
+parkingType:service?.parkingType || ParkingType.shuttle,
+timeToAirport:service?.timeToAirport || '',
+title:service?.title || '',
+zipcode:service?.zipcode || '',
+ })

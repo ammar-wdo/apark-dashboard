@@ -9,7 +9,7 @@ export const formSchema = z.object({
   contact:z.string().min(2).max(50),
   invoiceEmail:z.string().email(),
   phone: z.string().refine((value) => {
-    const phoneRegex = /^\+(?:[0-9]){1,3}(?:[ -]*[0-9]){6,14}$/;
+    const phoneRegex =/^(?:[0-9]){1,3}(?:[ -]*[0-9]){6,14}$/;
     return phoneRegex.test(value);
   }, "Invalid phone number"),
   place:z.string().min(2).max(50),
@@ -17,4 +17,16 @@ export const formSchema = z.object({
 
 
   
+})
+
+
+export const registerDefaultValues = (userEmail:string,userId:string)=>({
+  userEmail,
+  userId,
+  address: "",
+  contact: "",
+  invoiceEmail: "",
+  phone: "",
+  place: "",
+  zipcode: "",
 })
