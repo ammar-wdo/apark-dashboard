@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { v4 as uuidv4 } from 'uuid';
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { serviceDefaultValues, serviceSchema } from "../service-schema";
+import { MyFacilities, handleFacilityAdd, serviceDefaultValues, serviceSchema } from "../service-schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -31,7 +31,9 @@ import { Loader, XIcon } from "lucide-react";
 import { SingleImageDropzone } from "@/components/single-image-dropezone";
 import { useService } from "../service.hook";
 import Image from "next/image";
-import { MultiImageDropzone } from "@/components/multi-image-dropzone";
+import { useModal } from "@/hooks/use-modal";
+import { useParams } from "next/navigation";
+
 
 type Props = { service: Service | null };
 
@@ -44,7 +46,7 @@ useEffect(()=>{
  
 if(e.key==='Enter'){
   e.preventDefault()
-  handleFacilityAdd()
+  handleFacilityAdd(facilityRef,form)
 }
 }
 
@@ -63,44 +65,16 @@ return ()=>document.removeEventListener('keydown',handleEnterPress)
 
   const facilityRef = useRef<HTMLInputElement | null>(null);
 
-  const handleFacilityAdd = () => {
-    if (!facilityRef.current?.value.trim()) return;
-    const facilities = form.getValues("facilities");
-    form.setValue("facilities", [...facilities, facilityRef.current.value]);
-    facilityRef.current.value = "";
-  };
+  
 
-  const handleDeleteFacility = (input: string) => {
-    form.setValue("facilities", [
-      ...form.getValues("facilities").filter((facility) => facility !== input),
-    ]);
-  };
+ 
 
-  const MyFacilities = () => {
-    return !form.getValues("facilities").length ? (
-      <p className="p-2 text-gray-500 capitalize">No facilities added</p>
-    ) : (
-      <div className="flex flex-wrap gap-4">
-        {form.getValues("facilities").map((facility) => (
-          <div
-            className="p-2 capitalize flex gap-4 border rounded-sm text-s"
-            key={uuidv4()}
-          >
-            {facility}
-            <XIcon
-              className="cursor-pointer"
-              onClick={() => handleDeleteFacility(facility)}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  };
-
+//set the logo function
   const setImage = (url: string) => {
     form.setValue("logo", url);
   };
 
+  //set the images functions
   const setImages = (url: string) => {
     const images = form.getValues("images");
     form.setValue("images", [...images!, url]);
@@ -199,10 +173,11 @@ return ()=>document.removeEventListener('keydown',handleEnterPress)
     deleteanImage,
     imageLoader,
     imagesLoader,
-  } = useService({ setImage, setImages, deleteImages });
+  } = useService({ setImage, setImages, deleteImages, service });
 
   const isLoading = form.formState.isSubmitting;
-
+const {setOpen} = useModal()
+const params = useParams()
 
 
   return (
@@ -270,7 +245,7 @@ return ()=>document.removeEventListener('keydown',handleEnterPress)
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Departure todos</FormLabel>
+                <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Tell us a little bit about yourself"
@@ -307,11 +282,11 @@ return ()=>document.removeEventListener('keydown',handleEnterPress)
                   <div className="space-y-3">
                     <div className="flex items-center gap-5">
                       <Input ref={facilityRef} />
-                      <Button onClick={handleFacilityAdd} type="button">
+                      <Button onClick={()=>handleFacilityAdd(facilityRef,form)} type="button">
                         Add facility
                       </Button>
                     </div>
-                    {MyFacilities()}
+                    {MyFacilities(form)}
                   </div>
                 </FormControl>
 
@@ -473,16 +448,21 @@ return ()=>document.removeEventListener('keydown',handleEnterPress)
             )}
           />
         </div>
+        <div className="flex items-center gap-4">
         <Button disabled={isLoading} type="submit">
           {isLoading ? (
             <>
-              Submitting
+            {service?'Editing..':'  Submitting'}
+            
               <Loader className="ml-3 w-3 h-3 animate-spin" />
             </>
           ) : (
-            "Submit"
+            service ?"Edit":'Submit'
           )}
         </Button>
+        {service && <Button type="button" variant={'destructive'} onClick={()=>setOpen('delete-modal',{url:`/api/${params.companyId}/service/${service.id}`})}>Delete</Button>}
+        </div>
+       
       </form>
     </Form>
   );

@@ -3,7 +3,10 @@ import { getCurrentCompany } from "@/lib/helpers";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function PATCH(
+  req: Request,
+  { params }: { params: { companyId: string; serviceId: string } }
+) {
   try {
     const { userId } = auth();
     if (!userId) return new NextResponse("not loggedin", { status: 401 });
@@ -49,7 +52,17 @@ export async function POST(req: Request) {
     if (!zipcode)
       return new NextResponse("parkingtype is required", { status: 400 });
 
-    const service = await prisma.service.create({
+    const service = await prisma.service.findUnique({
+      where: {
+        id: params.serviceId,
+        companyId: currentCompany.id,
+      },
+    });
+
+    if (!service) return new NextResponse("Unauthorized", { status: 404 });
+
+    const editedService = await prisma.service.update({
+      where: { id: params.serviceId, companyId: currentCompany.id },
       data: {
         companyId: currentCompany.id,
         address,
@@ -72,9 +85,48 @@ export async function POST(req: Request) {
 
     // TODO inform users if service has lower price
 
-    return NextResponse.json(service);
+    return NextResponse.json(editedService);
   } catch (error) {
-    console.log("SERVICE_POST_ERROR", error);
+    console.log("SERVICE_PATCH_ERROR", error);
     return new NextResponse("internal error", { status: 500 });
   }
+}
+
+
+export async function DELETE(req:Request,{params}:{ params: { companyId: string; serviceId: string } }){
+
+    try {
+
+        const { userId } = auth();
+        if (!userId) return new NextResponse("not loggedin", { status: 401 });
+    
+        const currentCompany = await getCurrentCompany(userId);
+        if (!currentCompany)
+          return new NextResponse("Unauthenticated", { status: 401 });
+
+          const service = await prisma.service.findUnique({
+            where:{
+                id:params.serviceId,
+                companyId:currentCompany.id
+            }
+          })
+
+          if(!service) return new NextResponse('Unauthorized',{status:403})
+
+
+          const deletedService = await prisma.service.delete({
+            where:{
+                id:params.serviceId,
+                companyId:currentCompany.id
+            }
+          })
+
+          return NextResponse.json(deletedService)
+        
+    } catch (error) {
+        console.log("SERVICE_DELETE_ERROR", error);
+        return new NextResponse("internal error", { status: 500 });
+    }
+
+
 }

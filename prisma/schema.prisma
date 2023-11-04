@@ -94,11 +94,13 @@ model Payment {
   Booking   Booking  @relation(fields: [bookingId], references: [id])
 }
 
+//add processing and slots 
 model Service {
   id                String      @id @default(uuid())
   companyId            String
   createdAt         DateTime    @default(now())
   updatedAt         DateTime  @updatedAt
+
   address           String
   arrivalTodos      String?
   city              String
