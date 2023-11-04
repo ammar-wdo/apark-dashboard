@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -8,8 +9,14 @@ import * as z from "zod";
 import { serviceDefaultValues, serviceSchema } from "../service-schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import {
   Form,
   FormControl,
@@ -19,21 +26,43 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Service } from "@prisma/client";
+import { ParkingType, Service } from "@prisma/client";
 import { Loader, XIcon } from "lucide-react";
 import { SingleImageDropzone } from "@/components/single-image-dropezone";
 import { useService } from "../service.hook";
 import Image from "next/image";
+import { MultiImageDropzone } from "@/components/multi-image-dropzone";
 
 type Props = { service: Service | null };
 
 const ServiceForm = ({ service }: Props) => {
+
+
+
+useEffect(()=>{
+  const handleEnterPress = (e:KeyboardEvent)=>{
+ 
+if(e.key==='Enter'){
+  e.preventDefault()
+  handleFacilityAdd()
+}
+}
+
+document.addEventListener('keydown',handleEnterPress)
+
+return ()=>document.removeEventListener('keydown',handleEnterPress)
+ 
+},[])
+
+
+
   const form = useForm<z.infer<typeof serviceSchema>>({
     resolver: zodResolver(serviceSchema),
     defaultValues: serviceDefaultValues(service),
   });
 
   const facilityRef = useRef<HTMLInputElement | null>(null);
+
   const handleFacilityAdd = () => {
     if (!facilityRef.current?.value.trim()) return;
     const facilities = form.getValues("facilities");
@@ -55,7 +84,7 @@ const ServiceForm = ({ service }: Props) => {
         {form.getValues("facilities").map((facility) => (
           <div
             className="p-2 capitalize flex gap-4 border rounded-sm text-s"
-            key={facility}
+            key={uuidv4()}
           >
             {facility}
             <XIcon
@@ -68,39 +97,113 @@ const ServiceForm = ({ service }: Props) => {
     );
   };
 
-  const onSubmit = () => {};
   const setImage = (url: string) => {
     form.setValue("logo", url);
   };
 
-  const ImagePlaceholder = ()=>{
-    return         !!form.watch("logo") && (
-      <div className="w-[150px] h-[150px] overflow-hidden  relative">
-        {deleteLoader ? (
-          <div className="flex items-center justify-center w-full h-full ">
-            <Loader className="w-5 h-5 animate-spin" />
-          </div>
-        ) : (
-          <Image
-            alt="added logo"
-            src={form.getValues("logo")}
-            fill
-            className="object-cover rounded-lg"
+  const setImages = (url: string) => {
+    const images = form.getValues("images");
+    form.setValue("images", [...images!, url]);
+  };
+
+  const deleteImages = (url: string) => {
+    const images = form.getValues("images");
+    form.setValue("images", [...images!.filter((image) => image !== url)]);
+  };
+
+  const ImagePlaceholder = () => {
+    
+      if(!!form.watch("logo")) return (
+        <div className="w-[150px] h-[150px] overflow-hidden  relative">
+          {deleteLoader ? (
+            <div className="flex items-center justify-center w-full h-full ">
+              <Loader className="w-5 h-5 animate-spin" />
+            </div>
+          ) : (
+            <Image
+              alt="added logo"
+              src={form.getValues("logo")}
+              fill
+              className="object-cover rounded-lg"
+            />
+          )}
+
+          <XIcon
+            className="absolute top-1 right-1 cursor-pointer text-white bg-rose-400 p-1 rounded-md"
+            onClick={() => {
+              deleteImage(form.getValues("logo"));
+            }}
           />
-        )}
+        </div>
+      )
+      if(imageLoader) return <div
+           
+      className="w-[150px] h-[150px] overflow-hidden flex items-center justify-center  relative"
+    >  <Loader className="w-5 h-5 animate-spin" /></div>
 
-        <XIcon
-          className="absolute top-1 right-1 cursor-pointer text-white bg-rose-400 p-1 rounded-md"
-          onClick={() => {
-            deleteImage(form.getValues("logo"));
-          }}
-        />
-      </div>
-    )
-  }
+   
+  };
+  const ImagesPlaceholder = () => {
+    return (
+      <div className="flex items-center gap-3">
+      {!!form.watch("images")?.length && (
+        <div className="flex items-center gap-3">
+          {form.getValues("images")?.map((image) => (
+            <div
+              key={image}
+              className="w-[150px] h-[150px] overflow-hidden  relative"
+            >
+              {deleteImagesLoader === image ? (
+                <div className="flex items-center justify-center w-full h-full ">
+                  <Loader className="w-5 h-5 animate-spin" />
+                </div>
+              ) : (
+                <Image
+                  alt="added logo"
+                  src={image}
+                  fill
+                  className="object-cover rounded-lg"
+                />
+              )}
 
-  const { file, setFile, uploadImage, deleteImage, deleteLoader } =
-    useService(setImage);
+              <XIcon
+                className="absolute top-1 right-1 cursor-pointer text-white bg-rose-400 p-1 rounded-md"
+                onClick={() => {
+                  deleteanImage(image);
+                }}
+              />
+            
+            </div>
+          ))}
+         
+        </div>
+      )}
+         {imagesLoader &&  <div
+           
+           className="w-[150px] h-[150px] overflow-hidden flex items-center justify-center  relative"
+         >  <Loader className="w-5 h-5 animate-spin" /></div>}
+   </div> );
+  };
+
+  const {
+    file,
+    setFile,
+    uploadImage,
+    deleteImage,
+    deleteLoader,
+    onSubmit,
+    uploadImages,
+    deleteImagesLoader,
+    setImagesFile,
+    imagesFile,
+    deleteanImage,
+    imageLoader,
+    imagesLoader,
+  } = useService({ setImage, setImages, deleteImages });
+
+  const isLoading = form.formState.isSubmitting;
+
+
 
   return (
     <Form {...form}>
@@ -248,19 +351,138 @@ const ServiceForm = ({ service }: Props) => {
                       }}
                     />
                   </FormControl>
-                  <Button type="button" onClick={uploadImage} variant={'secondary'}>
+                  <Button
+                  disabled={!file || !!form.watch('logo')}
+                    type="button"
+                    onClick={uploadImage}
+                    variant={"secondary"}
+                  >
                     Upload
                   </Button>
 
                   <FormMessage />
                 </FormItem>
 
-        {ImagePlaceholder()}
+                {ImagePlaceholder()}
               </div>
             )}
           />
+          <FormField
+            control={form.control}
+            name="images"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Add images</FormLabel>
+                <div className="space-y-4">
+                  <FormControl>
+                    <SingleImageDropzone
+                      width={200}
+                      height={200}
+                      value={imagesFile}
+                      onChange={(imagesFile) => {
+                        setImagesFile(imagesFile);
+                      }}
+                    />
+                  </FormControl>
+                  <Button
+                  disabled={!imagesFile}
+                    type="button"
+                    onClick={uploadImages}
+                    variant={"secondary"}
+                  >
+                    Upload
+                  </Button>
+                  {ImagesPlaceholder()}
+                </div>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="parkingType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Parking type</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a verified email to display" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value={ParkingType.shuttle}>
+                      {ParkingType.shuttle}
+                    </SelectItem>
+                    <SelectItem value={ParkingType.valet}>
+                      {ParkingType.valet}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="timeToAirport"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Time to airport</FormLabel>
+                <FormControl>
+                  <Input placeholder="time" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="title" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="zipcode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="Zipcode" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-        <Button type="submit">Submit</Button>
+        <Button disabled={isLoading} type="submit">
+          {isLoading ? (
+            <>
+              Submitting
+              <Loader className="ml-3 w-3 h-3 animate-spin" />
+            </>
+          ) : (
+            "Submit"
+          )}
+        </Button>
       </form>
     </Form>
   );
