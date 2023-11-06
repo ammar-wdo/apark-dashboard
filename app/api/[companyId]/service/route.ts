@@ -28,6 +28,9 @@ export async function POST(req: Request) {
       timeToAirport,
       title,
       zipcode,
+      images,
+      isActive,
+      spots
     } = await req.json();
 
     if (!address)
@@ -67,6 +70,9 @@ export async function POST(req: Request) {
         timeToAirport,
         title,
         zipcode,
+        images,
+        isActive,
+        spots :Number(spots)
       },
     });
 

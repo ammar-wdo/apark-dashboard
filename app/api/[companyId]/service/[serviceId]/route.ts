@@ -31,6 +31,9 @@ export async function PATCH(
       timeToAirport,
       title,
       zipcode,
+      images,
+      isActive,
+      spots
     } = await req.json();
 
     if (!address)
@@ -80,6 +83,9 @@ export async function PATCH(
         timeToAirport,
         title,
         zipcode,
+        images,
+        isActive,
+        spots :Number(spots)
       },
     });
 

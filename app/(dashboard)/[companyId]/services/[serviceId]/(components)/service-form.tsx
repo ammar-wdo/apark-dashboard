@@ -33,6 +33,7 @@ import { useService } from "../service.hook";
 import Image from "next/image";
 import { useModal } from "@/hooks/use-modal";
 import { useParams } from "next/navigation";
+import { Checkbox } from "@/components/ui/checkbox";
 
 
 type Props = { service: Service | null };
@@ -58,10 +59,7 @@ return ()=>document.removeEventListener('keydown',handleEnterPress)
 
 
 
-  const form = useForm<z.infer<typeof serviceSchema>>({
-    resolver: zodResolver(serviceSchema),
-    defaultValues: serviceDefaultValues(service),
-  });
+  
 
   const facilityRef = useRef<HTMLInputElement | null>(null);
 
@@ -70,110 +68,22 @@ return ()=>document.removeEventListener('keydown',handleEnterPress)
  
 
 //set the logo function
-  const setImage = (url: string) => {
-    form.setValue("logo", url);
-  };
 
-  //set the images functions
-  const setImages = (url: string) => {
-    const images = form.getValues("images");
-    form.setValue("images", [...images!, url]);
-  };
-
-  const deleteImages = (url: string) => {
-    const images = form.getValues("images");
-    form.setValue("images", [...images!.filter((image) => image !== url)]);
-  };
-
-  const ImagePlaceholder = () => {
-    
-      if(!!form.watch("logo")) return (
-        <div className="w-[150px] h-[150px] overflow-hidden  relative">
-          {deleteLoader ? (
-            <div className="flex items-center justify-center w-full h-full ">
-              <Loader className="w-5 h-5 animate-spin" />
-            </div>
-          ) : (
-            <Image
-              alt="added logo"
-              src={form.getValues("logo")}
-              fill
-              className="object-cover rounded-lg"
-            />
-          )}
-
-          <XIcon
-            className="absolute top-1 right-1 cursor-pointer text-white bg-rose-400 p-1 rounded-md"
-            onClick={() => {
-              deleteImage(form.getValues("logo"));
-            }}
-          />
-        </div>
-      )
-      if(imageLoader) return <div
-           
-      className="w-[150px] h-[150px] overflow-hidden flex items-center justify-center  relative"
-    >  <Loader className="w-5 h-5 animate-spin" /></div>
-
-   
-  };
-  const ImagesPlaceholder = () => {
-    return (
-      <div className="flex items-center gap-3">
-      {!!form.watch("images")?.length && (
-        <div className="flex items-center gap-3">
-          {form.getValues("images")?.map((image) => (
-            <div
-              key={image}
-              className="w-[150px] h-[150px] overflow-hidden  relative"
-            >
-              {deleteImagesLoader === image ? (
-                <div className="flex items-center justify-center w-full h-full ">
-                  <Loader className="w-5 h-5 animate-spin" />
-                </div>
-              ) : (
-                <Image
-                  alt="added logo"
-                  src={image}
-                  fill
-                  className="object-cover rounded-lg"
-                />
-              )}
-
-              <XIcon
-                className="absolute top-1 right-1 cursor-pointer text-white bg-rose-400 p-1 rounded-md"
-                onClick={() => {
-                  deleteanImage(image);
-                }}
-              />
-            
-            </div>
-          ))}
-         
-        </div>
-      )}
-         {imagesLoader &&  <div
-           
-           className="w-[150px] h-[150px] overflow-hidden flex items-center justify-center  relative"
-         >  <Loader className="w-5 h-5 animate-spin" /></div>}
-   </div> );
-  };
 
   const {
     file,
     setFile,
     uploadImage,
-    deleteImage,
-    deleteLoader,
+  
     onSubmit,
     uploadImages,
-    deleteImagesLoader,
+  
     setImagesFile,
     imagesFile,
-    deleteanImage,
-    imageLoader,
-    imagesLoader,
-  } = useService({ setImage, setImages, deleteImages, service });
+    
+  ImagePlaceholder,ImagesPlaceholder,
+    form
+  } = useService( {service});
 
   const isLoading = form.formState.isSubmitting;
 const {setOpen} = useModal()
@@ -311,6 +221,20 @@ const params = useParams()
           />
           <FormField
             control={form.control}
+            name="spots"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Total spots </FormLabel>
+                <FormControl>
+                  <Input placeholder="total spots" type="number" {...field}  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="logo"
             render={({ field }) => (
               <div className="flex gap-4 items-center">
@@ -433,12 +357,35 @@ const params = useParams()
               </FormItem>
             )}
           />
+           <FormField
+          control={form.control}
+          name="isActive"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>
+                  Activate your sevice
+                </FormLabel>
+                <FormDescription>
+                  You can enable or desable your availability{" "}
+               
+                </FormDescription>
+              </div>
+            </FormItem>
+          )}
+        />
           <FormField
             control={form.control}
             name="zipcode"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Zipcode</FormLabel>
                 <FormControl>
                   <Input placeholder="Zipcode" {...field} />
                 </FormControl>

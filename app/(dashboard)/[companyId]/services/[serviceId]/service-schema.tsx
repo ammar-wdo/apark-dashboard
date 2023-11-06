@@ -24,6 +24,8 @@ export const serviceSchema = z.object({
   timeToAirport: z.string().optional(),
   title: z.string().min(1),
   zipcode: z.string().min(1),
+  spots:z.coerce.number().gte(1, 'Must  above 0'),
+  isActive:z.boolean()
 });
 
 export const serviceDefaultValues = (service: Service | null) => ({
@@ -43,6 +45,8 @@ export const serviceDefaultValues = (service: Service | null) => ({
   timeToAirport: service?.timeToAirport || "",
   title: service?.title || "",
   zipcode: service?.zipcode || "",
+  spots: service?.spots || 1,
+  isActive:service?.isActive || false
 });
 
 type myForm = UseFormReturn<z.infer<typeof serviceSchema>>;
