@@ -19,6 +19,7 @@ const page = async ({ params }: Props) => {
   });
 
   if (!company) return redirect("/");
+
   return (
     <div className="p-32 ">
       <Heading title="Services" description="Manage your services" />

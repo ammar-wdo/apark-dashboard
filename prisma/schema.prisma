@@ -20,9 +20,12 @@ model Booking {
   id                    String    @id @default(uuid())
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
-  BookingOnBusinessName String?
-  ExtraServiceFee       Float
-  Status                String
+  bookingOnBusinessName String?
+  extraServiceFee       Float
+
+  status                String
+  arrivalTime           String
+  departureTime         String
   address               String?
   arrivalDate           DateTime
   bookingCode           String    @unique
@@ -30,22 +33,24 @@ model Booking {
   carLicense            String
   carModel              String
   companyName           String?
-  customerId            String
-  daysofparking         DateTime
+  // customerId            String
+  daysofparking         Int
   departureDate         DateTime
   discount              Float
   flightNumber          Int?
-  parkingId             String    @unique
+  parkingId             String    @unique @default(uuid())
   parkingPrice          Float
   paymentStatus         String
-  paymentmethod         String
+  paymentMethod         String
   place                 String?
   returnFlightNumber    Int?
   total                 Float
   vatNumber             Int?
   zipcode               String?
-  Customer              Customer  @relation(fields: [customerId], references: [id])
-  Payment               Payment[]
+  serviceId           String
+  service     Service   @relation(fields: [serviceId],references: [id])
+  // customer              Customer  @relation(fields: [customerId], references: [id])
+  payments               Payment[]
 }
 
 model Customer {
@@ -67,7 +72,7 @@ model Customer {
   phone          String
   place          String?
   zipcode        String?
-  Booking        Booking[]
+  // Booking        Booking[]
 }
 
 model Invoice {
@@ -120,7 +125,8 @@ model Service {
   title             String
   zipcode           String
   company           Company        @relation(fields: [companyId], references: [id])
-  Airport           Airport[]
+  irport           Airport[]
+  bookings          Booking[]
 }
 
 model Company {
