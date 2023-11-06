@@ -50,7 +50,7 @@ const {
 console.log('serviceId',serviceId)
 
 if(!extraServiceFee || !status || !arrivalDate || !bookingCode || !carColor || !carLicense || !carModel || !arrivalTime || !departureTime
-     || !daysofparking || !departureDate || !parkingPrice || !paymentMethod || !total || !zipcode)
+     || !daysofparking || !departureDate || !parkingPrice || !paymentMethod || !total || !zipcode || !serviceId)
      return new NextResponse('Enter all required fields',{status:400})
 
 

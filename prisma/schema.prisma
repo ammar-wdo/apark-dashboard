@@ -47,6 +47,8 @@ model Booking {
   total                 Float
   vatNumber             Int?
   zipcode               String?
+
+
   serviceId           String
   service     Service   @relation(fields: [serviceId],references: [id])
   // customer              Customer  @relation(fields: [customerId], references: [id])
@@ -144,6 +146,7 @@ model Company {
   place        String
   zipcode      String
   Notification Notification[]
+
   services      Service[]
   Airport      Airport[]
 }
