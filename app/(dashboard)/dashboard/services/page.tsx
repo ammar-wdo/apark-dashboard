@@ -36,12 +36,13 @@ const page = async ({ params }: Props) => {
             {JSON.stringify(service)}
 
             <Link className="block p-3 bg-red-500 text-white w-fit mt-10" href={`/dashboard/services/${service.id}`}>EDIT</Link>
+            <Link className="block p-3 bg-emerald-500 text-white w-fit mt-10" href={`/dashboard/services/${service.id}/pricing`}>Check pricings</Link>
 
           </div>)}
         </div>
       )}
 
-      <Link href={`/dashboard/services/new`}>Add service</Link>
+      <Link className="inline-block mt-20" href={`/dashboard/services/new`}>Add service</Link>
     </div>
   );
 };

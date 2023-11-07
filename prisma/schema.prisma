@@ -114,6 +114,7 @@ model Service {
   timeToAirport     String?
   title             String
   zipcode           String
+  pricings          Float[]
   companyId         String
   images            String[]
   isActive          Boolean     @default(false)
@@ -121,6 +122,8 @@ model Service {
   bookings          Booking[]
   company           Company     @relation(fields: [companyId], references: [id])
   airports            Airport[]   @relation("AirportToService")
+
+ 
 }
 
 model Company {
@@ -146,3 +149,5 @@ enum ParkingType {
   shuttle
   valet
 }
+
+

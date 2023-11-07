@@ -32,6 +32,7 @@ const company = await prisma.company.findUnique({
 
 
    <Link className='block w-fit p-4 bg-red-500' href={`/dashboard/services`}>Add service</Link>
+
     </div>
   )
 }
