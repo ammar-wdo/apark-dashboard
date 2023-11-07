@@ -33,7 +33,7 @@ const params = useParams()
         try {
             setIsLoading(true)
             await axios.delete(data.url!)
-            router.push(`/${params.companyId}/services`)
+            router.push(`/dashboard/services`)
             router.refresh()
             setClose()
             toast({

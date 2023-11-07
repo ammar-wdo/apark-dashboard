@@ -36,7 +36,7 @@ const {
     departureDate,
     discount,
     flightNumber,
-    parkingId,
+   
     parkingPrice,
     paymentStatus,
     paymentMethod,
@@ -74,7 +74,7 @@ if(!extraServiceFee || !status || !arrivalDate || !bookingCode || !carColor || !
     departureDate,
     discount,
     flightNumber,
-    parkingId,
+
     parkingPrice,
     paymentStatus,
    paymentMethod,

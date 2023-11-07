@@ -9,23 +9,16 @@ datasource db {
 
 model Airport {
   id        String    @id
-
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  services   Service[]
-  companies      Company[]
+  companies Company[] @relation("AirportToCompany")
+  services  Service[] @relation("AirportToService")
 }
 
 model Booking {
   id                    String    @id @default(uuid())
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
-  bookingOnBusinessName String?
-  extraServiceFee       Float
-
-  status                String
-  arrivalTime           String
-  departureTime         String
   address               String?
   arrivalDate           DateTime
   bookingCode           String    @unique
@@ -33,32 +26,33 @@ model Booking {
   carLicense            String
   carModel              String
   companyName           String?
-  // customerId            String
-  daysofparking         Int
   departureDate         DateTime
   discount              Float
   flightNumber          Int?
-  parkingId             String    @unique @default(uuid())
+ 
   parkingPrice          Float
   paymentStatus         String
-  paymentMethod         String
   place                 String?
   returnFlightNumber    Int?
   total                 Float
   vatNumber             Int?
   zipcode               String?
-
-
-  serviceId           String
-  service     Service   @relation(fields: [serviceId],references: [id])
-  // customer              Customer  @relation(fields: [customerId], references: [id])
-  payments               Payment[]
+  arrivalTime           String
+  departureTime         String
+  daysofparking         Int
+  bookingOnBusinessName String?
+  extraServiceFee       Float
+  status                String
+  paymentMethod         String
+  serviceId             String
+  service               Service   @relation(fields: [serviceId], references: [id])
+  payments              Payment[]
 }
 
 model Customer {
-  id             String    @id @default(uuid())
-  email          String    @unique
-  createdAt      DateTime  @default(now())
+  id             String   @id @default(uuid())
+  email          String   @unique
+  createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   address        String?
   carColor       String
@@ -68,48 +62,43 @@ model Customer {
   companyPlace   String?
   companyZipcode String?
   firstname      String
-  invoiceEmail   String    @unique
-  isCompany      Boolean   @default(false)
+  invoiceEmail   String   @unique
+  isCompany      Boolean  @default(false)
   lastname       String
   phone          String
   place          String?
   zipcode        String?
-  // Booking        Booking[]
 }
 
 model Invoice {
   id        String   @id
   createdAt DateTime @default(now())
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model Notification {
   id           String   @id @default(uuid())
-  companyId       String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   serviceId    String
   servicePrice Float
-  companies         Company     @relation(fields: [companyId], references: [id])
+  companyId    String
+  companies    Company  @relation(fields: [companyId], references: [id])
 }
 
 model Payment {
   id        String   @id
   createdAt DateTime @default(now())
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime @updatedAt
   bookingId String
   Booking   Booking  @relation(fields: [bookingId], references: [id])
 }
 
-//add processing and slots 
 model Service {
   id                String      @id @default(uuid())
-  companyId            String
   createdAt         DateTime    @default(now())
-  updatedAt         DateTime  @updatedAt
-  spots              Int    @default(1)
-  isActive          Boolean @default(false)
-
+  updatedAt         DateTime    @updatedAt
+  available         Boolean     @default(false)
   address           String
   arrivalTodos      String?
   city              String
@@ -120,35 +109,37 @@ model Service {
   importantInfo     String?
   latitude          String
   logo              String
-  images            String[]
   longitude         String
   parkingType       ParkingType @default(shuttle)
   timeToAirport     String?
   title             String
   zipcode           String
-  company           Company        @relation(fields: [companyId], references: [id])
-  irport           Airport[]
+  companyId         String
+  images            String[]
+  isActive          Boolean     @default(false)
+  spots             Int         @default(1)
   bookings          Booking[]
+  company           Company     @relation(fields: [companyId], references: [id])
+  airports            Airport[]   @relation("AirportToService")
 }
 
 model Company {
   id           String         @id @default(uuid())
-  userId      String @unique
   email        String         @unique
   createdAt    DateTime       @default(now())
-  updatedAt    DateTime @updatedAt
+  updatedAt    DateTime       @updatedAt
   address      String
   commision    Float          @default(0)
   contact      String
+  password     String
   invoiceEmail String         @unique
   isActive     Boolean        @default(false)
   phone        String
   place        String
   zipcode      String
   Notification Notification[]
-
-  services      Service[]
-  Airport      Airport[]
+  services     Service[]
+  Airport      Airport[]      @relation("AirportToCompany")
 }
 
 enum ParkingType {
