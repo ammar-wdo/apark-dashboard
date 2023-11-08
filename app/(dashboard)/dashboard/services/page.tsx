@@ -38,7 +38,7 @@ const page = async ({  }: Props) => {
       {company.services.length === 0 ? (
         <div>no services added</div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  3xl:grid-cols-4 gap-5"}>
           {company.services.map(service=><Suspense key={service.id} fallback={<ServiceCardSceleton />}><ServiceCard serviceId={service.id} companyId={company.id} /></Suspense>)}
         </div>
       )}
