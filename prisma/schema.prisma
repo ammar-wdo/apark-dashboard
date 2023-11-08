@@ -8,17 +8,24 @@ datasource db {
 }
 
 model Airport {
-  id        String    @id
+  id        String    @id @default(uuid())
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  companies Company[] @relation("AirportToCompany")
-  services  Service[] @relation("AirportToService")
+  updatedAt DateTime
+  Company   Company[]
+  Service   Service[]
+}
+
+enum PaymentMethod {
+MASTER_CARD
+VISA_CARD
+AMERICAN_EXPRESS
+PAYPALL
 }
 
 model Booking {
   id                    String    @id @default(uuid())
   createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+  updatedAt             DateTime @updatedAt
   address               String?
   arrivalDate           DateTime
   bookingCode           String    @unique
@@ -29,7 +36,7 @@ model Booking {
   departureDate         DateTime
   discount              Float
   flightNumber          Int?
- 
+
   parkingPrice          Float
   paymentStatus         String
   place                 String?
@@ -43,17 +50,37 @@ model Booking {
   bookingOnBusinessName String?
   extraServiceFee       Float
   status                String
-  paymentMethod         String
+  paymentMethod         PaymentMethod @default(MASTER_CARD)
   serviceId             String
   service               Service   @relation(fields: [serviceId], references: [id])
   payments              Payment[]
 }
 
+model Company {
+  id           String         @id @default(uuid())
+  email        String         @unique
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  address      String
+  commision    Float          @default(0)
+  contact      String
+  password     String
+  invoiceEmail String         @unique
+  isActive     Boolean        @default(false)
+  phone        String
+  place        String
+  zipcode      String
+
+  notifications Notification[]
+  services     Service[]
+  airports     Airport[]
+}
+
 model Customer {
-  id             String   @id @default(uuid())
+  id             String    @id @default(uuid())
   email          String   @unique
   createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  updatedAt      DateTime  @updatedAt
   address        String?
   carColor       String
   carLicense     String
@@ -71,7 +98,7 @@ model Customer {
 }
 
 model Invoice {
-  id        String   @id
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -83,11 +110,11 @@ model Notification {
   serviceId    String
   servicePrice Float
   companyId    String
-  companies    Company  @relation(fields: [companyId], references: [id])
+  Company      Company  @relation(fields: [companyId], references: [id])
 }
 
 model Payment {
-  id        String   @id
+  id        String  @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   bookingId String
@@ -97,8 +124,7 @@ model Payment {
 model Service {
   id                String      @id @default(uuid())
   createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
-  available         Boolean     @default(false)
+  updatedAt         DateTime @updatedAt
   address           String
   arrivalTodos      String?
   city              String
@@ -114,40 +140,18 @@ model Service {
   timeToAirport     String?
   title             String
   zipcode           String
-  pricings          Float[]
   companyId         String
+  pricings          Float[]
   images            String[]
   isActive          Boolean     @default(false)
   spots             Int         @default(1)
-  bookings          Booking[]
+  available         Boolean     @default(false)
+  bookings           Booking[]
   company           Company     @relation(fields: [companyId], references: [id])
-  airports            Airport[]   @relation("AirportToService")
-
- 
-}
-
-model Company {
-  id           String         @id @default(uuid())
-  email        String         @unique
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  address      String
-  commision    Float          @default(0)
-  contact      String
-  password     String
-  invoiceEmail String         @unique
-  isActive     Boolean        @default(false)
-  phone        String
-  place        String
-  zipcode      String
-  Notification Notification[]
-  services     Service[]
-  Airport      Airport[]      @relation("AirportToCompany")
+  airports           Airport[]
 }
 
 enum ParkingType {
   shuttle
   valet
 }
-
-

@@ -15,12 +15,15 @@ signIn:'/'
       CredentialsProvider({
         name: 'Credentials',
         credentials: {
-          email: { label: "Username", type: "text" },
+          email: { label: "Email", type: "text" },
           password: { label: "Password", type: "password" }
         },
         async authorize(credentials, req) {
           const email = credentials?.email
           const password = credentials?.password
+
+          console.log(email)
+          if(!email || !password) throw new Error('Enter uemail and password')
   
           const company = await prisma.company.findFirst({
             where:{
@@ -31,6 +34,8 @@ signIn:'/'
             },
             include:{services:true}
           })
+
+          console.log(company)
           if(!company) return null
   
        

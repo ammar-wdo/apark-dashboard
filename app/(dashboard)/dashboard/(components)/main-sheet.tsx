@@ -12,6 +12,8 @@ import { Menu } from "lucide-react"
 
 
   import React from 'react'
+import MainLinks from "./main-links"
+import Link from "next/link"
   
   type Props = {}
   
@@ -19,14 +21,12 @@ import { Menu } from "lucide-react"
     return (
         <Sheet  >
         <SheetTrigger  className="lg:hidden ml-auto"><Menu /></SheetTrigger>
-        <SheetContent style={{color:"white"}} side={'left'} className="bg-zinc-800">
+        <SheetContent style={{color:"white"}} side={'left'} className="bg-primary p-0">
           <SheetHeader className="">
-            <SheetTitle className="text-white">Are you sure absolutely sure?</SheetTitle>
-            <SheetDescription className="text-muted-foreground">
-              This action cannot be undone. This will permanently delete your account
-              and remove your data from our servers.
-            </SheetDescription>
+            <Link href={'/'}><SheetTitle className="p-12 text-white uppercase text-3xl text-center' ">Dashboard</SheetTitle></Link>
+           
           </SheetHeader>
+          <MainLinks />
         </SheetContent>
       </Sheet>
     )

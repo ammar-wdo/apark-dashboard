@@ -16,7 +16,7 @@ const signout = async()=>{
 }
 
   return (
-    <Button onClick={signout}>Signout</Button>
+    <Button size={'sm'} onClick={signout}>Signout</Button>
   )
 }
 

@@ -19,12 +19,12 @@ const LoginForm = (props: Props) => {
     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 p-10 border rounded-md min-w-[350px]">
       <FormField
         control={form.control}
-        name="username"
+        name="email"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Username</FormLabel>
+            <FormLabel>Email</FormLabel>
             <FormControl>
-              <Input placeholder="username" {...field} />
+              <Input placeholder="email" {...field} />
             </FormControl>
       
             <FormMessage />

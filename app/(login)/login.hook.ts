@@ -16,7 +16,7 @@ export const useLoginHook = ()=>{
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-          username: "",
+          email: "",
           password:""
           
         },
@@ -28,7 +28,7 @@ export const useLoginHook = ()=>{
        try {
         setLoading(true)
    setError(false)
-      const response =   await signIn('credentials',{username:values.username,password:values.password,redirect:false,callbackUrl:'/dashboard'})
+      const response =   await signIn('credentials',{email:values.email,password:values.password,redirect:false,callbackUrl:'/dashboard'})
       console.log(response)
    
       if(!response?.ok) {
