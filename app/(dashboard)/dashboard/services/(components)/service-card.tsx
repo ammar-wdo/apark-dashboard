@@ -1,0 +1,52 @@
+import { Button } from '@/components/ui/button'
+import prisma from '@/lib/db'
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+
+type Props = {
+    serviceId:string,
+    companyId:string
+}
+
+const ServiceCard = async({serviceId,companyId}: Props) => {
+
+
+    const service = await prisma.service.findUnique({
+        where:{
+            id:serviceId,companyId:companyId
+        }
+    })
+
+
+
+
+
+
+  return (
+    <div className='flex flex-col border rounded-md overflow-hidden'>
+        <div className='relative aspect-square '>
+            <Image fill src={service?.logo as string} alt='logo' className='object-cover' />
+        </div>
+        <div className='p-2 spacy2'>
+        <p className='font-semibold text-2xl uppercase'>{service?.title}</p>
+        <p className='text-muted-foreground text-sm line-clamp-1'> {service?.description}</p>
+       
+        <p className='text-muted-foreground text-sm line-clamp-1'> {service?.city}</p>
+        <p className='text-muted-foreground text-sm line-clamp-1'> {service?.available}</p>
+        <p className='text-muted-foreground text-sm line-clamp-1 flex items-center gap-x-1'>Active: {service?.isActive ? 'True' : 'False'}</p>
+        <p className='text-muted-foreground text-sm line-clamp-1  flex items-center flex-wrap gap-x-5 '> {service?.facilities.map((facility=><span className='capitalize text-xl'>{facility}</span>))}</p>
+       
+        </div>
+        <div className='flex items-center justify-end gap-2 mt-auto p-2 flex-wrap'>
+            <Link href={`/dashboard/services/${service?.id}`} className=''><Button variant={"secondary"} className='w-full'>Edit</Button></Link>
+            <Link href={`/dashboard/services/${service?.id}/pricing`}><Button variant={"secondary"}>Check pricings</Button></Link>
+        
+        </div>
+   
+     
+    </div>
+  )
+}
+
+export default ServiceCard

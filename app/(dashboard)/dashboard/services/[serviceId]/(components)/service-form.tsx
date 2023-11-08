@@ -422,12 +422,12 @@ const params = useParams()
         <Button disabled={isLoading} type="submit">
           {isLoading ? (
             <>
-            {service?'Editing..':'  Submitting'}
+            {service?'Saving..':'  Submitting'}
             
               <Loader className="ml-3 w-3 h-3 animate-spin" />
             </>
           ) : (
-            service ?"Edit":'Submit'
+            service ?"Save changes":'Submit'
           )}
         </Button>
         {service && <Button type="button" variant={'destructive'} onClick={()=>setOpen('delete-modal',{url:`/api/service/${service.id}`})}>Delete</Button>}

@@ -1,6 +1,6 @@
 import { useEdgeStore } from "@/lib/edgestore";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+
 import { useParams, useRouter } from "next/navigation";
 import * as z from "zod";
 import { serviceDefaultValues, serviceSchema } from "./service-schema";
@@ -10,6 +10,7 @@ import { UseFormReturn, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader, XIcon } from "lucide-react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 type Props = {
  
@@ -106,7 +107,7 @@ export const useService = ({service}: Props) => {
     }
   };
 
-  const { toast } = useToast();
+
   const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof serviceSchema>) {
@@ -125,19 +126,12 @@ export const useService = ({service}: Props) => {
         );
       }
    
-      toast({
-        title: "Success",
-        description:service?'your service is edited': "Youre service is added",
-      });
+      toast.success('service has been created')
       router.push(`/dashboard/services`);
       router.refresh()
     } catch (error) {
       console.log(error);
-      toast({
-        title: "Error",
-        description: "Something went wrong",
-        variant: "destructive",
-      });
+      toast.error('Something went wrong')
     }
   }
 

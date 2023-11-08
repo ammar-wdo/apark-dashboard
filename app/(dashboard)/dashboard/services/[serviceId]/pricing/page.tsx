@@ -2,6 +2,7 @@ import prisma from '@/lib/db'
 import { getCurrentCompany } from '@/lib/helpers'
 import React from 'react'
 import PricingForm from './(components)/pricing-form'
+import Heading from '@/components/heading'
 
 type Props = {
     params:{serviceId:string}
@@ -17,7 +18,8 @@ const page = async({params}: Props) => {
 
     console.log(service?.pricings.length)
   return (
-    <div className='p-20'>
+    <div className=''>
+      <Heading title='Pricing table' description={`Check Pricing for ${service?.title} `} />
       <PricingForm pricings={service?.pricings! } />
     </div>
   )

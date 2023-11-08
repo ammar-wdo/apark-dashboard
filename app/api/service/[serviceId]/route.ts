@@ -34,8 +34,30 @@ export async function PATCH(
       images,
       isActive,
       spots,
-      available
+      available,
+      pricings
+      
     } = await req.json();
+
+    if(!!pricings.length) {
+      try {
+        await prisma.service.update({
+          where:{ id: params.serviceId, companyId: currentCompany.id },
+          data:{
+            pricings
+          }
+  
+        })
+
+        return NextResponse.json({
+          message:'success'
+        })
+      } catch (error) {
+        console.log(error)
+        return new NextResponse('internal error',{status:500})
+      }
+    
+    }
 
     if (!address)
       return new NextResponse("address is required", { status: 400 });

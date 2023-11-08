@@ -1,4 +1,5 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
+import Heading from '@/components/heading'
 import prisma from '@/lib/db'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
@@ -29,8 +30,8 @@ const bookings = company?.services.flatMap((service) => service.bookings) || [];
 
 
   return (
-    <div className='p-4 '>
-        <h3 className='text-4xl uppercase'>bookings</h3>
+    <div className=' '>
+        <Heading title="Bookings" description="Check your ookings" />
     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12'>{bookings.map((booking)=><Link href={`/dashboard/bookings/${booking.bookingCode}`}><div className='p-6 text-xs overflow-hidden hover:shadow-md transition border rounded-md cursor-pointer'>
 
         {JSON.stringify(booking)}

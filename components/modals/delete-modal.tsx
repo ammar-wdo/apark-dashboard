@@ -14,10 +14,11 @@ import { useModal } from "@/hooks/use-modal"
 
   import React, { useState } from 'react'
 import { Button } from "../ui/button"
-import { toast } from "../ui/use-toast"
+
 import { Loader } from "lucide-react"
 import axios from "axios"
 import { useParams, useRouter } from "next/navigation"
+import { toast } from "sonner";
   
   type Props = {}
   
@@ -36,18 +37,10 @@ const params = useParams()
             router.push(`/dashboard/services`)
             router.refresh()
             setClose()
-            toast({
-                title: "Success",
-                description: "Item is deleted successfully",
-                
-              });
+            toast.success('Items has been deleted')
             
         } catch (error) {
-            toast({
-                title: "Error",
-                description: "Something went wrong",
-                variant: "destructive",
-              });
+            toast.error("Someting went wrong")
         }finally{
             setIsLoading(false)
         }
