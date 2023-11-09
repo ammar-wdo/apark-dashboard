@@ -254,7 +254,7 @@ const params = useParams()
                   disabled={!file || !!form.watch('logo')}
                     type="button"
                     onClick={uploadImage}
-                    variant={"secondary"}
+             
                   >
                     Upload
                   </Button>
@@ -287,7 +287,7 @@ const params = useParams()
                   disabled={!imagesFile}
                     type="button"
                     onClick={uploadImages}
-                    variant={"secondary"}
+                   
                   >
                     Upload
                   </Button>

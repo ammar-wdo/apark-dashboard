@@ -17,14 +17,22 @@ const page =async ({params}: Props) => {
 
 const company = await prisma.company.findUnique({
     where:{
-       email:session?.user?.email as string
+       email:session?.user?.email as string,
+       
     },
+    
     include:{
         services:{
-            include:{bookings:true}
+            include:{bookings:{
+                orderBy:{
+                    createdAt:"desc"
+                }
+            }}
         },
         
-    }
+        
+    },
+    
 })
 
 const bookings = company?.services.flatMap((service) => service.bookings) || [];

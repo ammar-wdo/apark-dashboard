@@ -15,6 +15,8 @@ const corsHeaders = {
 
 export async function POST(req:Request){
 
+    // TODO : check if service available
+
     console.log('done')
 
     try {

@@ -39,7 +39,7 @@ export const columns: ColumnDef<Booking>[] = [
     cell: ({ row }) => (
       <div
         title={row.getValue("paymentMethod")}
-        className="w-20 h-20 relative  overflow-hidden "
+        className="w-12 h-12 relative  overflow-hidden "
       >
         <Image
           src={paymentImage[row.getValue("paymentMethod") as string] }

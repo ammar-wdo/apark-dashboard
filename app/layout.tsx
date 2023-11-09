@@ -4,6 +4,7 @@ import './globals.css'
 import { Toaster } from 'sonner'
 import { EdgeStoreProvider } from '../lib/edgestore';
 import ModalProvider from '@/components/providers/modal-provider'
+import { ThemeProvider } from '@/components/providers/theme-provider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +24,14 @@ export default function RootLayout({
       <body className={inter.className}>
         <ModalProvider />
       <EdgeStoreProvider>
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
         {children}
+        </ThemeProvider>
         </EdgeStoreProvider>
       <Toaster richColors/>
       </body>

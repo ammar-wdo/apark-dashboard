@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MainSheet from "./main-sheet";
+import { BookmarkCheck, Boxes } from "lucide-react";
 
 type Props = {};
 
@@ -15,11 +16,13 @@ const MainLinks = (props: Props) => {
       label: "services",
       active: pathname === "/dashboard/services",
       link: "/dashboard/services",
+      Icon:<Boxes className="w-5 h-5 mr-3" />
     },
     {
       label: "bookings",
       active: pathname === "/dashboard/bookings",
       link: "/dashboard/bookings",
+      Icon:<BookmarkCheck className="w-5 h-5 mr-3" />
     },
   ];
   return (
@@ -28,11 +31,11 @@ const MainLinks = (props: Props) => {
         <Link
           href={link.link}
           className={cn(
-            "text-lg text-white uppercase p-5 duration-200 rounded-md",
-            link.active && "bg-white text-primary",!link.active && 'hover:bg-white/10'
+            "text-lg dark:text-primary-foreground capitalize p-5 duration-200 rounded-md flex items-center",
+            link.active && "bg-primary text-muted",!link.active && 'hover:bg-secondary/60'
           )}
         >
-          {link.label}
+         {link.Icon} {link.label}
         </Link>
       ))}
      

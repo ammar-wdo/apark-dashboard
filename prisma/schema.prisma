@@ -11,34 +11,25 @@ model Airport {
   id        String    @id @default(uuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime
-  Company   Company[]
-  Service   Service[]
-}
-
-enum PaymentMethod {
-MASTER_CARD
-VISA_CARD
-AMERICAN_EXPRESS
-PAYPALL
+  Company   Company[] @relation("AirportToCompany")
+  Service   Service[] @relation("AirportToService")
 }
 
 model Booking {
-  id                    String    @id @default(uuid())
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime @updatedAt
+  id                    String        @id @default(uuid())
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
   address               String?
   arrivalDate           DateTime
-  bookingCode           String    @unique
+  bookingCode           String        @unique
   carColor              String
   carLicense            String
   carModel              String
   companyName           String?
   departureDate         DateTime
-  discount              Float
+  discount              Float?
   flightNumber          Int?
-
   parkingPrice          Float
-  paymentStatus         String
   place                 String?
   returnFlightNumber    Int?
   total                 Float
@@ -48,39 +39,40 @@ model Booking {
   departureTime         String
   daysofparking         Int
   bookingOnBusinessName String?
-  extraServiceFee       Float
-  status                String
+  extraServiceFee       Float?
+  status                String?
   paymentMethod         PaymentMethod @default(MASTER_CARD)
   serviceId             String
-  service               Service   @relation(fields: [serviceId], references: [id])
+  isCompany             Boolean       @default(false)
+  paymentStatus         STATUS?       @default(PENDING)
+  service               Service       @relation(fields: [serviceId], references: [id])
   payments              Payment[]
 }
 
 model Company {
-  id           String         @id @default(uuid())
-  email        String         @unique
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  address      String
-  commision    Float          @default(0)
-  contact      String
-  password     String
-  invoiceEmail String         @unique
-  isActive     Boolean        @default(false)
-  phone        String
-  place        String
-  zipcode      String
-
+  id            String         @id @default(uuid())
+  email         String         @unique
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  address       String
+  commision     Float          @default(0)
+  contact       String
+  password      String
+  invoiceEmail  String         @unique
+  isActive      Boolean        @default(false)
+  phone         String
+  place         String
+  zipcode       String
   notifications Notification[]
-  services     Service[]
-  airports     Airport[]
+  services      Service[]
+  airports      Airport[]      @relation("AirportToCompany")
 }
 
 model Customer {
-  id             String    @id @default(uuid())
+  id             String   @id @default(uuid())
   email          String   @unique
   createdAt      DateTime @default(now())
-  updatedAt      DateTime  @updatedAt
+  updatedAt      DateTime @updatedAt
   address        String?
   carColor       String
   carLicense     String
@@ -114,7 +106,7 @@ model Notification {
 }
 
 model Payment {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   bookingId String
@@ -124,7 +116,7 @@ model Payment {
 model Service {
   id                String      @id @default(uuid())
   createdAt         DateTime    @default(now())
-  updatedAt         DateTime @updatedAt
+  updatedAt         DateTime    @updatedAt
   address           String
   arrivalTodos      String?
   city              String
@@ -141,14 +133,26 @@ model Service {
   title             String
   zipcode           String
   companyId         String
-  pricings          Float[]
   images            String[]
   isActive          Boolean     @default(false)
   spots             Int         @default(1)
   available         Boolean     @default(false)
-  bookings           Booking[]
+  pricings          Float[]
+  bookings          Booking[]
   company           Company     @relation(fields: [companyId], references: [id])
-  airports           Airport[]
+  airports          Airport[]   @relation("AirportToService")
+}
+
+enum PaymentMethod {
+  MASTER_CARD
+  VISA_CARD
+  AMERICAN_EXPRESS
+  PAYPALL
+}
+
+enum STATUS {
+  PENDING
+  SUCCEEDED
 }
 
 enum ParkingType {

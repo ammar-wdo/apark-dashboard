@@ -21,9 +21,9 @@ import Link from "next/link"
     return (
         <Sheet  >
         <SheetTrigger  className="lg:hidden ml-auto"><Menu /></SheetTrigger>
-        <SheetContent style={{color:"white"}} side={'left'} className="bg-primary p-0">
+        <SheetContent style={{color:"white"}} side={'left'} className="bg-background p-0">
           <SheetHeader className="">
-            <Link href={'/'}><SheetTitle className="p-12 text-white uppercase text-3xl text-center' ">Dashboard</SheetTitle></Link>
+            <Link href={'/'}><SheetTitle className="p-12 text-foreground uppercase text-3xl text-center' ">Dashboard</SheetTitle></Link>
            
           </SheetHeader>
           <MainLinks />

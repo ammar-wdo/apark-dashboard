@@ -66,10 +66,10 @@ const PricingForm = ({ pricings }: Props) => {
                     </TableCell>
 
                     <TableCell className="text-right ">
-                      <div className="flex items-center border rounded-md p-1 bg-white gap-1">
-                        <span className="italic text-gray-400 ">$ {" "}</span>
+                      <div className="flex items-center border rounded-md p-1  relative gap-1">
+                        <span className="italic text-gray-400 absolute left-4">$ {" "}</span>
                         <Input
-                        className="border-none p-0 outline-none focus-visible:ring-0 ring-0 focus-within:ring-0 bg-transparent focus-visible:ring-transparent"
+                        className="border-0  p-0 px-8 outline-none "
                           type="number"
                           value={parseFloat(myArray![i].toString()).toFixed(2)}
                           onChange={(e) => {
