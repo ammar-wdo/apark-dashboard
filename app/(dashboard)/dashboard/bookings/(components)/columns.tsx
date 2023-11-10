@@ -53,6 +53,10 @@ export const columns: ColumnDef<Booking>[] = [
   {
     accessorKey: "total",
     header: "Total",
+    cell: ({ row }) => (
+      <span className="flex items-center gap-1">$ {row.getValue("total")}</span>
+    ),
+    
   },
   {
     accessorKey: "carModel",

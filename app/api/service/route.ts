@@ -74,7 +74,8 @@ export async function POST(req: Request) {
         images,
         isActive,
         spots :Number(spots),
-        available
+        available,
+        pricings:Array(60).fill(10)
       },
     });
 

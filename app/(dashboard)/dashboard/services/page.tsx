@@ -23,7 +23,10 @@ const page = async ({  }: Props) => {
     },
     include: {
       services: {
-        select:{id:true}
+        select:{id:true},
+        orderBy:{
+          createdAt:'desc'
+        }
       },
       
     },
