@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { isAvailable } from "./(helpers)/isAvailable";
 import prisma from "@/lib/db";
 import { STATUS } from "@prisma/client";
+import { bookingSchema } from "@/schemas";
+import { daysAndTotal } from "./(helpers)/days-and-total";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -16,36 +18,15 @@ export async function OPTIONS() {
 
 export async function POST(req: Request) {
   try {
-    const {
-      bookingOnBusinessName,
-      extraServiceFee,
+    const body = await req.json();
+    body.arrivalDate = new Date(body.arrivalDate);
+    body.departureDate = new Date(body.departureDate);
 
-      address,
-      arrivalDate,
-      bookingCode,
-      carColor,
-      carLicense,
-      carModel,
-      serviceId,
-      companyName,
-      arrivalTime,
-      departureTime,
-      daysofparking,
-      departureDate,
-      discount,
-      flightNumber,
+    const validBody = bookingSchema.safeParse(body);
+    if (!validBody.success)
+      return NextResponse.json(validBody.error, { status: 400 });
 
-      parkingPrice,
-
-      paymentMethod,
-      place,
-      returnFlightNumber,
-      total,
-      vatNumber,
-      zipcode,
-    } = await req.json();
-
-    const available = await isAvailable(serviceId);
+    const available = await isAvailable(body.serviceId);
 
     if (!available)
       return NextResponse.json(
@@ -53,67 +34,21 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-    if (!serviceId)
-      return new NextResponse("service Id is mandatory", { status: 400 });
-    if (!total) return new NextResponse("Total is mandatory", { status: 400 });
-    if (!daysofparking)
-      return new NextResponse("Days of parking is mandatory", { status: 400 });
-    if (!departureDate)
-      return new NextResponse("Departure date of parking is mandatory", {
-        status: 400,
-      });
-    if (!arrivalDate)
-      return new NextResponse("Arrival date of parking is mandatory", {
-        status: 400,
-      });
-    if (!bookingCode)
-      return new NextResponse("Booking code is mandatory", { status: 400 });
-
-    if (!departureTime)
-      return new NextResponse("departure timeis mandatory", { status: 400 });
-    if (!arrivalTime)
-      return new NextResponse("arrival time is mandatory", { status: 400 });
-    if (!carColor)
-      return new NextResponse("car color is mandatory", { status: 400 });
-    if (!carLicense)
-      return new NextResponse("car license is mandatory", { status: 400 });
-    if (!carModel)
-      return new NextResponse("car model is mandatory", { status: 400 });
-
-    if (!paymentMethod)
-      return new NextResponse("payment method is mandatory", { status: 400 });
+    const { total, daysofparking } = await daysAndTotal(
+      validBody.data.arrivalDate,
+      validBody.data.departureDate,
+      validBody.data.serviceId
+    );
+    console.log(total, daysofparking);
 
     const booking = await prisma.booking.create({
       data: {
-        bookingOnBusinessName,
-        extraServiceFee,
-
-        address,
-        arrivalDate,
-        bookingCode,
-        carColor,
-        carLicense,
-        carModel,
-        serviceId,
-        companyName,
-        arrivalTime,
-        departureTime,
+        ...validBody.data,
+        bookingCode: Date.now().toString(),
+        total: total as number,
         daysofparking,
-        departureDate,
-        discount,
-        flightNumber,
-
-        parkingPrice,
-
-        paymentMethod,
-        place,
-        returnFlightNumber,
-        total,
-        vatNumber,
-        zipcode,
       },
     });
-   
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -125,7 +60,6 @@ export async function POST(req: Request) {
             product_data: {
               name: "service",
               description: `Booking for ${daysofparking} day(s) parking `,
-             
             },
             unit_amount: total * 100,
           },
@@ -133,12 +67,12 @@ export async function POST(req: Request) {
         },
       ],
       mode: "payment",
-metadata:{id:booking.id},
+      metadata: { id: booking.id },
       success_url: "http://localhost:3000/checkout?success=true",
       cancel_url: "http://localhost:3000/checkout?canceled=true",
     });
 
-    console.log(session.metadata)
+    console.log(session.metadata);
     return NextResponse.json(
       { url: session.url },
       {

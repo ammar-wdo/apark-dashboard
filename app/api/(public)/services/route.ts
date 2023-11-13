@@ -22,7 +22,7 @@ include:{
     bookings:true
 }})
 
-const parkingDays = calculateParkingDays(new Date(startDate),new Date(endDate)) +1
+const parkingDays = calculateParkingDays(new Date(startDate),new Date(endDate))
 
 
 
@@ -45,7 +45,7 @@ return booking
         const totalPrice = service.pricings.slice(0,parkingDays).reduce((total,value)=>total + value,0)
        
         
-        return { ...service,totalPrice} }
+        return { ...service,totalPrice,startDate,endDate,startTime,endTime} }
     else return null
 
 })

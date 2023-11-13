@@ -1,15 +1,15 @@
 "use client";
 
-import { Booking } from "@prisma/client";
+import { Booking, PaymentMethod } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
 
 const paymentImage: { [key: string]: string } = {
-  MASTER_CARD: "/mastercard.png",
-  VISA_CARD: "/visacard.png",
-  AMERICAN_EXPRESS: "/americanexpress.png",
-  PAYPALL: "/paypal.webp",
+ IDEAL: "/ideal.png",
+  CREDIT_CARD: "/cards.png",
+ PAYPAL: "/paypal.png",
+
 };
 
 export const columns: ColumnDef<Booking>[] = [
