@@ -13,6 +13,9 @@ const page = async({params}: Props) => {
 const availabilitys = await  prisma.availability.findMany({
     where:{
         serviceId:params.serviceId
+    },
+    orderBy:{
+        createdAt:'desc'
     }
 })
 
