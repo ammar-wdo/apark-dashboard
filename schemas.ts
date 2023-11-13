@@ -52,3 +52,14 @@ export const bookingSchema = z
     path: ["zipcode"],
   }).refine((data)=>new Date(data.arrivalDate).getTime() <= new Date(data.departureDate).getTime(),{message:'departure time should be greater or equal to arrival time',path:["paymentMethod"]})
   ;
+
+
+
+  export const availabilitySchema = z.object({
+    serviceId:z.string().min(1),
+    label:z.string().min(1),
+    startDate:z.date(),
+    endDate:z.date()
+
+
+  }).refine((date)=>new Date(date.startDate).getTime() <= new Date(date.endDate).getTime(),{message:'Invalid blocking range',path:["startDate"]})

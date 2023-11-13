@@ -34,7 +34,7 @@ const params = useParams()
         try {
             setIsLoading(true)
             await axios.delete(data.url!)
-            router.push(`/dashboard/services`)
+            router.push(data.redirect!)
             router.refresh()
             setClose()
             toast.success('Items has been deleted')
@@ -59,7 +59,7 @@ const params = useParams()
 
 
    <Button disabled={isLoading} onClick={handleDelete} variant={'destructive'}>Delete {isLoading&&<Loader className="animate-spin w-3 h-3 ml-3"/>}</Button>
-   <Button disabled={isLoading} onClick={setClose} >Cancel</Button>
+   <Button disabled={isLoading} onClick={setClose} variant={'ghost'} >Cancel</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

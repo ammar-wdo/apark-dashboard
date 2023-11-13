@@ -4,6 +4,7 @@ type ModalType = "delete-modal"
 type Data = {
     url?:string,
     message?:string
+    redirect?:string
 }
 
 type Modal = {

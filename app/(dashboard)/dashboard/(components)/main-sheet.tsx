@@ -8,7 +8,7 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
+import { LayoutDashboard, Menu } from "lucide-react"
 
 
   import React from 'react'
@@ -21,9 +21,9 @@ import Link from "next/link"
     return (
         <Sheet  >
         <SheetTrigger  className="lg:hidden ml-auto"><Menu /></SheetTrigger>
-        <SheetContent style={{color:"white"}} side={'left'} className="bg-background p-0">
+        <SheetContent  side={'left'} className="bg-background p-0">
           <SheetHeader className="">
-            <Link href={'/'}><SheetTitle className="p-12 text-foreground uppercase text-3xl text-center' ">Dashboard</SheetTitle></Link>
+          <Link href={'/'}><h3 className='p-12 text-foreground uppercase text-3xl text-center flex items-center'><LayoutDashboard className='h-6 w-6 mr-3' /> dashboard</h3></Link>
            
           </SheetHeader>
           <MainLinks />

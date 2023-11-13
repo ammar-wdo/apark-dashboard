@@ -430,7 +430,7 @@ const params = useParams()
             service ?"Save changes":'Submit'
           )}
         </Button>
-        {service && <Button type="button" variant={'destructive'} onClick={()=>setOpen('delete-modal',{url:`/api/service/${service.id}`})}>Delete</Button>}
+        {service && <Button type="button" variant={'destructive'} onClick={()=>setOpen('delete-modal',{url:`/api/service/${service.id}`,redirect:'/dashboard/services'})}>Delete</Button>}
         </div>
        
       </form>
