@@ -6,28 +6,9 @@ import { UseFormReturn, useForm } from "react-hook-form";
 import * as z from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { serviceSchema } from "@/schemas";
 
-export const serviceSchema = z.object({
-  address: z.string().min(1),
-  arrivalTodos: z.string().optional(),
-  city: z.string(),
-  departureTodos: z.string().optional(),
-  description: z.string().min(1),
-  distanceToAirport: z.string().optional(),
-  facilities: z.array(z.string()).min(1),
-  images: z.array(z.string()).optional(),
-  importantInfo: z.string().optional(),
-  latitude: z.string().min(1),
-  logo: z.string().min(1),
-  longitude: z.string().min(1),
-  parkingType: z.enum(["shuttle", "valet"]),
-  timeToAirport: z.string().optional(),
-  title: z.string().min(1),
-  zipcode: z.string().min(1),
-  spots:z.coerce.number().gte(1, 'Must  above 0'),
-  isActive:z.boolean(),
-  available:z.boolean(),
-});
+
 
 export const serviceDefaultValues = (service: Service | null) => ({
   address: service?.address || "",

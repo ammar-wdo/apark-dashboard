@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { getCurrentCompany } from "@/lib/helpers";
+import { serviceSchema } from "@/schemas";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
@@ -15,36 +16,16 @@ export async function PATCH(
     if (!currentCompany)
       return new NextResponse("Unauthenticated", { status: 401 });
 
-    const {
-      address,
-      arrivalTodos,
-      city,
-      departureTodos,
-      description,
-      distanceToAirport,
-      facilities,
-      importantInfo,
-      latitude,
-      logo,
-      longitude,
-      parkingType,
-      timeToAirport,
-      title,
-      zipcode,
-      images,
-      isActive,
-      spots,
-      available,
-      pricings
-      
-    } = await req.json();
 
-    if(!!pricings) {
+
+    const body= await req.json();
+
+    if(!!body.pricings) {
       try {
         await prisma.service.update({
           where:{ id: params.serviceId, companyId: currentCompany.id },
           data:{
-            pricings
+           pricings: body.pricings
           }
   
         })
@@ -58,25 +39,11 @@ export async function PATCH(
       }
     
     }
-    
-        if (!address)
-        return new NextResponse("address is required", { status: 400 });
-      if (!city) return new NextResponse("city is required", { status: 400 });
-      if (!description)
-        return new NextResponse("description is required", { status: 400 });
-      if (facilities.length === 0)
-        return new NextResponse("facilities are required", { status: 400 });
-      if (!logo) return new NextResponse("logo is required", { status: 400 });
-      if (!latitude || !longitude)
-        return new NextResponse("latitude and longitude are required", {
-          status: 400,
-        });
-      if (!parkingType)
-        return new NextResponse("parkingtype is required", { status: 400 });
-      if (!title)
-        return new NextResponse("parkingtype is required", { status: 400 });
-      if (!zipcode)
-        return new NextResponse("parkingtype is required", { status: 400 });
+
+    const validBody = serviceSchema.safeParse(body)
+    console.log(body)
+    if(!validBody.success) return  NextResponse.json({error:validBody.error},{status:400})
+       
   
       const service = await prisma.service.findUnique({
         where: {
@@ -91,25 +58,9 @@ export async function PATCH(
         where: { id: params.serviceId, companyId: currentCompany.id },
         data: {
           companyId:currentCompany.id,
-          address,
-          arrivalTodos,
-          city,
-          departureTodos,
-          description,
-          distanceToAirport,
-          facilities,
-          importantInfo,
-          latitude,
-          logo,
-          longitude,
-          parkingType,
-          timeToAirport,
-          title,
-          zipcode,
-          images,
-          isActive,
-          spots :Number(spots),
-          available
+          ...validBody.data,
+          spots :Number(validBody.data.spots),
+         
         },
       });
   

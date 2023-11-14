@@ -1,11 +1,13 @@
+import { Rule } from '@prisma/client'
 import { create } from 'zustand'
 
-type ModalType = "delete-modal" | "availability-modal"
+type ModalType = "delete-modal" | "availability-modal" | "rule-modal"
 type Data = {
     url?:string,
     message?:string
     redirect?:string
     metaDate?:string
+    rule?:Rule
 }
 
 type Modal = {

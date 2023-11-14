@@ -39,8 +39,9 @@ const ServiceCard = async({serviceId,companyId}: Props) => {
        
         </div>
         <div className='flex items-center justify-end gap-2 mt-auto p-2  flex-col'>
-            <Link href={`/dashboard/services/${service?.id}/pricing`}  className='w-full'><Button className="w-full" >Check pricings</Button></Link>
+            <Link href={`/dashboard/services/${service?.id}/pricing`}  className='w-full'><Button className="w-full" >Manage pricings</Button></Link>
             <Link href={`/dashboard/services/${service?.id}/availability`}  className='w-full'><Button variant={'secondary'} className="w-full" >Manage availability</Button></Link>
+            <Link href={`/dashboard/services/${service?.id}/rules`}  className='w-full'><Button variant={"secondary"} className='w-full'>Manage rules</Button></Link>
             <Link href={`/dashboard/services/${service?.id}`}  className='w-full'><Button variant={"secondary"} className='w-full'>Edit</Button></Link>
         
         </div>
