@@ -14,7 +14,7 @@ const CalendarRange = async({availability}: Props) => {
     <div        className='p-3 border rounded-md'>
             <p className='p-1 text-center uppercase text-lg font-semibold'>{availability.label}</p>
             <Calendar
-     
+ 
             initialFocus
             mode="range"
    

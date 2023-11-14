@@ -57,20 +57,21 @@ export const useRules =()=>{
 
      async function onSubmit(values: z.infer<typeof availabilitySchema>) {
       try {
-console.log(values)
+let res;
 if(!data.rule){
-  await axios.post(`/api/service/${params.serviceId}/rules`,values)
+res=  await axios.post(`/api/service/${params.serviceId}/rules`,values)
 }else{
-  await axios.patch(`/api/service/${params.serviceId}/rules/${data.rule.id}`,values)
+ res= await axios.patch(`/api/service/${params.serviceId}/rules/${data.rule.id}`,values)
 }
       
         toast.success(!data.rule ? 'Successfull created' : 'Successfully updated')
         router.refresh()
         setClose()
         
-      } catch (error) {
+      } catch (error:any) {
         console.log(error)
-        toast.error('Something went wrong')
+        
+        toast.error(error?.response?.data?.customError ?error?.response?.data?.customError : 'Something went wrong')
       }
     
       }

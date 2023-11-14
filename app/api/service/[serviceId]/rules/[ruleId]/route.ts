@@ -1,3 +1,4 @@
+import { findBlockingDates } from "@/app/api/(public)/services/(helpers)/findBlockingDates";
 import prisma from "@/lib/db";
 import { getCurrentCompany } from "@/lib/helpers";
 import { rulesSchema } from "@/schemas";
@@ -64,6 +65,21 @@ console.log(serviceId)
       return NextResponse.json(validBody.error, { status: 400 });
 
       const {serviceId:anything,...requiredDate} = validBody.data
+
+
+
+
+const rules = await prisma.rule.findMany({
+  where:{
+      serviceId:params.serviceId,
+      id:{not:ruleId}
+  }
+})
+
+
+const isBlocked = findBlockingDates(rules,validBody.data.startDate.toString(),validBody.data.endDate.toString())
+
+if(!!isBlocked.length)  return NextResponse.json({customError:"can't add rules at the same date ranges"},{status:400})
 
     await prisma.service.update({
       where: {

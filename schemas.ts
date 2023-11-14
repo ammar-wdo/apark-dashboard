@@ -114,4 +114,8 @@ export const rulesSchema = z
   .refine((data) => data.type !== "PERCENTAGE" || !!data.percentage, {
     message: "percentage is required",
     path: ["percentage"],
-  });
+  }).refine(
+    (date) =>
+      new Date(date.startDate).getTime() <= new Date(date.endDate).getTime(),
+    { message: "Invalid blocking range", path: ["startDate"] }
+  );
