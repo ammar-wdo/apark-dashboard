@@ -21,7 +21,7 @@ const page =async ({params,searchParams}: Props) => {
     if(+searchParams.page < 0 ){
         redirect('/')
     }
-    console.log(searchParams)
+  
 
     const session = await getServerSession(authOptions)
 

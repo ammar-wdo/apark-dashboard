@@ -22,7 +22,7 @@ signIn:'/'
           const email = credentials?.email
           const password = credentials?.password
 
-          console.log(email)
+        
           if(!email || !password) throw new Error('Enter uemail and password')
   
           const company = await prisma.company.findFirst({
@@ -35,7 +35,7 @@ signIn:'/'
             include:{services:true}
           })
 
-          console.log(company)
+        
           if(!company) return null
   
        

@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   let event: Stripe.Event
 
   try {
-    console.log("webhook")
+   
     event = stripe.webhooks.constructEvent(
       body,
       signature,
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
             },
            
           });
-          console.log(order)
+         
     } catch (error) {
         console.log(error)
     }

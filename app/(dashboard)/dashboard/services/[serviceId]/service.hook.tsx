@@ -48,7 +48,7 @@ export const useService = ({service}: Props) => {
             } else {
               setImageLoader(false);
             }
-            console.log(progress);
+            ;
           },
         });
         setImageLoader(false);
@@ -58,7 +58,7 @@ export const useService = ({service}: Props) => {
     }
   };
   const uploadImages = async () => {
-    console.log(imagesFile)
+   
     if (imagesFile) {
       if (imagesFile) {
         const res = await edgestore.publicFiles.upload({
@@ -69,7 +69,7 @@ export const useService = ({service}: Props) => {
             } else {
               setImagesLoader(false);
             }
-            console.log(progress);
+            ;
           },
         });
 

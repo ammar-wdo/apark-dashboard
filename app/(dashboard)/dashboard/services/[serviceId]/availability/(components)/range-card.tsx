@@ -2,7 +2,7 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { useModal } from "@/hooks/use-modal";
 import { format } from "date-fns";
-import { XIcon } from "lucide-react";
+import { Trash, XIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import React from "react";
 
@@ -35,7 +35,7 @@ const RangeCard = ({ startDate, endDate, label, rangeId }: Props) => {
         type="button"
         className="p-1 bg-rose-500 text-white flex mx-auto items-center justify-center rounded-sm transition hover:bg-rose-500/90"
       >
-        <XIcon className="w-3 h-3" />
+        <Trash className="w-3 h-3" />
       </button></TableCell>
     </TableRow>
     

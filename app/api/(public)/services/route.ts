@@ -15,6 +15,8 @@ export async function GET(req: Request) {
   const startTime = searchParams.get("startTime") as string;
   const endTime = searchParams.get("endTime") as string;
 
+  if(!startDate || !endDate || !startTime || !endTime) return new NextResponse('date and time is required',{status:400})
+
   try {
     const services = await prisma.service.findMany({
       where: {

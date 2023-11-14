@@ -5,10 +5,7 @@ import { NextResponse } from "next/server";
 export async function DELETE(req:Request,{params}:{params:{availabilityId:string,serviceId:string}}){
 
     try {
-console.log('delete')
-console.log('delete')
-console.log('delete')
-console.log('delete')
+
         const company = await getCurrentCompany()
         if(!company) return new NextResponse("Unauthenticated",{status:401})
 

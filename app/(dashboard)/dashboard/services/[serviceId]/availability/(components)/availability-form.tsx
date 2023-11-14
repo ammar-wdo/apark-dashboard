@@ -11,10 +11,10 @@ import { Calendar } from '@/components/ui/calendar'
 import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 
-type Props = {serviceId:string}
 
-const AvailabilityForm = ({serviceId}: Props) => {
-const {form,onSubmit} = useAvailability({serviceId})
+
+const AvailabilityForm = () => {
+const {form,onSubmit} = useAvailability()
 
 const loading = form.formState.isSubmitting
 
@@ -34,7 +34,7 @@ const loading = form.formState.isSubmitting
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
+                        "w-full pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -78,7 +78,7 @@ const loading = form.formState.isSubmitting
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
+                        "w-full pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -113,17 +113,18 @@ const loading = form.formState.isSubmitting
         control={form.control}
         name="label"
         render={({ field }) => (
-          <FormItem className='flex flex-col gap-4'>
+          <FormItem className='flex flex-col gap-4 w-full'>
             <FormLabel>Label</FormLabel>
             <FormControl>
-           <Input {...field} className='w-fit' placeholder='Label your range' />
+           <Input {...field} className='' placeholder='Label your range' />
             </FormControl>
     
             <FormMessage />
           </FormItem>
         )}
       />
-      <Button disabled={loading} type="submit">Submit{loading && <Loader className='ml-2 w-3 h-3 animate-spin' />}</Button>
+      <Button  disabled={loading} type="submit">Submit{loading && <Loader className='ml-2 w-3 h-3 animate-spin' />}</Button>
+   
     </form>
   </Form>
   )

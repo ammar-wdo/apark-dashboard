@@ -1,10 +1,11 @@
 import { create } from 'zustand'
 
-type ModalType = "delete-modal"
+type ModalType = "delete-modal" | "availability-modal"
 type Data = {
     url?:string,
     message?:string
     redirect?:string
+    metaDate?:string
 }
 
 type Modal = {
@@ -20,6 +21,6 @@ export const useModal = create<Modal>()((set) => ({
   type:'',
   data:{},
   setOpen: (type,data={}) => set({open:true,type,data}),
-  setClose:()=>set({open:false,type:''})
+  setClose:()=>set({open:false,type:'',data:{}})
 }))
 

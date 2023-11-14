@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       validBody.data.departureDate,
       validBody.data.serviceId
     );
-    console.log(total, daysofparking);
+  
 
     const booking = await prisma.booking.create({
       data: {
