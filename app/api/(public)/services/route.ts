@@ -2,6 +2,10 @@ import prisma from "@/lib/db";
 import { Service } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { calculateParkingDays } from "./(helpers)/findParkingDays";
+import { findBlockingDates } from "./(helpers)/findBlockingDates";
+import { findBusyPlaces } from "./(helpers)/findBusyPlaces";
+import { findTotalPrice } from "./(helpers)/findTotalPrice";
+import { findValidServices } from "./(helpers)/findValidServices";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -27,59 +31,9 @@ export async function GET(req: Request) {
       new Date(endDate)
     );
 
-    const validServices = services.map((service) => {
+    const validServices = findValidServices(services,startDate,endDate,startTime,endTime,parkingDays)
 
-        const isBlocked = service.availability.map((range) => {
-            console.log(new Date(startDate),new Date(endDate),new Date(range.startDate),new Date(range.endDate))
-            if (
-              (new Date(startDate) >= new Date(range.startDate) &&
-                new Date(startDate) <= new Date(range.endDate)) ||
-              (new Date(endDate) >= new Date(range.startDate) &&
-                new Date(endDate) <= new Date(range.endDate)) ||
-              (new Date(startDate) < new Date(range.startDate) &&
-                new Date(endDate) > new Date(range.endDate)) 
-            )
-              {return range}else{
-                return null
-              }
-          });
-  
-          if(!!isBlocked.filter((el)=>el!==null).length) return null
-
-      const busyPlaces = service.bookings.map((booking) => {
-        const arrivalDate = new Date(booking.arrivalDate);
-        const departureDate = new Date(booking.departureDate);
-
-      
-
-        if (
-          arrivalDate <= new Date(startDate) &&
-          departureDate >= new Date(endDate)
-        ) {
-          return booking;
-        } else return ;
-      });
-
-      const availabelPlaces = service.spots - busyPlaces.length;
-
-      if (availabelPlaces > 0) {
-        const totalPrice = service.pricings
-          .slice(0, parkingDays)
-          .reduce((total, value) => total + value, 0);
-
-        return {
-          ...service,
-          totalPrice,
-          startDate,
-          endDate,
-          startTime,
-          endTime,
-        };
-      } else return null;
-    });
-const filteredValidServices = validServices.filter((service)=>service !==null)
-console.log(filteredValidServices)
-    return NextResponse.json(filteredValidServices);
+    return NextResponse.json(validServices);
   } catch (error) {
     console.log("failded to fetch services", error);
     return new NextResponse("internal error", { status: 500 });
