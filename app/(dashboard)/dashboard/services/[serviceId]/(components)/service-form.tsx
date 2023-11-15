@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { MyFacilities, handleFacilityAdd, serviceDefaultValues, serviceSchema } from "../service-schema";
+import { MyFacilities, handleFacilityAdd, serviceDefaultValues } from "../service-schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
