@@ -24,7 +24,7 @@ const ServiceCard = async({serviceId,companyId}: Props) => {
 
 
   return (
-    <div key={serviceId} className='flex flex-col border rounded-md overflow-hidden group'>
+    <div className='flex flex-col border rounded-md overflow-hidden group'>
         <div className='relative aspect-video overflow-hidden'>
             <Image fill src={service?.logo as string} alt='logo' className='object-cover group-hover:scale-110 group-hover:rotate-3 duration-300' />
         </div>
@@ -35,7 +35,7 @@ const ServiceCard = async({serviceId,companyId}: Props) => {
         <p className='text-muted-foreground text-sm line-clamp-1'> {service?.city}</p>
         <p className='text-muted-foreground text-sm line-clamp-1'> {service?.available}</p>
         <p className='text-muted-foreground text-sm line-clamp-1 flex items-center gap-x-1'>Active: {service?.isActive ? 'True' : 'False'}</p>
-        <p className='text-muted-foreground text-sm line-clamp-1  flex items-center flex-wrap gap-x-1 '> {service?.facilities.map((facility=><span className='capitalize text-xs p-1 border rounded-md'>{facility}</span>))}</p>
+        <p className='text-muted-foreground text-sm line-clamp-1  flex items-center flex-wrap gap-x-1 '> {service?.facilities.map((facility=><span key={facility} className='capitalize text-xs p-1 border rounded-md'>{facility}</span>))}</p>
        
         </div>
         <div className='flex items-center justify-end gap-2 mt-auto p-2  flex-col'>
