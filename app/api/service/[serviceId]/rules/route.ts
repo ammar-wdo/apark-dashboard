@@ -23,6 +23,8 @@ console.log(body)
 const validBody = rulesSchema.safeParse(body)
 if(!validBody.success) return NextResponse.json(validBody.error,{status:400})
 
+console.log(validBody)
+
 
 const rules = await prisma.rule.findMany({
     where:{

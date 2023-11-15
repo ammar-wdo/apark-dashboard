@@ -15,9 +15,11 @@ const company = await getCurrentCompany()
 if(!company) return new NextResponse('Unauthenticated',{status:401})
 
 const body = await req.json()
+console.log(body.startDate)
 body.startDate=new Date(body.startDate)
 body.endDate=new Date(body.endDate)
-console.log(body)
+console.log(body.startDate.toISOString())
+
 const validBody = availabilitySchema.safeParse(body)
 if(!validBody.success) return NextResponse.json(validBody.error,{status:400})
 

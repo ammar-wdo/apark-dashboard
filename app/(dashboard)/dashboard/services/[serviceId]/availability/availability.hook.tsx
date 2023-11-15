@@ -37,7 +37,7 @@ const {setClose}= useModal()
 
      async function onSubmit(values: z.infer<typeof availabilitySchema>) {
       try {
-
+console.log(values)
         await axios.post(`/api/service/${params.serviceId}/availability`,values)
         toast.success('Successfull created')
         router.refresh()

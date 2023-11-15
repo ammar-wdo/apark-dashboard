@@ -56,6 +56,8 @@ export const useRules =()=>{
      
 
      async function onSubmit(values: z.infer<typeof availabilitySchema>) {
+
+      console.log(values)
       try {
 let res;
 if(!data.rule){
