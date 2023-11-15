@@ -25,14 +25,15 @@ const {form,onSubmit} = useRules()
 
 const loading = form.formState.isSubmitting
 
+
   return (
     <Form {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-20">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-6 ">
     <FormField
         control={form.control}
         name="label"
         render={({ field }) => (
-          <FormItem className='flex flex-col gap-4 w-full'>
+          <FormItem className='flex flex-col w-full'>
             <FormLabel>Label</FormLabel>
             <FormControl>
            <Input {...field} className='' placeholder='Label your range' />
@@ -47,7 +48,7 @@ const loading = form.formState.isSubmitting
           control={form.control}
           name="type"
           render={({ field }) => (
-            <FormItem className="space-y-3">
+            <FormItem className="space-y-1">
               <FormLabel>Rule type</FormLabel>
               <FormControl>
                 <RadioGroup
@@ -83,7 +84,7 @@ const loading = form.formState.isSubmitting
             control={form.control}
             name="value"
             render={({ field }) => (
-              <FormItem className='flex flex-col gap-4 w-full'>
+              <FormItem className='flex flex-col w-full'>
                 <FormLabel>Value</FormLabel>
                 <FormControl>
                <Input {...field} className='' placeholder='Value' type='number' />
@@ -99,7 +100,7 @@ const loading = form.formState.isSubmitting
             control={form.control}
             name="percentage"
             render={({ field }) => (
-              <FormItem className='flex flex-col gap-4 w-full'>
+              <FormItem className='flex flex-col w-full'>
                 <FormLabel>Percentage</FormLabel>
                 <FormControl>
                <Input {...field} className='' placeholder='percentage' type='number' />
@@ -114,7 +115,7 @@ const loading = form.formState.isSubmitting
           control={form.control}
           name="action"
           render={({ field }) => (
-            <FormItem className="space-y-3">
+            <FormItem className="space-y-1">
               <FormLabel>Action</FormLabel>
               <FormControl>
                 <RadioGroup
@@ -149,7 +150,7 @@ const loading = form.formState.isSubmitting
         control={form.control}
         name="startDate"
         render={({ field }) => (
-          <FormItem className='flex flex-col gap-4'>
+          <FormItem className='flex flex-col '>
             <FormLabel>Start date</FormLabel>
             <FormControl>
             <Popover>
@@ -193,7 +194,7 @@ const loading = form.formState.isSubmitting
         control={form.control}
         name="endDate"
         render={({ field }) => (
-          <FormItem className='flex flex-col gap-4'>
+          <FormItem className='flex flex-col '>
             <FormLabel>End date</FormLabel>
             <FormControl>
             <Popover>

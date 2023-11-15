@@ -22,10 +22,16 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import qs from "query-string"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+isLastPage:boolean
+  page:string
+  itemsPerPage:number
+  bookingsCount:number
 
 
   
@@ -36,6 +42,11 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  isLastPage,
+  page,
+  itemsPerPage,
+  bookingsCount
+
 }: DataTableProps<TData, TValue>) {
 
 
@@ -55,6 +66,30 @@ export function DataTable<TData, TValue>({
     },
   })
 
+  const router = useRouter()
+  
+const hanldePrevious =()=>{
+
+  const url = qs.stringifyUrl({
+    url:'http://localhost:3001/dashboard/bookings',
+    query:{
+      page:+page-1
+    }
+  })
+
+  router.push(url)
+}
+
+const handleNext = ()=>{
+  const url = qs.stringifyUrl({
+    url:'http://localhost:3001/dashboard/bookings',
+    query:{
+      page:+page+1
+    }
+  })
+
+  router.push(url)
+}
   return (
     <div>
          <div className="flex items-center py-4">
@@ -112,23 +147,33 @@ export function DataTable<TData, TValue>({
       </Table>
     </div>
     <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
+    <div className="text-xs text-muted-foreground">
+        {+page*itemsPerPage < bookingsCount ? +page*itemsPerPage  : bookingsCount}/{bookingsCount}
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+      <Button
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
+          onClick={hanldePrevious}
+          disabled={+page===1}
         >
           Previous
         </Button>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
+          onClick={handleNext}
+          disabled={!!isLastPage}
+     
         >
           Next
         </Button>
       </div>
+   
+
+    
+      </div>
+      
     </div>
    
   )

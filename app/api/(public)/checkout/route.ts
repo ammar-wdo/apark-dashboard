@@ -5,6 +5,7 @@ import prisma from "@/lib/db";
 import { STATUS } from "@prisma/client";
 import { bookingSchema } from "@/schemas";
 import { daysAndTotal } from "./(helpers)/days-and-total";
+import { nanoid } from 'nanoid';
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -39,12 +40,29 @@ export async function POST(req: Request) {
       validBody.data.departureDate,
       validBody.data.serviceId
     );
+
+
+    let bookingCode = nanoid(9);
+    let existingBooking = await prisma.booking.findFirst({
+      where: {
+        bookingCode: bookingCode,
+      },select:{bookingCode:true}
+    });
+    
+    while (existingBooking) {
+      bookingCode = nanoid(9);
+      existingBooking = await prisma.booking.findFirst({
+        where: {
+          bookingCode: bookingCode,
+        },select:{bookingCode:true}
+      });
+    }
   
 
     const booking = await prisma.booking.create({
       data: {
         ...validBody.data,
-        bookingCode: Date.now().toString(),
+        bookingCode,
         total: total as number,
         daysofparking,
       },
