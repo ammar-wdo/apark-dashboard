@@ -85,11 +85,12 @@ export const useService = ({service}: Props) => {
       await edgestore.publicFiles.delete({
         url: image,
       });
-      setImage("");
+    
     } catch (error) {
       console.log(error);
     } finally {
       setDeleteLoader(false);
+      setImage("");
     }
   };
 
