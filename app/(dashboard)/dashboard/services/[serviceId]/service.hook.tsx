@@ -101,11 +101,12 @@ export const useService = ({service}: Props) => {
         url: image,
       });
 
-      deleteImages(image);
+     
     } catch (error) {
       console.log(error);
     } finally {
       setDeleteImagesLoader("");
+      deleteImages(image);
     }
   };
 
