@@ -88,7 +88,7 @@ export function DataTable<TData, TValue>({
 const hanldePrevious =()=>{
 
   const url = qs.stringifyUrl({
-    url:`${process.env.MY_URL}/dashboard/bookings`,
+    url:`${process.env.NEXT_PUBLIC_MY_URL}/dashboard/bookings`,
     query:{
       page:+page-1
     }
@@ -99,7 +99,7 @@ const hanldePrevious =()=>{
 
 const handleNext = ()=>{
   const url = qs.stringifyUrl({
-    url:`${process.env.MY_URL}/dashboard/bookings`,
+    url:`${process.env.NEXT_PUBLIC_MY_URL}/dashboard/bookings`,
     query:{
       page:+page+1
     }
