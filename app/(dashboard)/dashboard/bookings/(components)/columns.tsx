@@ -6,6 +6,9 @@ import { Booking, PaymentMethod, Service } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { Button } from "@/components/ui/button";
+
 
 const paymentImage: { [key: string]: string } = {
  IDEAL: "/ideal.png",
@@ -42,7 +45,17 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
   },
   {
       accessorKey: "firstName",
-    header: "First name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            First name
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
 
   },
   {
