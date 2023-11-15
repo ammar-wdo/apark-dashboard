@@ -1,4 +1,4 @@
-import { Availability, Booking, Service } from "@prisma/client";
+import { Availability, Booking, Rule, Service } from "@prisma/client";
 import { findBlockingDates } from "./findBlockingDates";
 import { findBusyPlaces } from "./findBusyPlaces";
 import { findTotalPrice } from "./findTotalPrice";
@@ -6,6 +6,7 @@ import { findTotalPrice } from "./findTotalPrice";
 type FullService = Service & {
   availability: Availability[];
   bookings: Booking[];
+  rules:Rule[]
 };
 
 type ReturnedService = FullService & {
@@ -39,7 +40,7 @@ export const findValidServices = (
       const availabelPlaces = service.spots - busyPlaces.length;
 
       if (availabelPlaces > 0) {
-        const totalPrice = findTotalPrice(service, parkingDays);
+        const totalPrice = findTotalPrice(service, parkingDays,startDate,endDate);
         accumolator.push({
           ...service,
           totalPrice,

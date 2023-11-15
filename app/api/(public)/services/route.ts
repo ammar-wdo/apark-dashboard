@@ -1,10 +1,8 @@
 import prisma from "@/lib/db";
-import { Service } from "@prisma/client";
+
 import { NextResponse } from "next/server";
 import { calculateParkingDays } from "./(helpers)/findParkingDays";
-import { findBlockingDates } from "./(helpers)/findBlockingDates";
-import { findBusyPlaces } from "./(helpers)/findBusyPlaces";
-import { findTotalPrice } from "./(helpers)/findTotalPrice";
+
 import { findValidServices } from "./(helpers)/findValidServices";
 
 export async function GET(req: Request) {
@@ -25,6 +23,7 @@ export async function GET(req: Request) {
       include: {
         bookings: true,
         availability: true,
+        rules:true
       },
     });
 
