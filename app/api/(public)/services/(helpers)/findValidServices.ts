@@ -25,6 +25,7 @@ export const findValidServices = (
   endTime: string,
   parkingDays: number
 ) => {
+  console.log(startDate,endDate)
   const validServices = services.reduce(
     (accumolator: ReturnedService[], service) => {
       const isBlocked = findBlockingDates(
