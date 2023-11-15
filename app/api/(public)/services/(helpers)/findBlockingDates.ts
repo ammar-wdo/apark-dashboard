@@ -10,12 +10,12 @@ export const findBlockingDates = (
   const result = entity.reduce((accumolator: any[], value) => {
 
     if (
-      (new Date(startDate) >= new Date(value.startDate) &&
-        new Date(startDate) <= new Date(value.endDate)) ||
-      (new Date(endDate) >= new Date(value.startDate) &&
-        new Date(endDate) <= new Date(value.endDate)) ||
-      (new Date(startDate) < new Date(value.startDate) &&
-        new Date(endDate) > new Date(value.endDate))
+      (new Date(new Date(startDate).setHours(0,0,0,0)) >= new Date(new Date(value.startDate).setHours(0,0,0,0)) &&
+        new Date(new Date(startDate).setHours(0,0,0,0)) <= new Date(new Date(value.endDate).setHours(0,0,0,0))) ||
+      (new Date(new Date(endDate).setHours(0,0,0,0)) >= new Date(new Date(value.startDate).setHours(0,0,0,0)) &&
+        new Date(new Date(endDate).setHours(0,0,0,0)) <= new Date(new Date(value.endDate).setHours(0,0,0,0))) ||
+      (new Date(new Date(startDate).setHours(0,0,0,0)) < new Date(new Date(value.startDate).setHours(0,0,0,0)) &&
+        new Date(new Date(endDate).setHours(0,0,0,0)) > new Date(new Date(value.endDate).setHours(0,0,0,0)))
     ) {
       console.log('block')
       accumolator.push(value);

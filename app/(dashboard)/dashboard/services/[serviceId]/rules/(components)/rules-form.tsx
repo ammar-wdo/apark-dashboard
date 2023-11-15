@@ -178,7 +178,7 @@ const loading = form.formState.isSubmitting
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
-                      date < new Date()
+                     new Date (date).setHours(0,0,0,0) < new Date().setHours(0,0,0,0)
                     }
                     initialFocus
                   />
@@ -222,7 +222,7 @@ const loading = form.formState.isSubmitting
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
-                      date < new Date() || date < form.getValues('startDate')
+                      new Date (date).setHours(0,0,0,0) < new Date().setHours(0,0,0,0) || date < form.getValues('startDate')
                     }
                     initialFocus
                   />
