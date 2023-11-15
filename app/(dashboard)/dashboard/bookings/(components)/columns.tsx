@@ -2,12 +2,13 @@
 
 import {format} from "date-fns"
 import { cn } from "@/lib/utils";
-import { Booking, PaymentMethod, Service } from "@prisma/client";
+
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button";
+import { Booking, Service } from "@prisma/client";
 
 
 const paymentImage: { [key: string]: string } = {
