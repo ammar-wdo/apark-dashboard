@@ -24,7 +24,7 @@ const ServiceCard = async({serviceId,companyId}: Props) => {
 
 
   return (
-    <div className='flex flex-col border rounded-md overflow-hidden group'>
+    <div key={serviceId} className='flex flex-col border rounded-md overflow-hidden group'>
         <div className='relative aspect-video overflow-hidden'>
             <Image fill src={service?.logo as string} alt='logo' className='object-cover group-hover:scale-110 group-hover:rotate-3 duration-300' />
         </div>
