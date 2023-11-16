@@ -37,7 +37,7 @@ const ServicesWrapper = async(props: Props) => {
    
      
     />
-     <Link className="inline-block mt-20" href={`/dashboard/services/new`}><Button>Add service</Button></Link>
+  
   </div>
   )
 }

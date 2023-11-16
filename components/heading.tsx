@@ -8,7 +8,7 @@ type Props = {
 const Heading = ({title,description}: Props) => {
   return (
     <div className='space-y-2 mb-6'>
-        <p className='text-3xl capitalize font-bold'>{title}</p>
+        <p className='text-3xl first-letter:uppercase font-bold'>{title}</p>
         <p className='text-sm text-muted-foreground'> {description}</p>
     </div>
   )

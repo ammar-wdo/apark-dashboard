@@ -22,8 +22,12 @@ const page = async ({  }: Props) => {
  
 
   return (
-    <div className="">
+    <div >
+      <div className="flex justify-between items-center">
       <Heading title="Services" description="Manage your services" />
+      <Link className="" href={`/dashboard/services/new`}><Button>Add service</Button></Link>
+      </div>
+
      
       <Suspense fallback={<Skeleton className="w-full h-[700px] rounded-lg" />}>
       <ServicesWrapper />
