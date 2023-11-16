@@ -28,11 +28,11 @@ import {
     if(!mount) return null
     return (
         <TooltipProvider>
-        <Tooltip delayDuration={50} >
+        <Tooltip delayDuration={150} >
           <TooltipTrigger asChild>
             {children}
           </TooltipTrigger>
-          <TooltipContent side={side} align="start" sideOffset={10}>
+          <TooltipContent side={side} align="start" sideOffset={7} className="bg-secondary-foreground text-secondary">
             <p className=" text-xs capitalize ">
               {title}
             </p>

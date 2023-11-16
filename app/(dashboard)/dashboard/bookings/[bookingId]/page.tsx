@@ -108,7 +108,7 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
             <TableRow>
            
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Arrival date</p>
+                <p className="font-semibold">Departure date</p>
                 <p className="capitalize text-muted-foreground">{format(new Date(booking?.departureDate!),"yyyy-MM-dd")} {booking?.departureTime}:00</p>
               </TableCell>
            
