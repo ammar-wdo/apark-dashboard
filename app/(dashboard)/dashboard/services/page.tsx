@@ -9,6 +9,8 @@ import ServiceCard from "./(components)/service-card";
 import { Skeleton } from "@/components/ui/skeleton"
 import ServiceCardSceleton from "./(components)/service-card-skeleton";
 import { Button } from "@/components/ui/button";
+import { columnsService } from "./(components)/columns";
+import { DataTable } from "./(components)/data-table";
 
 type Props = {
   params: {  };
@@ -23,7 +25,7 @@ const page = async ({  }: Props) => {
     },
     include: {
       services: {
-        select:{id:true},
+      
         orderBy:{
           createdAt:'desc'
         }
@@ -37,14 +39,15 @@ const page = async ({  }: Props) => {
   return (
     <div className="">
       <Heading title="Services" description="Manage your services" />
-
-      {company.services.length === 0 ? (
-        <div>no services added</div>
-      ) : (
-        <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  3xl:grid-cols-5 gap-5"}>
-          {company.services.map(service=><Suspense key={service.id} fallback={<ServiceCardSceleton />}><ServiceCard  serviceId={service.id} companyId={company.id} /></Suspense>)}
-        </div>
-      )}
+      <div className="">
+        <DataTable
+          columns={columnsService}
+          data={company.services}
+       
+         
+        />
+      </div>
+   
 
       <Link className="inline-block mt-20" href={`/dashboard/services/new`}><Button>Add service</Button></Link>
     </div>

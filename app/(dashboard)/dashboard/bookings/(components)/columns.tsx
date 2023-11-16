@@ -26,7 +26,17 @@ const styles :{ [key: string]: string }= {
 export const columns: ColumnDef<Booking & {service:Service}>[] = [
   {
     accessorKey: "bookingCode",
-    header: "Booking code",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Booking code
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => (
       <Link
         className="underline text-blue-600 dark:text-indigo-500"
@@ -169,7 +179,17 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
   },
   {
     accessorKey: "total",
-    header: "Total",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Total
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => (
       <span className="space-x-3 whitespace-nowrap">$ {row.getValue("total")}</span>
     ),
