@@ -11,6 +11,7 @@ import ServiceCardSceleton from "./(components)/service-card-skeleton";
 import { Button } from "@/components/ui/button";
 import { columnsService } from "./(components)/columns";
 import { DataTable } from "./(components)/data-table";
+import ServicesWrapper from "./(components)/services-wrapper";
 
 type Props = {
   params: {  };
@@ -18,38 +19,17 @@ type Props = {
 
 const page = async ({  }: Props) => {
 
-  const session = await getServerSession(authOptions)
-  const company = await prisma.company.findUnique({
-    where: {
-      email: session?.user?.email as string,
-    },
-    include: {
-      services: {
-      
-        orderBy:{
-          createdAt:'desc'
-        }
-      },
-      
-    },
-  });
-
-  if (!company) return redirect("/");
+ 
 
   return (
     <div className="">
       <Heading title="Services" description="Manage your services" />
-      <div className="">
-        <DataTable
-          columns={columnsService}
-          data={company.services}
-       
-         
-        />
-      </div>
-   
+     
+      <Suspense fallback={<Skeleton className="w-full h-[700px] rounded-lg" />}>
+      <ServicesWrapper />
+      </Suspense>
 
-      <Link className="inline-block mt-20" href={`/dashboard/services/new`}><Button>Add service</Button></Link>
+     
     </div>
   );
 };

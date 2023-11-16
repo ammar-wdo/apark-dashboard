@@ -112,9 +112,9 @@ const handleNext = ()=>{
          <div className="flex items-center py-4">
         <Input
           placeholder="Filter Car..."
-          value={(table.getColumn("carModel")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("firstName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("carModel")?.setFilterValue(event.target.value)
+            table.getColumn("firstName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
