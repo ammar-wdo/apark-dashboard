@@ -57,10 +57,12 @@ export async function PATCH(
       });
 console.log(serviceId)
     const body = await req.json();
-    body.startDate = new Date(body.startDate);
-    body.endDate = new Date(body.endDate);
-    console.log(body);
-    const validBody = rulesSchema.safeParse(body);
+    console.log(body)
+
+    const refinedBody = {...body,startDate:new Date(body.startDate),endDate:new Date(body.endDate)}
+    
+    console.log(refinedBody)
+    const validBody = rulesSchema.safeParse(refinedBody);
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
 

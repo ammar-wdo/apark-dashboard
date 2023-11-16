@@ -36,9 +36,25 @@ const {setClose}= useModal()
      
 
      async function onSubmit(values: z.infer<typeof availabilitySchema>) {
+         
+const startDate = new Date(values.startDate);
+const endDate = new Date(values.endDate);
+
+const timezoneOffsetStart = startDate.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
+const timezoneOffsetEnd = endDate.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
+
+const adjustedStartDate = new Date(startDate.getTime() - timezoneOffsetStart);
+const adjustedEndDate = new Date(endDate.getTime() - timezoneOffsetEnd);
+
+const startDateString = adjustedStartDate.toISOString().split('T')[0];
+const endDateString = adjustedEndDate.toISOString().split('T')[0];
+      
+      const refinedValues = {...values,startDate:startDateString,endDate:endDateString}
+
+      console.log(refinedValues)
       try {
-console.log(values)
-        await axios.post(`/api/service/${params.serviceId}/availability`,values)
+
+        await axios.post(`/api/service/${params.serviceId}/availability`,refinedValues)
         toast.success('Successfull created')
         router.refresh()
         setClose()

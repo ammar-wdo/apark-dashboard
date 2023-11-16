@@ -1,8 +1,11 @@
 
+
 import { findBlockingDates } from "@/app/api/(public)/services/(helpers)/findBlockingDates";
 import prisma from "@/lib/db";
+
 import { getCurrentCompany } from "@/lib/helpers";
 import { rulesSchema } from "@/schemas";
+
 import { NextResponse } from "next/server";
 
 
@@ -17,13 +20,16 @@ const company = await getCurrentCompany()
 if(!company) return new NextResponse('Unauthenticated',{status:401})
 
 const body = await req.json()
-body.startDate=new Date(body.startDate)
-body.endDate=new Date(body.endDate)
 console.log(body)
-const validBody = rulesSchema.safeParse(body)
+
+const refinedBody = {...body,startDate:new Date(body.startDate),endDate:new Date(body.endDate)}
+
+console.log(refinedBody)
+
+const validBody = rulesSchema.safeParse(refinedBody)
 if(!validBody.success) return NextResponse.json(validBody.error,{status:400})
 
-console.log(validBody)
+
 
 
 const rules = await prisma.rule.findMany({
@@ -33,7 +39,7 @@ const rules = await prisma.rule.findMany({
 })
 
 
-const isBlocked = findBlockingDates(rules,validBody.data.startDate.toString(),validBody.data.endDate.toString())
+const isBlocked = findBlockingDates(rules,validBody.data.startDate.toISOString().split('T')[0],validBody.data.endDate.toISOString().split('T')[0])
 
 
 if(!!isBlocked.length)  return NextResponse.json({customError:"can't add rules at the same date ranges"},{status:400})
@@ -41,7 +47,8 @@ if(!!isBlocked.length)  return NextResponse.json({customError:"can't add rules a
 
 await prisma.rule.create({
     data:{
-  ...validBody.data
+  ...validBody.data,
+
     }
 })
 

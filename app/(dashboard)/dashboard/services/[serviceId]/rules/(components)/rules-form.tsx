@@ -220,9 +220,9 @@ const loading = form.formState.isSubmitting
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    onSelect={e=>field.onChange(e)}
                     disabled={(date) =>
-                      new Date (date).setHours(0,0,0,0) < new Date().setHours(0,0,0,0) || date < form.getValues('startDate')
+                       new Date (date).setHours(0,0,0,0) < new Date().setHours(0,0,0,0) || date < form.getValues('startDate')
                     }
                     initialFocus
                   />

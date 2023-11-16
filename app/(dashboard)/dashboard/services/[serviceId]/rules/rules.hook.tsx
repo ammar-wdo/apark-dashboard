@@ -10,6 +10,7 @@ import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+import {format,parse} from 'date-fns'
 
 
 
@@ -56,14 +57,28 @@ export const useRules =()=>{
      
 
      async function onSubmit(values: z.infer<typeof availabilitySchema>) {
+   
+const startDate = new Date(values.startDate);
+const endDate = new Date(values.endDate);
 
-      console.log(values)
+const timezoneOffsetStart = startDate.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
+const timezoneOffsetEnd = endDate.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
+
+const adjustedStartDate = new Date(startDate.getTime() - timezoneOffsetStart);
+const adjustedEndDate = new Date(endDate.getTime() - timezoneOffsetEnd);
+
+const startDateString = adjustedStartDate.toISOString().split('T')[0];
+const endDateString = adjustedEndDate.toISOString().split('T')[0];
+      
+      const refinedValues = {...values,startDate:startDateString,endDate:endDateString}
+
+      console.log(refinedValues)
       try {
 let res;
 if(!data.rule){
-res=  await axios.post(`/api/service/${params.serviceId}/rules`,values)
+res=  await axios.post(`/api/service/${params.serviceId}/rules`,refinedValues)
 }else{
- res= await axios.patch(`/api/service/${params.serviceId}/rules/${data.rule.id}`,values)
+ res= await axios.patch(`/api/service/${params.serviceId}/rules/${data.rule.id}`,refinedValues)
 }
       
         toast.success(!data.rule ? 'Successfull created' : 'Successfully updated')
