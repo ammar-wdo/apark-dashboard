@@ -61,6 +61,9 @@ const page = async ({ params, searchParams }: Props) => {
     },
     take: ITEMS_PER_PAGE,
     skip: ITEMS_PER_PAGE * (+searchParams.page -1),
+    orderBy:{
+      createdAt:'desc'
+    }
   });
 
   return (

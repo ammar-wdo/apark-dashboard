@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
     body.departureDate = new Date(body.departureDate);
-
+console.log(body)
     const validBody = bookingSchema.safeParse(body);
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });

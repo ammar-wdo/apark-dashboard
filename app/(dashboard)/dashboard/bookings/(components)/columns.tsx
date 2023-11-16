@@ -38,11 +38,31 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
   },
   {
     accessorKey: "service.title",
-    header: "Parking Provider",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+         Parking provider
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "service.parkingType",
-    header: "Parking Type",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Parking type
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
       accessorKey: "firstName",
@@ -61,28 +81,78 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
   },
   {
       accessorKey: "lastName",
-    header: "Last name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Last name
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
 
   },
   {
       accessorKey: "createdAt",
-    header: "Booking date",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+           Booking date
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
     cell:({row})=><div><p>{format(new Date( row.getValue('createdAt')),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format(new Date( row.getValue('createdAt')),"HH:mm")}</p></div>
 
   },
   {
     accessorKey: "arrivalDate",
-    header: "Arrival date",
-    cell:({row})=><div><p>{format(new Date( row.getValue('createdAt')),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format(new Date( row.getValue('createdAt')),"HH:mm")}</p></div>
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Arrival date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell:({row})=><div><p>{format(new Date( row.getValue('arrivalDate')),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format(new Date( row.getValue('arrivalDate')),"HH:mm")}</p></div>
   },
   {
     accessorKey: "departureDate",
-    header: "departure date",
-    cell:({row})=><div><p>{format(new Date( row.getValue('createdAt')),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format(new Date( row.getValue('createdAt')),"HH:mm")}</p></div>
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+         Departure date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell:({row})=><div><p>{format(new Date( row.getValue('departureDate')),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format(new Date( row.getValue('departureDate')),"HH:mm")}</p></div>
   },
   {
     accessorKey: "paymentMethod",
-    header: "Payment method",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+         Payment method
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => (
       <div
         title={row.getValue("paymentMethod")}
@@ -107,7 +177,17 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
   },
   {
     accessorKey: "paymentStatus",
-    header: "Payment status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Payment status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell:({row})=><span className={cn('px-4 py-2 text-xs font-bold rounded-md ',styles[row.getValue!('paymentStatus') as string])}>{row.getValue('paymentStatus')}</span>
   },
  
