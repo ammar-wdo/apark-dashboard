@@ -66,7 +66,7 @@ export const columnsService: ColumnDef<Service>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="">
-            <ActionToolTip title="Edit your service" side="left">
+            <ActionToolTip title="Edit your service" side="right">
               <DropdownMenuItem className="cursor-pointer p-3" asChild>
                 <Link href={`/dashboard/services/${row.getValue("id")}`}>
                   Edit
@@ -74,7 +74,7 @@ export const columnsService: ColumnDef<Service>[] = [
               </DropdownMenuItem>
             </ActionToolTip>
        
-            <ActionToolTip title="Manage your pricing for each day" side="left">
+            <ActionToolTip title="Manage your pricing for each day" side="right">
               <DropdownMenuItem className="cursor-pointer p-3" asChild>
                 <Link
                   href={`/dashboard/services/${row.getValue("id")}/pricing`}
@@ -84,7 +84,7 @@ export const columnsService: ColumnDef<Service>[] = [
               </DropdownMenuItem>
             </ActionToolTip>
        
-            <ActionToolTip title="Manage your disabled date ranges" side="left">
+            <ActionToolTip title="Manage your disabled date ranges" side="right">
               <DropdownMenuItem className="cursor-pointer p-3" asChild>
                 <Link
                   href={`/dashboard/services/${row.getValue(
@@ -99,7 +99,7 @@ export const columnsService: ColumnDef<Service>[] = [
            
               <ActionToolTip
               title="Manage your payment rules for different dates"
-              side="left"
+              side="right"
             >
               <DropdownMenuItem className="cursor-pointer p-3" asChild>
                 <Link href={`/dashboard/services/${row.getValue("id")}/rules`}>
