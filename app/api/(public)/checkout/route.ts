@@ -86,8 +86,8 @@ console.log(body)
       ],
       mode: "payment",
       metadata: { id: booking.id },
-      success_url: "http://localhost:3000/checkout?success=true",
-      cancel_url: "http://localhost:3000/checkout?canceled=true",
+      success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled=true`,
     });
 
     console.log(session.metadata);
