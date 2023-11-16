@@ -4,7 +4,9 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MainSheet from "./main-sheet";
-import { BookmarkCheck, Boxes } from "lucide-react";
+import { BookmarkCheck, Boxes, LayoutDashboard } from "lucide-react";
+import SignoutButton from "./signout-button";
+import { ModeToggle } from "@/components/theme-toggle";
 
 type Props = {};
 
@@ -12,6 +14,14 @@ const MainLinks = (props: Props) => {
   const pathname = usePathname();
 
   const myLinks = [
+    {
+      label:"dashboard",
+      active:pathname==='/dashboard',
+      link:'/dashboard',
+      Icon:<LayoutDashboard className='w-5 h-5 mr-3' /> 
+
+    },
+
     {
       label: "services",
       active: pathname === "/dashboard/services",
@@ -26,19 +36,21 @@ const MainLinks = (props: Props) => {
     },
   ];
   return (
-    <div className="w-full flex flex-col mt-16 p-3 space-y-2">
+    <div className="w-full flex flex-col mt-16 p-1 px-3 gap-1 flex-1 ">
       {myLinks.map((link) => (
         <Link
         key={link.label}
           href={link.link}
           className={cn(
-            "text-lg dark:text-primary-foreground capitalize p-5 duration-200 rounded-md flex items-center",
-            link.active && "bg-primary text-muted",!link.active && 'hover:bg-secondary/60'
+            "link",
+            link.active && "bg-secondary ",!link.active && 'hover:bg-secondary/60'
           )}
         >
          {link.Icon} {link.label}
         </Link>
       ))}
+      <ModeToggle />
+       <SignoutButton />
      
     </div>
   );

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import SignoutButton from './(components)/signout-button'
+import Heading from '@/components/heading'
 
 type Props = {
     
@@ -27,11 +28,8 @@ const company = await prisma.company.findUnique({
 
 
   return (
-    <div><SignoutButton />
-    <div>{JSON.stringify(company)}</div>
-
-
-   <Link className='block w-fit p-4 bg-red-500' href={`/dashboard/services`}>Add service</Link>
+    <div>
+   <Heading title='Dashboard' description='Manage your account'  />
 
     </div>
   )

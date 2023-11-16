@@ -20,12 +20,9 @@ import Link from "next/link"
   const MainSheet = (props: Props) => {
     return (
         <Sheet  >
-        <SheetTrigger  className="lg:hidden ml-auto"><Menu /></SheetTrigger>
-        <SheetContent  side={'left'} className="bg-background p-0">
-          <SheetHeader className="">
-          <Link href={'/'}><h3 className='p-12 text-foreground uppercase text-3xl text-center flex items-center'><LayoutDashboard className='h-6 w-6 mr-3' /> dashboard</h3></Link>
-           
-          </SheetHeader>
+        <SheetTrigger  className="lg:hidden fixed top-4 right-4"><Menu /></SheetTrigger>
+        <SheetContent  side={'left'} className="bg-background p-0 flex flex-col ">
+      
           <MainLinks />
         </SheetContent>
       </Sheet>
