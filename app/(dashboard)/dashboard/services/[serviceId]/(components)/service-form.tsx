@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { MyFacilities, handleFacilityAdd, serviceDefaultValues } from "../service-schema";
+
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -35,122 +35,475 @@ import { useModal } from "@/hooks/use-modal";
 import { useParams } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 
-
 type Props = { service: Service | null };
 
 const ServiceForm = ({ service }: Props) => {
+  // useEffect(()=>{
+  //   const handleEnterPress = (e:KeyboardEvent)=>{
 
+  // if(e.key==='Enter'){
+  //   e.preventDefault()
+  //   handleFacilityAdd(facilityRef,form)
+  // }
+  // }
 
+  // document.addEventListener('keydown',handleEnterPress)
 
-useEffect(()=>{
-  const handleEnterPress = (e:KeyboardEvent)=>{
- 
-if(e.key==='Enter'){
-  e.preventDefault()
-  handleFacilityAdd(facilityRef,form)
-}
-}
+  // return ()=>document.removeEventListener('keydown',handleEnterPress)
 
-document.addEventListener('keydown',handleEnterPress)
+  // },[])
 
-return ()=>document.removeEventListener('keydown',handleEnterPress)
- 
-},[])
+  // const facilityRef = useRef<HTMLInputElement | null>(null);
 
-
-
-  
-
-  const facilityRef = useRef<HTMLInputElement | null>(null);
-
-  
-
- 
-
-//set the logo function
-
+  //set the logo function
 
   const {
-    file,
-    setFile,
-    uploadImage,
-  
     onSubmit,
-    uploadImages,
-  
-    setImagesFile,
-    imagesFile,
-    
-  ImagePlaceholder,ImagesPlaceholder,
-    form
-  } = useService( {service});
+
+    form,
+  } = useService({ service });
 
   const isLoading = form.formState.isSubmitting;
-const {setOpen} = useModal()
-const params = useParams()
-
+  const { setOpen } = useModal();
+  const params = useParams();
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Address</FormLabel>
-                <FormControl>
-                  <Input placeholder="address" {...field} />
-                </FormControl>
+        <div className="space-y-10">
+          <div>
+            <h3>Service details</h3>
+            <div className="grid grid-cols-2 gap-3">
+              <FormField
+                control={form.control}
+                name="airportId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Choose your airport*</FormLabel>
+                    <FormControl>
+                      <Input placeholder="airport" {...field} />
+                    </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="arrivalTodos"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Arrival todos</FormLabel>
-                <FormControl>
-                  <Input placeholder="arrival todos" {...field} />
-                </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="terms"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Link to the Terms*</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://" {...field} />
+                    </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>City</FormLabel>
-                <FormControl>
-                  <Input placeholder="City" {...field} />
-                </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Service name*</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Indoor park" {...field} />
+                    </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="departureTodos"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Departure todos</FormLabel>
-                <FormControl>
-                  <Input placeholder="departure todos" {...field} />
-                </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="bookingsEmail"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Bookings e-mail</FormLabel>
+                    <FormControl>
+                      <Input placeholder="bookings email" {...field} />
+                    </FormControl>
 
-                <FormMessage />
-              </FormItem>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="available"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Current availability</FormLabel>
+                      <FormDescription>
+                        You can enable or desable your availability{" "}
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          <div>
+            <h3>Parking details</h3>
+            <div className="grid grid-cols-2 gap-3">
+              <FormField
+                control={form.control}
+                name="parkingAddress"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address*</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Address" {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="parkingZipcode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Zipcode*</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Zzipcode" {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="parkingPlace"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Place*</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Place" {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="parkingCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Place*</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Place" {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="spots"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Total parking spots available* </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="total spots"
+                        type="number"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="parkingType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Parking type</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a verified email to display" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value={ParkingType.shuttle}>
+                          {ParkingType.shuttle}
+                        </SelectItem>
+                        <SelectItem value={ParkingType.valet}>
+                          {ParkingType.valet}
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="arrivalTodos"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What to do on arrival</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Tell us a little bit about yourself"
+                        className="resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="departureTodos"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What to do on arrival</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Tell us a little bit about yourself"
+                        className="resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+
+          <div>
+            <h3>Bank/invoice information</h3>
+            <div className="grid grid-cols-2 gap-3">
+            <FormField
+                control={form.control}
+                name="contactPerson"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Contact person </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="contact person"
+                      
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+                control={form.control}
+                name="invoiceEmail"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Invoice e-mail </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="contact person"
+                      
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+                control={form.control}
+                name="companyName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Company name*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Name"
+                      
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+                control={form.control}
+                name="vatNO"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>VAT no.</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Name"
+                      
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+                control={form.control}
+                name="invoiceAddress"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Address"
+                      
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+                control={form.control}
+                name="IBAN"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>IBAN</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="IBAN"
+                      
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+                control={form.control}
+                name="invoiceZipcode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Zipcode*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Zipcode"
+                      
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+                control={form.control}
+                name="invoicePlace"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Place*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Place"
+                      
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+                control={form.control}
+                name="invoiceCountry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Country*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Country"
+                      
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <Button disabled={isLoading} type="submit">
+            {isLoading ? (
+              <>
+                {service ? "Saving.." : "  Submitting"}
+
+                <Loader className="ml-3 w-3 h-3 animate-spin" />
+              </>
+            ) : service ? (
+              "Save changes"
+            ) : (
+              "Submit"
             )}
-          />
-          <FormField
+          </Button>
+          {service && (
+            <Button
+              type="button"
+              variant={"destructive"}
+              onClick={() =>
+                setOpen("delete-modal", {
+                  url: `/api/service/${service.id}`,
+                  redirect: "/dashboard/services",
+                })
+              }
+            >
+              Delete
+            </Button>
+          )}
+        </div>
+      </form>
+    </Form>
+  );
+};
+
+export default ServiceForm;
+
+/* <FormField
             control={form.control}
             name="description"
             render={({ field }) => (
@@ -219,20 +572,7 @@ const params = useParams()
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="spots"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Total spots </FormLabel>
-                <FormControl>
-                  <Input placeholder="total spots" type="number" {...field}  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+       
           <FormField
             control={form.control}
             name="logo"
@@ -299,35 +639,7 @@ const params = useParams()
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="parkingType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Parking type</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value={ParkingType.shuttle}>
-                      {ParkingType.shuttle}
-                    </SelectItem>
-                    <SelectItem value={ParkingType.valet}>
-                      {ParkingType.valet}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          
 
           <FormField
             control={form.control}
@@ -379,63 +691,4 @@ const params = useParams()
               </div>
             </FormItem>
           )}
-        />
-           <FormField
-          control={form.control}
-          name="available"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>
-                Current availability
-                </FormLabel>
-                <FormDescription>
-                  You can enable or desable your availability{" "}
-               
-                </FormDescription>
-              </div>
-            </FormItem>
-          )}
-        />
-          <FormField
-            control={form.control}
-            name="zipcode"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Zipcode</FormLabel>
-                <FormControl>
-                  <Input placeholder="Zipcode" {...field} />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex items-center gap-4">
-        <Button disabled={isLoading} type="submit">
-          {isLoading ? (
-            <>
-            {service?'Saving..':'  Submitting'}
-            
-              <Loader className="ml-3 w-3 h-3 animate-spin" />
-            </>
-          ) : (
-            service ?"Save changes":'Submit'
-          )}
-        </Button>
-        {service && <Button type="button" variant={'destructive'} onClick={()=>setOpen('delete-modal',{url:`/api/service/${service.id}`,redirect:'/dashboard/services'})}>Delete</Button>}
-        </div>
-       
-      </form>
-    </Form>
-  );
-};
-
-export default ServiceForm;
+        /> */

@@ -130,35 +130,60 @@ model Payment {
 }
 
 model Service {
-  id                String         @id @default(uuid())
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @updatedAt
-  address           String
-  arrivalTodos      String?
-  city              String
-  departureTodos    String?
-  description       String
+  id String @id @default(uuid())
+
+  name           String
+  parkingAddress String
+  parkingCountry String
+  parkingPlace   String
+  parkingZipcode String
+
+  terms         String
+  bookingsEmail String?
+
+  arrivalTodos   String?
+  departureTodos String?
+
+  generalInformation String?
+  importantInfo      String?
+
   distanceToAirport String?
-  facilities        String[]
-  importantInfo     String?
-  latitude          String
-  logo              String
-  longitude         String
-  parkingType       ParkingType    @default(shuttle)
   timeToAirport     String?
-  title             String
-  zipcode           String
-  companyId         String
-  pricings          Float[]
-  images            String[]
-  isActive          Boolean        @default(false)
-  spots             Int            @default(1)
-  available         Boolean        @default(false)
-  availability      Availability[]
-  bookings          Booking[]
-  rules             Rule[]
-  company           Company        @relation(fields: [companyId], references: [id])
-  airports          Airport[]
+
+  facilities  String[] @default([])
+  hightlights String[] @default([])
+
+  logo   String?
+  images String[] @default([])
+
+  parkingType ParkingType @default(shuttle)
+
+  contactPerson  String?
+  invoiceEmail   String?
+  companyName    String
+  invoiceAddress String
+  invoiceZipcode String
+  invoicePlace   String
+  invoiceCountry String
+
+  vatNO String?
+  IBAN  String?
+
+  pricings Float[]
+
+  isActive     Boolean        @default(false)
+  spots        Int            @default(1)
+  available    Boolean        @default(false)
+  companyId    String
+  airportId    String
+  availability Availability[]
+  bookings     Booking[]
+  rules        Rule[]
+  company      Company        @relation(fields: [companyId], references: [id])
+  airports     Airport       @relation(fields: [airportId],references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Availability {
@@ -186,7 +211,6 @@ enum RuleType {
 enum RuleAction {
   TOTAL
   DAY
-
 }
 
 model Rule {
@@ -195,17 +219,15 @@ model Rule {
   startDate DateTime
   endDate   DateTime
 
-  type RuleType? @default(FIXED)
+  type   RuleType?   @default(FIXED)
   action RuleAction? @default(TOTAL)
 
-  percentage  Int? 
-  value       Int?
-
-
+  percentage Int?
+  value      Int?
 
   serviceId String
   service   Service @relation(fields: [serviceId], references: [id])
 
-    createdAt DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

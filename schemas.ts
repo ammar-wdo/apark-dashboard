@@ -75,25 +75,40 @@ export const availabilitySchema = z
   );
 
 export const serviceSchema = z.object({
-  address: z.string().min(1),
-  arrivalTodos: z.string().optional(),
-  city: z.string(),
-  departureTodos: z.string().optional(),
-  description: z.string().min(1),
-  distanceToAirport: z.string().optional(),
-  facilities: z.array(z.string()).min(1),
-  images: z.array(z.string()).optional(),
-  importantInfo: z.string().optional(),
-  latitude: z.string().min(1),
-  logo: z.string().min(1),
-  longitude: z.string().min(1),
-  parkingType: z.enum(["shuttle", "valet"]),
-  timeToAirport: z.string().optional(),
-  title: z.string().min(1),
-  zipcode: z.string().min(1),
-  spots: z.coerce.number().gte(1, "Must  above 0"),
-  isActive: z.boolean(),
-  available: z.boolean(),
+  name:z.string().min(1),
+ terms:z.string().min(1),
+ bookingsEmail:z.string().email().optional(),
+ parkingAddress:z.string().min(1),
+ parkingZipcode:z.string().min(1),
+ parkingCountry:z.string().min(1),
+ parkingPlace:z.string().min(1),
+ spots:z.coerce.number().positive().default(1),
+ parkingType:z.enum(['shuttle','valet']).default('valet'),
+ arrivalTodos:z.string().optional(),
+ departureTodos:z.string().optional(),
+ contactPerson:z.string().optional(),
+ invoiceEmail:z.string().email().optional(),
+ companyName:z.string().min(1),
+ invoiceAddress:z.string().min(1),
+ invoiceZipcode:z.string().min(1),
+ invoicePlace:z.string().min(1),
+ invoiceCountry:z.string().min(1),
+ vatNO:z.string().optional(),
+ IBAN:z.string().optional(),
+ available:z.boolean().default(false),
+ airportId:z.string().min(1)
+
+
+
+
+
+
+
+
+
+
+
+
 });
 
 export const rulesSchema = z
