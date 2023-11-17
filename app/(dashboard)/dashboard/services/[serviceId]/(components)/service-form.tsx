@@ -35,9 +35,9 @@ import { useModal } from "@/hooks/use-modal";
 import { useParams } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 
-type Props = { service: Service | null };
+type Props = { service: Service | null ,airports:{id:string,name:string}[]};
 
-const ServiceForm = ({ service }: Props) => {
+const ServiceForm = ({ service,airports }: Props) => {
   // useEffect(()=>{
   //   const handleEnterPress = (e:KeyboardEvent)=>{
 
@@ -69,8 +69,8 @@ const ServiceForm = ({ service }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className=" p-4 max-w-[1200px] mx-auto">
-        <div className="space-y-12 pt-20">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="  max-w-[1200px] ">
+        <div className="space-y-12 pt-8">
           <div className="p-8 border rounded-lg">
             <h3 className="font-bold mb-8 text-xl">Service details</h3>
             <div className="grid grid-cols-2 gap-3 ">
@@ -80,9 +80,18 @@ const ServiceForm = ({ service }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Choose your airport*</FormLabel>
-                    <FormControl>
-                      <Input placeholder="airport" {...field} />
-                    </FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an airport" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {airports.map((airport)=>   <SelectItem key={airport.id} value={airport.id} className="cursor-pointer">{airport.name}</SelectItem>)}
+               
+                 
+                </SelectContent>
+              </Select>
 
                     <FormMessage />
                   </FormItem>
@@ -177,7 +186,7 @@ const ServiceForm = ({ service }: Props) => {
                   <FormItem>
                     <FormLabel>Zipcode*</FormLabel>
                     <FormControl>
-                      <Input placeholder="Zzipcode" {...field} />
+                      <Input placeholder="Zipcode" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -203,9 +212,9 @@ const ServiceForm = ({ service }: Props) => {
                 name="parkingCountry"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Place*</FormLabel>
+                    <FormLabel>Country*</FormLabel>
                     <FormControl>
-                      <Input placeholder="Place" {...field} />
+                      <Input placeholder="Country" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -379,7 +388,7 @@ const ServiceForm = ({ service }: Props) => {
                 name="invoiceAddress"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>Address*</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Address"

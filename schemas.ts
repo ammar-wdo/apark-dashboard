@@ -74,10 +74,13 @@ export const availabilitySchema = z
     { message: "Invalid blocking range", path: ["startDate"] }
   );
 
+
+  const emailSchema = z.string().email()
 export const serviceSchema = z.object({
   name:z.string().min(1),
  terms:z.string().min(1),
- bookingsEmail:z.string().email().optional(),
+ bookingsEmail:z.union([z.string(), z.undefined()])
+ .refine((val) => !val || emailSchema.safeParse(val).success),
  parkingAddress:z.string().min(1),
  parkingZipcode:z.string().min(1),
  parkingCountry:z.string().min(1),
@@ -87,7 +90,8 @@ export const serviceSchema = z.object({
  arrivalTodos:z.string().optional(),
  departureTodos:z.string().optional(),
  contactPerson:z.string().optional(),
- invoiceEmail:z.string().email().optional(),
+ invoiceEmail:z.union([z.string(), z.undefined()])
+ .refine((val) => !val || emailSchema.safeParse(val).success),
  companyName:z.string().min(1),
  invoiceAddress:z.string().min(1),
  invoiceZipcode:z.string().min(1),

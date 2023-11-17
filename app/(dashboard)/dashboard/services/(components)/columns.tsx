@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Service } from "@prisma/client";
+import { Airport, Service } from "@prisma/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,8 +19,23 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ToolTip from "@/components/tool-tip";
 import ActionToolTip from "@/components/tool-tip";
+type FullService = Service &{airport:Airport}
 
-export const columnsService: ColumnDef<Service>[] = [
+export const columnsService: ColumnDef<FullService>[] = [
+  {
+    accessorKey: "airport.name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Airport
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
   {
     accessorKey: "name",
     header: ({ column }) => {

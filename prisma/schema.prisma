@@ -11,6 +11,7 @@ model Airport {
   id        String    @id @default(uuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime
+  name      String
   Company   Company[]
   Service   Service[]
 }
@@ -180,7 +181,7 @@ model Service {
   bookings     Booking[]
   rules        Rule[]
   company      Company        @relation(fields: [companyId], references: [id])
-  airports     Airport       @relation(fields: [airportId],references: [id])
+  airport     Airport       @relation(fields: [airportId],references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

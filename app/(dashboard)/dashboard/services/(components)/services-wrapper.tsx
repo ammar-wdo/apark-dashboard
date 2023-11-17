@@ -22,6 +22,9 @@ const ServicesWrapper = async(props: Props) => {
         
           orderBy:{
             createdAt:'desc'
+          },
+          include:{
+            airport:true
           }
         },
         
