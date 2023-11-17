@@ -12,7 +12,7 @@ import { useState } from 'react'
 
 
 type Props = {
-    services:{id:string,title:string}[],
+    services:{id:string,name:string}[],
     searchParams:string
 }
 
@@ -37,11 +37,11 @@ const router = useRouter()
   return (
     <Select onValueChange={e=>{handleClick(e)}}>
     <SelectTrigger className="w-[180px]">
-      <SelectValue placeholder={services.find((service=>service.id === searchParams))?.title ?? "All"} />
+      <SelectValue placeholder={services.find((service=>service.id === searchParams))?.name ?? "All"} />
     </SelectTrigger>
     <SelectContent>
     <SelectItem  className='cursor-pointer'  value="all"><button>All</button></SelectItem>
-        {services.map(service=> <SelectItem key={service.id} className='cursor-pointer'  value={service.id}>{service.title}</SelectItem>)}
+        {services.map(service=> <SelectItem key={service.id} className='cursor-pointer'  value={service.id}>{service.name}</SelectItem>)}
      
    
     </SelectContent>

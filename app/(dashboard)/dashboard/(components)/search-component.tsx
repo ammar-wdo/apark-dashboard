@@ -22,7 +22,7 @@ const SearchComponent = async({service,searchParams}: Props) => {
             },
             select:{
                 id:true,
-                title:true
+                name:true
             }
         })
     

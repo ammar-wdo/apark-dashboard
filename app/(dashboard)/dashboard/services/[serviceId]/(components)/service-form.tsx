@@ -69,11 +69,11 @@ const ServiceForm = ({ service }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-4">
-        <div className="space-y-10">
-          <div>
-            <h3>Service details</h3>
-            <div className="grid grid-cols-2 gap-3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className=" p-4 max-w-[1200px] mx-auto">
+        <div className="space-y-12 pt-20">
+          <div className="p-8 border rounded-lg">
+            <h3 className="font-bold mb-8 text-xl">Service details</h3>
+            <div className="grid grid-cols-2 gap-3 ">
               <FormField
                 control={form.control}
                 name="airportId"
@@ -134,7 +134,7 @@ const ServiceForm = ({ service }: Props) => {
                 control={form.control}
                 name="available"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 ">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
@@ -153,8 +153,8 @@ const ServiceForm = ({ service }: Props) => {
             </div>
           </div>
 
-          <div>
-            <h3>Parking details</h3>
+          <div className="p-8 border rounded-lg">
+            <h3 className="font-bold mb-8 text-xl">Parking details</h3>
             <div className="grid grid-cols-2 gap-3">
               <FormField
                 control={form.control}
@@ -299,8 +299,8 @@ const ServiceForm = ({ service }: Props) => {
           </div>
 
 
-          <div>
-            <h3>Bank/invoice information</h3>
+          <div className="border rounded-lg p-8">
+            <h3 className="font-bold mb-8 text-xl">Bank/invoice information</h3>
             <div className="grid grid-cols-2 gap-3">
             <FormField
                 control={form.control}
@@ -467,7 +467,7 @@ const ServiceForm = ({ service }: Props) => {
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mt-8">
           <Button disabled={isLoading} type="submit">
             {isLoading ? (
               <>
