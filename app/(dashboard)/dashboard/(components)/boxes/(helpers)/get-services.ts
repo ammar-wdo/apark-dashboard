@@ -6,7 +6,8 @@ export const getServices = async(searchParams:string,companyId:string)=>{
 if(searchParams==="all"){
 const    services =await prisma.service.findMany({
         where:{
-            companyId:companyId as string
+            companyId:companyId as string,
+            isActive:true,
         },
         include:{
             bookings:{where:{
@@ -20,7 +21,8 @@ const    services =await prisma.service.findMany({
   const  services =await prisma.service.findUnique({
         where:{
             companyId:companyId,
-            id:searchParams
+            id:searchParams,
+            isActive:true
         },
         include:{
             bookings:{
@@ -30,6 +32,7 @@ const    services =await prisma.service.findMany({
             }
         }
     })
+    
 return {services,bookings:services?.bookings.length}
     
 }

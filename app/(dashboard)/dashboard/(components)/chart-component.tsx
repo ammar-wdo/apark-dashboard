@@ -17,6 +17,8 @@ const ChartComponent = async ({ searchParams }: Props) => {
 
   return (
     <div className="h-full ">
+      
+      
       <DailyChart data={chartDate} />
     </div>
   );

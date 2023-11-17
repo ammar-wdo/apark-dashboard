@@ -16,10 +16,13 @@ const ServicesWrapper = async(props: Props) => {
     const company = await prisma.company.findUnique({
       where: {
         email: session?.user?.email as string,
+        
       },
       include: {
         services: {
-        
+        where:{
+isActive:true
+        },
           orderBy:{
             createdAt:'desc'
           },

@@ -18,6 +18,7 @@ const SearchComponent = async({service,searchParams}: Props) => {
         const services = await prisma.service.findMany({
             where:{
                 companyId:company?.id as string,
+                isActive:true
                 
             },
             select:{
@@ -31,6 +32,7 @@ const SearchComponent = async({service,searchParams}: Props) => {
   return (
     <div>
     <h3 className='pb-1 text-sm text-neutral-500'>Choose a service</h3>
+    
    <SearchDropdown searchParams={searchParams} services={services} />
    </div>
   )
