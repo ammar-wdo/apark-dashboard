@@ -2,7 +2,7 @@
 import { redirect } from 'next/navigation'
 import React from 'react'
 import MainAside from './(components)/main-aside'
-import MainNav from './(components)/main-nav'
+
 import MainSheet from './(components)/main-sheet'
 
 type Props = {
