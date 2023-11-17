@@ -29,10 +29,8 @@ const ServiceCard = async({serviceId,companyId}: Props) => {
             <Image fill src={service?.logo as string} alt='logo' className='object-cover group-hover:scale-110 group-hover:rotate-3 duration-300' />
         </div>
         <div className='p-2 space-y-1'>
-        <p className='font-semibold text-2xl uppercase'>{service?.title}</p>
-        <p className='text-muted-foreground text-sm line-clamp-1'> {service?.description}</p>
+        <p className='font-semibold text-2xl uppercase'>{service?.name}</p>
        
-        <p className='text-muted-foreground text-sm line-clamp-1'> {service?.city}</p>
         <p className='text-muted-foreground text-sm line-clamp-1'> {service?.available}</p>
         <p className='text-muted-foreground text-sm line-clamp-1 flex items-center gap-x-1'>Active: {service?.isActive ? 'True' : 'False'}</p>
         <p className='text-muted-foreground text-sm line-clamp-1  flex items-center flex-wrap gap-x-1 '> {service?.facilities.map((facility=><span key={facility} className='capitalize text-xs p-1 border rounded-md'>{facility}</span>))}</p>
