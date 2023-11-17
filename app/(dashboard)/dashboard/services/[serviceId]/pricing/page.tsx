@@ -19,7 +19,7 @@ const page = async({params}: Props) => {
     console.log(service?.pricings.length)
   return (
     <div className=''>
-      <Heading title='Pricing table' description={`Check Pricing for ${service?.title} `} />
+      <Heading title='Pricing table' description={`Check Pricing for ${service?.name} `} />
       <PricingForm pricings={service?.pricings! } />
     </div>
   )
