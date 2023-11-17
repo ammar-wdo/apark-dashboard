@@ -93,7 +93,7 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
               <TableCell className="flex items-center justify-between">
                 <p className="font-semibold">Provider</p>
                 <p className="capitalize text-muted-foreground">
-                   {booking?.service.title}
+                   {booking?.service.name}
                 </p>
               </TableCell>
             </TableRow>
