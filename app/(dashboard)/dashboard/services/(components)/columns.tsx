@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ToolTip from "@/components/tool-tip";
 import ActionToolTip from "@/components/tool-tip";
+import { Badge } from "@/components/ui/badge";
 type FullService = Service &{airport:Airport}
 
 export const columnsService: ColumnDef<FullService>[] = [
@@ -49,6 +50,50 @@ export const columnsService: ColumnDef<FullService>[] = [
         </Button>
       );
     },
+  },
+  {
+    accessorKey: "parkingType",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Parking type
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "isActive",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) =>
+      !row.getValue("isActive") ? (
+        <Badge
+          className="bg-yellow-500/20 text-yellow-500 border-none"
+          variant="outline"
+        >
+          Pending
+        </Badge>
+      ) : (
+        <Badge
+          variant="outline"
+          className="bg-green-500/20 text-green-500 border-none"
+        >
+          Active
+        </Badge>
+      ),
   },
 
   {

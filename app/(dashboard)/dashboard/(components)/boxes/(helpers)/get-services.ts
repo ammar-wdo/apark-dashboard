@@ -7,7 +7,7 @@ if(searchParams==="all"){
 const    services =await prisma.service.findMany({
         where:{
             companyId:companyId as string,
-            isActive:true,
+          
         },
         include:{
             bookings:{where:{
@@ -22,7 +22,7 @@ const    services =await prisma.service.findMany({
         where:{
             companyId:companyId,
             id:searchParams,
-            isActive:true
+       
         },
         include:{
             bookings:{

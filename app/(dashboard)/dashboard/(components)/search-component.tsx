@@ -18,7 +18,7 @@ const SearchComponent = async({service,searchParams}: Props) => {
         const services = await prisma.service.findMany({
             where:{
                 companyId:company?.id as string,
-                isActive:true
+             
                 
             },
             select:{

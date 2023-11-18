@@ -21,7 +21,7 @@ const ServicesWrapper = async(props: Props) => {
       include: {
         services: {
         where:{
-isActive:true
+
         },
           orderBy:{
             createdAt:'desc'
