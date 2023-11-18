@@ -24,13 +24,13 @@ const DailyChart = ({data}: Props) => {
         bottom: 5,
       }}
     >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis  dataKey="total"/>
+     
+      <XAxis dataKey="name"   />
+      <YAxis  dataKey="total"  />
       <Tooltip />
-      <Legend />
+      
    
-      <Bar dataKey="total" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+      <Bar dataKey="total" fill="orange"  activeBar={<Rectangle fill="gold" stroke="purple" />} />
     </BarChart>
   </ResponsiveContainer>
   )

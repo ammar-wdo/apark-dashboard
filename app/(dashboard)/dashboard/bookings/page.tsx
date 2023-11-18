@@ -32,7 +32,7 @@ const page = async ({ params, searchParams }: Props) => {
 
   return (
     <div className=" ">
-      <Heading title="Bookings" description="Check your ookings" />
+      <Heading title="Bookings" description="Check your bookings" />
       <Suspense   key={+searchParams.page}  fallback={<Skeleton className="w-full h-[700px] rounded-lg" />} >
       <TableWrapper  page={searchParams.page} />
       </Suspense>
