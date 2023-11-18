@@ -152,7 +152,7 @@ model Service {
   timeToAirport     String?
 
   facilities  String[] @default([])
-  hightlights String[] @default([])
+  highlights String[] @default([])
 
   logo   String?
   images String[] @default([])
