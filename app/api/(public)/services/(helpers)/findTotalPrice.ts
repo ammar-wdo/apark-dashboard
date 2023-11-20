@@ -17,7 +17,7 @@ export const findTotalPrice = (
       .slice(0, parkingDays)
       .reduce((total, value) => total + value, 0);
 
-    return totalPrice;
+    return +totalPrice.toFixed(0);
   }
 
   const { type, action, value:theValue, percentage } = rule;
@@ -28,13 +28,13 @@ export const findTotalPrice = (
         .slice(0, parkingDays)
         .reduce((total, value) => total + value, 0) + theValue!;
 
-        return totalPrice < 0 ? 0 :totalPrice
+        return totalPrice < 0 ? 0 : +totalPrice.toFixed(0)
     } else {
         totalPrice = service.pricings
         .slice(0, parkingDays)
         .reduce((total, value) => total + value, 0)
 
-        return totalPrice < 0 ? 0 : totalPrice + totalPrice*percentage!/100
+        return totalPrice < 0 ? 0 : +totalPrice.toFixed(0) + +totalPrice.toFixed(0)*percentage!/100
     }
 
   
@@ -44,12 +44,12 @@ export const findTotalPrice = (
         totalPrice = service.pricings
         .slice(0, parkingDays)
         .reduce((total, value) => total + value + theValue!, 0)
-        return totalPrice < 0 ? 0 :totalPrice
+        return totalPrice < 0 ? 0 :+totalPrice.toFixed(0)
     }else{
         totalPrice = service.pricings
         .slice(0, parkingDays)
         .reduce((total, value) => total + value + value*percentage!/100, 0)
-        return totalPrice < 0 ? 0 :totalPrice
+        return totalPrice < 0 ? 0 :+totalPrice.toFixed(0)
     }
 
     

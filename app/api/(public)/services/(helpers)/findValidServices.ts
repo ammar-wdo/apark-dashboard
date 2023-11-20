@@ -41,7 +41,7 @@ export const findValidServices = (
       const availabelPlaces = service.spots - busyPlaces.length;
 
       if (availabelPlaces > 0) {
-        const totalPrice = findTotalPrice(service, parkingDays,startDate,endDate);
+        const totalPrice = +findTotalPrice(service, parkingDays,startDate,endDate).toFixed(0);
         accumolator.push({
           ...service,
           totalPrice,
