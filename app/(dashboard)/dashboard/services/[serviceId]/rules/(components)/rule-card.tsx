@@ -47,7 +47,7 @@ const RuleCard = ({ rule}: Props) => {
           })
         }
         type="button"
-        className="p-1 bg-orange-500 text-white flex  items-center justify-center rounded-sm transition hover:bg-orange-500/90"
+        className="p-1 bg-primary text-white flex  items-center justify-center rounded-sm transition hover:bg-primary/90"
       >
         <Edit className="w-3 h-3" />
       </button></div></TableCell>

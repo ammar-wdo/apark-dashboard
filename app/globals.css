@@ -63,5 +63,5 @@
 
 
 .link {
-  @apply dark:text-primary-foreground capitalize p-5 py-3 font-semibold text-sm  duration-200 rounded-md flex items-center   hover:bg-secondary/60 
+  @apply  capitalize p-5 py-3 font-semibold text-sm  duration-200 rounded-md flex items-center   hover:bg-secondary/60 
 }
