@@ -33,7 +33,7 @@ export async function POST(req: Request) {
   if (event.type === "checkout.session.completed") {
     try {
 
-      await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
+      // await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
         const order = await prisma.booking.update({
             where: {
               id: session?.metadata?.id,

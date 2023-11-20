@@ -79,7 +79,7 @@ console.log(body)
               name: "service",
               description: `Booking for ${daysofparking} day(s) parking `,
             },
-            unit_amount: total * 100,
+            unit_amount: +total.toFixed(0) * 100,
           },
           quantity: 1,
         },
