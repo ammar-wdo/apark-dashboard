@@ -30,7 +30,7 @@ const DailyChart = ({data}: Props) => {
       <Tooltip />
       
    
-      <Bar dataKey="total" fill="orange"  activeBar={<Rectangle fill="gold" stroke="purple" />} />
+      <Bar dataKey="total" fill="blue"  activeBar={<Rectangle fill="gold" stroke="purple" />} />
     </BarChart>
   </ResponsiveContainer>
   )
