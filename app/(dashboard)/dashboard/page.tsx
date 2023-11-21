@@ -25,16 +25,29 @@ const page = async ({ searchParams }: Props) => {
   }
 
   const session = await getServerSession(authOptions);
-  console.log(session)
+  const isCompany = session?.user?.name === "Company"
+
+  if(isCompany && !searchParams.entity){
+    searchParams.entity === "all"
+  }
+
+  if(!isCompany && searchParams.entity) return redirect('/dashboard')
+
+
+
 
   return (
     <div>
       <div className="flex items-center justify-between">
         <Heading title="Dashboard" description="Manage your account" />
-        <SearchComponent
+        <div> 
+          <SearchComponent
           searchParams={searchParams.service as string}
-          service={searchParams.service as string}
+         
         />
+
+        </div>
+       
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2">
         <Suspense

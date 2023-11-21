@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
-import ServiceCard from "./(components)/service-card";
+
 import { Skeleton } from "@/components/ui/skeleton"
 import ServiceCardSceleton from "./(components)/service-card-skeleton";
 import { Button } from "@/components/ui/button";
