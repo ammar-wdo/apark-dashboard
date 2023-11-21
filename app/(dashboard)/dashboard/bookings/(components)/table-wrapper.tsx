@@ -4,6 +4,8 @@ import { getServerSession } from 'next-auth';
 import React, { Suspense } from 'react'
 import { DataTable } from './data-table';
 import { columns } from './columns';
+import { getCurrentCompany } from '@/lib/helpers';
+import { getBookingsAndCount } from '../(helpers)/get-bookings-count';
 
 type Props = {
     page:string | string[] | undefined
@@ -12,22 +14,14 @@ type Props = {
 const TableWrapper =async ({page}: Props) => {
     const session = await getServerSession(authOptions);
 
-    const company = await prisma.company.findUnique({
-      where: {
-        email: session?.user?.email as string,
-      },
-    });
+    const company = await getCurrentCompany()
     
 
     if (!company) throw Error("Unauthenticated");
     const ITEMS_PER_PAGE = 6;
-    const bookingsCount = await prisma.booking.count({
-      where:{
-          service:{
-              companyId:company.id
-          }
-      }
-    });
+
+   
+    const {bookings,bookingsCount} = await getBookingsAndCount(ITEMS_PER_PAGE,page)
     const totalPages = Math.ceil(bookingsCount / ITEMS_PER_PAGE);
     const isLastPage = +page! >= totalPages ;
   
@@ -35,22 +29,7 @@ const TableWrapper =async ({page}: Props) => {
   
   
   
-  
-    const bookings = await prisma.booking.findMany({
-      where: {
-        service: {
-          companyId: company.id,
-        },
-      },
-      include: {
-        service: true,
-      },
-      take: ITEMS_PER_PAGE,
-      skip: ITEMS_PER_PAGE * (+page! -1),
-      orderBy:{
-        createdAt:'desc'
-      }
-    });
+ 
   return (
     <div>
      
