@@ -20,6 +20,7 @@ type Props = {
 const page = async ({ searchParams }: Props) => {
 
  const entityId = searchParams.entityId
+ console.log(entityId)
 
   return (
     <div >

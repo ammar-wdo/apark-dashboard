@@ -21,15 +21,8 @@ const ServicesWrapper = async({entityId}: Props) => {
     const session = await getServerSession(authOptions)
     if(session?.user?.name === "Entity"){
 
-      if(entityId){
-services = await prisma.service.findMany({
-  where:{
-    entityId:entityId as string
-  },include:{
-    airport:true
-  }
-})
-      }else{
+    
+     
 
         services = await prisma.service.findMany({
           where: {
@@ -41,28 +34,40 @@ services = await prisma.service.findMany({
             
           },
         });
-      }
+      
 
 
      
     }else{
-      services = await prisma.service.findMany({
-        where:{
-          entity:{
-            companyId:currentCompany?.id
+      if(entityId){
+        services = await prisma.service.findMany({
+          where:{
+            entityId:entityId as string
+          },
+          include:{
+            airport:true
           }
-        },
-        include:{
-          airport:true
-        }
-      })
+        })
+      }else{
+        services = await prisma.service.findMany({
+          where:{
+            entity:{
+              companyId:currentCompany?.id
+            }
+          },
+          include:{
+            airport:true
+          }
+        })
+      }
+     
     }
 
 
 
     
   
-    if (!services) return redirect("/");
+    
   return (
     <div className="">
     <DataTable
