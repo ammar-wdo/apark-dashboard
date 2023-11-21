@@ -79,6 +79,7 @@ const page = async ({ searchParams }: Props) => {
             <ChartComponent
               key={searchParams.service + "" + searchParams.entity + "chart"}
               searchParams={searchParams.service as string}
+              entity={searchParams.entity as string | undefined}
             />
           </Suspense>
         </div>
