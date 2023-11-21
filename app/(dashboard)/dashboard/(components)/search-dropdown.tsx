@@ -8,7 +8,8 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import qs from 'query-string'
 
 
 type Props = {
@@ -22,16 +23,33 @@ const SearchDropdown = ({services,searchParams}: Props) => {
 
 
 const router = useRouter()
+const params = useSearchParams()
 
 
 
 
 
+const handleClick = useCallback((e:string) => {
+  let currentQuery = {};
+  
+  if (params) {
+    currentQuery = qs.parse(params.toString())
+  }
 
- const handleClick=(id:string)=>{
+  const updatedQuery: any = {
+    ...currentQuery,
+    service: e
+  }
 
-    router.push(`/dashboard?service=${id}`)
-}
+  
+
+  const url = qs.stringifyUrl({
+    url: '/dashboard',
+    query: updatedQuery
+  }, { skipNull: true });
+
+  router.push(url);
+}, [ router, params]);
 
 
   return (

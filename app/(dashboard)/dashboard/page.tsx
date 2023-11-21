@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import BookingBox from "./(components)/boxes/booking-box";
 import CancelBox from "./(components)/boxes/cancel-box";
 import ChartComponent from "./(components)/chart-component";
+import SearchEntity from "./(components)/search-entity-component";
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -28,7 +29,7 @@ const page = async ({ searchParams }: Props) => {
   const isCompany = session?.user?.name === "Company"
 
   if(isCompany && !searchParams.entity){
-    searchParams.entity === "all"
+    searchParams.entity = "all"
   }
 
   if(!isCompany && searchParams.entity) return redirect('/dashboard')
@@ -40,11 +41,14 @@ const page = async ({ searchParams }: Props) => {
     <div>
       <div className="flex items-center justify-between">
         <Heading title="Dashboard" description="Manage your account" />
-        <div> 
+        <div className="flex items-center gap-3"> 
           <SearchComponent
+          entityId={searchParams.entity}
           searchParams={searchParams.service as string}
          
         />
+
+        {isCompany && <SearchEntity searchParams={searchParams.entity as string} />}
 
         </div>
        

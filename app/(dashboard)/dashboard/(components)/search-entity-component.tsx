@@ -4,14 +4,15 @@ import { getCurrentCompany } from '@/lib/helpers'
 import React from 'react'
 import SearchDropdown from './search-dropdown'
 import { getServerSession } from 'next-auth'
+import SearchEntityDropdown from './search-entity-drop-down'
 
 type Props = {
     
     searchParams:string
 }
 
-const SearchComponent = async({searchParams}: Props) => {
-    let services
+const SearchEntity = async({searchParams}: Props) => {
+    let entities
 
     const session = await getServerSession(authOptions)
 
@@ -20,36 +21,27 @@ const SearchComponent = async({searchParams}: Props) => {
     const company = await getCurrentCompany()
 
 
-    if(session?.user?.name === "Entity")
-       {  services = await prisma.service.findMany({
+  entities = await prisma.entity.findMany({
             where:{
-                entityId:company?.id as string,
+                companyId:company?.id as string,
              
                 
             },
             select:{
                 id:true,
-                name:true
+                entityName:true
             }
-        })}else{
-            services = await prisma.service.findMany({
-                where:{
-                    entity:{
-                        companyId:company?.id 
-                    }
-                }
-            })
-        }
+        })
     
 
 
   return (
     <div>
-    <h3 className='pb-1 text-sm text-neutral-500'>Choose a service</h3>
+    <h3 className='pb-1 text-sm text-neutral-500'>Choose an entity</h3>
     
-   <SearchDropdown searchParams={searchParams} services={services} />
+   <SearchEntityDropdown entities={entities}  searchParams={searchParams}/>
    </div>
   )
 }
 
-export default SearchComponent
+export default SearchEntity

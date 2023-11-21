@@ -8,9 +8,10 @@ import { getServerSession } from 'next-auth'
 type Props = {
     
     searchParams:string
+    entityId:string | string[] | undefined
 }
 
-const SearchComponent = async({searchParams}: Props) => {
+const SearchComponent = async({searchParams,entityId}: Props) => {
     let services
 
     const session = await getServerSession(authOptions)
@@ -19,9 +20,26 @@ const SearchComponent = async({searchParams}: Props) => {
 
     const company = await getCurrentCompany()
 
+    if(entityId){
+if(entityId==="all"){
+    services = await prisma.service.findMany({
+        where:{
+            entity:{companyId:company?.id}
+        }, select:{
+            id:true,
+            name:true
+        }
+    })
+}else{
+    services = await prisma.service.findMany({
+        where:{
+            entityId:entityId as string
+        }
+    })
+}
+    }else{
 
-    if(session?.user?.name === "Entity")
-       {  services = await prisma.service.findMany({
+        services = await prisma.service.findMany({
             where:{
                 entityId:company?.id as string,
              
@@ -31,15 +49,10 @@ const SearchComponent = async({searchParams}: Props) => {
                 id:true,
                 name:true
             }
-        })}else{
-            services = await prisma.service.findMany({
-                where:{
-                    entity:{
-                        companyId:company?.id 
-                    }
-                }
-            })
-        }
+        })
+    }
+
+  
     
 
 
