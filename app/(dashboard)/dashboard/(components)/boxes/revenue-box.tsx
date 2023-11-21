@@ -7,14 +7,15 @@ import { DollarSign } from 'lucide-react'
 import Box from './box'
 
 type Props = {
-    searchParams:string
+    searchParams:string,
+    entity:string | undefined
 }
 
-const RevenueBox = async({searchParams}: Props) => {
+const RevenueBox = async({searchParams,entity}: Props) => {
 
     const company = await  getCurrentCompany()
 
-    const {services} = await getServices(searchParams,company?.id as string)
+    const {services} = await getServices(searchParams,company?.id as string,entity )
     
 
     const {totalRevenue,monthlyRevenue} = getTotal(services!)

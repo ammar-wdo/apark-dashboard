@@ -58,13 +58,13 @@ const page = async ({ searchParams }: Props) => {
           key={(searchParams.service + "revenue") as string}
           fallback={<Skeleton className="h-[175px] rounded-xl" />}
         >
-          <RevenueBox searchParams={searchParams.service as string} />
+          <RevenueBox searchParams={searchParams.service as string} entity={searchParams.entity as string | undefined}/>
         </Suspense>
         <Suspense
-          key={(searchParams.service + "booking") as string}
+          key={(searchParams.service + "" + searchParams.entity + "booking") as string}
           fallback={<Skeleton className="h-[175px] rounded-xl" />}
         >
-          <BookingBox searchParams={searchParams.service as string} />
+          <BookingBox searchParams={searchParams.service as string} entity={searchParams.entity as string | undefined}/>
         </Suspense>
         <Suspense fallback={<Skeleton className="h-[175px] rounded-xl" />}>
           <CancelBox searchParams={searchParams.service as string} />
@@ -73,11 +73,11 @@ const page = async ({ searchParams }: Props) => {
       <div className="grid grid-cols-1 lg:grid-cols-3">
         <div className=" h-[500px] mt-12 p-4 border rounded-xl overflow-x-auto lg:col-span-2">
           <Suspense
-            key={(searchParams.service + "chart") as string}
+            key={(searchParams.service + "" + searchParams.entity + "chart") as string}
             fallback={<Skeleton className="h-[500px] rounded-xl" />}
           >
             <ChartComponent
-              key={searchParams.service + "chart"}
+              key={searchParams.service + "" + searchParams.entity + "chart"}
               searchParams={searchParams.service as string}
             />
           </Suspense>

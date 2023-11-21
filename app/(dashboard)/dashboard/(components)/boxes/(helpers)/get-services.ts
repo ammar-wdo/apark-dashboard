@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 export const getServices = async (
   searchParams: string,
   companyId: string,
-  entityId?: string
+  entityId?: string | undefined
 ) => {
   const session = await getServerSession(authOptions);
   const currentCompany = await getCurrentCompany();

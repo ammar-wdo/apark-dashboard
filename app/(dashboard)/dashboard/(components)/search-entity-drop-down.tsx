@@ -38,7 +38,8 @@ const params = useSearchParams()
 
     const updatedQuery: any = {
       ...currentQuery,
-      entity: e
+      entity: e,
+      service:"all"
     }
 
     
@@ -49,6 +50,7 @@ const params = useSearchParams()
     }, { skipNull: true });
 
     router.push(url);
+  
   }, [ router, params]);
 
 

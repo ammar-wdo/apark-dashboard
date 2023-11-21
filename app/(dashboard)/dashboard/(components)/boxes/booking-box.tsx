@@ -7,14 +7,15 @@ import { BookmarkCheck } from 'lucide-react'
 import Box from './box'
 
 type Props = {
-    searchParams:string
+    searchParams:string,
+    entity:string | undefined
 }
 
-const BookingBox = async({searchParams}: Props) => {
+const BookingBox = async({searchParams,entity}: Props) => {
 
     const company = await  getCurrentCompany()
 
-    const {bookings} = await getServices(searchParams,company?.id as string)
+    const {bookings} = await getServices(searchParams,company?.id as string,entity)
 
   
     
