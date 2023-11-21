@@ -14,12 +14,12 @@ import { DataTable } from "./(components)/data-table";
 import ServicesWrapper from "./(components)/services-wrapper";
 
 type Props = {
-  params: {  };
+  searchParams: {[key:string]:string | string[] | undefined };
 };
 
-const page = async ({  }: Props) => {
+const page = async ({ searchParams }: Props) => {
 
- 
+ const entityId = searchParams.entityId
 
   return (
     <div >
@@ -30,7 +30,7 @@ const page = async ({  }: Props) => {
 
      
       <Suspense fallback={<Skeleton className="w-full h-[700px] rounded-lg" />}>
-      <ServicesWrapper />
+      <ServicesWrapper  entityId={entityId}/>
       </Suspense>
 
      

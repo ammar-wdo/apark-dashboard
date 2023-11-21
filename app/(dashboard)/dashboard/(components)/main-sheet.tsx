@@ -14,6 +14,7 @@ import { LayoutDashboard, Menu } from "lucide-react"
   import React from 'react'
 import MainLinks from "./main-links"
 import Link from "next/link"
+import MainlinksWrapper from "./mainlinks-wrapper"
   
   type Props = {}
   
@@ -23,7 +24,7 @@ import Link from "next/link"
         <SheetTrigger  className="lg:hidden fixed top-4 right-4"><Menu /></SheetTrigger>
         <SheetContent  side={'left'} className="bg-background p-0 flex flex-col ">
       
-          <MainLinks />
+          <MainlinksWrapper />
         </SheetContent>
       </Sheet>
     )

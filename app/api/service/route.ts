@@ -1,8 +1,10 @@
 import prisma from "@/lib/db";
 import { getCurrentCompany } from "@/lib/helpers";
 import { serviceSchema } from "@/schemas";
+import { getServerSession } from "next-auth";
 
 import { NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/options";
 
 export async function POST(req: Request) {
   try {
@@ -19,18 +21,46 @@ export async function POST(req: Request) {
    const validBody = serviceSchema.safeParse(body)
    if(!validBody.success) return NextResponse.json({message:validBody.error},{status:400})
 
-   const service = await prisma.company.update({
-    where:{
-      id:currentCompany.id
-    },
-    data:{
-      services:{
-        create:{
-          ...validBody.data
+ 
+
+   const session = await getServerSession(authOptions)
+   const {entityId,...rest} = validBody.data
+   let service
+
+   if(session?.user?.name==="Entity"){
+    service = await prisma.entity.update({
+      where:{
+        id:currentCompany.id
+      },
+      data:{
+        services:{
+          create:{
+            ...rest,
+      
+          }
         }
       }
-    }
-   })
+     })
+   }else{
+
+    console.log(validBody.data)
+    
+    service = await prisma.entity.update({
+      where:{
+        companyId:currentCompany.id,
+        id:validBody.data.entityId
+      },
+      data:{
+        services:{
+          create:{
+          ...rest
+          }
+        }
+      }
+    })
+   }
+
+   
 
     // TODO inform users if service has lower price
 

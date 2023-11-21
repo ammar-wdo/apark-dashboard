@@ -1,7 +1,9 @@
 import { findBlockingDates } from "@/app/api/(public)/services/(helpers)/findBlockingDates";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import prisma from "@/lib/db";
 import { getCurrentCompany } from "@/lib/helpers";
 import { rulesSchema } from "@/schemas";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -18,19 +20,39 @@ export async function DELETE(
         status: 400,
       });
 
-    await prisma.service.update({
-      where: {
-        companyId: company.id,
-        id: params.serviceId,
-      },
-      data: {
-        rules: {
-          delete: {
-            id: ruleId,
+      const session = await getServerSession(authOptions)
+
+      if(session?.user?.name==="Company"){
+        await prisma.service.update({
+          where: {
+            entity:{companyId:company.id},
+            id: params.serviceId,
           },
-        },
-      },
-    });
+          data: {
+            rules: {
+              delete: {
+                id: ruleId,
+              },
+            },
+          },
+        });
+      }else{
+        await prisma.service.update({
+          where: {
+            entityId:company.id,
+            id: params.serviceId,
+          },
+          data: {
+            rules: {
+              delete: {
+                id: ruleId,
+              },
+            },
+          },
+        });
+      }
+
+   
 
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error) {
@@ -83,24 +105,49 @@ const isBlocked = findBlockingDates(rules,validBody.data.startDate.toString(),va
 
 if(!!isBlocked.length)  return NextResponse.json({customError:"can't add rules at the same date ranges"},{status:400})
 
-    await prisma.service.update({
-      where: {
-        companyId: company.id,
-        id: params.serviceId,
-      },
-      data: {
-        rules: {
-          update: {
-            where:{
-                id:ruleId
-            },data:{
-                ...requiredDate,
-                
-            }
-          },
+const session = await getServerSession(authOptions)
+
+if(session?.user?.name === "Company"){
+  await prisma.service.update({
+    where: {
+      entity:{companyId:company.id},
+      id: params.serviceId,
+    },
+    data: {
+      rules: {
+        update: {
+          where:{
+              id:ruleId
+          },data:{
+              ...requiredDate,
+              
+          }
         },
       },
-    });
+    },
+  });
+}else{
+  await prisma.service.update({
+    where: {
+      entityId:company.id,
+      id: params.serviceId,
+    },
+    data: {
+      rules: {
+        update: {
+          where:{
+              id:ruleId
+          },data:{
+              ...requiredDate,
+              
+          }
+        },
+      },
+    },
+  });
+}
+
+
 
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error) {

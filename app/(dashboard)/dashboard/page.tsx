@@ -25,6 +25,7 @@ const page = async ({ searchParams }: Props) => {
   }
 
   const session = await getServerSession(authOptions);
+  console.log(session)
 
   return (
     <div>

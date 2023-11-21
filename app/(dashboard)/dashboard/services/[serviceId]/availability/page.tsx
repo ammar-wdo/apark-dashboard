@@ -6,6 +6,8 @@ import AvailabilityFeed from './(components)/availability-feed'
 import AvailabilityTriggerButton from './(components)/availability-trigger-button'
 import Ranges from './(components)/ranges'
 import { getCurrentCompany } from '@/lib/helpers'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 
 
 type Props = {
@@ -16,15 +18,31 @@ const page = async({params}: Props) => {
     const currentCompany = await getCurrentCompany()
     if(!currentCompany) throw Error('not authenticated')
 
-const availabilitys = await  prisma.availability.findMany({
-    where:{
-        service:{companyId:currentCompany.id,id:params.serviceId},
-       
-    },
-    orderBy:{
-        createdAt:'desc'
+    const session = await getServerSession(authOptions)
+    let availabilitys
+
+    if(session?.user?.name === "Company"){
+        availabilitys = await  prisma.availability.findMany({
+            where:{
+                service:{id:params.serviceId},
+               
+            },
+            orderBy:{
+                createdAt:'desc'
+            }
+        })
+    }else{
+        availabilitys = await prisma.availability.findMany({
+            where:{
+                service:{
+                    id:params.serviceId,
+                    entityId:currentCompany.id,
+                }
+            }
+        })
     }
-})
+
+
 
   return (
     <div>

@@ -13,7 +13,7 @@ const page = async({params}: Props) => {
 
     const service = await prisma.service.findUnique({where:{
         id:params.serviceId,
-        companyId:currentCompany?.id as string
+     
     }})
 
     console.log(service?.pricings.length)

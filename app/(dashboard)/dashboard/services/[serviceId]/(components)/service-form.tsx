@@ -35,9 +35,9 @@ import { useModal } from "@/hooks/use-modal";
 import { useParams } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 
-type Props = { service: Service | null ,airports:{id:string,name:string}[]};
+type Props = { service: Service | null ,airports:{id:string,name:string}[],entities:{id:string,entityName:string}[],isCompany:boolean,entityId:string | undefined};
 
-const ServiceForm = ({ service,airports }: Props) => {
+const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) => {
   // useEffect(()=>{
   //   const handleEnterPress = (e:KeyboardEvent)=>{
 
@@ -61,7 +61,7 @@ const ServiceForm = ({ service,airports }: Props) => {
     onSubmit,
 
     form,
-  } = useService({ service });
+  } = useService({ service, isCompany,entityId});
 
   const isLoading = form.formState.isSubmitting;
   const { setOpen } = useModal();
@@ -88,6 +88,29 @@ const ServiceForm = ({ service,airports }: Props) => {
                 </FormControl>
                 <SelectContent>
                   {airports.map((airport)=>   <SelectItem key={airport.id} value={airport.id} className="cursor-pointer">{airport.name}</SelectItem>)}
+               
+                 
+                </SelectContent>
+              </Select>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />}
+              {isCompany && <FormField
+                control={form.control}
+                name="entityId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Choose your entity*</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an entity" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {entities.map((entity)=>   <SelectItem key={entity.id} value={entity.id} className="cursor-pointer">{entity.entityName}</SelectItem>)}
                
                  
                 </SelectContent>

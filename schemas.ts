@@ -100,7 +100,8 @@ export const serviceSchema = z.object({
  vatNO:z.string().optional(),
  IBAN:z.string().optional(),
  available:z.boolean().default(false),
- airportId:z.string().min(1)
+ airportId:z.string().min(1),
+ entityId:z.string().min(1)
 
 
 

@@ -1,5 +1,7 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import prisma from "@/lib/db";
 import { getCurrentCompany } from "@/lib/helpers";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function DELETE(req:Request,{params}:{params:{availabilityId:string,serviceId:string}}){
@@ -13,21 +15,42 @@ export async function DELETE(req:Request,{params}:{params:{availabilityId:string
         if(!serviceId || !availabilityId) return new NextResponse('serviceId and availability id are required',{status:400})
 
  console.log(serviceId,availabilityId,company.id)
-        await prisma.service.update({
-            where:{
-                companyId:company.id,
-                id:params.serviceId
-                
 
-            },data:{
-                availability:{
-                    delete:{
-                        id:availabilityId
-                    }
+ const session = await getServerSession(authOptions)
+ if(session?.user?.name === "Entity"){
+    await prisma.service.update({
+        where:{
+            entityId:company.id,
+            id:params.serviceId
+            
+
+        },data:{
+            availability:{
+                delete:{
+                    id:availabilityId
                 }
-
             }
-        })
+
+        }
+    })
+ }else{
+    await prisma.service.update({
+        where:{
+            id:params.serviceId,
+            entity:{
+                companyId:company.id
+            }
+        },
+        data:{
+            availability:{
+                delete:{
+                    id:availabilityId
+                }
+            }
+        }
+    })
+ }
+      
 
         return NextResponse.json({message:'success'},{status:200})
         

@@ -14,6 +14,7 @@ model Airport {
   name      String
   Company   Company[]
   Service   Service[]
+  entities  Entity[]
 }
 
 enum PaymentMethod {
@@ -72,6 +73,7 @@ model Company {
   updatedAt    DateTime @updatedAt
   address      String
   commision    Float    @default(0)
+  name        String?
   contact      String
   password     String
   invoiceEmail String   @unique
@@ -81,8 +83,43 @@ model Company {
   zipcode      String
 
   notifications Notification[]
-  services      Service[]
+  entities      Entity[]
+
+  
   airports      Airport[]
+}
+
+model Entity {
+  id            String @id @default(uuid())
+  email         String @unique
+  password      String
+  entityName    String
+  entityAddress String
+  entityZipcode String
+  entityPlace   String
+  phone         String
+
+ invoiceEmail String
+  invoiceAddress String
+  invoiceZipcode String
+  invoicePlace   String
+  invoiceCountry String
+
+  vatNO String?
+
+  chamberOfCommerce String
+  isActive          Boolean @default(false)
+
+  services Service[]
+
+  airportId String
+  airport   Airport @relation(fields: [airportId], references: [id])
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Customer {
@@ -151,7 +188,7 @@ model Service {
   distanceToAirport String?
   timeToAirport     String?
 
-  facilities  String[] @default([])
+  facilities String[] @default([])
   highlights String[] @default([])
 
   logo   String?
@@ -175,13 +212,19 @@ model Service {
   isActive     Boolean        @default(false)
   spots        Int            @default(1)
   available    Boolean        @default(false)
-  companyId    String
+  
   airportId    String
+  entityId     String
+
+
+  
   availability Availability[]
   bookings     Booking[]
   rules        Rule[]
-  company      Company        @relation(fields: [companyId], references: [id])
-  airport     Airport       @relation(fields: [airportId],references: [id])
+ 
+  entity      Entity        @relation(fields: [entityId], references: [id])
+
+  airport      Airport        @relation(fields: [airportId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

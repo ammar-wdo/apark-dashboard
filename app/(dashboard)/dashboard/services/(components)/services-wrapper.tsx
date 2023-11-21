@@ -7,39 +7,67 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { getCurrentCompany } from '@/lib/helpers'
 
-type Props = {}
+type Props = {
+  entityId:string | undefined | string[]
+}
 
-const ServicesWrapper = async(props: Props) => {
+const ServicesWrapper = async({entityId}: Props) => {
+
+  let services
+  const currentCompany = await getCurrentCompany()
 
     const session = await getServerSession(authOptions)
-    const company = await prisma.company.findUnique({
-      where: {
-        email: session?.user?.email as string,
-        
-      },
-      include: {
-        services: {
-        where:{
+    if(session?.user?.name === "Entity"){
 
-        },
-          orderBy:{
-            createdAt:'desc'
+      if(entityId){
+services = await prisma.service.findMany({
+  where:{
+    entityId:entityId as string
+  },include:{
+    airport:true
+  }
+})
+      }else{
+
+        services = await prisma.service.findMany({
+          where: {
+            entityId:currentCompany?.id
+            
           },
-          include:{
-            airport:true
+          include: {
+          airport:true
+            
+          },
+        });
+      }
+
+
+     
+    }else{
+      services = await prisma.service.findMany({
+        where:{
+          entity:{
+            companyId:currentCompany?.id
           }
         },
-        
-      },
-    });
+        include:{
+          airport:true
+        }
+      })
+    }
+
+
+
+    
   
-    if (!company) return redirect("/");
+    if (!services) return redirect("/");
   return (
     <div className="">
     <DataTable
       columns={columnsService}
-      data={company.services}
+      data={services}
    
      
     />

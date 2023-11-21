@@ -30,7 +30,8 @@ export const serviceDefaultValues = (service: Service | null) => ({
   parkingType: service?.parkingType || ParkingType.shuttle,
   spots: service?.spots || 1,
   available: service?.available || false,
-  airportId:service?.airportId || ''
+  airportId:service?.airportId || '',
+  entityId:service?.entityId || ''
 });
 
 type myForm = UseFormReturn<z.infer<typeof serviceSchema>>;

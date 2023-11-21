@@ -33,14 +33,30 @@ console.log(email,password)
                 isActive:true
                 
             },
-            include:{services:true}
+         
           })
 
         
-          if(!company) return null
+          if(company){
+            return {email:company.email,id:company.id,name:'Company'};
+          }else{
+            const entity = await prisma.entity.findFirst({
+              where:{
+                  email:email,
+                  password:password,
+                  isActive:true
+                  
+              },
+           
+            })
+            if(entity) return {email:entity.email,id:entity.id,name:'Entity'}
+
+          }
+
+          return null
   
        
-          return {email:company.email,id:company.id};
+        
         }
       })
       ]
