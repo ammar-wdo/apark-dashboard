@@ -76,7 +76,7 @@ model Company {
   name        String?
   contact      String
   password     String
-  invoiceEmail String   @unique
+ 
   isActive     Boolean  @default(false)
   phone        String
   place        String
