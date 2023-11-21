@@ -11,20 +11,20 @@ type Props = {params:{serviceId:string}}
 const page = async({params}: Props) => {
 
   const session = await getServerSession(authOptions)
-  const entity = await getCurrentCompany()
+  const company = await getCurrentCompany()
 
 const service = await prisma.service.findUnique({
    where:{id:params.serviceId} 
 })
 
 const airports = await prisma.airport.findMany({select:{id:true,name:true}})
-const entities  =await prisma.entity.findMany({select:{id:true,entityName:true}})
+const entities  =await prisma.entity.findMany({where:{companyId:company?.id},select:{id:true,entityName:true}})
 
   return (
     <div>
         <Heading title={service ? 'Edit your service' : 'Add a service'}  description={service ? 'Customize your service' :'Add your service informations'} />
 
-        <ServiceForm service={service}  airports={airports} entities={entities} isCompany={session?.user?.name === "Company"} entityId={entity?.id}/>
+        <ServiceForm service={service}  airports={airports} entities={entities} isCompany={session?.user?.name === "Company"} entityId={company?.id}/>
 
 
     </div>
