@@ -89,16 +89,7 @@ export const serviceSchema = z.object({
  parkingType:z.enum(['shuttle','valet']).default('valet'),
  arrivalTodos:z.string().optional(),
  departureTodos:z.string().optional(),
- contactPerson:z.string().optional(),
- invoiceEmail:z.union([z.string(), z.undefined()])
- .refine((val) => !val || emailSchema.safeParse(val).success),
- companyName:z.string().min(1),
- invoiceAddress:z.string().min(1),
- invoiceZipcode:z.string().min(1),
- invoicePlace:z.string().min(1),
- invoiceCountry:z.string().min(1),
- vatNO:z.string().optional(),
- IBAN:z.string().optional(),
+
  available:z.boolean().default(false),
  airportId:z.string().min(1),
  entityId:z.string().min(1)

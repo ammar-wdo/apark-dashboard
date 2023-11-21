@@ -99,13 +99,16 @@ model Entity {
   entityPlace   String
   phone         String
 
- invoiceEmail String
+  contactPerson  String?
+  invoiceEmail   String?
+  companyName    String
   invoiceAddress String
   invoiceZipcode String
   invoicePlace   String
   invoiceCountry String
 
   vatNO String?
+  IBAN  String?
 
   chamberOfCommerce String
   isActive          Boolean @default(false)
@@ -196,16 +199,7 @@ model Service {
 
   parkingType ParkingType @default(shuttle)
 
-  contactPerson  String?
-  invoiceEmail   String?
-  companyName    String
-  invoiceAddress String
-  invoiceZipcode String
-  invoicePlace   String
-  invoiceCountry String
-
-  vatNO String?
-  IBAN  String?
+ 
 
   pricings Float[]
 
