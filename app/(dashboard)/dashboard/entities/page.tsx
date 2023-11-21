@@ -17,7 +17,9 @@ if(session?.user?.name !=="Company") return redirect('/')
 
 const entities = await prisma.entity.findMany({
     where:{
-        companyId:company?.id
+        companyId:company?.id,
+        
+        
     },
     include:{
         airport:{select:{

@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge"
 import {
     Table,
     TableBody,
@@ -30,6 +31,7 @@ import Link from "next/link"
             <TableHead>Airport</TableHead>
             <TableHead>Address</TableHead>
             <TableHead>Place</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead className="dark:text-white text-black font-semibold">Services</TableHead>
            
           </TableRow>
@@ -41,6 +43,7 @@ import Link from "next/link"
            <TableCell  className="font-medium">{entity.airport.name}</TableCell>
            <TableCell  className="font-medium">{entity.entityAddress}</TableCell>
            <TableCell  className="font-medium">{entity.entityPlace}</TableCell>
+           <TableCell  className="font-medium">{entity.isActive ? <Badge className="text-green-500 bg-green-500/20">Active</Badge> : <Badge className="text-rose-500 bg-rose-500/20">inActive</Badge>}</TableCell>
            <TableCell  className="font-medium"><Link href={`/dashboard/services?entityId=${entity.id}`} className="py-1 px-3 dark:bg-white/25 dark:border-white border rounded-md  ">Manage services</Link></TableCell>
            
           
