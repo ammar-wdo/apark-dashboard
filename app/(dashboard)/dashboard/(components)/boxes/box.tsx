@@ -17,7 +17,7 @@ const Box = ({Icon,value,title,dollar,footer}: Props) => {
     <p>{Icon}</p>
     </div>
     <div className='mt-8'>
-        <p className='font-bold text-2xl'>{dollar && "$" }{value}</p>
+        <p className='font-bold text-2xl'>{dollar && "€" }{value}</p>
         <p className='font-light text-xs text-neutral-500'>{footer}</p>
     </div>
    

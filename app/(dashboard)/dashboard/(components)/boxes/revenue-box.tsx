@@ -3,7 +3,7 @@ import { getCurrentCompany } from '@/lib/helpers'
 import React from 'react'
 import { getServices } from './(helpers)/get-services'
 import { getTotal } from './(helpers)/get-total'
-import { DollarSign } from 'lucide-react'
+import { DollarSign, Euro } from 'lucide-react'
 import Box from './box'
 
 type Props = {
@@ -23,7 +23,7 @@ const RevenueBox = async({searchParams,entity}: Props) => {
 
 
   return (
-   <Box title='Total revenue'  Icon={<DollarSign className='w-7 h-7 text-neutral-500'/>} footer='For this month' dollar={true} value={monthlyRevenue as number}/>
+   <Box title='Total revenue'  Icon={<Euro className='w-7 h-7 text-neutral-500'/>} footer='For this month' dollar={true} value={monthlyRevenue as number}/>
   )
 }
 
