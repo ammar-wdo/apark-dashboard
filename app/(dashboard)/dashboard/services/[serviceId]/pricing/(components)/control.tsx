@@ -47,7 +47,8 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement}: Props
             <Input
               type="number"
               min={0}
-              value={resetValue}
+              placeholder="0"
+              value={resetValue || ''}
               onChange={(e) => setResetValue(+e.target.value)}
             />
           </TableCell>
@@ -65,7 +66,8 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement}: Props
           <TableCell>
             <Input
               type="number"
-              value={dayValue}
+              placeholder="0"
+              value={dayValue || ''}
               onChange={(e) => setDayValue(+e.target.value)}
             />
           </TableCell>
@@ -81,11 +83,12 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement}: Props
         <TableRow>
           <TableCell>Add percentage to each day</TableCell>
           <TableCell className="relative flex items-center">
-            <span className="absolute left-5 text-xs text-gray-500">%</span>
+            <span className="absolute left-6 text-xs text-gray-500">%</span>
             <Input
               type="number"
-              className="pl-4"
-              value={percentage}
+              className="pl-5"
+              placeholder="0"
+              value={percentage||''}
               onChange={(e) => setPercentage(+e.target.value)}
             />
           </TableCell>
@@ -106,16 +109,18 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement}: Props
               <Input
               min={0}
                 type="number"
+                placeholder="0"
                 className="pl-4"
-                value={rows}
+                value={rows||''}
                 onChange={(e) => setRows(+e.target.value)}
               />
               <span>Value of each</span>
               <Input
               min={0}
+              placeholder="0"
                 type="number"
                 className="pl-4"
-                value={rowsValue}
+                value={rowsValue||''}
                 onChange={(e) => setRowsValue(+e.target.value)}
               />
             </div>
@@ -130,31 +135,34 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement}: Props
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell>Add incremental value FROM - TO </TableCell>
+          <TableCell>Add incremental value </TableCell>
           <TableCell className="">
             <div className="grid grid-cols-2 gap-1  items-center w-60">
-                <span>From day number</span>
+                <span>From</span>
               <Input
               min={0}
                 type="number"
+                placeholder="day"
                 className="pl-4"
-                value={from}
+                value={from ||''}
                 onChange={(e) => setFrom(+e.target.value)}
               />
-              <span>To day number</span>
+              <span>To</span>
               <Input
               min={0}
                 type="number"
+                placeholder="day"
                 className="pl-4"
-                value={to}
+                value={to || ''}
                 onChange={(e) => setTo(+e.target.value)}
               />
               <span>Value</span>
               <Input
               min={0}
                 type="number"
+                placeholder="0"
                 className="pl-4"
-                value={incrementValue}
+                value={incrementValue || ''}
                 onChange={(e) => setIncrementValue(+e.target.value)}
               />
             </div>

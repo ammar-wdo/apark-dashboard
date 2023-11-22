@@ -60,18 +60,21 @@ export const usePricing = (pricings: number[]) => {
 
   const addRow = () => {
     setMyArray((prev: number[] | undefined) => [...(prev || []), 0]);
+    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
 
   const deleteRow = (row: number) => {
     setMyArray((prev: number[] | undefined) =>
       prev?.filter((_, i) => i !== row)
     );
+    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
 
   const addValue = (value: number) => {
     setMyArray((prev: number[] | undefined) =>
       prev?.map((el) => (el + value < 0 ? 0 : +el + value))
     );
+    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
   const addPercentage = (value: number) => {
     setMyArray((prev: number[] | undefined) =>
@@ -81,18 +84,21 @@ export const usePricing = (pricings: number[]) => {
           : parseInt((el + (el * value) / 100).toString())
       )
     );
+    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
   const reset = (value: number) => {
     setMyArray((prev: number[] | undefined) =>
       prev?.map((el) => (value < 0 ? 0 : parseInt(value.toString())))
     );
+    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
 
   const addRows = (rows: number, value: number) =>
-    setMyArray((prev: number[] | undefined) => [
+  {  setMyArray((prev: number[] | undefined) => [
       ...(prev || []),
       ...Array(rows).fill(value),
-    ]);
+    ])
+    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})};
 
   const addIncrement = (from: number, to: number, value=0) => {
     
@@ -115,6 +121,8 @@ export const usePricing = (pricings: number[]) => {
     }
 
     setMyArray(()=>[...(newArry||[])]);
+
+    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
 
   const form = useForm<z.infer<typeof pricingSchema>>({
@@ -130,11 +138,11 @@ export const usePricing = (pricings: number[]) => {
   async function onSubmit(values: z.infer<typeof pricingSchema>) {
     try {
       await axios.patch(`/api/service/${params.serviceId}`, values);
-      toast.success("Changes saved!");
+      toast.success("Changes saved!",{position:'top-center',style:{fontSize:"1.3rem"}});
       router.refresh();
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
+      toast.error("Something went wrong",{position:'top-center',style:{fontSize:"1.3rem"}});
     }
   }
 

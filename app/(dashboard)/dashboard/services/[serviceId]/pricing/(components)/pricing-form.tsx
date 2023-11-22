@@ -92,7 +92,8 @@ const PricingForm = ({ pricings }: Props) => {
                               className="border-0  p-0 px-8 outline-none  h-8"
                               min={0}
                               type="number"
-                              value={isNaN(val) ? 0 : val}
+                              placeholder="0"
+                              value={isNaN(val) ? '' : val || ''}
                               onChange={(e) => {
                                 handleChange(+e.target.value, i);
                               }}

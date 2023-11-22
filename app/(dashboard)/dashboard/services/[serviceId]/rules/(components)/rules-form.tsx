@@ -87,7 +87,7 @@ const loading = form.formState.isSubmitting
               <FormItem className='flex flex-col w-full'>
                 <FormLabel>Value</FormLabel>
                 <FormControl>
-               <Input {...field} className='' placeholder='Value' type='number' />
+               <Input {...field} className='' value={form.watch('value')||''} placeholder='0' type='number' />
                 </FormControl>
         
                 <FormMessage />
@@ -103,7 +103,7 @@ const loading = form.formState.isSubmitting
               <FormItem className='flex flex-col w-full'>
                 <FormLabel>Percentage</FormLabel>
                 <FormControl>
-               <Input {...field} className='' placeholder='percentage' type='number' />
+               <Input {...field} className='' placeholder='0' value={form.watch('percentage')||''}  type='number' />
                 </FormControl>
         
                 <FormMessage />
