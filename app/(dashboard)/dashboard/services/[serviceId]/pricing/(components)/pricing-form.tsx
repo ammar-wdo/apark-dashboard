@@ -31,7 +31,7 @@ type Props = {
 };
 
 const PricingForm = ({ pricings }: Props) => {
-  const { onSubmit, form, myArray, addRow, handleChange, deleteRow, addValue ,addPercentage,reset,addRows} =
+  const { onSubmit, form, myArray, addRow, handleChange, deleteRow, addValue ,addPercentage,reset,addRows,addIncrement} =
     usePricing(pricings);
 
   const [mount, setMount] = useState(false);
@@ -121,7 +121,7 @@ const PricingForm = ({ pricings }: Props) => {
        
         </form>
         <div className="2xl:sticky top-3">
-        <Control addValue={addValue} addPercentage={addPercentage} reset={reset} addRows={addRows}/>
+        <Control addValue={addValue} addPercentage={addPercentage} reset={reset} addRows={addRows} addIncrement={addIncrement}/>
         </div>
        
    
