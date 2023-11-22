@@ -120,7 +120,7 @@ const PricingForm = ({ pricings }: Props) => {
           )}
        
         </form>
-        <div className="2xl:sticky top-3">
+        <div className="2xl:sticky top-3 overflow-x-auto sm:w-auto w-screen">
         <Control addValue={addValue} addPercentage={addPercentage} reset={reset} addRows={addRows} addIncrement={addIncrement}/>
         </div>
        

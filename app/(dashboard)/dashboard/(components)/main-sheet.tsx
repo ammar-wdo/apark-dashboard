@@ -16,15 +16,15 @@ import MainLinks from "./main-links"
 import Link from "next/link"
 import MainlinksWrapper from "./mainlinks-wrapper"
   
-  type Props = {}
+  type Props = {isAdmin:boolean}
   
-  const MainSheet = (props: Props) => {
+  const MainSheet = ({isAdmin}: Props) => {
     return (
         <Sheet  >
         <SheetTrigger  className="lg:hidden fixed top-4 right-4"><Menu /></SheetTrigger>
         <SheetContent  side={'left'} className="bg-background p-0 flex flex-col ">
       
-          <MainlinksWrapper />
+          <MainLinks isAdmin={isAdmin} />
         </SheetContent>
       </Sheet>
     )

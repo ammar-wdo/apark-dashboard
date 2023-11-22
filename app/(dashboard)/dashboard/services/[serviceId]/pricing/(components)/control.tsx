@@ -34,7 +34,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement}: Props
   const [incrementValue, setIncrementValue] = useState(0)
 
   return (
-    <Table className="w-fit border p-2 rounded-sm ">
+    <Table className="w-[600px] border p-2 rounded-sm ">
       <TableHeader>
         <TableRow>
           <TableHead className="">Control</TableHead>
