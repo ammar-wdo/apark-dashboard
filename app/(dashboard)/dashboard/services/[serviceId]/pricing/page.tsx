@@ -3,6 +3,7 @@ import { getCurrentCompany } from '@/lib/helpers'
 import React from 'react'
 import PricingForm from './(components)/pricing-form'
 import Heading from '@/components/heading'
+import Control from './(components)/control'
 
 type Props = {
     params:{serviceId:string}
@@ -20,7 +21,10 @@ const page = async({params}: Props) => {
   return (
     <div className=''>
       <Heading title='Pricing table' description={`Check Pricing for ${service?.name} `} />
+
       <PricingForm pricings={service?.pricings! } />
+
+      
     </div>
   )
 }

@@ -19,7 +19,7 @@ if(pricings.length){
 setMyArray(pricings)
 }
 else{
-    setMyArray(Array(60).fill(0))
+    setMyArray(Array(15).fill(0))
 }
         
 
@@ -27,7 +27,7 @@ else{
 
     useEffect(()=>{
        if(myArray?.length){
-        const requiredRows = 60;
+        const requiredRows = 15;
         const availableRows = myArray?.length 
          if(availableRows  < requiredRows) {
          const emptyRows = requiredRows - availableRows
@@ -68,6 +68,25 @@ form.setValue('pricings',myArray||[])
         setMyArray((prev:number[]|undefined)=>[...(prev||[]),0])
     }
 
+ 
+        const deleteRow = (row: number) => {
+            setMyArray((prev: number[] | undefined) =>
+              prev?.filter((_, i) => i !== row)
+            );
+          };
+
+          const addValue =(value:number)=>{
+            setMyArray((prev:number[]|undefined)=>prev?.map(el=>el+value < 0 ? 0 : +el + value))
+          }
+          const addPercentage =(value:number)=>{
+            setMyArray((prev:number[]|undefined)=>prev?.map(el=>el+el*value/100 < 0 ? 0 : parseInt((el+el*value/100).toString()) ))
+          }
+          const reset =(value:number)=>{
+            setMyArray((prev:number[]|undefined)=>prev?.map(el=>value <0  ? 0: parseInt(value.toString()) ))
+          }
+
+
+
 
     const form = useForm<z.infer<typeof pricingSchema>>({
         resolver: zodResolver(pricingSchema),
@@ -93,6 +112,6 @@ form.setValue('pricings',myArray||[])
       }
 
 
-      return{form,onSubmit,myArray,setMyArray,handleChange,addRow}
+      return{form,onSubmit,myArray,setMyArray,handleChange,addRow,deleteRow,addValue,addPercentage,reset}
 
 }
