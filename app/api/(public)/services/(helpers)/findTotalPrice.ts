@@ -13,43 +13,34 @@ export const findTotalPrice = (
   const rule = rules[0];
 
   if (!rule) {
-    totalPrice = service.pricings
-      .slice(0, parkingDays)
-      .reduce((total, value) => total + value, 0);
+    totalPrice = service.pricings[parkingDays]
+   
 
-    return +totalPrice.toFixed(0);
+    return totalPrice;
   }
 
   const { type, action, value:theValue, percentage } = rule;
 
   if (action === "TOTAL") {
     if (type === "FIXED") {
-        totalPrice = service.pricings
-        .slice(0, parkingDays)
-        .reduce((total, value) => total + value, 0) + theValue!;
+        totalPrice = service.pricings[parkingDays] + theValue!;
 
-        return totalPrice < 0 ? 0 : +totalPrice.toFixed(0)
+        return totalPrice < 0 ? 0 : +totalPrice
     } else {
-        totalPrice = service.pricings
-        .slice(0, parkingDays)
-        .reduce((total, value) => total + value, 0)
+        totalPrice = service.pricings[parkingDays]
 
-        return totalPrice < 0 ? 0 : +totalPrice.toFixed(0) + +totalPrice.toFixed(0)*percentage!/100
+        return totalPrice < 0 ? 0 : totalPrice + totalPrice*percentage!/100
     }
 
   
   } else {
 
     if(type==="FIXED"){
-        totalPrice = service.pricings
-        .slice(0, parkingDays)
-        .reduce((total, value) => total + value + theValue!, 0)
-        return totalPrice < 0 ? 0 :+totalPrice.toFixed(0)
+        totalPrice = service.pricings[parkingDays]
+        return totalPrice + theValue! < 0 ? 0 :totalPrice + theValue!
     }else{
-        totalPrice = service.pricings
-        .slice(0, parkingDays)
-        .reduce((total, value) => total + value + value*percentage!/100, 0)
-        return totalPrice < 0 ? 0 :+totalPrice.toFixed(0)
+        totalPrice = service.pricings[parkingDays]
+        return totalPrice + totalPrice*percentage!/100 < 0 ? 0 :totalPrice + totalPrice*percentage!/100
     }
 
     

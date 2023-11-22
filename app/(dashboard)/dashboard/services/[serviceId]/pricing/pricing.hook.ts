@@ -85,6 +85,8 @@ form.setValue('pricings',myArray||[])
             setMyArray((prev:number[]|undefined)=>prev?.map(el=>value <0  ? 0: parseInt(value.toString()) ))
           }
 
+          const addRows = (rows:number,value:number)=>setMyArray((prev:number[]|undefined)=>[...(prev||[]),...Array(rows).fill(value)])
+
 
 
 
@@ -112,6 +114,6 @@ form.setValue('pricings',myArray||[])
       }
 
 
-      return{form,onSubmit,myArray,setMyArray,handleChange,addRow,deleteRow,addValue,addPercentage,reset}
+      return{form,onSubmit,myArray,setMyArray,handleChange,addRow,deleteRow,addValue,addPercentage,reset,addRows}
 
 }

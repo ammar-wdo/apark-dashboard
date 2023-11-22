@@ -31,7 +31,7 @@ type Props = {
 };
 
 const PricingForm = ({ pricings }: Props) => {
-  const { onSubmit, form, myArray, addRow, handleChange, deleteRow, addValue ,addPercentage,reset} =
+  const { onSubmit, form, myArray, addRow, handleChange, deleteRow, addValue ,addPercentage,reset,addRows} =
     usePricing(pricings);
 
   const [mount, setMount] = useState(false);
@@ -45,11 +45,23 @@ const PricingForm = ({ pricings }: Props) => {
 
   return (
     <Form {...form}>
-      <div className="flex gap-8">
+         
+      <div className="flex gap-8 2xl:flex-row flex-col-reverse relative items-start">
+   
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 max-w-[600px] w-full"
+          className="space-y-3 max-w-[600px] w-full"
         >
+             <div className="flex items-center gap-3 sticky top-12 z-10 bg-white p-2  border ">
+            <Button disabled={isLoading} type="submit">
+              Save changes{" "}
+              {isLoading && <Loader className="animate-spin w-3 h-3 ml-2" />}
+            </Button>
+            <Button type="button" onClick={addRow} variant={"secondary"}>
+              {" "}
+              Add a day
+            </Button>
+          </div>
           <FormField
             control={form.control}
             name="pricings"
@@ -106,18 +118,14 @@ const PricingForm = ({ pricings }: Props) => {
               Negative values are not allowed
             </p>
           )}
-          <div className="flex items-center gap-3">
-            <Button disabled={isLoading} type="submit">
-              Save changes{" "}
-              {isLoading && <Loader className="animate-spin w-3 h-3 ml-2" />}
-            </Button>
-            <Button type="button" onClick={addRow} variant={"secondary"}>
-              {" "}
-              Add a day
-            </Button>
-          </div>
+       
         </form>
-        <Control addValue={addValue} addPercentage={addPercentage} reset={reset}/>
+        <div className="2xl:sticky top-3">
+        <Control addValue={addValue} addPercentage={addPercentage} reset={reset} addRows={addRows}/>
+        </div>
+       
+   
+       
       </div>
     </Form>
   );
