@@ -9,16 +9,16 @@ export const findBusyPlaces = (
     const arrivalDate = new Date(booking.arrivalDate);
     const departureDate = new Date(booking.departureDate);
 
-    console.log(
-      "booking arrival",
-      arrivalDate.toLocaleDateString(),
-      "booking departure",
-      departureDate.toLocaleDateString(),
-      "start date",
-      startDate,
-      "end date",
-      endDate
-    );
+    // console.log(
+    //   "booking arrival",
+    //   arrivalDate.toLocaleDateString(),
+    //   "booking departure",
+    //   departureDate.toLocaleDateString(),
+    //   "start date",
+    //   startDate,
+    //   "end date",
+    //   endDate
+    // );
 
     if (
       (new Date(new Date(startDate).setHours(0, 0, 0, 0)) >=

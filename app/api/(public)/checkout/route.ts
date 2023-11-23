@@ -5,7 +5,7 @@ import prisma from "@/lib/db";
 import { STATUS } from "@prisma/client";
 import { bookingSchema } from "@/schemas";
 import { daysAndTotal } from "./(helpers)/days-and-total";
-import { nanoid } from 'nanoid';
+import { nanoid } from "nanoid";
 import { findValidServices } from "../services/(helpers)/findValidServices";
 
 const corsHeaders = {
@@ -14,6 +14,14 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
+
+const methods = {
+  "IDEAL":"ideal",
+  "CREDIT_CARD" :"card",
+  "PAYPAL":"paypal"
+  
+   
+}
 export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
 }
@@ -23,44 +31,48 @@ export async function POST(req: Request) {
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
     body.departureDate = new Date(body.departureDate);
-console.log(body)
+    console.log(body);
     const validBody = bookingSchema.safeParse(body);
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
 
+    const { total, daysofparking } = await daysAndTotal(
+      validBody.data.arrivalDate,
+      validBody.data.departureDate,
+      validBody.data.serviceId
+    );
+validBody.data.paymentMethod
+    const service = await prisma.service.findUnique({
+      where: {
+        id: validBody.data.serviceId,
+      },
+      include: {
+        bookings: true,
+        availability: true,
+        rules: true,
+      },
+    });
 
-      const { total, daysofparking } = await daysAndTotal(
-        validBody.data.arrivalDate,
-        validBody.data.departureDate,
-        validBody.data.serviceId
-      );
-
-      const service = await prisma.service.findUnique({
-        where:{
-          id:validBody.data.serviceId
-        },
-        include:{
-          bookings:true,
-          availability:true,
-          rules:true
-        }
-      })
-
-      if(!service)  return NextResponse.json(
+    if (!service)
+      return NextResponse.json(
         { customError: "This service does not exist" },
         { status: 400 }
       );
 
-      const validServices = findValidServices([service],validBody.data.arrivalDate.toString(),validBody.data.departureDate.toString(),validBody.data.arrivalTime,validBody.data.departureTime,daysofparking)
+    const validServices = findValidServices(
+      [service],
+      validBody.data.arrivalDate.toString(),
+      validBody.data.departureDate.toString(),
+      validBody.data.arrivalTime,
+      validBody.data.departureTime,
+      daysofparking
+    );
 
-      if(!validServices.length) return NextResponse.json(
+    if (!validServices.length)
+      return NextResponse.json(
         { customError: "This service has no more free spots!" },
         { status: 400 }
       );
-
-
-
-
 
     const available = await isAvailable(body.serviceId);
 
@@ -70,30 +82,23 @@ console.log(body)
         { status: 400 }
       );
 
-  
-
-
     let bookingCode = nanoid(9);
     let existingBooking = await prisma.booking.findFirst({
       where: {
         bookingCode: bookingCode,
-      },select:{bookingCode:true}
+      },
+      select: { bookingCode: true },
     });
-    
+
     while (existingBooking) {
       bookingCode = nanoid(9);
       existingBooking = await prisma.booking.findFirst({
         where: {
           bookingCode: bookingCode,
-        },select:{bookingCode:true}
+        },
+        select: { bookingCode: true },
       });
     }
-  
-
-
-
-
-    
 
     const booking = await prisma.booking.create({
       data: {
@@ -104,8 +109,10 @@ console.log(body)
       },
     });
 
+    const myPayment = methods[booking.paymentMethod]
+
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      payment_method_types: [myPayment as "card" | "paypal" | "ideal"],
 
       line_items: [
         {
@@ -123,7 +130,7 @@ console.log(body)
       mode: "payment",
       metadata: { id: booking.id },
       success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled=true`, 
+      cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled=true`,
     });
 
     console.log(session.metadata);
