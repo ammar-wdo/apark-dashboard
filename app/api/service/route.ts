@@ -28,37 +28,51 @@ export async function POST(req: Request) {
    let service
 
    if(session?.user?.name==="Entity"){
-    service = await prisma.entity.update({
-      where:{
-        id:currentCompany.id
-      },
-      data:{
-        services:{
-          create:{
-            ...rest,
+service = await prisma.service.create({
+  data:{
+    entityId:currentCompany.id,
+    ...rest
+  }
+})
+
+    // service = await prisma.entity.update({
+    //   where:{
+    //     id:currentCompany.id
+    //   },
+    //   data:{
+    //     services:{
+    //       create:{
+    //         ...rest,
       
-          }
-        }
-      }
-     })
+    //       }
+    //     }
+    //   }
+    //  })
    }else{
 
-    console.log(validBody.data)
     
-    service = await prisma.entity.update({
-      where:{
-        companyId:currentCompany.id,
-        id:validBody.data.entityId
-      },
+    service= await prisma.service.create({
       data:{
-        services:{
-          create:{
-          ...rest
-          }
-        }
+        entityId:validBody.data.entityId,
+        ...rest
       }
     })
+    // service = await prisma.entity.update({
+    //   where:{
+    //     companyId:currentCompany.id,
+    //     id:validBody.data.entityId
+    //   },
+    //   data:{
+    //     services:{
+    //       create:{
+    //       ...rest
+    //       }
+    //     }
+    //   }
+    // })
    }
+
+   
 
    await prisma.notification.create({
     data:{
@@ -66,7 +80,7 @@ export async function POST(req: Request) {
       message:'New service has been created and wating for approvement',
       IdHolder:service.id,
       type:'SERVICE',
-      
+
     }
    })
 
