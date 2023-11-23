@@ -126,8 +126,10 @@ validBody.data.paymentMethod
             unit_amount: +total.toFixed(0) * 100,
           },
           quantity: 1,
+          
         },
       ],
+      expires_at: Math.floor(Date.now() / 1000) + 10,
       mode: "payment",
       metadata: { id: booking.id },
       success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=true`,
