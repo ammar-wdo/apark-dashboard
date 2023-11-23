@@ -27,22 +27,9 @@ export async function POST(req: Request) {
   console.log(session.metadata);
 
   if (event.type === "checkout.session.completed") {
-    if (session.payment_status === "unpaid") {
-      try {
-        const order = await prisma.booking.update({
-          where: {
-            id: session?.metadata?.id,
-          },
-          data: {
-            paymentStatus: "EXPIRED",
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
 
-    if (session.payment_status === "paid") {
+
+  
       try {
         const order = await prisma.booking.update({
           where: {
@@ -55,7 +42,7 @@ export async function POST(req: Request) {
       } catch (error) {
         console.log(error);
       }
-    }
+    
 
     // await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
   }
