@@ -82,10 +82,10 @@ model Company {
   place        String
   zipcode      String
 
-  notifications Notification[]
+ 
   entities      Entity[]
 
-  
+  notifications Notification[]
   airports      Airport[]
 }
 
@@ -121,6 +121,8 @@ model Entity {
   companyId String
   company   Company @relation(fields: [companyId], references: [id])
 
+   notifications Notification[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -152,14 +154,35 @@ model Invoice {
   updatedAt DateTime @updatedAt
 }
 
+enum NotificationType {
+  COMPANY
+  ENTITY
+  SERVICE
+}
+
 model Notification {
   id           String   @id @default(uuid())
+
+  companyId    String?
+  company Company? @relation(fields: [companyId],references: [id])
+
+
+  entityId    String?
+  entity      Entity? @relation(fields: [entityId],references: [id])
+
+  isAdmin     Boolean @default(false)
+
+  message     String?
+  IdHolder    String?
+  type      NotificationType?  
+
+  isRead    Boolean @default(false)
+
+  servicePrice Float?
+
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  serviceId    String
-  servicePrice Float
-  companyId    String
-  Company      Company  @relation(fields: [companyId], references: [id])
+ 
 }
 
 model Payment {

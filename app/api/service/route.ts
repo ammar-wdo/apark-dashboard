@@ -60,6 +60,16 @@ export async function POST(req: Request) {
     })
    }
 
+   await prisma.notification.create({
+    data:{
+      isAdmin:true,
+      message:'New service has been created and wating for approvement',
+      IdHolder:service.id,
+      type:'SERVICE',
+      
+    }
+   })
+
    
 
     // TODO inform users if service has lower price
