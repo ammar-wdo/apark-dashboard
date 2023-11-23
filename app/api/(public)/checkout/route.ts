@@ -129,11 +129,12 @@ validBody.data.paymentMethod
           
         },
       ],
-      expires_at: Math.floor(Date.now() / 1000) + 10,
+    
       mode: "payment",
       metadata: { id: booking.id },
       success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled=true`,
+      
     });
 
     console.log(session.metadata);
