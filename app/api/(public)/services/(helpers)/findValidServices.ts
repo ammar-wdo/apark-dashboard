@@ -35,10 +35,13 @@ export const findValidServices = (
       );
 
       if (!!isBlocked.length) return accumolator;
+      console.log("service")
 
       const busyPlaces = findBusyPlaces(service.bookings, startDate, endDate);
+      // console.log("busy places",busyPlaces.length)
 
       const availabelPlaces = service.spots - busyPlaces.length;
+      // console.log("available places",availabelPlaces)
 
       if (availabelPlaces > 0) {
         const totalPrice = +findTotalPrice(service, parkingDays,startDate,endDate).toFixed(0);

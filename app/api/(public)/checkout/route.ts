@@ -6,6 +6,7 @@ import { STATUS } from "@prisma/client";
 import { bookingSchema } from "@/schemas";
 import { daysAndTotal } from "./(helpers)/days-and-total";
 import { nanoid } from 'nanoid';
+import { findValidServices } from "../services/(helpers)/findValidServices";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -27,6 +28,40 @@ console.log(body)
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
 
+
+      const { total, daysofparking } = await daysAndTotal(
+        validBody.data.arrivalDate,
+        validBody.data.departureDate,
+        validBody.data.serviceId
+      );
+
+      const service = await prisma.service.findUnique({
+        where:{
+          id:validBody.data.serviceId
+        },
+        include:{
+          bookings:true,
+          availability:true,
+          rules:true
+        }
+      })
+
+      if(!service)  return NextResponse.json(
+        { customError: "This service does not exist" },
+        { status: 400 }
+      );
+
+      const validServices = findValidServices([service],validBody.data.arrivalDate.toString(),validBody.data.departureDate.toString(),validBody.data.arrivalTime,validBody.data.departureTime,daysofparking)
+
+      if(!validServices.length) return NextResponse.json(
+        { customError: "This service has no more free spots!" },
+        { status: 400 }
+      );
+
+
+
+
+
     const available = await isAvailable(body.serviceId);
 
     if (!available)
@@ -35,11 +70,7 @@ console.log(body)
         { status: 400 }
       );
 
-    const { total, daysofparking } = await daysAndTotal(
-      validBody.data.arrivalDate,
-      validBody.data.departureDate,
-      validBody.data.serviceId
-    );
+  
 
 
     let bookingCode = nanoid(9);
@@ -58,6 +89,11 @@ console.log(body)
       });
     }
   
+
+
+
+
+    
 
     const booking = await prisma.booking.create({
       data: {

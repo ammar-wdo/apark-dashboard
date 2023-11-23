@@ -15,6 +15,8 @@ export async function GET(req: Request) {
 
   if(!startDate || !endDate || !startTime || !endTime) return new NextResponse('date and time is required',{status:400})
 
+
+
   try {
     const services = await prisma.service.findMany({
       where: {
@@ -31,6 +33,7 @@ export async function GET(req: Request) {
       new Date(startDate),
       new Date(endDate)
     );
+   
 
     const validServices = findValidServices(services,startDate,endDate,startTime,endTime,parkingDays)
 
