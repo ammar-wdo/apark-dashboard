@@ -23,7 +23,7 @@ export async function GET(req: Request) {
         isActive: true,
       },
       include: {
-        bookings: true,
+        bookings: {where:{paymentStatus:"SUCCEEDED"}},
         availability: true,
         rules:true
       },

@@ -27,6 +27,7 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: Request) {
+  let booking
   try {
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
@@ -47,7 +48,7 @@ validBody.data.paymentMethod
         id: validBody.data.serviceId,
       },
       include: {
-        bookings: true,
+        bookings: {where:{paymentStatus:'SUCCEEDED'}},
         availability: true,
         rules: true,
       },
@@ -100,7 +101,7 @@ validBody.data.paymentMethod
       });
     }
 
-    const booking = await prisma.booking.create({
+     booking = await prisma.booking.create({
       data: {
         ...validBody.data,
         bookingCode,
@@ -142,6 +143,7 @@ validBody.data.paymentMethod
     );
   } catch (error) {
     console.log(error);
+    await prisma.booking.delete({where:{id:booking?.id}})
     return new NextResponse("internal error", { status: 500 });
   }
 }
