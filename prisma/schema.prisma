@@ -26,6 +26,7 @@ enum PaymentMethod {
 enum STATUS {
   PENDING
   SUCCEEDED
+  EXPIRED
 }
 
 model Booking {

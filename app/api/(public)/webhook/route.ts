@@ -48,12 +48,28 @@ export async function POST(req: Request) {
     } catch (error) {
         console.log(error)
     }
-  
-
-  
-
- 
+    
   }
+
+  if(event.type === "checkout.session.expired"){
+    try {
+      
+      const order = await prisma.booking.update({
+        where: {
+          id: session?.metadata?.id,
+        },
+        data: {
+          paymentStatus: "EXPIRED",
+        
+        },
+       
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
 
   return new NextResponse(null, { status: 200 });
 };
