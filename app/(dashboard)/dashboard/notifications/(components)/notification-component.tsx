@@ -14,9 +14,9 @@ const NotificationComponent = ({ notification }: Props) => {
     "EEE, MMM/d, HH:mm"
   );
   const url =
-    notification.type === "SERVICE" && notification.status === "APPROVE"
+    notification.type === "SERVICE" && notification.status 
       ? `/dashboard/services/${notification.IdHolder}`
-      : notification.type === "ENTITY" && notification.status === "APPROVE"
+      : notification.type === "ENTITY" && notification.status 
       ? `/dashboard/entities`
       : "";
 
