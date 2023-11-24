@@ -5,6 +5,7 @@ import { Toaster } from 'sonner'
 import { EdgeStoreProvider } from '../lib/edgestore';
 import ModalProvider from '@/components/providers/modal-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { QueryProvider } from '@/components/providers/query-provider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,7 +31,11 @@ export default function RootLayout({
             enableSystem
             
           >
+            <QueryProvider>
+
+           
         {children}
+        </QueryProvider>
         </ThemeProvider>
         </EdgeStoreProvider>
       <Toaster richColors/>

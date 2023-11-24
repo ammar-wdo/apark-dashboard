@@ -4,14 +4,17 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MainSheet from "./main-sheet";
-import { BookmarkCheck, Boxes, Building2, Group, LayoutDashboard } from "lucide-react";
+import { Bell, BookmarkCheck, Boxes, Building2, Group, LayoutDashboard, MessageSquare } from "lucide-react";
 import SignoutButton from "./signout-button";
 import { ModeToggle } from "@/components/theme-toggle";
+import { useNotificationsQuery } from "../notifications/notifications.hook";
 
 type Props = {isAdmin:boolean};
 
 const MainLinks = ({isAdmin}: Props) => {
   const pathname = usePathname();
+
+  const { data } = useNotificationsQuery();
 
   const myLinks = [
     {
@@ -38,6 +41,22 @@ const MainLinks = ({isAdmin}: Props) => {
   
   ];
 
+  const activities = [
+    {
+      label: "notifications",
+      active: pathname === "/dashboard/notifications",
+      link: "/dashboard/notifications",
+      Icon: <Bell className="w-5 h-5 mr-3" />,
+      count: data?.count > 0,
+    },
+    {
+      label: "messages",
+      active: pathname === "/dashboard/messages",
+      link: "/dashboard/messages",
+      Icon: <MessageSquare className="w-5 h-5 mr-3" />,
+    },
+  ];
+
 
   const entity = {
     label: "entities",
@@ -47,6 +66,7 @@ const MainLinks = ({isAdmin}: Props) => {
   }
   return (
     <div className="w-full flex flex-col mt-16 p-1 px-3 gap-1 flex-1 ">
+       <h3 className="font-semibold px-4 ">Main</h3>
       {myLinks.map((link,i) => <span key={i===1?entity.label:link.label}>
       {isAdmin && i===1 && <Link
        
@@ -70,6 +90,47 @@ const MainLinks = ({isAdmin}: Props) => {
         </Link>}
         </span>
       )}
+         <h3 className="font-semibold px-4 mt-12">Activites</h3>
+     
+        <Link
+          key={activities[0].label}
+          href={activities[0].link}
+          className={cn(
+            "link",
+            activities[0].active && "bg-secondary ",
+            !activities[0].active && "hover:bg-secondary/60"
+          )}
+        >
+          <span className="relative">
+            {activities[0].Icon}{" "}
+            {activities[0].count && data?.count > 0 && (
+              <span className="flex items-center justify-center text-white bg-rose-500 rounded-full text-[8px] -top-1 right-2  w-3 h-3 absolute">
+                {data?.count}
+              </span>
+            )}
+          </span>{" "}
+          {activities[0].label}
+        </Link>
+        {isAdmin &&     <Link
+          key={activities[1].label}
+          href={activities[1].link}
+          className={cn(
+            "link",
+            activities[1].active && "bg-secondary ",
+            !activities[1].active && "hover:bg-secondary/60"
+          )}
+        >
+          <span className="relative">
+            {activities[1].Icon}{" "}
+            {activities[1].count && data?.count > 0 && (
+              <span className="flex items-center justify-center text-white bg-rose-500 rounded-full text-[8px] -top-1 right-2  w-3 h-3 absolute">
+                {data?.count}
+              </span>
+            )}
+          </span>{" "}
+          {activities[1].label}
+        </Link>}
+    
      
       <ModeToggle />
        <SignoutButton />
