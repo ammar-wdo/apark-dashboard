@@ -150,7 +150,7 @@ export async function POST(req: Request) {
       metadata: { id: booking.id },
 
       success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
-        booking.bookingCode
+        booking.id
       }`,
       cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled`,
     });
