@@ -45,15 +45,44 @@ export async function POST(req: Request) {
               }
             }
           });
-const {updatedAt,createdAt,total,...rest} = order
-          const log = await prisma.log.create({
+
+          const log =  prisma.log.create({
             data:{
               bookingId:order.id,
               payed:order.total,
-              ...rest
+           
+            arrivalDate:order.arrivalDate,
+            arrivalTime:order.arrivalTime,
+            bookingCode:order.bookingCode,
+            carColor:order.carColor,
+            carLicense:order.carLicense,
+            carModel:order.carModel,
+            daysofparking:order.daysofparking,
+            departureDate:order.departureDate,
+            departureTime:order.departureTime,
+            email:order.email,
+            firstName:order.firstName,
+            lastName:order.lastName,
+            parkingPrice:order.parkingPrice,
+            phoneNumber:order.phoneNumber,
+            address:order.address,
+            bookingOnBusinessName:order.bookingOnBusinessName,
+            bookingStatus:order.bookingStatus,
+            companyName:order.companyName,
+            discount:order.discount,
+            extraServiceFee:order.extraServiceFee,
+            flightNumber:order.flightNumber,
+            isCompany:order.isCompany,
+            paymentMethod:order.paymentMethod,
+            paymentStatus:order.paymentStatus,
+            place:order.place,
+            returnFlightNumber:order.returnFlightNumber,
+            status:order.status,
+            vatNumber:order.vatNumber,
+            zipcode:order.zipcode,
             }
           })
-          await prisma.notification.create({
+        const notification=   prisma.notification.create({
             data:{
               entityId:order.service.entityId,
               companyId:order.service.entity.companyId,
@@ -62,6 +91,8 @@ const {updatedAt,createdAt,total,...rest} = order
               message:'New booking payment has been succeeded'
             }
           })
+
+          await  Promise.all([log,notification])
           // await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
         }
       } catch (error) {
@@ -89,15 +120,46 @@ const {updatedAt,createdAt,total,...rest} = order
           }
         });
 
-        const {updatedAt,createdAt,total,...rest} = order
-          const log = await prisma.log.create({
+      
+          const log =  prisma.log.create({
             data:{
               bookingId:order.id,
               payed:0,
-              ...rest
+            arrivalDate:order.arrivalDate,
+            arrivalTime:order.arrivalTime,
+            bookingCode:order.bookingCode,
+            carColor:order.carColor,
+            carLicense:order.carLicense,
+            carModel:order.carModel,
+            daysofparking:order.daysofparking,
+            departureDate:order.departureDate,
+            departureTime:order.departureTime,
+            email:order.email,
+            firstName:order.firstName,
+            lastName:order.lastName,
+            parkingPrice:order.parkingPrice,
+            phoneNumber:order.phoneNumber,
+            address:order.address,
+            bookingOnBusinessName:order.bookingOnBusinessName,
+            bookingStatus:order.bookingStatus,
+            companyName:order.companyName,
+            discount:order.discount,
+            extraServiceFee:order.extraServiceFee,
+            flightNumber:order.flightNumber,
+            isCompany:order.isCompany,
+            paymentMethod:order.paymentMethod,
+            paymentStatus:order.paymentStatus,
+            place:order.place,
+            returnFlightNumber:order.returnFlightNumber,
+            status:order.status,
+            vatNumber:order.vatNumber,
+            zipcode:order.zipcode,
+
+            
+
             }
           })
-        await prisma.notification.create({
+      const notification=   prisma.notification.create({
           data:{
             entityId:order.service.entityId,
             companyId:order.service.entity.companyId,
@@ -106,6 +168,9 @@ const {updatedAt,createdAt,total,...rest} = order
             message:'A booking session has expired'
           }
         })
+
+        await  Promise.all([log,notification])
+
       } catch (error) {
         console.log(error);
       }

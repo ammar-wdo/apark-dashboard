@@ -12,7 +12,7 @@ const LogsFeed = async({bookingId}: Props) => {
             bookingId:bookingId
         }
     })
-
+console.log(logs)
   return (
     <div>
         {logs.map((log)=><span key={log.id} className=''>{log.bookingStatus}</span>)}

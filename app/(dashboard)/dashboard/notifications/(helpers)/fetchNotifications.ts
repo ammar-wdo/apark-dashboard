@@ -30,7 +30,7 @@ export async function fetchNotifications(){
                 }
             })
         }
-    console.log(notifications)
+  
         return notifications
 
     } catch (error) {
