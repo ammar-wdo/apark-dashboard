@@ -16,7 +16,7 @@ const NotificationComponent = ({ notification }: Props) => {
     notification.type === "SERVICE" && notification.status === "APPROVE"
       ? `/dashboard/services/${notification.IdHolder}`
       : notification.type === "ENTITY" && notification.status === "APPROVE"
-      ? `/dashboard/services/${notification.IdHolder}`
+      ? `/dashboard/entities`
       : "";
 
 
@@ -27,12 +27,13 @@ const NotificationComponent = ({ notification }: Props) => {
         DELETE: 'bg-rose-500/20 text-rose-500',
     }
    
+    const showCheck = (notification.type==='ENTITY' || notification.type==='SERVICE' || notification.type==='BOOKING')&& notification.status !=='DELETE'
 
   return (
-    <div className="rounded-lg p-6 border relative flex gap-4 items-center">
-      <p className={cn("text-sm ",themes[notification.status!]||'')}>{notification.message}</p>
+    <div className={cn("rounded-lg p-6 border relative flex gap-4 items-center",themes[notification.status!]||'')}>
+      <p className={cn("text-sm ")}>{notification.message}</p>
 
-      {notification.status ==="APPROVE" &&<Link href={url} className="hover:underline text-blue-500 text-sm">
+      {showCheck&&<Link href={url} className="hover:underline text-blue-500 text-sm">
         Check
       </Link>}
 

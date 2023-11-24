@@ -80,6 +80,7 @@ service = await prisma.service.create({
       message:'New service has been created and wating for approvement',
       IdHolder:service.id,
       type:'SERVICE',
+      status:'REQUEST'
 
     }
    })
