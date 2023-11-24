@@ -21,7 +21,7 @@ const NotificationsFeed = async(props: Props) => {
 const noNotifications = !notifications.length
 
   return (
-    <div className='max-w-[800px] mt-10 flex flex-col gap-4'>
+    <div className='max-w-[800px] mt-10 flex flex-col gap-2'>
         {noNotifications && <p className='mt-10'>No notifications</p>}
         {notifications.map((notification)=><NotificationComponent key={notification.id} notification={notification} />)}
 

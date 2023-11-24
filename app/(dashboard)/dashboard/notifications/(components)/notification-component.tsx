@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Notification } from "@prisma/client";
 import { format } from "date-fns";
+import { CheckCheck } from "lucide-react";
 import Link from "next/link";
 
 type Props = {
@@ -22,15 +23,16 @@ const NotificationComponent = ({ notification }: Props) => {
 
       const themes :{[key:string ] :string } =  {
         
-        APPROVE: 'bg-green-500/20 text-green-500',
-        REQUEST: 'bg-yellow-500/20 text-yellow-500',
-        DELETE: 'bg-rose-500/20 text-rose-500',
+        APPROVE: 'bg-green-500/20 text-green-500 border border-green-500',
+        REQUEST: 'bg-yellow-500/20 text-yellow-500 border border-yellow-500',
+        DELETE: 'bg-rose-500/20 text-rose-500 border border-rose-500',
     }
    
     const showCheck = (notification.type==='ENTITY' || notification.type==='SERVICE' || notification.type==='BOOKING')&& notification.status !=='DELETE'
 
   return (
-    <div className={cn("rounded-lg p-6 border relative flex gap-4 items-center",themes[notification.status!]||'')}>
+    <div className={cn("rounded-lg p-6  relative flex gap-4 items-center ",themes[notification.status!],notification.isRead && 'opacity-60')}>
+         {!notification.isRead ? <span className="top-1  right-1 absolute   text-xs">New</span> : <span className="top-1  right-1 absolute  text-xs"><CheckCheck className="h-4 w-4" /></span>}
       <p className={cn("text-sm ")}>{notification.message}</p>
 
       {showCheck&&<Link href={url} className="hover:underline text-blue-500 text-sm">
