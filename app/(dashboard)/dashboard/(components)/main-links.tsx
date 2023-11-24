@@ -93,6 +93,7 @@ const MainLinks = ({isAdmin}: Props) => {
          <h3 className="font-semibold px-4 mt-12">Activites</h3>
      
         <Link
+        prefetch={false}
           key={activities[0].label}
           href={activities[0].link}
           className={cn(
@@ -112,6 +113,7 @@ const MainLinks = ({isAdmin}: Props) => {
           {activities[0].label}
         </Link>
         {isAdmin &&     <Link
+        
           key={activities[1].label}
           href={activities[1].link}
           className={cn(
