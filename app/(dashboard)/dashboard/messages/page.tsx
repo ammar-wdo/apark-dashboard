@@ -1,11 +1,14 @@
+import Heading from '@/components/heading'
 import React from 'react'
 
 type Props = {}
 
-const pagee = (props: Props) => {
+const page = (props: Props) => {
   return (
-    <div>pagee</div>
+    <div>
+        <Heading title='Messages' description='Read and write messages' />
+    </div>
   )
 }
 
-export default pagee
+export default page
