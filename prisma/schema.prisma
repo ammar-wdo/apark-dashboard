@@ -27,7 +27,16 @@ enum STATUS {
   PENDING
   SUCCEEDED
   EXPIRED
+  CANCELED
   
+}
+
+enum BookingStatus {
+
+  ACTIVE
+  REFUND_REQUEST
+  REFUNDED
+  CANCELED
 }
 
 model Booking {
@@ -50,6 +59,7 @@ model Booking {
   isCompany             Boolean       @default(false)
   parkingPrice          Float
   paymentStatus         STATUS?       @default(PENDING)
+  bookingStatus         BookingStatus @default(ACTIVE)
   place                 String?
   returnFlightNumber    Int?
   phoneNumber           String
@@ -65,7 +75,47 @@ model Booking {
   paymentMethod         PaymentMethod @default(IDEAL)
   serviceId             String
   service               Service       @relation(fields: [serviceId], references: [id])
-  payments              Payment[]
+  logs                  Log[]
+ 
+}
+
+model Log {
+  id                    String        @id @default(uuid())
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  address               String?
+  arrivalDate           DateTime
+  bookingCode           String        @unique
+  carColor              String
+  carLicense            String
+  carModel              String
+  companyName           String?
+  departureDate         DateTime
+  email                 String
+  firstName             String
+  lastName              String
+  discount              Float?
+  flightNumber          String?
+  isCompany             Boolean       @default(false)
+  parkingPrice          Float
+  paymentStatus         STATUS?       @default(PENDING)
+  bookingStatus         BookingStatus @default(ACTIVE)
+  place                 String?
+  returnFlightNumber    Int?
+  phoneNumber           String
+  payed                 Float
+  vatNumber             Int?
+  zipcode               String?
+  arrivalTime           String
+  departureTime         String
+  daysofparking         Int
+  bookingOnBusinessName String?
+  extraServiceFee       Float?
+  status                String?
+  paymentMethod         PaymentMethod @default(IDEAL)
+bookingId   String
+booking     Booking   @relation(fields: [bookingId],references: [id])
+ 
 }
 
 model Company {
@@ -129,26 +179,7 @@ model Entity {
   updatedAt DateTime @updatedAt
 }
 
-model Customer {
-  id             String   @id @default(uuid())
-  email          String   @unique
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  address        String?
-  carColor       String
-  carLicense     String
-  carModel       String
-  companyAddress String?
-  companyPlace   String?
-  companyZipcode String?
-  firstname      String
-  invoiceEmail   String   @unique
-  isCompany      Boolean  @default(false)
-  lastname       String
-  phone          String
-  place          String?
-  zipcode        String?
-}
+
 
 model Invoice {
   id        String   @id @default(uuid())
@@ -198,13 +229,7 @@ name            String?
  
 }
 
-model Payment {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  bookingId String
-  Booking   Booking  @relation(fields: [bookingId], references: [id])
-}
+
 
 model Service {
   id String @id @default(uuid())

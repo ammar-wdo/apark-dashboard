@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { calculateParkingDays } from "@/app/api/(public)/services/(helpers)/findParkingDays";
 import { daysAndTotal } from "@/app/api/(public)/checkout/(helpers)/days-and-total";
 import { Separator } from "@/components/ui/separator";
+import LogsFeed from "./(components)/logs-feed";
 
 
 type Props = {
@@ -22,7 +23,7 @@ type Props = {
 const page = async ({ params }: Props) => {
   const booking = await prisma.booking.findUnique({
     where: {
-      bookingCode: params.bookingId,
+      id: params.bookingId,
     },
     include: {
       service: true,
@@ -150,6 +151,8 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
        
 
       </div>
+
+      <LogsFeed bookingId={params.bookingId} />
     </div>
   );
 };

@@ -45,6 +45,14 @@ export async function POST(req: Request) {
               }
             }
           });
+const {updatedAt,createdAt,total,...rest} = order
+          const log = await prisma.log.create({
+            data:{
+              bookingId:order.id,
+              payed:order.total,
+              ...rest
+            }
+          })
           await prisma.notification.create({
             data:{
               entityId:order.service.entityId,
@@ -71,6 +79,7 @@ export async function POST(req: Request) {
           },
           data: {
             paymentStatus: "EXPIRED",
+            bookingStatus:'CANCELED',
           },include:{
             service:{
               include:{
@@ -79,6 +88,15 @@ export async function POST(req: Request) {
             }
           }
         });
+
+        const {updatedAt,createdAt,total,...rest} = order
+          const log = await prisma.log.create({
+            data:{
+              bookingId:order.id,
+              payed:0,
+              ...rest
+            }
+          })
         await prisma.notification.create({
           data:{
             entityId:order.service.entityId,
