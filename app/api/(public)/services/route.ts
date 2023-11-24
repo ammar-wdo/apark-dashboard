@@ -8,6 +8,8 @@ import { findValidServices } from "./(helpers)/findValidServices";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
+  console.log('hi')
+
   const startDate = searchParams.get("startDate") as string;
   const endDate = searchParams.get("endDate") as string;
   const startTime = searchParams.get("startTime") as string;
