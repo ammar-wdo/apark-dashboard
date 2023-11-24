@@ -27,8 +27,7 @@ enum STATUS {
   PENDING
   SUCCEEDED
   EXPIRED
-  FAILED
-  CANCELED
+  
 }
 
 model Booking {

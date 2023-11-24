@@ -21,9 +21,8 @@ const paymentImage: { [key: string]: string } = {
 const styles :{ [key: string]: string }= {
   SUCCEEDED:"bg-green-500/20 text-green-500 ",
   PENDING:"bg-yellow-500/20 text-yellow-500",
-  EXPIRED:"bg-gray-500/20 text-gray-500",
-  FAILED:"bg-rose-500/20 text-rose-500",
-  CANCELED:"bg-red-500/20 text-red-500",
+  EXPIRED:"bg-rose-500/20 text-rose-500",
+ 
 }
 
 export const columns: ColumnDef<Booking & {service:Service}>[] = [

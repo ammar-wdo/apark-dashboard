@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session;
 
-  console.log(session.metadata);
+ 
 
   switch (event.type) {
     case "checkout.session.completed": {
@@ -63,39 +63,9 @@ export async function POST(req: Request) {
       break;
     }
 
-    case "checkout.session.async_payment_failed": {
-      try {
-        const order = await prisma.booking.update({
-          where: {
-            id: session?.metadata?.id,
-          },
-          data: {
-            paymentStatus: "FAILED",
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-      break;
-    }
-    case "charge.failed": {
-      try {
-        const order = await prisma.booking.update({
-          where: {
-            id: session?.metadata?.id,
-          },
-          data: {
-            paymentStatus: "FAILED",
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-      break;
-    }
-
+  
     default:
-      console.log("default");
+     ;
   }
 
   return new NextResponse(null, { status: 200 });

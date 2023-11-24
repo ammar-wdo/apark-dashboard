@@ -14,20 +14,17 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-
 const methods = {
-  "IDEAL":"ideal",
-  "CREDIT_CARD" :"card",
-  "PAYPAL":"paypal"
-  
-   
-}
+  IDEAL: "ideal",
+  CREDIT_CARD: "card",
+  PAYPAL: "paypal",
+};
 export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
 export async function POST(req: Request) {
-  let booking
+  let booking;
   try {
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
@@ -42,13 +39,15 @@ export async function POST(req: Request) {
       validBody.data.departureDate,
       validBody.data.serviceId
     );
-validBody.data.paymentMethod
+    validBody.data.paymentMethod;
     const service = await prisma.service.findUnique({
       where: {
         id: validBody.data.serviceId,
       },
       include: {
-        bookings: {where:{paymentStatus:{in:["SUCCEEDED","PENDING"]}}},
+        bookings: {
+          where: { paymentStatus: { in: ["SUCCEEDED", "PENDING"] } },
+        },
         availability: true,
         rules: true,
       },
@@ -101,7 +100,7 @@ validBody.data.paymentMethod
       });
     }
 
-     booking = await prisma.booking.create({
+    booking = await prisma.booking.create({
       data: {
         ...validBody.data,
         bookingCode,
@@ -110,9 +109,14 @@ validBody.data.paymentMethod
       },
     });
 
-    const myPayment = methods[booking.paymentMethod]
+    const myPayment = methods[booking.paymentMethod];
 
     const session = await stripe.checkout.sessions.create({
+      payment_intent_data: { metadata: { id: booking.id },
+      capture_method:'automatic',
+      
+
+     },
       payment_method_types: [myPayment as "card" | "paypal" | "ideal"],
 
       line_items: [
@@ -126,29 +130,28 @@ validBody.data.paymentMethod
             unit_amount: +total.toFixed(0) * 100,
           },
           quantity: 1,
-          
         },
       ],
-    expires_at: Math.floor(Date.now() / 1000) + (30 * 60), 
+      expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
       mode: "payment",
       metadata: { id: booking.id },
-      success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${booking.bookingCode}`,
+
+      success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
+        booking.bookingCode
+      }`,
       cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled`,
-      
     });
 
-  
-
-    console.log(session.metadata);
     return NextResponse.json(
       { url: session.url },
       {
         headers: corsHeaders,
       }
     );
+    
   } catch (error) {
     console.log(error);
-    await prisma.booking.delete({where:{id:booking?.id}})
+    await prisma.booking.delete({ where: { id: booking?.id } });
     return new NextResponse("internal error", { status: 500 });
   }
 }
