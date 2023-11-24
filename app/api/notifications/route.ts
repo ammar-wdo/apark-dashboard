@@ -14,7 +14,7 @@ export async function GET(req: Request) {
     if (session?.user?.name === "Company") {
       notifications = await prisma.notification.count({
         where: {
-          entity: { companyId: company?.id },
+         companyId:company?.id,
           isRead: false,
         },
       });

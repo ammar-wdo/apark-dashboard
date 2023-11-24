@@ -16,7 +16,7 @@ export async function fetchNotifications(){
         if(session?.user?.name==="Company"){
             notifications = await prisma.notification.findMany({
                 where:{
-                    entity:{companyId:currentCompany?.id}
+                    companyId:currentCompany?.id
                 },orderBy:{
                     createdAt:"desc"
                 }

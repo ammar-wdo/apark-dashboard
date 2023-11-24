@@ -14,9 +14,7 @@ export async function revalidateNotifications () {
         if(session?.user?.name==="Company"){
     await prisma.notification.updateMany({
         where:{
-            entity:{
-                companyId:currentCompany?.id
-            },
+           companyId:currentCompany?.id
             
         },data:{
             isRead:true
