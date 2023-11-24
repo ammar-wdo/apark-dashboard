@@ -78,6 +78,21 @@ export async function POST(req: Request) {
       }
       break;
     }
+    case "charge.failed": {
+      try {
+        const order = await prisma.booking.update({
+          where: {
+            id: session?.metadata?.id,
+          },
+          data: {
+            paymentStatus: "FAILED",
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      break;
+    }
 
     default:
       console.log("default");
