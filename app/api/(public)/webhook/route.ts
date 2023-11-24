@@ -30,14 +30,30 @@ export async function POST(req: Request) {
     case "checkout.session.completed": {
       try {
         if (session.payment_status === "paid") {
+
           const order = await prisma.booking.update({
             where: {
               id: session?.metadata?.id,
             },
             data: {
               paymentStatus: "SUCCEEDED",
-            },
+            },include:{
+              service:{
+                include:{
+                  entity:true
+                }
+              }
+            }
           });
+          await prisma.notification.create({
+            data:{
+              entityId:order.service.entityId,
+              companyId:order.service.entity.companyId,
+              status:'APPROVE',
+              type:'BOOKING',
+              message:'New booking payment has been succeeded'
+            }
+          })
           // await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
         }
       } catch (error) {
@@ -55,8 +71,23 @@ export async function POST(req: Request) {
           },
           data: {
             paymentStatus: "EXPIRED",
-          },
+          },include:{
+            service:{
+              include:{
+                entity:true
+              }
+            }
+          }
         });
+        await prisma.notification.create({
+          data:{
+            entityId:order.service.entityId,
+            companyId:order.service.entity.companyId,
+            status:'DELETE',
+            type:'BOOKING',
+            message:'A booking session has expired'
+          }
+        })
       } catch (error) {
         console.log(error);
       }

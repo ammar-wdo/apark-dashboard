@@ -53,6 +53,8 @@ export async function POST(req: Request) {
       },
     });
 
+
+
     if (!service)
       return NextResponse.json(
         { customError: "This service does not exist" },
@@ -111,6 +113,17 @@ export async function POST(req: Request) {
 
     const myPayment = methods[booking.paymentMethod];
 
+    const entity = await prisma.entity.findFirst({
+      where:{
+        services:{
+          some:{id:service.id}
+        },
+      }
+    })
+
+
+   
+
     const session = await stripe.checkout.sessions.create({
       payment_intent_data: { metadata: { id: booking.id },
       capture_method:'automatic',
@@ -141,6 +154,16 @@ export async function POST(req: Request) {
       }`,
       cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled`,
     });
+
+    await prisma.notification.create({
+      data:{
+        entityId:entity?.id,
+        companyId:entity?.companyId,
+        status:'REQUEST',
+        type:'BOOKING',
+        message:'A new booking is pending'
+      }
+    })
 
     return NextResponse.json(
       { url: session.url },
