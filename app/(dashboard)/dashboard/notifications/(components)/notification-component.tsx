@@ -14,11 +14,12 @@ const NotificationComponent = ({ notification }: Props) => {
     "EEE, MMM/d, HH:mm"
   );
   const url =
-    notification.type === "SERVICE" && notification.status 
+    notification.type === "SERVICE" 
       ? `/dashboard/services/${notification.IdHolder}`
-      : notification.type === "ENTITY" && notification.status 
+      : notification.type === "ENTITY"  
       ? `/dashboard/entities`
-      : "";
+      : notification.type==='BOOKING' 
+      ? '/dashboard/bookings' :'';
 
 
       const themes :{[key:string ] :string } =  {
@@ -28,7 +29,7 @@ const NotificationComponent = ({ notification }: Props) => {
         DELETE: 'bg-rose-500/20 text-rose-500 border border-rose-500',
     }
    
-    const showCheck = (notification.type==='ENTITY' || notification.type==='SERVICE' || notification.type==='BOOKING')&& notification.status !=='DELETE'
+    const showCheck = ((notification.type==='ENTITY' || notification.type==='SERVICE' )&& notification.status !=='DELETE') || notification.type==='BOOKING'
 
   return (
     <div className={cn("rounded-lg p-6  relative flex gap-4 items-center ",themes[notification.status!],notification.isRead && 'opacity-60')}>
