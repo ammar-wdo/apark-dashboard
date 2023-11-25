@@ -119,7 +119,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           </Button>
         )
       },
-    cell:({row})=><div><p>{format(new Date( row.getValue('createdAt')),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format(new Date( row.getValue('createdAt')),"HH:mm")}</p></div>
+    cell:({row})=><div><p>{format( row.getValue('createdAt'),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format( row.getValue('createdAt'),"HH:mm")}</p></div>
 
   },
   {
@@ -135,7 +135,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div><p>{format(new Date( row.getValue('arrivalDate')),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format(new Date( row.getValue('arrivalDate')),"HH:mm")}</p></div>
+    cell:({row})=><div><p>{format( row.getValue('arrivalDate'),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format(row.getValue('arrivalDate'),"HH:mm")}</p></div>
   },
   {
     accessorKey: "departureDate",
