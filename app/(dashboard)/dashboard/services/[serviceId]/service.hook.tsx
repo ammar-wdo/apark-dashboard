@@ -66,7 +66,7 @@ useEffect(()=>{
         );
       }
    
-      toast.success('service has been created')
+      toast.success(`service has been ${service ? "edited" : " created"}`)
       router.push(`/dashboard/services`);
       router.refresh()
     } catch (error) {
