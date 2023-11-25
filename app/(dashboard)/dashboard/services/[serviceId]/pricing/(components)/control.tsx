@@ -158,7 +158,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement}: Props
               />
               <span>Value</span>
               <Input
-              
+              min={0}
                 type="number"
                 placeholder="0"
                 className="pl-4"
