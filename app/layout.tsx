@@ -38,7 +38,7 @@ export default function RootLayout({
         </QueryProvider>
         </ThemeProvider>
         </EdgeStoreProvider>
-      <Toaster richColors/>
+      <Toaster richColors position='top-right'/>
       </body>
     </html>
   
