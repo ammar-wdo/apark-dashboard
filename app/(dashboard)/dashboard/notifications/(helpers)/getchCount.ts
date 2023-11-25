@@ -3,7 +3,7 @@ import prisma from "@/lib/db";
 import { getCurrentCompany } from "@/lib/helpers";
 import { getServerSession } from "next-auth";
 
-export async function fetchNotifications(list:string ){
+export async function fetchCount( ){
 
 
     try {
@@ -11,33 +11,28 @@ export async function fetchNotifications(list:string ){
         const session = await getServerSession(authOptions)
         const currentCompany = await getCurrentCompany()
     
-        let notifications
+        let count
     
         if(session?.user?.name==="Company"){
-            notifications = await prisma.notification.findMany({
+            count = await prisma.notification.count({
                 where:{
                     companyId:currentCompany?.id
-                },orderBy:{
-                    createdAt:"desc"
                 },
-                take:12 * +list 
             })
         }else{
-            notifications = await prisma.notification.findMany({
+            count = await prisma.notification.count({
                 where:{
                     entityId:currentCompany?.id
-                },orderBy:{
-                    createdAt:'desc'
                 },
-                take:12 * +list 
+         
             })
         }
   
-        return notifications
+        return count
 
     } catch (error) {
-        console.log("fetch notifications error",error)
-        return []
+        console.log("fetch count error",error)
+        return 0
     }
 
    
