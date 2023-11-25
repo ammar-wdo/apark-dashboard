@@ -347,20 +347,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
               "Submit"
             )}
           </Button>
-          {service && (
-            <Button
-              type="button"
-              variant={"destructive"}
-              onClick={() =>
-                setOpen("delete-modal", {
-                  url: `/api/service/${service.id}`,
-                  redirect: "/dashboard/services",
-                })
-              }
-            >
-              Delete
-            </Button>
-          )}
+      
         </div>
       </form>
     </Form>

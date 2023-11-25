@@ -98,43 +98,43 @@ export async function PATCH(
 }
 
 
-export async function DELETE(req:Request,{params}:{ params: { companyId: string; serviceId: string } }){
+// export async function DELETE(req:Request,{params}:{ params: { companyId: string; serviceId: string } }){
 
-    try {
+//     try {
 
   
-    const session = await getServerSession(authOptions)
-        const currentCompany = await getCurrentCompany();
-        if (!currentCompany)
-          return new NextResponse("Unauthenticated", { status: 401 });
+//     const session = await getServerSession(authOptions)
+//         const currentCompany = await getCurrentCompany();
+//         if (!currentCompany)
+//           return new NextResponse("Unauthenticated", { status: 401 });
 
           
 
-if(session?.user?.name ==="Company"){
-  await prisma.service.delete({
-    where:{
-      entity:{companyId:currentCompany.id},
-        id:params.serviceId,
+// if(session?.user?.name ==="Company"){
+//   await prisma.service.delete({
+//     where:{
+//       entity:{companyId:currentCompany.id},
+//         id:params.serviceId,
  
-    }
-  })
-}else{
-  await prisma.service.delete({
-    where:{
-      entityId:currentCompany.id,
-        id:params.serviceId,
+//     }
+//   })
+// }else{
+//   await prisma.service.delete({
+//     where:{
+//       entityId:currentCompany.id,
+//         id:params.serviceId,
  
-    }
-  })
-}
+//     }
+//   })
+// }
       
 
-          return NextResponse.json({message:"success"},{status:201})
+//           return NextResponse.json({message:"success"},{status:201})
         
-    } catch (error) {
-        console.log("SERVICE_DELETE_ERROR", error);
-        return new NextResponse("internal error", { status: 500 });
-    }
+//     } catch (error) {
+//         console.log("SERVICE_DELETE_ERROR", error);
+//         return new NextResponse("internal error", { status: 500 });
+//     }
 
 
-}
+// }
