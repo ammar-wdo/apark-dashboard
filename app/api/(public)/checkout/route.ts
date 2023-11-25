@@ -111,6 +111,8 @@ export async function POST(req: Request) {
       },
     });
 
+    console.log("booking date",booking.createdAt)
+
     const myPayment = methods[booking.paymentMethod];
 
     const entity = await prisma.entity.findFirst({
@@ -155,7 +157,7 @@ export async function POST(req: Request) {
       cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled`,
     });
 
-    await prisma.notification.create({
+    const notification = await prisma.notification.create({
       data:{
         entityId:entity?.id,
         companyId:entity?.companyId,
@@ -164,6 +166,8 @@ export async function POST(req: Request) {
         message:'A new booking is pending'
       }
     })
+
+    console.log("notification date",notification.createdAt)
 
     return NextResponse.json(
       { url: session.url },
