@@ -65,6 +65,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement}: Props
           <TableCell>Add value to each day</TableCell>
           <TableCell>
             <Input
+            min={0}
               type="number"
               placeholder="0"
               value={dayValue || ''}
