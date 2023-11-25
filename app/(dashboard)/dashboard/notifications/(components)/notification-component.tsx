@@ -10,7 +10,7 @@ type Props = {
 
 const NotificationComponent = ({ notification }: Props) => {
   const formattedDate = format(
-    new Date(notification.createdAt),
+    notification.createdAt,
     "EEE, MMM/d, HH:mm"
   );
   const url =
