@@ -6,6 +6,7 @@ import prisma from '@/lib/db'
 import { revalidateNotifications } from '../(helpers)/revalidateNotifications'
 import { fetchCount } from '../(helpers)/getchCount'
 import Controller from './controller'
+import Scroller from './scroller'
 
 type Props = {list:string }
 
@@ -28,8 +29,9 @@ const showController = count > 12 * +list
   return (
     <div className='max-w-[800px] mt-10 flex flex-col gap-2'>
         {noNotifications && <p className='mt-10'>No notifications</p>}
-        {notifications.map((notification)=><NotificationComponent key={notification.id} notification={notification} />)}
+        {notifications.map((notification)=><NotificationComponent key={notification.id} notification={notification} />) }
         {showController && <Controller list={list} />}
+        <Scroller />
 
 
     </div>
