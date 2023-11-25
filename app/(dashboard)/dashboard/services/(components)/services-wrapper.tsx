@@ -32,7 +32,9 @@ const ServicesWrapper = async({entityId}: Props) => {
           include: {
           airport:true
             
-          },
+          },orderBy:{
+            createdAt:'desc'
+          }
         });
       
 
@@ -46,6 +48,8 @@ const ServicesWrapper = async({entityId}: Props) => {
           },
           include:{
             airport:true
+          },orderBy:{
+            createdAt:'desc'
           }
         })
       }else{
@@ -57,6 +61,8 @@ const ServicesWrapper = async({entityId}: Props) => {
           },
           include:{
             airport:true
+          },orderBy:{
+            createdAt:'desc'
           }
         })
       }

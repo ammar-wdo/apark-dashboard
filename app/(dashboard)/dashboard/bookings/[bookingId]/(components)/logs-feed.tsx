@@ -26,7 +26,7 @@ const LogsFeed = async({bookingId}: Props) => {
 console.log(logs)
 
 
-const themes:{[key:string]:string} = {CANCELED:'text-rose-500',EXPIRED:'text-rose-500',ACTIVE:'text-green-500',SUCCEEDED:'text-green-500'}
+const themes:{[key:string]:string} = {CANCELED:'text-rose-500 bg-rose-500/20',EXPIRED:'text-rose-500 bg-rose-500/20',ACTIVE:'text-green-500 bg-green-500/20',SUCCEEDED:'text-green-500 text-green-500 bg-green-500/20'}
   return (
     <div className='mt-12'>
         <h3 className='text-xl font-bold capitalize'>Logs</h3>
@@ -42,16 +42,19 @@ const themes:{[key:string]:string} = {CANCELED:'text-rose-500',EXPIRED:'text-ros
 
     </TableRow>
   </TableHeader>
+  
   <TableBody>
+    
   {logs.map((log)=>  <TableRow key={log.id}>
-      <TableCell className={cn('font-semibold',themes[log.bookingStatus])}>{log.bookingStatus}</TableCell>
-      <TableCell className={cn('font-semibold',themes[log.paymentStatus!])}>{log.paymentStatus}</TableCell>
+      <TableCell ><span className={cn('font-semibold rounded-md  p-3 py-2 text-xs ',themes[log.bookingStatus])}>{log.bookingStatus}</span></TableCell>
+      <TableCell ><span className={cn('font-semibold rounded-md  p-3 py-2 text-xs ',themes[log.paymentStatus!])}>{log.paymentStatus}</span></TableCell>
       <TableCell>${log.payed}</TableCell>
  
     </TableRow>)}
   
   </TableBody>
 </Table>
+{!logs.length && <span className='text-center py-4 text-neutral-300 font-bold text-xl block '>No logs </span>}
     </div>
   )
 }
