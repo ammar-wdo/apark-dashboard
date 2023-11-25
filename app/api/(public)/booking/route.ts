@@ -30,3 +30,40 @@ const bookingId = searchParams.get('bookingId')
     return new NextResponse('internal error',{status:500})
 }
 }
+
+
+export async function POST(req:Request){
+
+try {
+    
+
+   
+
+const {email, bookingCode} = await req.json()
+
+
+    if(!email || !bookingCode) return new NextResponse('creadentials are required')
+
+
+    const booking = await prisma.booking.findUnique({
+        where:{
+            email,
+            bookingCode,
+            paymentStatus:'SUCCEEDED',
+            bookingStatus:'ACTIVE'
+        }
+    })
+
+    if(!booking) return new NextResponse('invalid creadentials',{status:400})
+
+
+    return NextResponse.json({booking},{status:200})
+
+
+
+
+} catch (error) {
+    console.log(error)
+    return new NextResponse('internal error',{status:500})
+}
+}
