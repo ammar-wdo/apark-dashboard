@@ -2,12 +2,15 @@ import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function GET(req:Request,{params}:{params:{serviceId:string}}){
-
+console.log('service')
     try {
         const service = await prisma.service.findUnique({
             where:{
                 id:params.serviceId,
                 isActive:true
+            },
+            include:{
+                rules:true
             }
         })
 

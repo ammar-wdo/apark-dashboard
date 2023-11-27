@@ -50,7 +50,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
       </TableHeader>
       <TableBody>
         <TableRow className="">
-          <TableCell className="">Set all fields to a certain value</TableCell>
+          <TableCell className="font-semibold">Set all fields to a certain value</TableCell>
           <TableCell className="">
             <Input
               type="number"
@@ -70,7 +70,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell>Add value to each day</TableCell>
+          <TableCell className="font-semibold">Add value to each day</TableCell>
           <TableCell>
           <div className="grid grid-cols-2 gap-1  items-center w-60">
                 <span>From</span>
@@ -114,7 +114,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell>Substract value from each day</TableCell>
+          <TableCell className="font-semibold">Substract value from each day</TableCell>
           <TableCell>
           <div className="grid grid-cols-2 gap-1  items-center w-60">
                 <span>From</span>
@@ -158,7 +158,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell>Add percentage to each day</TableCell>
+          <TableCell className="font-semibold">Add percentage to each day</TableCell>
          
           <TableCell className="relative flex items-center">
             <span className="absolute left-6 text-xs text-gray-500">%</span>
@@ -180,7 +180,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell>Add rows with values</TableCell>
+          <TableCell className="font-semibold">Add rows with values</TableCell>
           <TableCell className="">
             <div className="grid grid-cols-2 gap-1  items-center w-60">
                 <span>Number of rows</span>
@@ -213,7 +213,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell>Add incremental value </TableCell>
+          <TableCell className="font-semibold">Add incremental value </TableCell>
           <TableCell className="">
             <div className="grid grid-cols-2 gap-1  items-center w-60">
                 <span>From</span>

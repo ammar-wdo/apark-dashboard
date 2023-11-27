@@ -82,6 +82,7 @@ export const usePricing = (pricings: number[]) => {
   };
 
   const addValue = (value: number,from:number,to:number) => {
+    if (from > to || from === to || value===0) return;
     setMyArray((prev: number[] | undefined) =>
       prev?.map((el,i) => {
         
@@ -97,6 +98,7 @@ return (el + value < 0 ? 0 : +el + value)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
   const minusValue = (value: number,from:number,to:number) => {
+    if (from > to || from === to || value===0) return;
     setMyArray((prev: number[] | undefined) =>
       prev?.map((el,i) => {
         
@@ -112,6 +114,7 @@ return (el - value < 0 ? 0 : +el - value)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
   const addPercentage = (value: number) => {
+    if(value===0) return
     setMyArray((prev: number[] | undefined) =>
       prev?.map((el) =>
         el + (el * value) / 100 < 0
@@ -131,7 +134,10 @@ return (el - value < 0 ? 0 : +el - value)
   };
 
   const addRows = (rows: number, value: number) =>
-  {  setMyArray((prev: number[] | undefined) => [
+  { 
+    if(rows===0) return
+    
+    setMyArray((prev: number[] | undefined) => [
       ...(prev || []),
       ...Array(rows).fill(value),
     ])
@@ -139,7 +145,7 @@ return (el - value < 0 ? 0 : +el - value)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})};
 
   const addIncrement = (from: number, to: number, value=0) => {
-    
+    setPreviousArray(myArray)  //not working
     if (from > to || from === to) return;
 
   
@@ -157,8 +163,9 @@ return (el - value < 0 ? 0 : +el - value)
 
       iv++;
     }
-    setPreviousArray(myArray)
+   
     setMyArray(()=>[...(newArry||[])]);
+   
 
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };

@@ -141,11 +141,11 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
         <div className="space-y-2  text-black dark:text-white">
         <div className="flex items-center justify-between font-semibold">
         <p className="">Total turnover Comfort Parking</p>
-        <p>$ { total}</p>
+        <p>$ { booking?.total}</p>
         </div>
         <div className="flex items-center justify-between font-semibold space-x-3">
         <p className="">Total amount Customer (paid in advance)</p>
-        <p>$ { total}</p>
+        <p>$ { booking?.total}</p>
         </div>
         </div>
        
