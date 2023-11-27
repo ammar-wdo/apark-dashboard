@@ -10,13 +10,18 @@ import { useRouter } from "next/navigation";
 
 export const usePricing = (pricings: number[]) => {
   const [myArray, setMyArray] = useState<number[]>();
+  const [previousArray, setPreviousArray] = useState<number[] | undefined>()
   useEffect(() => {
     if (pricings.length) {
       setMyArray(pricings);
     } else {
-      setMyArray(Array(15).fill(0));
+      setMyArray(Array(30).fill(0));
     }
+    
   }, [pricings]);
+
+
+
 
   useEffect(() => {
     if (myArray?.length) {
@@ -31,6 +36,8 @@ export const usePricing = (pricings: number[]) => {
         ]);
       }
     }
+
+   
   }, [myArray]);
 
   //     setMyArray(pricings)
@@ -48,6 +55,8 @@ export const usePricing = (pricings: number[]) => {
   //     setMyArray(Array(60).fill(0))
   // }
 
+
+
   useEffect(() => {
     form.setValue("pricings", myArray || []);
   }, [myArray]);
@@ -60,6 +69,7 @@ export const usePricing = (pricings: number[]) => {
 
   const addRow = () => {
     setMyArray((prev: number[] | undefined) => [...(prev || []), 0]);
+    setPreviousArray(myArray)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
 
@@ -67,13 +77,38 @@ export const usePricing = (pricings: number[]) => {
     setMyArray((prev: number[] | undefined) =>
       prev?.filter((_, i) => i !== row)
     );
+   setPreviousArray(myArray)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
 
-  const addValue = (value: number) => {
+  const addValue = (value: number,from:number,to:number) => {
     setMyArray((prev: number[] | undefined) =>
-      prev?.map((el) => (el + value < 0 ? 0 : +el + value))
+      prev?.map((el,i) => {
+        
+        if(i+1>=from && i+1 <=to){
+          console.log(i,from,to)
+return (el + value < 0 ? 0 : +el + value)
+        }else{
+          return el
+        }
+        })
     );
+    setPreviousArray(myArray)
+    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
+  };
+  const minusValue = (value: number,from:number,to:number) => {
+    setMyArray((prev: number[] | undefined) =>
+      prev?.map((el,i) => {
+        
+        if(i+1>=from && i+1 <=to){
+          console.log(i,from,to)
+return (el - value < 0 ? 0 : +el - value)
+        }else{
+          return el
+        }
+        })
+    );
+    setPreviousArray(myArray)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
   const addPercentage = (value: number) => {
@@ -84,12 +119,14 @@ export const usePricing = (pricings: number[]) => {
           : parseInt((el + (el * value) / 100).toString())
       )
     );
+   setPreviousArray(myArray)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
   const reset = (value: number) => {
     setMyArray((prev: number[] | undefined) =>
       prev?.map((el) => (value < 0 ? 0 : parseInt(value.toString())))
     );
+   setPreviousArray(myArray)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
 
@@ -98,6 +135,7 @@ export const usePricing = (pricings: number[]) => {
       ...(prev || []),
       ...Array(rows).fill(value),
     ])
+   setPreviousArray(myArray)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})};
 
   const addIncrement = (from: number, to: number, value=0) => {
@@ -119,11 +157,17 @@ export const usePricing = (pricings: number[]) => {
 
       iv++;
     }
-
+    setPreviousArray(myArray)
     setMyArray(()=>[...(newArry||[])]);
 
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
+
+  const undo = ()=>{
+    console.log(previousArray)
+    setMyArray(previousArray)
+    setPreviousArray([])
+  }
 
   const form = useForm<z.infer<typeof pricingSchema>>({
     resolver: zodResolver(pricingSchema),
@@ -155,9 +199,13 @@ export const usePricing = (pricings: number[]) => {
     addRow,
     deleteRow,
     addValue,
+    minusValue,
     addPercentage,
     reset,
     addRows,
     addIncrement,
+    undo,
+    previousArray
+
   };
 };
