@@ -10,7 +10,9 @@ console.log('service')
                 isActive:true
             },
             include:{
-                rules:true
+                rules:true,
+                availability:true,
+                bookings:true
             }
         })
 

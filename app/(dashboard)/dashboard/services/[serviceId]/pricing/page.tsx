@@ -4,6 +4,7 @@ import React from 'react'
 import PricingForm from './(components)/pricing-form'
 import Heading from '@/components/heading'
 import Control from './(components)/control'
+import { redirect } from 'next/navigation'
 
 type Props = {
     params:{serviceId:string}
@@ -18,6 +19,8 @@ const page = async({params}: Props) => {
     }})
 
     console.log(service?.pricings.length)
+
+    if(!service) return redirect('/dashboard')
   return (
     <div className=''>
       <Heading title='Pricing table' description={`Check Pricing for ${service?.name} `} />

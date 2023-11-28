@@ -12,7 +12,7 @@ export const usePricing = (pricings: number[]) => {
   const [myArray, setMyArray] = useState<number[]>();
   const [previousArray, setPreviousArray] = useState<number[] | undefined>()
   useEffect(() => {
-    if (pricings.length) {
+    if (pricings?.length) {
       setMyArray(pricings);
     } else {
       setMyArray(Array(30).fill(0));

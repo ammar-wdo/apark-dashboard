@@ -5,6 +5,7 @@ import ServiceForm from './(components)/service-form'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { getCurrentCompany } from '@/lib/helpers'
+import { redirect } from "next/navigation"
 
 type Props = {params:{serviceId:string}}
 
@@ -16,6 +17,8 @@ const page = async({params}: Props) => {
 const service = await prisma.service.findUnique({
    where:{id:params.serviceId} 
 })
+
+
 
 const airports = await prisma.airport.findMany({select:{id:true,name:true}})
 const entities  =await prisma.entity.findMany({where:{companyId:company?.id},select:{id:true,entityName:true}})
