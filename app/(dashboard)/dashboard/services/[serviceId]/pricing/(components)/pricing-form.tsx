@@ -52,7 +52,7 @@ const PricingForm = ({ pricings }: Props) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-3 max-w-[600px] w-full"
         >
-             <div className="flex items-center gap-3 sticky top-12 z-10 bg-white p-2  border ">
+             <div className="flex items-center gap-3 sticky top-12 z-10 bg-background p-2  border ">
             <Button disabled={isLoading} type="submit">
               Save changes{" "}
               {isLoading && <Loader className="animate-spin w-3 h-3 ml-2" />}
