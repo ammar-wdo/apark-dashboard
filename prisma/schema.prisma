@@ -85,7 +85,7 @@ model Log {
   updatedAt             DateTime      @updatedAt
   address               String?
   arrivalDate           DateTime
-  bookingCode           String        @unique
+  bookingCode           String       
   carColor              String
   carLicense            String
   carModel              String

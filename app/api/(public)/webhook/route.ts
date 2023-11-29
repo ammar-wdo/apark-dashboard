@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import prisma from "@/lib/db";
 import { sendMail } from "./(helpers)/send-email";
+import { setLog } from "../(helpers)/set-log";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -28,6 +29,11 @@ export async function POST(req: Request) {
 
   switch (event.type) {
     case "checkout.session.completed": {
+
+      console.log('success')
+      if(!session.metadata?.update){
+console.log(session.metadata)
+      
       try {
         if (session.payment_status === "paid") {
 
@@ -45,41 +51,10 @@ export async function POST(req: Request) {
               }
             }
           });
-
+const values = setLog(order.total,order)
           const log =  prisma.log.create({
             data:{
-              bookingId:order.id,
-              payed:order.total,
-           
-            arrivalDate:order.arrivalDate,
-            arrivalTime:order.arrivalTime,
-            bookingCode:order.bookingCode,
-            carColor:order.carColor,
-            carLicense:order.carLicense,
-            carModel:order.carModel,
-            daysofparking:order.daysofparking,
-            departureDate:order.departureDate,
-            departureTime:order.departureTime,
-            email:order.email,
-            firstName:order.firstName,
-            lastName:order.lastName,
-            parkingPrice:order.parkingPrice,
-            phoneNumber:order.phoneNumber,
-            address:order.address,
-            bookingOnBusinessName:order.bookingOnBusinessName,
-            bookingStatus:order.bookingStatus,
-            companyName:order.companyName,
-            discount:order.discount,
-            extraServiceFee:order.extraServiceFee,
-            flightNumber:order.flightNumber,
-            isCompany:order.isCompany,
-            paymentMethod:order.paymentMethod,
-            paymentStatus:order.paymentStatus,
-            place:order.place,
-            returnFlightNumber:order.returnFlightNumber,
-            status:order.status,
-            vatNumber:order.vatNumber,
-            zipcode:order.zipcode,
+            ...values
             }
           })
         const notification=   prisma.notification.create({
@@ -98,11 +73,57 @@ export async function POST(req: Request) {
       } catch (error) {
         console.log(error);
       }
+    }else{
+      try {
+        if (session.payment_status === "paid") {
+
+          const order = await prisma.booking.update({
+            where: {
+              id: session?.metadata?.id,
+            },
+            data: {
+              paymentStatus: "SUCCEEDED",
+            },include:{
+              service:{
+                include:{
+                  entity:true
+                }
+              }
+            }
+          });
+const values = setLog(+session.metadata?.payed,order)
+          const log =  prisma.log.create({
+            data:{
+             ...values
+            }
+          })
+        const notification=   prisma.notification.create({
+            data:{
+              entityId:order.service.entityId,
+              companyId:order.service.entity.companyId,
+              status:'APPROVE',
+              type:'BOOKING',
+              message:'New booking payment has been succeeded to extend new days'
+            }
+          })
+
+          await  Promise.all([log,notification])
+          // await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
       break;
     }
 
     case "checkout.session.expired": {
+      console.log('expire')
+      console.log(session.metadata)
+      if(!session.metadata?.update){
+
+      
       try {
         const order = await prisma.booking.update({
           where: {
@@ -120,40 +141,10 @@ export async function POST(req: Request) {
           }
         });
 
-      
+        const values = setLog(0,order)
           const log =  prisma.log.create({
             data:{
-              bookingId:order.id,
-              payed:0,
-            arrivalDate:order.arrivalDate,
-            arrivalTime:order.arrivalTime,
-            bookingCode:order.bookingCode,
-            carColor:order.carColor,
-            carLicense:order.carLicense,
-            carModel:order.carModel,
-            daysofparking:order.daysofparking,
-            departureDate:order.departureDate,
-            departureTime:order.departureTime,
-            email:order.email,
-            firstName:order.firstName,
-            lastName:order.lastName,
-            parkingPrice:order.parkingPrice,
-            phoneNumber:order.phoneNumber,
-            address:order.address,
-            bookingOnBusinessName:order.bookingOnBusinessName,
-            bookingStatus:order.bookingStatus,
-            companyName:order.companyName,
-            discount:order.discount,
-            extraServiceFee:order.extraServiceFee,
-            flightNumber:order.flightNumber,
-            isCompany:order.isCompany,
-            paymentMethod:order.paymentMethod,
-            paymentStatus:order.paymentStatus,
-            place:order.place,
-            returnFlightNumber:order.returnFlightNumber,
-            status:order.status,
-            vatNumber:order.vatNumber,
-            zipcode:order.zipcode,
+             ...values
 
             
 
@@ -174,8 +165,57 @@ export async function POST(req: Request) {
       } catch (error) {
         console.log(error);
       }
-      break;
+     
+    }else{
+
+      try {
+        const order = await prisma.booking.update({
+          where: {
+            id: session?.metadata?.id,
+          },
+          data: {
+            paymentStatus: "SUCCEEDED",
+            bookingStatus:'ACTIVE',
+            arrivalDate:new Date(session.metadata.arrivalDate),
+            departureDate:new Date(session.metadata.departureDate),
+            total:+session.metadata.total,
+            daysofparking:+session.metadata.daysofparking
+          },include:{
+            service:{
+              include:{
+                entity:true
+              }
+            }
+          }
+        });
+
+      const values = setLog(0,order)
+          const log =  prisma.log.create({
+            data:{
+             
+...values
+            
+
+            }
+          })
+      const notification=   prisma.notification.create({
+          data:{
+            entityId:order.service.entityId,
+            companyId:order.service.entity.companyId,
+            status:'APPROVE',
+            type:'BOOKING',
+            message:'A booking status has failed to extend parking days and  been reverted to its previous succeeded status'
+          }
+        })
+
+        await  Promise.all([log,notification])
+
+      } catch (error) {
+        console.log(error);
+      }
     }
+    break;
+  }
 
   
     default:
