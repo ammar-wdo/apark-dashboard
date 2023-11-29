@@ -29,7 +29,7 @@ const LogsFeed = async({bookingId}: Props) => {
 const themes:{[key:string]:string} = {CANCELED:'text-rose-500 bg-rose-500/20',EXPIRED:'text-rose-500 bg-rose-500/20',ACTIVE:'text-green-500 bg-green-500/20',SUCCEEDED:'text-green-500 text-green-500 bg-green-500/20',PENDING:'text-yellow-500 text-yellow-500 bg-yellow-500/20'}
   return (
     <div className='mt-12'>
-        <h3 className='text-xl font-bold capitalize'>Logs</h3>
+        <h3 className='text-xl font-bold capitalize mb-4'>Logs</h3>
 
 
         <Table>
