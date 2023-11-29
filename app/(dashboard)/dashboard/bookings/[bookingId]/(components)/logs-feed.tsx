@@ -39,6 +39,7 @@ const themes:{[key:string]:string} = {CANCELED:'text-rose-500 bg-rose-500/20',EX
       <TableHead >Booking status</TableHead>
       <TableHead>Payment status</TableHead>
       <TableHead>Payed</TableHead>
+      <TableHead>Parking days</TableHead>
       <TableHead>Arrival date</TableHead>
       <TableHead>Departure date</TableHead>
       <TableHead>Created at</TableHead>
@@ -52,6 +53,7 @@ const themes:{[key:string]:string} = {CANCELED:'text-rose-500 bg-rose-500/20',EX
       <TableCell ><span className={cn('font-semibold rounded-md  p-3 py-2 text-xs ',themes[log.bookingStatus])}>{log.bookingStatus}</span></TableCell>
       <TableCell ><span className={cn('font-semibold rounded-md  p-3 py-2 text-xs ',themes[log.paymentStatus!])}>{log.paymentStatus}</span></TableCell>
       <TableCell>${log.payed}</TableCell>
+      <TableCell>{log.daysofparking}</TableCell>
       <TableCell>{log.arrivalDate.toLocaleDateString()}, {log.arrivalTime}</TableCell>
       <TableCell>{log.departureDate.toLocaleDateString()}, {log.departureTime}</TableCell>
       <TableCell>{log.createdAt.toLocaleString()}</TableCell>
