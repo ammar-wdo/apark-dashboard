@@ -65,7 +65,7 @@ const {startDateString,endDateString} = handleTimezone(values.startDate,values.e
       
       const refinedValues = {...values,startDate:startDateString,endDate:endDateString}
 
-      console.log(refinedValues)
+   
       try {
 let res;
 if(!data.rule){

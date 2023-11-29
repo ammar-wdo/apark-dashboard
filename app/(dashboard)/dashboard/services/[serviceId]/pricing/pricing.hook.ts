@@ -87,7 +87,7 @@ export const usePricing = (pricings: number[]) => {
       prev?.map((el,i) => {
         
         if(i+1>=from && i+1 <=to){
-          console.log(i,from,to)
+        
 return (el + value < 0 ? 0 : +el + value)
         }else{
           return el
@@ -152,14 +152,14 @@ return (el - value < 0 ? 0 : +el - value)
 
     let iv = 1;
     let newArry = myArray;
-    console.log(newArry)
+  
 
     for (let i = from-1; i < to; i++) {
       const theValue = iv * value;
    
 
       newArry![i] =  newArry![i]? newArry![i] + theValue : 0 +theValue;
-      console.log(newArry![i])
+    
 
       iv++;
     }
@@ -171,7 +171,7 @@ return (el - value < 0 ? 0 : +el - value)
   };
 
   const undo = ()=>{
-    console.log(previousArray)
+   
     setMyArray(previousArray)
     setPreviousArray([])
   }

@@ -111,7 +111,7 @@ export async function POST(req: Request) {
       },
     });
 
-    console.log("booking date",booking.createdAt)
+  
 
     const myPayment = methods[booking.paymentMethod];
 
@@ -167,7 +167,7 @@ export async function POST(req: Request) {
       }
     })
 
-    console.log("notification date",notification.createdAt)
+  
 
     return NextResponse.json(
       { url: session.url },

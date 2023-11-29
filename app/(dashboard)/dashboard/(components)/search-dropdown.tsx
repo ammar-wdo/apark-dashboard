@@ -54,7 +54,6 @@ const handleClick = useCallback((e:string) => {
 let placeholder 
 
 
-console.log(searchParams)
   return (
     <Select onValueChange={e=>{handleClick(e)}}>
     <SelectTrigger className="w-[180px]">

@@ -31,8 +31,9 @@ export async function POST(req: Request) {
     case "checkout.session.completed": {
 
       console.log('success')
+      console.log(session.metadata)
       if(!session.metadata?.update){
-console.log(session.metadata)
+
       
       try {
         if (session.payment_status === "paid") {
@@ -74,6 +75,7 @@ const values = setLog(order.total,order)
         console.log(error);
       }
     }else{
+      console.log(session.metadata)
       try {
         if (session.payment_status === "paid") {
 

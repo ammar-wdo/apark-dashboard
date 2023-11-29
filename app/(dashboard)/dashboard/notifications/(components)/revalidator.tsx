@@ -9,7 +9,7 @@ const Revalidator = (props: Props) => {
 
     const {queryClient,data} = useNotificationsQuery()
 
-    console.log(data?.count)
+    
 
     useEffect(()=>{
         queryClient.invalidateQueries({queryKey:["notifications"]})
