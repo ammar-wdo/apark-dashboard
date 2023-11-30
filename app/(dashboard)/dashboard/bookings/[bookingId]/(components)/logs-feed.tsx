@@ -33,7 +33,10 @@ const LogsFeed = async ({ bookingId }: Props) => {
     EXPIRED: "text-rose-500 bg-rose-500/20",
     ACTIVE: "text-green-500 bg-green-500/20",
     SUCCEEDED: "text-green-500 text-green-500 bg-green-500/20",
+    CREATED: "text-green-500 text-green-500 bg-green-500/20",
     PENDING: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
+    UPDATED:"text-green-500 text-green-500 bg-green-500/20",
+    UPDATING:"text-yellow-500 text-yellow-500 bg-yellow-500/20",
   };
   return (
     <div className="mt-12">
@@ -68,7 +71,12 @@ const LogsFeed = async ({ bookingId }: Props) => {
               </TableCell>
               <TableCell className="text-center">€{log.payed}</TableCell>
               <TableCell className="text-center">{log.daysofparking}</TableCell>
-              <TableCell className="text-center">{log.attempt}</TableCell>
+              <TableCell className="text-center">  <span
+                  className={cn(
+                    "font-semibold rounded-md  p-3 py-2 text-xs ",
+                    themes[log.attempt]
+                  )}
+                >{log.attempt}</span></TableCell>
               <TableCell className="text-center">
                 <span
                   className={cn(
