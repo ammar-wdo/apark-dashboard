@@ -30,6 +30,7 @@ const LogsFeed = async ({ bookingId }: Props) => {
 
   const themes: { [key: string]: string } = {
     CANCELED: "text-rose-500 bg-rose-500/20",
+    REVERTED: "text-rose-500 bg-rose-500/20",
     EXPIRED: "text-rose-500 bg-rose-500/20",
     ACTIVE: "text-green-500 bg-green-500/20",
     SUCCEEDED: "text-green-500 text-green-500 bg-green-500/20",
