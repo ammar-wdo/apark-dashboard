@@ -157,7 +157,7 @@ export async function POST(req: Request) {
           type: "BOOKING",
           status: "APPROVE",
           IdHolder: updatedBooking.id,
-          message: "A booking has changed its date range",
+          message: "A booking has been updated",
         },
       });
 
