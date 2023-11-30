@@ -63,6 +63,8 @@ console.log(email,bookingCode)
         }
     })
 
+    console.log(booking?.departureDate, new Date())
+
     if(!booking) return new NextResponse('invalid creadentials',{status:400})
 
 

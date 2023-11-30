@@ -41,7 +41,8 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
     },
     cell: ({ row }) => (
       <Link
-        className="underline text-blue-600 dark:text-indigo-500"
+      style={{textTransform:'none'}}
+        className="underline text-blue-600 dark:text-indigo-500 "
         href={`/dashboard/bookings/${row.original.id}`}
       >
         {row.getValue("bookingCode")}
