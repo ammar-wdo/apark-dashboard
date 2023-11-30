@@ -12,7 +12,11 @@ console.log('service')
             include:{
                 rules:true,
                 availability:true,
-                bookings:true
+                bookings:{where:{
+                    paymentStatus:{in:['SUCCEEDED','PENDING']},
+                    bookingStatus:'ACTIVE'
+                },
+            }
             }
         })
 
