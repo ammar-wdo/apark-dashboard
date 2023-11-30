@@ -81,9 +81,11 @@ const TableWrapper =async ({page}: Props) => {
  
   return (
     <div>
-     
-     {<Explane  stages={paymentStatus} title='Payment status' />}
-     {<Explane  stages={bookingStatus} title='Boooking status' />}
+     <div className='flex gap-3'>
+     <Explane  stages={paymentStatus} title='Payment status' />
+     <Explane  stages={bookingStatus} title='Boooking status' />
+     </div>
+    
         <DataTable
           columns={columns}
           data={bookings}

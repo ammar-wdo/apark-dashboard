@@ -5,9 +5,9 @@ type Props = {stages:{label:string,description:string,color:string}[],title:stri
 
 const Explane = ({stages,title}: Props) => {
   return (
-    <div className="my-4">
+    <div className="my-4 w-fit">
     <h3 className="font-semibold text-xs ">{title}</h3>
-    <div className="flex items-center gap-12 flex-wrap mt-2">
+    <div className="flex  gap-1 flex-col mt-2">
     {stages.map(stage=>
   
  
