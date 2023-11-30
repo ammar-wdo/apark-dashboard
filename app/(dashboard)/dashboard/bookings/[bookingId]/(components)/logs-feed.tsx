@@ -85,7 +85,7 @@ const LogsFeed = async ({ bookingId }: Props) => {
      
    
   
-      <div className={cn(" bg-muted rounded-sm overflow-hidden px-3 py-1",stage.color)}>
+      <div key={stage.label} className={cn(" bg-muted rounded-sm overflow-hidden px-3 py-1",stage.color)}>
       <p className="capitalize text-xs ">{stage.label}</p>
       <p className="text-xs text-muted-foreground">
 {stage.description}
