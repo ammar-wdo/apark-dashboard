@@ -23,7 +23,9 @@ const LogsFeed = async ({ bookingId }: Props) => {
   const logs = await prisma.log.findMany({
     where: {
       bookingId: bookingId,
-    },
+    },orderBy:{
+      createdAt:'desc'
+    }
   });
 
   const themes: { [key: string]: string } = {
