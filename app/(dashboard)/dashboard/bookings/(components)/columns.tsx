@@ -50,6 +50,21 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
     ),
   },
   {
+    accessorKey: "email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+         E-mail
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell:({row})=><span style={{textTransform:'none'}}>{row.getValue('email')}</span>
+  },
+  {
     accessorKey: "service.name",
     header: ({ column }) => {
       return (
@@ -120,7 +135,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           </Button>
         )
       },
-    cell:({row})=><div><p>{format( row.getValue('createdAt'),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format( row.getValue('createdAt'),"HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1"><p className="text-xs ">{format( row.getValue('createdAt'),"dd-MM-yyyy")}</p>-<p className="text-xs">{format( row.getValue('createdAt'),"HH:mm")}</p></div>
 
   },
   {
@@ -136,7 +151,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div><p>{format( row.getValue('arrivalDate'),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format(row.getValue('arrivalDate'),"HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1"><p className="text-xs ">{format( row.getValue('arrivalDate'),"dd-MM-yyyy")}</p>-<p className="text-xs">{format(row.getValue('arrivalDate'),"HH:mm")}</p></div>
   },
   {
     accessorKey: "departureDate",
@@ -151,7 +166,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div><p>{format(new Date( row.getValue('departureDate')),"EEEE, MMMM d, yyyy")}</p><p className="text-xs">{format(new Date( row.getValue('departureDate')),"HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1"><p className="text-xs ">{format(new Date( row.getValue('departureDate')),"dd-MM-yyyy")}</p>-<p className="text-xs">{format(new Date( row.getValue('departureDate')),"HH:mm")}</p></div>
   },
   {
     accessorKey: "paymentMethod",

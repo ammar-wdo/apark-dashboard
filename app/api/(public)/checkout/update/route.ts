@@ -55,6 +55,10 @@ export async function POST(req: Request) {
         serviceId: validBody.data.serviceId,
         email: validBody.data.email,
         bookingCode: bookingCode,
+        departureDate:{gt:new Date()},
+        paymentStatus:'SUCCEEDED',
+        bookingStatus:'ACTIVE'
+
       },
     });
 
