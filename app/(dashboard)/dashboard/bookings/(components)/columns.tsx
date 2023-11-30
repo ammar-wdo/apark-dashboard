@@ -221,7 +221,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
     
   },
   {
-    accessorKey: "paymentStatus",
+    accessorKey: "bookingStatus",
     header: ({ column }) => {
       return (
         <Button
