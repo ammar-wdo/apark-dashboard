@@ -199,7 +199,7 @@ export async function POST(req: Request) {
           const values = setLog(
             0,
             "REVERTED",
-            "An attempt to update a booking was reverted to its previous state because the payment for extra days was not succeeded",
+            "An attempt to update a booking was reverted to its previous state because the payment for extra days was not succeeded, but if any changed information, then they will be saved",
             order
           );
           const log = prisma.log.create({
@@ -214,7 +214,7 @@ export async function POST(req: Request) {
               status: "APPROVE",
               type: "BOOKING",
               message:
-                "A booking status has failed to extend parking days and  been reverted to its previous parking date and succeeded status, but if any  changed information, they will be saved",
+                "A booking status has failed to extend parking days and  been reverted to its previous parking date and succeeded status,",
             },
           });
 
