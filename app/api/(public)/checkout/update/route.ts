@@ -143,7 +143,7 @@ export async function POST(req: Request) {
       });
 
 // create new log
-      const values = setLog(0,"UPDATED",`This booking has been updated with new additional days, no no additional payment`,updatedBooking)
+      const values = setLog(0,"UPDATED",`This booking has been updated with no additional days, no additional payment`,updatedBooking)
       await prisma.log.create({data:{...values}})
 
       await prisma.notification.create({

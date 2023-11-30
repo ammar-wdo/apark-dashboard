@@ -14,6 +14,7 @@ import { calculateParkingDays } from "@/app/api/(public)/services/(helpers)/find
 import { daysAndTotal } from "@/app/api/(public)/checkout/(helpers)/days-and-total";
 import { Separator } from "@/components/ui/separator";
 import LogsFeed from "./(components)/logs-feed";
+import { redirect } from "next/navigation";
 
 
 type Props = {
@@ -29,6 +30,9 @@ const page = async ({ params }: Props) => {
       service: true,
     },
   });
+
+  if(!booking) return redirect('/dashboard')
+  
 const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.departureDate!,booking?.service.id!)
   return (
     <div className="p-12">

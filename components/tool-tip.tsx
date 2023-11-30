@@ -33,7 +33,7 @@ import {
             {children}
           </TooltipTrigger>
           <TooltipContent side={side} align="start" sideOffset={7} className="bg-secondary-foreground text-secondary">
-            <p className=" text-xs capitalize ">
+            <p className=" text-xs capitalize max-w-[80px]">
               {title}
             </p>
           </TooltipContent>
