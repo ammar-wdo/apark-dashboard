@@ -8,16 +8,15 @@ import { findValidServices } from "./(helpers)/findValidServices";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
-  console.log('hi')
+  console.log("hi");
 
   const startDate = searchParams.get("startDate") as string;
   const endDate = searchParams.get("endDate") as string;
   const startTime = searchParams.get("startTime") as string;
   const endTime = searchParams.get("endTime") as string;
 
-  if(!startDate || !endDate || !startTime || !endTime) return new NextResponse('date and time is required',{status:400})
-
-
+  if (!startDate || !endDate || !startTime || !endTime)
+    return new NextResponse("date and time is required", { status: 400 });
 
   try {
     const services = await prisma.service.findMany({
@@ -25,9 +24,11 @@ export async function GET(req: Request) {
         isActive: true,
       },
       include: {
-        bookings: {where:{paymentStatus:{in:["SUCCEEDED","PENDING"]}}},
+        bookings: {
+          where: { paymentStatus: { in: ["SUCCEEDED", "PENDING"] },bookingStatus:'ACTIVE' },
+        },
         availability: true,
-        rules:true
+        rules: true,
       },
     });
 
@@ -35,9 +36,15 @@ export async function GET(req: Request) {
       new Date(startDate),
       new Date(endDate)
     );
-   
 
-    const validServices = findValidServices(services,startDate,endDate,startTime,endTime,parkingDays)
+    const validServices = findValidServices(
+      services,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      parkingDays
+    );
 
     return NextResponse.json(validServices);
   } catch (error) {

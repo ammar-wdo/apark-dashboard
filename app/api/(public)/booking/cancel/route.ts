@@ -61,7 +61,7 @@ export async function POST(req: Request) {
           id: booking.id,
         },
         data: {
-          paymentStatus: "CANCELED",
+        
           bookingStatus: "CANCELED",
         },
       });

@@ -71,7 +71,7 @@ export async function POST(req: Request) {
       },
       include: {
         bookings: {
-          where: { paymentStatus: { in: ["SUCCEEDED", "PENDING"] } },
+          where: { paymentStatus: { in: ["SUCCEEDED", "PENDING"] },bookingStatus:'ACTIVE' },
         },
         availability: true,
         rules: true,
