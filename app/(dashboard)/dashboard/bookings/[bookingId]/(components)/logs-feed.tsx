@@ -74,12 +74,66 @@ const LogsFeed = async ({ bookingId }: Props) => {
   },
 
 ]
+
+const paymentStatus = [
+  {
+  label:'succeeded',
+  description:'The payment is made successfully',
+  color:'border-l-2 border-green-500'
+},
+{
+  label:'pending',
+  description:'The payment is pending ',
+  color:'border-l-2 border-yellow-500'
+},
+  {
+  label:'expired',
+  description:'The payment checkout was expired and payment failed ',
+  color:'border-l-2 border-rose-500'
+},
+
+  {
+  label:'canceled',
+  description:'The payment is canceled and a refund action made',
+  color:'border-l-2 border-rose-500'
+},
+
+]
+const bookingStatus = [
+  {
+  label:'active',
+  description:'The booking is either paid or pending',
+  color:'border-l-2 border-green-500'
+},
+{
+  label:'refund request',
+  description:'The booking is pending to be refunded ',
+  color:'border-l-2 border-yellow-500'
+},
+  {
+  label:'refunded',
+  description:'The booking is successfully refunded',
+  color:'border-l-2 border-green-500'
+},
+
+  {
+  label:'canceled',
+  description:'The booking is canceled',
+  color:'border-l-2 border-rose-500'
+},
+
+]
   return (
     <div className="mt-12">
     
     
       <h3 className="text-xl font-bold capitalize mb-4">Logs</h3>
-    <Explane stages={stages} title="Stage" />
+      <div className="flex gap-3">
+      <Explane stages={stages} title="Stage" />
+      <Explane stages={bookingStatus} title="Booking status" />
+      <Explane stages={paymentStatus} title="Payment status" />
+      </div>
+ 
 
       <Table>
         <TableHeader>
