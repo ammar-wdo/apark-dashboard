@@ -39,6 +39,7 @@ const LogsFeed = async ({ bookingId }: Props) => {
     PENDING: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
     UPDATED: "text-green-500 text-green-500 bg-green-500/20",
     UPDATING: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
+    REFUND_REQUEST: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
   };
 
 

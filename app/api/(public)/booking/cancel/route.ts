@@ -1,6 +1,6 @@
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
-import { isOneDay } from "./(helper)/isOneDay";
+import { morethanOneDay } from "./(helper)/isOneDay";
 import { setLog } from "../../(helpers)/set-log";
 
 const corsHeaders = {
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
       },
     });
 
-    if (isOneDay(booking.createdAt)) {
+    if (!morethanOneDay(booking.arrivalDate)) {
    const updatedBooking =   await prisma.booking.update({
         where: {
           id: booking.id,

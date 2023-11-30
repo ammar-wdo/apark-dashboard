@@ -1,8 +1,8 @@
-export const isOneDay = (date: Date):boolean => {
-  const bookingCreatedAt = date;
+export const morethanOneDay = (arrivalDate: Date):boolean => {
+ 
   const currentTime = new Date();
 
-  const timeDifference = currentTime.getTime() - bookingCreatedAt.getTime();
+  const timeDifference = arrivalDate.getTime() - currentTime.getTime() ;
 
   const timeDifferenceInHours = timeDifference / (1000 * 60 * 60);
 
