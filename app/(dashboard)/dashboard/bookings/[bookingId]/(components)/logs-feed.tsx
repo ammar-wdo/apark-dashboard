@@ -23,9 +23,10 @@ const LogsFeed = async ({ bookingId }: Props) => {
   const logs = await prisma.log.findMany({
     where: {
       bookingId: bookingId,
-    },orderBy:{
-      createdAt:'asc'
-    }
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
 
   const themes: { [key: string]: string } = {
@@ -36,8 +37,8 @@ const LogsFeed = async ({ bookingId }: Props) => {
     SUCCEEDED: "text-green-500 text-green-500 bg-green-500/20",
     CREATED: "text-green-500 text-green-500 bg-green-500/20",
     PENDING: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
-    UPDATED:"text-green-500 text-green-500 bg-green-500/20",
-    UPDATING:"text-yellow-500 text-yellow-500 bg-yellow-500/20",
+    UPDATED: "text-green-500 text-green-500 bg-green-500/20",
+    UPDATING: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
   };
   return (
     <div className="mt-12">
@@ -46,12 +47,13 @@ const LogsFeed = async ({ bookingId }: Props) => {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="text-center">Stage</TableHead>
             <TableHead className="text-center">Created at</TableHead>
             <TableHead className="text-center">Arrival date</TableHead>
             <TableHead className="text-center">Departure date</TableHead>
             <TableHead className="text-center">Payed</TableHead>
             <TableHead className="text-center">Parking days</TableHead>
-            <TableHead className="text-center">Attempt</TableHead>
+
             <TableHead className="text-center">Booking status</TableHead>
             <TableHead className="text-center">Payment status</TableHead>
             <TableHead className="text-center">More info</TableHead>
@@ -61,6 +63,17 @@ const LogsFeed = async ({ bookingId }: Props) => {
         <TableBody>
           {logs.map((log) => (
             <TableRow key={log.id}>
+              <TableCell className="text-center">
+                {" "}
+                <span
+                  className={cn(
+                    "font-semibold rounded-md  p-3 py-2 text-xs ",
+                    themes[log.attempt]
+                  )}
+                >
+                  {log.attempt}
+                </span>
+              </TableCell>
               <TableCell className="text-center">
                 {format(log.createdAt, "dd-MM-yyyy,  HH:mm:ss")}
               </TableCell>
@@ -72,12 +85,7 @@ const LogsFeed = async ({ bookingId }: Props) => {
               </TableCell>
               <TableCell className="text-center">€{log.payed}</TableCell>
               <TableCell className="text-center">{log.daysofparking}</TableCell>
-              <TableCell className="text-center">  <span
-                  className={cn(
-                    "font-semibold rounded-md  p-3 py-2 text-xs ",
-                    themes[log.attempt]
-                  )}
-                >{log.attempt}</span></TableCell>
+
               <TableCell className="text-center">
                 <span
                   className={cn(
