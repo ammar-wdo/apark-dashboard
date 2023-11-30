@@ -17,7 +17,10 @@ const bookingId = searchParams.get('bookingId')
 
     const booking = await prisma.booking.findUnique({
         where:{
-            id:bookingId
+            id:bookingId,
+            departureDate:{
+                gt:new Date()
+            }
         }
     })
 
@@ -53,7 +56,10 @@ console.log(email,bookingCode)
             email,
             bookingCode,
             paymentStatus:'SUCCEEDED',
-            bookingStatus:'ACTIVE'
+            bookingStatus:'ACTIVE',
+            departureDate:{
+                gt:new Date()
+            }
         }
     })
 
