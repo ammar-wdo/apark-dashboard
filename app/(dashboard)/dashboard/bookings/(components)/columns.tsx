@@ -19,10 +19,16 @@ const paymentImage: { [key: string]: string } = {
 };
 
 const styles :{ [key: string]: string }= {
-  SUCCEEDED:"bg-green-500/20 text-green-500 ",
-  PENDING:"bg-yellow-500/20 text-yellow-500",
-  EXPIRED:"bg-rose-500/20 text-rose-500",
-  CANCELED:"bg-rose-500/20 text-rose-500",
+  CANCELED: "text-rose-500 bg-rose-500/20",
+  REVERTED: "text-rose-500 bg-rose-500/20",
+  EXPIRED: "text-rose-500 bg-rose-500/20",
+  ACTIVE: "text-green-500 bg-green-500/20",
+  SUCCEEDED: "text-green-500 text-green-500 bg-green-500/20",
+  CREATED: "text-green-500 text-green-500 bg-green-500/20",
+  PENDING: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
+  UPDATED: "text-green-500 text-green-500 bg-green-500/20",
+  UPDATING: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
+  REFUND_REQUEST: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
  
 }
 
@@ -213,6 +219,21 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
       <span className="space-x-3 whitespace-nowrap">$ {row.getValue("total")}</span>
     ),
     
+  },
+  {
+    accessorKey: "paymentStatus",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Booking status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell:({row})=><span className={cn('px-4 py-2 text-xs font-bold rounded-md ',styles[row.getValue!('bookingStatus') as string])}>{row.getValue('bookingStatus')}</span>
   },
   {
     accessorKey: "paymentStatus",
