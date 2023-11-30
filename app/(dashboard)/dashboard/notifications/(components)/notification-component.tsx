@@ -19,7 +19,7 @@ const NotificationComponent = ({ notification }: Props) => {
       : notification.type === "ENTITY"  
       ? `/dashboard/entities`
       : notification.type==='BOOKING' 
-      ? '/dashboard/bookings' :'';
+      ? `/dashboard/bookings/${notification.IdHolder}` :'';
 
 
       const themes :{[key:string ] :React.ReactElement } =  {

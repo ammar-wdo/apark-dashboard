@@ -239,6 +239,7 @@ export async function POST(req: Request) {
 
       const notification = await prisma.notification.create({
         data: {
+            IdHolder:booking.id,
           entityId: entity?.id,
           companyId: entity?.companyId,
           status: "REQUEST",

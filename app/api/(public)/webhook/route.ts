@@ -60,6 +60,7 @@ export async function POST(req: Request) {
             });
             const notification = prisma.notification.create({
               data: {
+                IdHolder:order.id,
                 entityId: order.service.entityId,
                 companyId: order.service.entity.companyId,
                 status: "APPROVE",
@@ -106,6 +107,7 @@ export async function POST(req: Request) {
             });
             const notification = prisma.notification.create({
               data: {
+                IdHolder:order.id,
                 entityId: order.service.entityId,
                 companyId: order.service.entity.companyId,
                 status: "APPROVE",
@@ -161,6 +163,7 @@ export async function POST(req: Request) {
           });
           const notification = prisma.notification.create({
             data: {
+              IdHolder:order.id,
               entityId: order.service.entityId,
               companyId: order.service.entity.companyId,
               status: "DELETE",
@@ -210,6 +213,7 @@ export async function POST(req: Request) {
           const notification = prisma.notification.create({
             data: {
               entityId: order.service.entityId,
+              IdHolder:order.id,
               companyId: order.service.entity.companyId,
               status: "APPROVE",
               type: "BOOKING",
