@@ -104,7 +104,7 @@ export async function POST(req: Request) {
       const values = setLog(
         0,
         "CANCELED",
-        "This booking is requiring a refund action ",
+        "This booking has been canceled and requiring a refund action ",
         updatedBooking
       );
       const newLog = prisma.log.create({
