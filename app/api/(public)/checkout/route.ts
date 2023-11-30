@@ -120,6 +120,9 @@ export async function POST(req: Request) {
         services:{
           some:{id:service.id}
         },
+      },
+      select:{
+        id:true,companyId:true
       }
     })
 
