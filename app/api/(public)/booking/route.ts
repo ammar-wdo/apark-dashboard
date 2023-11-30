@@ -55,7 +55,7 @@ console.log(email,bookingCode)
         where:{
             email,
             bookingCode,
-            paymentStatus:'SUCCEEDED',
+            paymentStatus:{in:['SUCCEEDED','PENDING']},
             bookingStatus:'ACTIVE',
             departureDate:{
                 gt:new Date()
