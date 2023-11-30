@@ -25,203 +25,208 @@ export async function POST(req: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session;
 
- 
-
   switch (event.type) {
     case "checkout.session.completed": {
+      console.log("success");
+      console.log(session.metadata);
+      if (!session.metadata?.update) {
+        try {
+          if (session.payment_status === "paid") {
+            const order = await prisma.booking.update({
+              where: {
+                id: session?.metadata?.id,
+              },
+              data: {
+                paymentStatus: "SUCCEEDED",
+              },
+              include: {
+                service: {
+                  include: {
+                    entity: true,
+                  },
+                },
+              },
+            });
+            const values = setLog(
+              order.total,
+              "CREATED",
+              "This booking has been  created and paid successfully",
+              order
+            );
+            const log = prisma.log.create({
+              data: {
+                ...values,
+              },
+            });
+            const notification = prisma.notification.create({
+              data: {
+                entityId: order.service.entityId,
+                companyId: order.service.entity.companyId,
+                status: "APPROVE",
+                type: "BOOKING",
+                message: "New booking payment has been succeeded",
+              },
+            });
 
-      console.log('success')
-      console.log(session.metadata)
-      if(!session.metadata?.update){
-
-      
-      try {
-        if (session.payment_status === "paid") {
-
-          const order = await prisma.booking.update({
-            where: {
-              id: session?.metadata?.id,
-            },
-            data: {
-              paymentStatus: "SUCCEEDED",
-            },include:{
-              service:{
-                include:{
-                  entity:true
-                }
-              }
-            }
-          });
-const values = setLog(order.total,order)
-          const log =  prisma.log.create({
-            data:{
-            ...values
-            }
-          })
-        const notification=   prisma.notification.create({
-            data:{
-              entityId:order.service.entityId,
-              companyId:order.service.entity.companyId,
-              status:'APPROVE',
-              type:'BOOKING',
-              message:'New booking payment has been succeeded'
-            }
-          })
-
-          await  Promise.all([log,notification])
-          // await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
+            await Promise.all([log, notification]);
+            // await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    }else{
-      console.log(session.metadata)
-      try {
-        if (session.payment_status === "paid") {
+      } else {
+        console.log(session.metadata);
+        try {
+          if (session.payment_status === "paid") {
+            const order = await prisma.booking.update({
+              where: {
+                id: session?.metadata?.id,
+              },
+              data: {
+                paymentStatus: "SUCCEEDED",
+              },
+              include: {
+                service: {
+                  include: {
+                    entity: true,
+                  },
+                },
+              },
+            });
+            const values = setLog(
+              +session.metadata?.payed,
+              "UPDATED",
+              `This booking has been updated with additional extra days and a €${session.metadata.payed} has been paid`,
+              order
+            );
+            const log = prisma.log.create({
+              data: {
+                ...values,
+              },
+            });
+            const notification = prisma.notification.create({
+              data: {
+                entityId: order.service.entityId,
+                companyId: order.service.entity.companyId,
+                status: "APPROVE",
+                type: "BOOKING",
+                message:
+                  "New booking payment has been succeeded to extend new days",
+              },
+            });
 
-          const order = await prisma.booking.update({
-            where: {
-              id: session?.metadata?.id,
-            },
-            data: {
-              paymentStatus: "SUCCEEDED",
-            },include:{
-              service:{
-                include:{
-                  entity:true
-                }
-              }
-            }
-          });
-const values = setLog(+session.metadata?.payed,order)
-          const log =  prisma.log.create({
-            data:{
-             ...values
-            }
-          })
-        const notification=   prisma.notification.create({
-            data:{
-              entityId:order.service.entityId,
-              companyId:order.service.entity.companyId,
-              status:'APPROVE',
-              type:'BOOKING',
-              message:'New booking payment has been succeeded to extend new days'
-            }
-          })
-
-          await  Promise.all([log,notification])
-          // await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
+            await Promise.all([log, notification]);
+            // await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
-    }
 
       break;
     }
 
     case "checkout.session.expired": {
-      console.log('expire')
-      console.log(session.metadata)
-      if(!session.metadata?.update){
+      console.log("expire");
+      console.log(session.metadata);
+      if (!session.metadata?.update) {
+        try {
+          const order = await prisma.booking.update({
+            where: {
+              id: session?.metadata?.id,
+            },
+            data: {
+              paymentStatus: "EXPIRED",
+              bookingStatus: "CANCELED",
+            },
+            include: {
+              service: {
+                include: {
+                  entity: true,
+                },
+              },
+            },
+          });
 
-      
-      try {
-        const order = await prisma.booking.update({
-          where: {
-            id: session?.metadata?.id,
-          },
-          data: {
-            paymentStatus: "EXPIRED",
-            bookingStatus:'CANCELED',
-          },include:{
-            service:{
-              include:{
-                entity:true
-              }
-            }
-          }
-        });
+          const values = setLog(
+            0,
+            "CANCELED",
+            "An attempt of booking has been canceled because the checkout session expired with no payment ",
+            order
+          );
+          const log = prisma.log.create({
+            data: {
+              ...values,
+            },
+          });
+          const notification = prisma.notification.create({
+            data: {
+              entityId: order.service.entityId,
+              companyId: order.service.entity.companyId,
+              status: "DELETE",
+              type: "BOOKING",
+              message: "A booking session has expired",
+            },
+          });
 
-        const values = setLog(0,order)
-          const log =  prisma.log.create({
-            data:{
-             ...values
+          await Promise.all([log, notification]);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          const order = await prisma.booking.update({
+            where: {
+              id: session?.metadata?.id,
+            },
+            data: {
+              paymentStatus: "SUCCEEDED",
+              bookingStatus: "ACTIVE",
+              arrivalDate: new Date(session.metadata.arrivalDate),
+              departureDate: new Date(session.metadata.departureDate),
+              total: +session.metadata.total,
+              daysofparking: +session.metadata.daysofparking,
+            },
+            include: {
+              service: {
+                include: {
+                  entity: true,
+                },
+              },
+            },
+          });
 
-            
+          const values = setLog(
+            0,
+            "REVERTED",
+            "An attempt to update a booking was reverted to its previous state because the payment for extra days was not succeeded",
+            order
+          );
+          const log = prisma.log.create({
+            data: {
+              ...values,
+            },
+          });
+          const notification = prisma.notification.create({
+            data: {
+              entityId: order.service.entityId,
+              companyId: order.service.entity.companyId,
+              status: "APPROVE",
+              type: "BOOKING",
+              message:
+                "A booking status has failed to extend parking days and  been reverted to its previous succeeded status",
+            },
+          });
 
-            }
-          })
-      const notification=   prisma.notification.create({
-          data:{
-            entityId:order.service.entityId,
-            companyId:order.service.entity.companyId,
-            status:'DELETE',
-            type:'BOOKING',
-            message:'A booking session has expired'
-          }
-        })
-
-        await  Promise.all([log,notification])
-
-      } catch (error) {
-        console.log(error);
+          await Promise.all([log, notification]);
+        } catch (error) {
+          console.log(error);
+        }
       }
-     
-    }else{
-
-      try {
-        const order = await prisma.booking.update({
-          where: {
-            id: session?.metadata?.id,
-          },
-          data: {
-            paymentStatus: "SUCCEEDED",
-            bookingStatus:'ACTIVE',
-            arrivalDate:new Date(session.metadata.arrivalDate),
-            departureDate:new Date(session.metadata.departureDate),
-            total:+session.metadata.total,
-            daysofparking:+session.metadata.daysofparking
-          },include:{
-            service:{
-              include:{
-                entity:true
-              }
-            }
-          }
-        });
-
-      const values = setLog(0,order)
-          const log =  prisma.log.create({
-            data:{
-             
-...values
-            
-
-            }
-          })
-      const notification=   prisma.notification.create({
-          data:{
-            entityId:order.service.entityId,
-            companyId:order.service.entity.companyId,
-            status:'APPROVE',
-            type:'BOOKING',
-            message:'A booking status has failed to extend parking days and  been reverted to its previous succeeded status'
-          }
-        })
-
-        await  Promise.all([log,notification])
-
-      } catch (error) {
-        console.log(error);
-      }
+      break;
     }
-    break;
-  }
 
-  
     default:
-     ;
   }
 
   return new NextResponse(null, { status: 200 });

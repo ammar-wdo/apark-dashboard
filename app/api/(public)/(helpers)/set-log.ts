@@ -1,10 +1,13 @@
-import { Booking } from "@prisma/client";
+import { Attempt, Booking } from "@prisma/client";
 
-export const setLog = (payed:number,order:Booking)=>{
+
+export const setLog = (payed:number,attempt:Attempt,message:string,order:Booking)=>{
 
     return {
         bookingId:order.id,
         payed:payed,
+        attempt,
+        message,
       arrivalDate:order.arrivalDate,
       arrivalTime:order.arrivalTime,
       bookingCode:order.bookingCode,

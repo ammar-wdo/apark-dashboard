@@ -79,11 +79,21 @@ model Booking {
  
 }
 
+
+enum Attempt {
+  CREATED
+  UPDATED
+  REVERTED
+  CANCELED
+}
+
 model Log {
   id                    String        @id @default(uuid())
   createdAt             DateTime      @default(now())
   updatedAt             DateTime      @updatedAt
   address               String?
+  message               String  @default("new log")
+  attempt               Attempt @default(CREATED)
   arrivalDate           DateTime
   bookingCode           String       
   carColor              String

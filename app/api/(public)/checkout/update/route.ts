@@ -110,14 +110,14 @@ export async function POST(req: Request) {
 
     const newPrice = findTotalPrice(
       service,
-      newDays + booking?.daysofparking,
+      newDays + booking?.daysofparking, //check
       newArrival.toString(),
       newDeparture?.toString()
     );
     console.log("TOTAL DAYS", newPakingDays);
     console.log("NEW DAYS", newDays);
     console.log("NEW TOTAL PRICE", newPrice);
-    console.log("NEW TOTAL PRICE", newPrice - booking.total);
+    console.log("NEW  PRICE", newPrice - booking.total);
 
     const additionalPrice = newPrice - booking.total;
 
@@ -143,7 +143,7 @@ export async function POST(req: Request) {
       });
 
 // create new log
-      const values = setLog(0,updatedBooking)
+      const values = setLog(0,"UPDATED",`This booking has been updated with new additional days, no no additional payment`,updatedBooking)
       await prisma.log.create({data:{...values}})
 
       await prisma.notification.create({
@@ -243,7 +243,7 @@ export async function POST(req: Request) {
         },
       });
 // create new log
-      const values = setLog(0,updatedBooking)
+      const values = setLog(0,"UPDATED",`An attemt to extend the period of parking for ${newDays} day(s) with additional expected payment of${newPrice - booking.total}`,updatedBooking)
       await prisma.log.create({data:{...values}})
    
 
