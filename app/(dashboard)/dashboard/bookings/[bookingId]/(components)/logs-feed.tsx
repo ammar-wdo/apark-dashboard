@@ -40,9 +40,62 @@ const LogsFeed = async ({ bookingId }: Props) => {
     UPDATED: "text-green-500 text-green-500 bg-green-500/20",
     UPDATING: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
   };
+
+
+
+  const stages = [
+    {
+    label:'created',
+    description:'The booking is created',
+    color:'border-l-2 border-green-500'
+  },
+  {
+    label:'updated',
+    description:'The booking is updated ',
+    color:'border-l-2 border-green-500'
+  },
+    {
+    label:'updating',
+    description:'The booking is pending to update ',
+    color:'border-l-2 border-yellow-500'
+  },
+  
+    {
+    label:'reverted',
+    description:'The booking is reverted to its previous succeeded status ',
+    color:'border-l-2 border-rose-500'
+  },
+    {
+    label:'canceled',
+    description:'The booking is canceled ',
+    color:'border-l-2 border-rose-500'
+  },
+
+]
   return (
     <div className="mt-12">
+    
+    
       <h3 className="text-xl font-bold capitalize mb-4">Logs</h3>
+      <div className="my-4">
+        <h3 className="font-semibold text-xs ">Stage</h3>
+        <div className="flex items-center gap-12 flex-wrap mt-2">
+        {stages.map(stage=>
+      
+     
+   
+  
+      <div className={cn(" bg-muted rounded-sm overflow-hidden px-3 py-1",stage.color)}>
+      <p className="capitalize text-xs ">{stage.label}</p>
+      <p className="text-xs text-muted-foreground">
+{stage.description}
+      </p>
+      </div>
+   
+ )}
+        </div>
+     
+      </div>
 
       <Table>
         <TableHeader>
