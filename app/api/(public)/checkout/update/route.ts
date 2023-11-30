@@ -243,7 +243,7 @@ export async function POST(req: Request) {
         },
       });
 // create new log
-      const values = setLog(0,"UPDATED",`An attemt to extend the period of parking for ${newDays} day(s) with additional expected payment of €${newPrice - booking.total}`,updatedBooking)
+      const values = setLog(0,"UPDATING",`An attemt to extend the period of parking for ${newDays} day(s) with additional expected payment of €${newPrice - booking.total}`,updatedBooking)
       await prisma.log.create({data:{...values}})
    
 

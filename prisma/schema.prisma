@@ -82,6 +82,7 @@ model Booking {
 
 enum Attempt {
   CREATED
+  UPDATING
   UPDATED
   REVERTED
   CANCELED
