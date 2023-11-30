@@ -218,7 +218,7 @@ export async function POST(req: Request) {
               status: "APPROVE",
               type: "BOOKING",
               message:
-                "A booking status has failed to extend parking days and  been reverted to its previous parking date and succeeded status,",
+                "A booking status has failed to extend parking days and  been reverted to its previous parking date and succeeded status",
             },
           });
 
