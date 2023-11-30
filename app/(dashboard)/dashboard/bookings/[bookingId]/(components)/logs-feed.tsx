@@ -25,7 +25,7 @@ const LogsFeed = async ({ bookingId }: Props) => {
       bookingId: bookingId,
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: "asc",
     }, 
   });
 
