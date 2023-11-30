@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     });
 
     if (isOneDay(booking.createdAt)) {
-      await prisma.booking.update({
+   const updatedBooking =   await prisma.booking.update({
         where: {
           id: booking.id,
         },
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
         0,
         "CANCELED",
         "This booking has been canceled , but no refunding steps are required",
-        booking
+        updatedBooking
       );
       const newLog = prisma.log.create({
         data: {
@@ -91,7 +91,8 @@ export async function POST(req: Request) {
 
       await Promise.all([newLog, notification]);
     } else {
-      await prisma.booking.update({
+
+    const updatedBooking =  await prisma.booking.update({
         where: {
           id: booking.id,
         },
@@ -104,7 +105,7 @@ export async function POST(req: Request) {
         0,
         "CANCELED",
         "This booking is requiring a refund action ",
-        booking
+        updatedBooking
       );
       const newLog = prisma.log.create({
         data: {

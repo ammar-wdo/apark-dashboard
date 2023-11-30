@@ -58,7 +58,7 @@ console.log(email,bookingCode)
             paymentStatus:{in:['SUCCEEDED']},
             bookingStatus:'ACTIVE',
             departureDate:{
-                gt:new Date()
+                gt:new Date(new Date().setHours(0,0,0,0))
             }
         }
     })
