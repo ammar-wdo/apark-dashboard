@@ -49,7 +49,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
     cell: ({ row }) => (
       <Link
       style={{textTransform:'none'}}
-        className="underline text-blue-600 dark:text-indigo-500 "
+        className="underline text-blue-600 dark:text-indigo-500 text-center block w-full "
         href={`/dashboard/bookings/${row.original.id}`}
       >
         {row.getValue("bookingCode")}
@@ -84,6 +84,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
+    cell:({row})=> <p className="text-center">{row.original.service.name}</p>
   },
   {
     accessorKey: "service.parkingType",
@@ -98,6 +99,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
+    cell:({row})=> <p className="text-center">{row.original.service.parkingType}</p>
   },
   {
       accessorKey: "firstName",
@@ -107,28 +109,15 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            First name
+            Name
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
       },
+      cell:({row})=><p className="capitalize text-center">{row.original.firstName} {row.original.lastName}</p>
 
   },
-  {
-      accessorKey: "lastName",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Last name
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-
-  },
+ 
   {
       accessorKey: "createdAt",
       header: ({ column }) => {
@@ -142,7 +131,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           </Button>
         )
       },
-    cell:({row})=><div className="flex items-center gap-1"><p className="text-xs ">{format( row.getValue('createdAt'),"dd-MM-yyyy")}</p>-<p className="text-xs">{format( row.getValue('createdAt'),"HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format( row.getValue('createdAt'),"dd-MM-yyyy")}</p>-<p className="text-xs">{format( row.getValue('createdAt'),"HH:mm")}</p></div>
 
   },
   {
@@ -158,7 +147,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div className="flex items-center gap-1"><p className="text-xs ">{format( row.getValue('arrivalDate'),"dd-MM-yyyy")}</p>-<p className="text-xs">{format(row.getValue('arrivalDate'),"HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format( row.getValue('arrivalDate'),"dd-MM-yyyy")}</p>-<p className="text-xs">{format(row.getValue('arrivalDate'),"HH:mm")}</p></div>
   },
   {
     accessorKey: "departureDate",
@@ -173,7 +162,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div className="flex items-center gap-1"><p className="text-xs ">{format(new Date( row.getValue('departureDate')),"dd-MM-yyyy")}</p>-<p className="text-xs">{format(new Date( row.getValue('departureDate')),"HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format(new Date( row.getValue('departureDate')),"dd-MM-yyyy")}</p>-<p className="text-xs">{format(new Date( row.getValue('departureDate')),"HH:mm")}</p></div>
   },
   {
     accessorKey: "paymentMethod",
@@ -191,7 +180,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
     cell: ({ row }) => (
       <div
         title={row.getValue("paymentMethod")}
-        className={cn("w-12 h-12 relative  overflow-hidden ")}
+        className={cn("w-12 h-12 relative  overflow-hidden mx-auto")}
       >
         <Image
           src={paymentImage[row.getValue("paymentMethod") as string] }
@@ -216,7 +205,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
       )
     },
     cell: ({ row }) => (
-      <span className="space-x-3 whitespace-nowrap">$ {row.getValue("total")}</span>
+      <span className=" whitespace-nowrap   flex justify-center">$ {row.getValue("total")}</span>
     ),
     
   },
@@ -233,7 +222,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><span className={cn('px-4 py-2 text-xs font-bold rounded-md ',styles[row.getValue!('bookingStatus') as string])}>{row.getValue('bookingStatus')}</span>
+    cell:({row})=><span className={cn('px-4 py-2 text-xs font-bold rounded-md mx-auto w-fit block',styles[row.getValue!('bookingStatus') as string])}>{row.getValue('bookingStatus')}</span>
   },
   {
     accessorKey: "paymentStatus",
@@ -248,7 +237,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><span className={cn('px-4 py-2 text-xs font-bold rounded-md ',styles[row.getValue!('paymentStatus') as string])}>{row.getValue('paymentStatus')}</span>
+    cell:({row})=><span className={cn('px-4 py-2 text-xs font-bold rounded-md mx-auto w-fit block',styles[row.getValue!('paymentStatus') as string])}>{row.getValue('paymentStatus')}</span>
   },
  
 ];
