@@ -66,8 +66,8 @@ const page = async ({ searchParams }: Props) => {
         >
           <BookingBox searchParams={searchParams.service as string} entity={searchParams.entity as string | undefined}/>
         </Suspense>
-        <Suspense fallback={<Skeleton className="h-[175px] rounded-xl" />}>
-          <CancelBox searchParams={searchParams.service as string} />
+        <Suspense key={(searchParams.service + "" + searchParams.entity + "canceling") as string} fallback={<Skeleton className="h-[175px] rounded-xl" />}>
+          <CancelBox searchParams={searchParams.service as string} entity={searchParams.entity as string | undefined}/>
         </Suspense>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3">

@@ -21,7 +21,7 @@ export const getServices = async (
             },  include: {
                 bookings: {
                   where: {
-                    paymentStatus: "SUCCEEDED",
+                    paymentStatus:{in:['SUCCEEDED','CANCELED']},
                   },
                 },
               },
@@ -33,7 +33,7 @@ export const getServices = async (
             },  include: {
                 bookings: {
                   where: {
-                    paymentStatus: "SUCCEEDED",
+                    paymentStatus:{in:['SUCCEEDED','CANCELED']},
                   },
                 },
               },
@@ -47,7 +47,7 @@ export const getServices = async (
         include: {
           bookings: {
             where: {
-              paymentStatus: "SUCCEEDED",
+              paymentStatus:{in:['SUCCEEDED','CANCELED']},
             },
           },
         },
@@ -72,7 +72,7 @@ export const getServices = async (
             include: {
               bookings: {
                 where: {
-                  paymentStatus: "SUCCEEDED",
+                  paymentStatus:{in:['SUCCEEDED','CANCELED']},
                 },
               },
             },
@@ -86,7 +86,7 @@ export const getServices = async (
             include: {
               bookings: {
                 where: {
-                  paymentStatus: "SUCCEEDED",
+                  paymentStatus:{in:['SUCCEEDED','CANCELED']},
                 },
               },
             },

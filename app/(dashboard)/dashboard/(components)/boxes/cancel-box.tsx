@@ -1,14 +1,25 @@
 import React from 'react'
 import Box from './box'
 import { CircleSlash } from 'lucide-react'
+import { getServices } from './(helpers)/get-services'
+import { getCurrentCompany } from '@/lib/helpers'
+import { getTotal } from './(helpers)/get-total'
 
 type Props = {
-    searchParams:string
+    searchParams:string,
+    entity:string | undefined
 }
 
-const CancelBox = ({searchParams}: Props) => {
+const CancelBox = async({searchParams,entity}: Props) => {
+
+
+  const company = await  getCurrentCompany()
+
+  const {services} = await getServices(searchParams,company?.id as string,entity)
+
+  const {monthlyCanceledBookings} = getTotal(services!)
   return (
- <Box title='Total cancelation' footer='For this month' Icon={<CircleSlash className='w-7 h-7 text-neutral-500' />} value={'7'} />
+ <Box title='Total cancelation' footer='For this month' Icon={<CircleSlash className='w-7 h-7 text-neutral-500' />} value={monthlyCanceledBookings} />
   )
 }
 
