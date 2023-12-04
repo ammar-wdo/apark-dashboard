@@ -16,7 +16,8 @@ export function getDailyRevenue(services : Services | Services[]) {
         // Calculate revenue from all services
         services.forEach(service => {
           service.bookings.forEach(booking => {
-            const bookingDate = new Date(booking.createdAt);
+            if(booking.paymentStatus==='SUCCEEDED')
+      {      const bookingDate = new Date(booking.createdAt);
             const bookingMonth = bookingDate.getMonth();
             const bookingYear = bookingDate.getFullYear();
   
@@ -24,12 +25,13 @@ export function getDailyRevenue(services : Services | Services[]) {
               const bookingDay = bookingDate.getDate();
               revenueByDay[bookingDay] = (revenueByDay[bookingDay] || 0) + booking.total;
             }
-          });
+          }});
         });
       } else {
         // Calculate revenue from a single service
         services.bookings.forEach(booking => {
-          const bookingDate = new Date(booking.createdAt);
+          if(booking.paymentStatus==='SUCCEEDED')
+       {   const bookingDate = new Date(booking.createdAt);
           const bookingMonth = bookingDate.getMonth();
           const bookingYear = bookingDate.getFullYear();
   
@@ -37,7 +39,7 @@ export function getDailyRevenue(services : Services | Services[]) {
             const bookingDay = bookingDate.getDate();
             revenueByDay[bookingDay] = (revenueByDay[bookingDay] || 0) + booking.total;
           }
-        });
+       } });
       }
   
       const chartData = Array.from({ length: daysInMonth }, (_, index) => ({
