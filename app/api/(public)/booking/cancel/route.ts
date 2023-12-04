@@ -32,7 +32,7 @@ export async function POST(req: Request) {
         paymentStatus: "SUCCEEDED",
         bookingStatus: "ACTIVE",
         departureDate: {
-          gt: new Date(),
+          gte: new Date(new Date().setHours(0,0,0,0)),
         },
       },
     });

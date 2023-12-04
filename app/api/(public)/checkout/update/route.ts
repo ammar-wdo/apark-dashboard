@@ -55,7 +55,7 @@ export async function POST(req: Request) {
         serviceId: validBody.data.serviceId,
         email: validBody.data.email,
         bookingCode: bookingCode,
-        departureDate:{gt:new Date()},
+        departureDate:{gte:new Date(new Date().setHours(0,0,0,0))},
         paymentStatus:'SUCCEEDED',
         bookingStatus:'ACTIVE'
 
