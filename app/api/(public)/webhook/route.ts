@@ -255,7 +255,7 @@ case 'charge.refunded' :{
     const values = setLog(
       0,
       "CANCELED",
-      "This payment hasbeen successfully refunded",
+      "This payment has been successfully refunded",
       order
     );
     const log = prisma.log.create({
