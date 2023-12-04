@@ -9,18 +9,19 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
   console.log("hi");
-
+const airport = searchParams.get('airport') as string
   const startDate = searchParams.get("startDate") as string;
   const endDate = searchParams.get("endDate") as string;
   const startTime = searchParams.get("startTime") as string;
   const endTime = searchParams.get("endTime") as string;
 
-  if (!startDate || !endDate || !startTime || !endTime)
+  if (!airport || !startDate || !endDate || !startTime || !endTime)
     return new NextResponse("date and time is required", { status: 400 });
 
   try {
     const services = await prisma.service.findMany({
       where: {
+        airportId:airport,
         isActive: true,
       },
       include: {
@@ -31,6 +32,8 @@ export async function GET(req: Request) {
         rules: true,
       },
     });
+
+    console.log(services)
 
     const parkingDays = calculateParkingDays(
       new Date(startDate),
