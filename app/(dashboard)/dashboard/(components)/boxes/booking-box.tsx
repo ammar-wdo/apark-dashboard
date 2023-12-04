@@ -5,6 +5,7 @@ import { getServices } from './(helpers)/get-services'
 
 import { BookmarkCheck } from 'lucide-react'
 import Box from './box'
+import { getTotal } from './(helpers)/get-total'
 
 type Props = {
     searchParams:string,
@@ -15,7 +16,9 @@ const BookingBox = async({searchParams,entity}: Props) => {
 
     const company = await  getCurrentCompany()
 
-    const {bookings} = await getServices(searchParams,company?.id as string,entity)
+    const {services} = await getServices(searchParams,company?.id as string,entity)
+
+    const {monthlyBookings:bookings} = getTotal(services!)
 
   
     
