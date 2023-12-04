@@ -230,6 +230,57 @@ export async function POST(req: Request) {
       break;
     }
 
+case 'charge.refunded' :{
+  console.log('refund')
+  console.log(session.metadata)
+
+  try {
+    const order = await prisma.booking.update({
+      where: {
+        id: session?.metadata?.id,
+      },
+      data: {
+        paymentStatus: "CANCELED",
+        bookingStatus: "REFUNDED",
+      },
+      include: {
+        service: {
+          include: {
+            entity: true,
+          },
+        },
+      },
+    });
+
+    const values = setLog(
+      0,
+      "CANCELED",
+      "This payment hasbeen successfully refunded",
+      order
+    );
+    const log = prisma.log.create({
+      data: {
+        ...values,
+      },
+    });
+    const notification = prisma.notification.create({
+      data: {
+        IdHolder:order.id,
+        entityId: order.service.entityId,
+        companyId: order.service.entity.companyId,
+        status: "APPROVE",
+        type: "BOOKING",
+        message: "A booking payment has been refunded",
+      },
+    });
+
+    await Promise.all([log, notification]);
+  } catch (error) {
+    console.log(error);
+  }
+}
+    
+
     default:
   }
 
