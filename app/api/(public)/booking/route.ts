@@ -19,7 +19,7 @@ const bookingId = searchParams.get('bookingId')
         where:{
             id:bookingId,
             departureDate:{
-                gt:new Date()
+                gte:new Date(new Date().setHours(0,0,0,0))
             }
         }
     })
