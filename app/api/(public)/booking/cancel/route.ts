@@ -79,14 +79,19 @@ export async function POST(req: Request) {
       });
 
       const notification = prisma.notification.create({
-        data: {
+        data: 
+          {
           IdHolder: booking.id,
           entityId: entity?.id,
+    
           companyId: entity?.companyId,
           status: "DELETE",
           type: "BOOKING",
           message: "A booking has been canceled",
         },
+      
+      
+      
       });
 
       await Promise.all([newLog, notification]);
@@ -116,6 +121,7 @@ export async function POST(req: Request) {
       const notification = prisma.notification.create({
         data: {
           IdHolder: booking.id,
+          isAdmin:true,
           entityId: entity?.id,
           companyId: entity?.companyId,
           status: "DELETE",
