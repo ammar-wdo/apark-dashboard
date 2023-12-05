@@ -1,6 +1,6 @@
 "use client";
 
-import { Service, ParkingType } from "@prisma/client";
+import { Service, ParkingType, Key, ParkingLocation } from "@prisma/client";
 import { XIcon } from "lucide-react";
 import { UseFormReturn, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -18,9 +18,9 @@ export const serviceDefaultValues = (service: Service | null) => ({
   parkingPlace: service?.parkingPlace || "",
   arrivalTodos: service?.arrivalTodos || "",
   departureTodos: service?.departureTodos || "",
-  electricCharging :service?.electricCharging,
-  keyStatus:service?.keyStatus,
-  parkingLocation:service?.parkingLocation,
+  electricCharging :service?.electricCharging || false,
+  keyStatus:service?.keyStatus || Key.BOTH,
+  parkingLocation:service?.parkingLocation || ParkingLocation.BOTH,
   parkingType: service?.parkingType || ParkingType.shuttle,
   spots: service?.spots || 1,
   available: service?.available || false,
