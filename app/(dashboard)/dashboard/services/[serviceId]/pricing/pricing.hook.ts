@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { pricingSchema } from "./pricing-schema";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 import { useParams } from "next/navigation";
@@ -37,6 +37,8 @@ export const usePricing = (pricings: number[]) => {
       }
     }
 
+
+
    
   }, [myArray]);
 
@@ -69,7 +71,10 @@ export const usePricing = (pricings: number[]) => {
 
   const addRow = () => {
     setMyArray((prev: number[] | undefined) => [...(prev || []), 0]);
+
     setPreviousArray(myArray)
+
+   
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
 
@@ -94,7 +99,10 @@ return (el + value < 0 ? 0 : +el + value)
         }
         })
     );
+
+
     setPreviousArray(myArray)
+  
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
   const minusValue = (value: number,from:number,to:number) => {
@@ -144,15 +152,17 @@ return (el - value < 0 ? 0 : +el - value)
    setPreviousArray(myArray)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})};
 
-  const addIncrement = (from: number, to: number, value=0) => {
-    setPreviousArray(myArray)  //not working
-    if (from > to || from === to) return;
+  const addIncrement = (from: number, to: number, value:number) => {
+    if (from > to || from === to || !from || !to || !value || value<0) return;
+  
 
   
 
     let iv = 1;
     let newArry = myArray;
-  
+
+    setPreviousArray(myArray)
+
 
     for (let i = from-1; i < to; i++) {
       const theValue = iv * value;
@@ -165,7 +175,7 @@ return (el - value < 0 ? 0 : +el - value)
     }
    
     setMyArray(()=>[...(newArry||[])]);
-   
+    
 
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };

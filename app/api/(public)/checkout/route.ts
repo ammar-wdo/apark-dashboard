@@ -130,7 +130,7 @@ export async function POST(req: Request) {
    
 
     const session = await stripe.checkout.sessions.create({
-      payment_intent_data: { metadata: { id: booking.id },
+      payment_intent_data: { metadata: { id: booking.id ,bookingCode:booking.bookingCode},
       capture_method:'automatic',
       
 
@@ -152,7 +152,7 @@ export async function POST(req: Request) {
       ],
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
       mode: "payment",
-      metadata: { id: booking.id },
+      metadata: { id: booking.id,bookingCode:booking.bookingCode },
 
       success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
         booking.id

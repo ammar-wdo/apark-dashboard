@@ -196,6 +196,7 @@ export async function POST(req: Request) {
           metadata: {
             id: booking.id,
             update: "true",
+            bookingCode,
             payed:newPrice - booking.total,
             arrivalDate: booking.arrivalDate.toString(),
             departureDate: booking.departureDate.toString(),
@@ -223,6 +224,7 @@ export async function POST(req: Request) {
         mode: "payment",
         metadata: {
           id: booking.id,
+          bookingCode,
           update: "true",
           arrivalDate: booking.arrivalDate.toString(),
           departureDate: booking.departureDate.toString(),
