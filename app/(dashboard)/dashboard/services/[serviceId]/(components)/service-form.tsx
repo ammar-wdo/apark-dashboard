@@ -26,7 +26,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ParkingType, Service } from "@prisma/client";
+import { Key, ParkingLocation, ParkingType, Service } from "@prisma/client";
 import { Loader, XIcon } from "lucide-react";
 import { SingleImageDropzone } from "@/components/single-image-dropezone";
 import { useService } from "../service.hook";
@@ -34,6 +34,7 @@ import Image from "next/image";
 import { useModal } from "@/hooks/use-modal";
 import { useParams } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 type Props = { service: Service | null ,airports:{id:string,name:string}[],entities:{id:string,entityName:string}[],isCompany:boolean,entityId:string | undefined};
 
@@ -327,6 +328,108 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                   </FormItem>
                 )}
               />
+
+<FormField
+          control={form.control}
+          name="electricCharging"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>
+                  Electric charging
+                </FormLabel>
+           
+              </div>
+            </FormItem>
+          )}
+        />
+
+<FormField
+          control={form.control}
+          name="parkingLocation"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Parking location</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value={ParkingLocation.INDOOR} />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      Indoor
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value={ParkingLocation.OUTDOOR} />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                     Outdoor
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value={ParkingLocation.BOTH} />
+                    </FormControl>
+                    <FormLabel className="font-normal">Both</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+<FormField
+          control={form.control}
+          name="keyStatus"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Keys</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value={Key.KEEP} />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      Keep
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value={Key.LEAVE} />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                     Leave
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value={Key.BOTH} />
+                    </FormControl>
+                    <FormLabel className="font-normal">Both</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
             </div>
           </div>
 

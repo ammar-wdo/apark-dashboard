@@ -12,6 +12,8 @@ model Airport {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   name      String
+  images    String[]  @default([])
+  content   String    @default("")
   Company   Company[]
   Service   Service[]
   entities  Entity[]
@@ -28,11 +30,9 @@ enum STATUS {
   SUCCEEDED
   EXPIRED
   CANCELED
-  
 }
 
 enum BookingStatus {
-
   ACTIVE
   REFUND_REQUEST
   REFUNDED
@@ -76,9 +76,7 @@ model Booking {
   serviceId             String
   service               Service       @relation(fields: [serviceId], references: [id])
   logs                  Log[]
- 
 }
-
 
 enum Attempt {
   CREATED
@@ -93,10 +91,10 @@ model Log {
   createdAt             DateTime      @default(now())
   updatedAt             DateTime      @updatedAt
   address               String?
-  message               String  @default("new log")
-  attempt               Attempt @default(CREATED)
+  message               String        @default("new log")
+  attempt               Attempt       @default(CREATED)
   arrivalDate           DateTime
-  bookingCode           String       
+  bookingCode           String
   carColor              String
   carLicense            String
   carModel              String
@@ -124,29 +122,27 @@ model Log {
   extraServiceFee       Float?
   status                String?
   paymentMethod         PaymentMethod @default(IDEAL)
-bookingId   String
-booking     Booking   @relation(fields: [bookingId],references: [id])
- 
+  bookingId             String
+  booking               Booking       @relation(fields: [bookingId], references: [id])
 }
 
 model Company {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  address      String
-  commision    Float    @default(0)
-  name        String?
-  contact      String
-  password     String
- 
-  isActive     Boolean  @default(false)
-  phone        String
-  place        String
-  zipcode      String
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  address   String
+  commision Float    @default(0)
+  name      String?
+  contact   String
+  password  String
 
- 
-  entities      Entity[]
+  isActive Boolean @default(false)
+  phone    String
+  place    String
+  zipcode  String
+
+  entities Entity[]
 
   notifications Notification[]
   airports      Airport[]
@@ -184,13 +180,11 @@ model Entity {
   companyId String
   company   Company @relation(fields: [companyId], references: [id])
 
-   notifications Notification[]
+  notifications Notification[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-
 
 model Invoice {
   id        String   @id @default(uuid())
@@ -206,41 +200,47 @@ enum NotificationType {
 }
 
 enum NotificationsStatus {
-REQUEST
-DELETE
-APPROVE
-
+  REQUEST
+  DELETE
+  APPROVE
 }
 
 model Notification {
-  id           String   @id @default(uuid())
+  id String @id @default(uuid())
 
-  companyId    String?
-  company Company? @relation(fields: [companyId],references: [id])
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id])
 
+  entityId String?
+  entity   Entity? @relation(fields: [entityId], references: [id])
 
-  entityId    String?
-  entity      Entity? @relation(fields: [entityId],references: [id])
+  isAdmin Boolean @default(false)
 
-  isAdmin     Boolean @default(false)
+  name     String?
+  message  String?
+  IdHolder String?
+  type     NotificationType?
+  status   NotificationsStatus?
 
-name            String?
-  message     String?
-  IdHolder    String?
-  type      NotificationType?  
-  status    NotificationsStatus?
-
-
-  isRead    Boolean @default(false)
+  isRead Boolean @default(false)
 
   servicePrice Float?
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
- 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
+enum Key {
+  KEEP
+  LEAVE
+  BOTH
+}
 
+enum ParkingLocation {
+  INDOOR
+  OUTDOOR
+  BOTH
+}
 
 model Service {
   id String @id @default(uuid())
@@ -271,26 +271,26 @@ model Service {
 
   parkingType ParkingType @default(shuttle)
 
- 
+  electricCharging Boolean         @default(false)
+  keyStatus        Key             @default(BOTH)
+  parkingLocation  ParkingLocation @default(BOTH)
 
   pricings Float[]
 
-  isActive     Boolean        @default(false)
-  spots        Int            @default(1)
-  available    Boolean        @default(false)
-  
-  airportId    String
-  entityId     String
+  isActive  Boolean @default(false)
+  spots     Int     @default(1)
+  available Boolean @default(false)
 
+  airportId String
+  entityId  String
 
-  
   availability Availability[]
   bookings     Booking[]
   rules        Rule[]
- 
-  entity      Entity        @relation(fields: [entityId], references: [id])
 
-  airport      Airport        @relation(fields: [airportId], references: [id])
+  entity Entity @relation(fields: [entityId], references: [id])
+
+  airport Airport @relation(fields: [airportId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

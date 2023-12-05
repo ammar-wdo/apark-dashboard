@@ -89,7 +89,9 @@ export const serviceSchema = z.object({
  parkingType:z.enum(['shuttle','valet']).default('valet'),
  arrivalTodos:z.string().optional(),
  departureTodos:z.string().optional(),
-
+ electricCharging:z.boolean().default(false),
+ keyStatus:z.enum(['BOTH',"LEAVE","KEEP"]).default('BOTH'),
+ parkingLocation:z.enum(['INDOOR',"OUTDOOR","BOTH"]).default('BOTH'),
  available:z.boolean().default(false),
  airportId:z.string().min(1),
  entityId:z.string().min(1)

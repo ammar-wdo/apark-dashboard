@@ -49,18 +49,21 @@ const airport = searchParams.get('airport') as string
       parkingDays
     );
 
+    console.log('services',services.length)
    const invalidServices = services.filter((service)=>{
 
     if(validServices.some(valid=>valid.id===service.id)) return false
-    else if(service.available===true) return false
+    // else if(service.available===true) return false
     else return true
    })
+
+   console.log("invalid services",invalidServices)
 
 
    const finalValid = validServices.filter((service)=>service.available===true)
    const finalInvalid = [...invalidServices,...validServices.filter((service)=>service.available===false)]
 
-    return NextResponse.json({valid:finalValid,invalid:finalInvalid});
+    return NextResponse.json({valid:finalValid,invalid:finalInvalid,total:services.length});
   } catch (error) {
     console.log("failded to fetch services", error);
     return new NextResponse("internal error", { status: 500 });

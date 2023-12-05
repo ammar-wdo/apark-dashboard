@@ -18,7 +18,9 @@ export const serviceDefaultValues = (service: Service | null) => ({
   parkingPlace: service?.parkingPlace || "",
   arrivalTodos: service?.arrivalTodos || "",
   departureTodos: service?.departureTodos || "",
- 
+  electricCharging :service?.electricCharging,
+  keyStatus:service?.keyStatus,
+  parkingLocation:service?.parkingLocation,
   parkingType: service?.parkingType || ParkingType.shuttle,
   spots: service?.spots || 1,
   available: service?.available || false,
