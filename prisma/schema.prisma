@@ -166,6 +166,9 @@ model Entity {
   invoicePlace   String
   invoiceCountry String
 
+  images        String[] @default([])
+  content       String  @default("")
+
   vatNO String?
   IBAN  String?
 
