@@ -4,16 +4,24 @@ import { NextResponse } from "next/server";
 import { calculateParkingDays } from "./(helpers)/findParkingDays";
 
 import { findValidServices } from "./(helpers)/findValidServices";
+import { Key, ParkingLocation, ParkingType } from "@prisma/client";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
-  console.log("hi");
+
 const airport = searchParams.get('airport') as string
   const startDate = searchParams.get("startDate") as string;
   const endDate = searchParams.get("endDate") as string;
   const startTime = searchParams.get("startTime") as string;
   const endTime = searchParams.get("endTime") as string;
+
+  const serviceType = searchParams.getAll("serviceType") as ParkingType[] | undefined;
+  const location = searchParams.getAll("location") as ParkingLocation[] | undefined;
+  const carsKey = searchParams.getAll("carsKey") as Key[] | undefined;
+  const electric = searchParams.get("electric") as string | undefined;
+
+  console.log('Filters',serviceType,location,carsKey,electric)
 
   if (!airport || !startDate || !endDate || !startTime || !endTime)
     return new NextResponse("date and time is required", { status: 400 });
@@ -21,12 +29,16 @@ const airport = searchParams.get('airport') as string
   try {
     const services = await prisma.service.findMany({
       where: {
-        airportId:airport,
+        airportId: airport,
         isActive: true,
+        ...(serviceType?.length ? { parkingType: { in: serviceType } } : {}),
+        ...(location?.length ? { parkingLocation: { in: location } } : {}),
+        ...(carsKey?.length ? { keyStatus: { in: carsKey } } : {}),
+        ...(electric ? { electricCharging: true } : {}),
       },
       include: {
         bookings: {
-          where: { paymentStatus: { in: ["SUCCEEDED", "PENDING"] },bookingStatus:'ACTIVE' },
+          where: { paymentStatus: { in: ['SUCCEEDED', 'PENDING'] }, bookingStatus: 'ACTIVE' },
         },
         availability: true,
         rules: true,
@@ -34,6 +46,8 @@ const airport = searchParams.get('airport') as string
     });
 
     console.log(services)
+
+ 
 
     const parkingDays = calculateParkingDays(
       new Date(startDate),
@@ -49,7 +63,7 @@ const airport = searchParams.get('airport') as string
       parkingDays
     );
 
-    console.log('services',services.length)
+
    const invalidServices = services.filter((service)=>{
 
     if(validServices.some(valid=>valid.id===service.id)) return false
@@ -57,7 +71,6 @@ const airport = searchParams.get('airport') as string
     else return true
    })
 
-   console.log("invalid services",invalidServices)
 
 
    const finalValid = validServices.filter((service)=>service.available===true)
