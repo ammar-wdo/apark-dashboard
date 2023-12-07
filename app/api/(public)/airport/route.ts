@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET(req:Request){
 
     try {
-        console.log('airport')
+        
         const airports = await prisma.airport.findMany({select:{id:true,name:true,images:true}
         })
 
