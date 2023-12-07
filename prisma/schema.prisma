@@ -245,6 +245,9 @@ enum ParkingLocation {
   BOTH
 }
 
+
+
+
 model Service {
   id String @id @default(uuid())
 
@@ -267,7 +270,7 @@ model Service {
   timeToAirport     String?
 
   facilities String[] @default([])
-  highlights String[] @default([])
+  highlights Json[] @default([])
 
   logo   String?
   images String[] @default([])

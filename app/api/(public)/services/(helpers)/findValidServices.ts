@@ -15,6 +15,7 @@ type ReturnedService = FullService & {
   endDate: string;
   startTime: string;
   endTime: string;
+  parkingDays:number
 };
 
 export const findValidServices = (
@@ -52,6 +53,8 @@ export const findValidServices = (
           endDate,
           startTime,
           endTime,
+          parkingDays
+          
         });
       }
 
