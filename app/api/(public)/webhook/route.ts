@@ -70,7 +70,8 @@ export async function POST(req: Request) {
             });
 
             await Promise.all([log, notification]);
-            // await sendMail('Booking is payed',"new booking is payed","m.swaghi@gmail.com","Mouhammmad")
+        
+            await sendMail('booking payed',`your email ${order.email}, your bookingCode ${order.bookingCode}`,"ammar@wdodigital.com","Ammar")
           }
         } catch (error) {
           console.log(error);

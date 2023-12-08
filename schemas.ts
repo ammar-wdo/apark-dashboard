@@ -132,3 +132,12 @@ export const rulesSchema = z
       new Date(date.startDate).getTime() <= new Date(date.endDate).getTime(),
     { message: "Invalid blocking range", path: ["startDate"] }
   );
+
+
+  export const contactSchema = z.object({
+    firstName: z.string().min(2).max(50),
+    lastname: z.string().min(2).max(50),
+    email: z.string().email(),
+    subject: z.string().optional(),
+    message:z.string().min(2)
+  })

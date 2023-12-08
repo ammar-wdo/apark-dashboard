@@ -19,7 +19,7 @@ export const sendMail = async (
     .setTo(recipients)
     .setReplyTo(sentFrom)
     .setSubject(subject)
-    .setHtml("<strong>booking</strong>")
+    .setHtml(`<strong>${text}</strong>`)
     .setText(text);
 
   await mailerSend.email.send(emailParams);
