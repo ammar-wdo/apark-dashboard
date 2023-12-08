@@ -134,7 +134,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      { redirect_url: `/${booking.id}` },
+      { redirect_url: `/cancel` },
       { status: 201, headers: corsHeaders }
     );
   } catch (error) {
