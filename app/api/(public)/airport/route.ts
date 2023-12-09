@@ -11,7 +11,7 @@ export async function GET(req:Request){
         
         const airports = await prisma.airport.findMany({select:{id:true,name:true,images:true}
         })
-
+console.log(airports.length)
         return NextResponse.json({airports},{status:200})
 
     } catch (error) {
