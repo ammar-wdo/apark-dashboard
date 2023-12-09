@@ -1,16 +1,21 @@
 import prisma from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:Request,{params}:{params:{serviceName:string}}){
+export async function GET(req:NextRequest,{params}:{params:{serviceName:string}}){
     try {
 
 const name = params.serviceName
 if(!name) return NextResponse.json({error:"service name is required"},{status:400})
+const searchParams = req.nextUrl.searchParams
+const entityName = searchParams.get('entityName')
+
+if(!entityName) return NextResponse.json({error:"entity name is required"},{status:400})
 
 const service = await prisma.service.findFirst({
     where:{
         name,
-        isActive:true
+        isActive:true,
+        entity:{entityName}
     },
     include:{
         entity:{select:{entityName:true,airport:{select:{name:true}}}}

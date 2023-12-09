@@ -1,12 +1,15 @@
 import prisma from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
-export async function GET(req:Request,{params}:{params:{entityName:string}}){
+export async function GET(req:NextRequest,{params}:{params:{entityName:string}}){
 console.log('done')
 
     try {
 const entityName = params.entityName
+const searchParams = req.nextUrl.searchParams
+const airportName = searchParams.get('airportName')
+if(!airportName)return NextResponse.json({error:'airport name is required'},{status:400})
 console.log("entityName",entityName)
 
 if(!entityName) return NextResponse.json({error:'entity name is required'},{status:400})
@@ -14,6 +17,7 @@ if(!entityName) return NextResponse.json({error:'entity name is required'},{stat
 
 const entity =await  prisma.entity.findFirst({
     where:{
+        airport:{name:airportName},
         entityName,
         isActive:true
     },
