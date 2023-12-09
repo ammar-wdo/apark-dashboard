@@ -14,7 +14,8 @@ export async function GET(req:Request,{params}:{params:{entityId:string}}){
 
         const services = await prisma.service.findMany({
             where:{
-                entityId
+                entityId,
+                isActive:true
             },include:{
                 entity:{
                     select:{entityName:true,airport:{select:{name:true}}}

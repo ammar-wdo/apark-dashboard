@@ -15,7 +15,8 @@ if(!airportId) return NextResponse.json({error:"airport id is required"},{status
 
 const entities = await prisma.entity.findMany({
     where:{
-        airportId:airportId
+        airportId:airportId,
+        isActive:true
     },
     select:{entityName:true,id:true,
 
