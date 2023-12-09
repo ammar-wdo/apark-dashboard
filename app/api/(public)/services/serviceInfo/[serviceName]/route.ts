@@ -8,14 +8,16 @@ const name = params.serviceName
 if(!name) return NextResponse.json({error:"service name is required"},{status:400})
 const searchParams = req.nextUrl.searchParams
 const entityName = searchParams.get('entityName')
+const airportName = searchParams.get('airportName')
 
 if(!entityName) return NextResponse.json({error:"entity name is required"},{status:400})
+if(!airportName) return NextResponse.json({error:"airport name is required"},{status:400})
 
 const service = await prisma.service.findFirst({
     where:{
         name,
         isActive:true,
-        entity:{entityName}
+        entity:{entityName,airport:{name:airportName}}
     },
     include:{
         entity:{select:{entityName:true,airport:{select:{name:true}}}}
