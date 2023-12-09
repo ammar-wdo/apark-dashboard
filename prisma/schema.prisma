@@ -76,6 +76,7 @@ model Booking {
   serviceId             String
   service               Service       @relation(fields: [serviceId], references: [id])
   logs                  Log[]
+  reivew                Review?
 }
 
 enum Attempt {
@@ -176,6 +177,7 @@ model Entity {
   isActive          Boolean @default(false)
 
   services Service[]
+  reviews  Review[]
 
   airportId String
   airport   Airport @relation(fields: [airportId], references: [id])
@@ -293,6 +295,7 @@ model Service {
   availability Availability[]
   bookings     Booking[]
   rules        Rule[]
+  reviews Review[]
 
   entity Entity @relation(fields: [entityId], references: [id])
 
@@ -346,4 +349,37 @@ model Rule {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+  
+
+  enum ReviewStatus {
+    PENDING
+    ACTIVE
+  }
+
+  enum ReviewVisibility {
+    FIRSTNAME
+    FULLNAME
+    ANOUNYMOS
+  }
+
+model Review {
+  id String @id @default(uuid())
+  bookingId String @unique
+  booking Booking @relation(fields: [bookingId],references: [id])
+  entityId String
+  entity    Entity @relation(fields: [entityId],references: [id])
+  serviceId String
+  service    Service @relation(fields: [serviceId],references: [id])
+
+  reviewContent String
+  rate Int
+
+  status ReviewStatus @default(PENDING)
+  visibility ReviewVisibility
+
+  createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+
+
 }
