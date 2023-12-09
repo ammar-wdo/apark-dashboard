@@ -39,6 +39,10 @@ const airport = searchParams.get('airport') as string
       include: {
         bookings: {
           where: { paymentStatus: { in: ['SUCCEEDED', 'PENDING'] }, bookingStatus: 'ACTIVE' },
+          
+        },
+        entity:{
+          select:{entityName:true,airport:{select:{name:true}}}
         },
         availability: true,
         rules: true,
