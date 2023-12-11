@@ -6,7 +6,7 @@ export const findBusyPlaces = (
   bookings: Booking[],
   startDate: string,
   endDate: string,
-  bookingId:string
+  bookingId?:string
 ) => {
   const busyPlaces = bookings?.filter((booking) => {
     const arrivalDate = new Date(booking.arrivalDate);

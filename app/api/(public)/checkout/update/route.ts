@@ -105,8 +105,8 @@ export async function POST(req: Request) {
       newArrival.toString(),
       newDeparture.toString(),
       booking.id,
-      newDays
-    );
+     
+    ); // new days was removed , if error add again
     if (!validService)
       return new NextResponse("This service is no more available", {
         status: 400,

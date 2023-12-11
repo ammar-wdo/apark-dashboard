@@ -17,9 +17,9 @@ export const isServiceValid = (
   service: FullService,
   startDate: string,
   endDate: string,
-  bookingId:string,
+  bookingId?:string,
 
-  parkingDays: number
+  // parkingDays: number
 ) => {
 
 
