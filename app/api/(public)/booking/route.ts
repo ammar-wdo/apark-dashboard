@@ -11,8 +11,38 @@ try {
     const {searchParams} = new URL(req.url)
 
 const bookingId = searchParams.get('bookingId')
+if(!bookingId) return new NextResponse('Booking code is required')
+const review = searchParams.get('review')
 
-    if(!bookingId) return new NextResponse('Booking code is required')
+if(review==='true'){
+
+    try {
+        const booking = await prisma.booking.findUnique({
+            where:{
+                id:bookingId
+            },include:{
+                reivew:{select:{id:true}},
+                service:{
+                    select:{entityId:true}
+                }
+            }
+        })
+    
+        if(booking?.reivew){
+          
+            return NextResponse.json({booking:null},{status:200,statusText:'all ready has review'})
+        }else{
+    
+            return NextResponse.json({booking},{status:200})
+        }
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json({error:'internal error'},{status:400})
+    }
+   
+}
+
+    
 
 
     const booking = await prisma.booking.findUnique({

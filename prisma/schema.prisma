@@ -372,8 +372,8 @@ model Review {
   serviceId String
   service    Service @relation(fields: [serviceId],references: [id])
 
-  reviewContent String
-  rate Int
+  reviewContent String?
+  rate Float
 
   status ReviewStatus @default(PENDING)
   visibility ReviewVisibility
