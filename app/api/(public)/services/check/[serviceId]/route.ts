@@ -21,6 +21,11 @@ console.log('work')
         const endDate = searchParams.get("endDate") as string;
         const startTime = searchParams.get("startTime") as string;
         const endTime = searchParams.get("endTime") as string;
+        const bookingId = searchParams.get("bookingId")
+       
+        const userStart = searchParams.get("userStart") as string;
+        const userEnd = searchParams.get("userEnd") as string;
+        console.log("bookingId",bookingId,userStart,userEnd)
 
 
         if(!startDate || !endDate || !startTime || !endTime) return NextResponse.json({ignore:'not provided parameters'},{status:200})
@@ -35,7 +40,7 @@ console.log('work')
             },
             include: {
               bookings: {
-                where: { paymentStatus: { in: ['SUCCEEDED', 'PENDING'] }, bookingStatus: 'ACTIVE' },
+                where: { paymentStatus: { in: ['SUCCEEDED', 'PENDING'] }, bookingStatus: 'ACTIVE',...(bookingId && {id:{not:bookingId}}) },
                 
               },
               entity:{
@@ -46,9 +51,11 @@ console.log('work')
             },
           });
 
+     
+
 
         if(!service) return NextResponse.json({response:'service is not available'},{status:200})
-
+        console.log('bookings',service?.bookings.length)
           const validService  = isServiceValid(service,startDate,endDate)
 
           console.log(validService)
@@ -59,11 +66,29 @@ if(!validService) return NextResponse.json({response:'Service is not available'}
 const parkingDays = calculateParkingDays(new Date(startDate), new Date(endDate));
 const totalPrice = findTotalPrice(service,parkingDays,startDate,endDate)
 
-if(totalPrice===0 || totalPrice === undefined || !totalPrice) return NextResponse.json({response:'service is not available'},{status:200})
-
 console.log(totalPrice)
 
+if(totalPrice===0 || totalPrice === undefined || !totalPrice) return NextResponse.json({response:'service is not available'},{status:200})
+
+
+
 const {rules,bookings,...theService}=service
+
+if(bookingId && userStart && userEnd){
+const userParkingDays = calculateParkingDays(new Date(userStart), new Date(userEnd));
+const userTotalPrice = findTotalPrice(service,userParkingDays,userStart,userEnd)
+
+const newParkingDays = parkingDays > userParkingDays
+const additionalDays = newParkingDays ? parkingDays - userParkingDays : undefined
+let additionalPrice = newParkingDays ? totalPrice - userTotalPrice : 0 
+if(additionalPrice < 0 ){
+    additionalPrice = 0
+}
+
+console.log(additionalPrice,newParkingDays)
+return NextResponse.json({available:true,additionalPrice,additionalDays},{status:200})
+
+}
 
 return NextResponse.json({service:{...theService,totalPrice:totalPrice,parkingDays:parkingDays,startDate:startDate,endDate:endDate,startTime:startTime,endTime:endTime}},{status:200})
 
