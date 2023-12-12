@@ -199,7 +199,7 @@ if(additionalPrice < 0 ){
         data: {
           ...validBody.data,
           paymentStatus: "PENDING",
-          total: totalPrice ,
+          total: totalPrice + booking.total ,
           daysofparking: parkingDays,
         },
       });
