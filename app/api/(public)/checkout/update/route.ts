@@ -68,10 +68,12 @@ export async function POST(req: Request) {
     const service = await prisma.service.findUnique({
       where: {
         id: validBody.data.serviceId,
+        isActive:true,
+        available:true
       },
       include: {
         bookings: {
-          where: { paymentStatus: { in: ["SUCCEEDED", "PENDING"] },bookingStatus:'ACTIVE' },
+          where: { paymentStatus: { in: ["SUCCEEDED", "PENDING"] },bookingStatus:'ACTIVE' ,id:{not:booking.id}},
         },
         availability: true,
         rules: true,
@@ -84,46 +86,61 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-    const available = await isAvailable(body.serviceId);
-
-    if (!available)
-      return NextResponse.json(
-        { customError: "This service is not available" },
-        { status: 400 }
-      );
-
-    const newPakingDays = calculateParkingDays(newArrival, newDeparture);
-    let newDays;
-    if (newPakingDays > booking?.daysofparking) {
-      newDays = newPakingDays - booking?.daysofparking;
-    } else {
-      newDays = 0;
-    }
-
-    const validService = isServiceValid(
-      service,
-      newArrival.toString(),
-      newDeparture.toString(),
-      booking.id,
+      const validService = isServiceValid(
+        service,
+        newArrival.toString(),
+        newDeparture.toString(),
      
-    ); // new days was removed , if error add again
-    if (!validService)
-      return new NextResponse("This service is no more available", {
-        status: 400,
-      });
+       
+      ); // new days was removed , if error add again
+      if (!validService)
+        return new NextResponse("This service is no more available", {
+          status: 400,
+        });
 
-    const newPrice = findTotalPrice(
-      service,
-      newDays + booking?.daysofparking, //check
-      newArrival.toString(),
-      newDeparture?.toString()
-    );
-    console.log("TOTAL DAYS", newPakingDays);
-    console.log("NEW DAYS", newDays);
-    console.log("NEW TOTAL PRICE", newPrice);
-    console.log("NEW  PRICE", newPrice - booking.total);
 
-    const additionalPrice = newPrice - booking.total;
+
+        const parkingDays = calculateParkingDays(new Date(newArrival), new Date(newDeparture));
+        const totalPrice = findTotalPrice(service,parkingDays,newArrival.toString(),newDeparture.toString())
+        
+        console.log(totalPrice)
+        
+        if(totalPrice===0 || totalPrice === undefined || !totalPrice) return NextResponse.json({response:'service is not available'},{status:200})
+
+        const userParkingDays = calculateParkingDays(new Date(booking.arrivalDate), new Date(booking.departureDate));
+        const userTotalPrice = findTotalPrice(service,userParkingDays,booking.arrivalDate.toString(),booking.departureDate.toString())
+
+        const newParkingDays = parkingDays > userParkingDays
+const additionalDays = newParkingDays ? parkingDays - userParkingDays : 0
+let additionalPrice = newParkingDays ? totalPrice - userTotalPrice : 0 
+if(additionalPrice < 0 ){
+    additionalPrice = 0
+}
+
+
+
+    // const newPakingDays = calculateParkingDays(newArrival, newDeparture);
+    // let newDays;
+    // if (newPakingDays > booking?.daysofparking) {
+    //   newDays = newPakingDays - booking?.daysofparking;
+    // } else {
+    //   newDays = 0;
+    // }
+
+   
+
+    // const newPrice = findTotalPrice(
+    //   service,
+    //   newDays + booking?.daysofparking, //check
+    //   newArrival.toString(),
+    //   newDeparture?.toString()
+    // );
+    // console.log("TOTAL DAYS", newPakingDays);
+    // console.log("NEW DAYS", newDays);
+    // console.log("NEW TOTAL PRICE", newPrice);
+    // console.log("NEW  PRICE", newPrice - booking.total);
+
+    // const additionalPrice = newPrice - booking.total;
 
     const entity = await prisma.entity.findFirst({
       where: {
@@ -133,7 +150,7 @@ export async function POST(req: Request) {
       },
     });
 
-    if (newDays === 0) {
+    if (additionalDays === 0) {
       const updatedBooking = await prisma.booking.update({
         where: {
           id: booking.id,
@@ -142,7 +159,7 @@ export async function POST(req: Request) {
           ...validBody.data,
           arrivalDate: newArrival,
           departureDate: newDeparture,
-          daysofparking: newPakingDays,
+          daysofparking: parkingDays,
         },
       });
 
@@ -172,7 +189,7 @@ export async function POST(req: Request) {
     }
     
     
-    else if (newDays > 0) {
+    else if (additionalDays > 0) {
       const myPayment = methods[booking.paymentMethod];
 
    const updatedBooking=   await prisma.booking.update({
@@ -182,8 +199,8 @@ export async function POST(req: Request) {
         data: {
           ...validBody.data,
           paymentStatus: "PENDING",
-          total: newPrice,
-          daysofparking: newPakingDays,
+          total: totalPrice ,
+          daysofparking: parkingDays,
         },
       });
 
@@ -197,7 +214,7 @@ export async function POST(req: Request) {
             id: booking.id,
             update: "true",
             bookingCode,
-            payed:newPrice - booking.total,
+            payed:additionalPrice,
             arrivalDate: booking.arrivalDate.toString(),
             departureDate: booking.departureDate.toString(),
             total: booking.total,
@@ -213,7 +230,7 @@ export async function POST(req: Request) {
               currency: "usd",
               product_data: {
                 name: "service",
-                description: `Booking for additional ${newDays} day(s) parking `,
+                description: `Booking for additional ${additionalDays} day(s) parking `,
               },
               unit_amount: +additionalPrice * 100,
             },
@@ -228,7 +245,7 @@ export async function POST(req: Request) {
           update: "true",
           arrivalDate: booking.arrivalDate.toString(),
           departureDate: booking.departureDate.toString(),
-          payed:newPrice - booking.total,
+          payed:additionalPrice,
           total: booking.total,
           daysofparking: booking.daysofparking,
         },
@@ -250,7 +267,7 @@ export async function POST(req: Request) {
         },
       });
 // create new log
-      const values = setLog(0,"UPDATING",`An attemt to extend the period of parking for ${newDays} day(s) with additional expected payment of €${newPrice - booking.total}`,updatedBooking)
+      const values = setLog(0,"UPDATING",`An attemt to extend the period of parking for ${additionalDays} day(s) with additional expected payment of €${additionalPrice}`,updatedBooking)
       await prisma.log.create({data:{...values}})
    
 

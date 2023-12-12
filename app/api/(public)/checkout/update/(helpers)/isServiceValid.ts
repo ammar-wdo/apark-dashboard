@@ -32,7 +32,7 @@ export const isServiceValid = (
       if (!!isBlocked.length) return false;
       console.log("service")
 
-      const busyPlaces = findBusyPlaces(service.bookings, startDate, endDate,bookingId);
+      const busyPlaces = findBusyPlaces(service.bookings, startDate, endDate);
       // console.log("busy places",busyPlaces.length)
 
       const availabelPlaces = service.spots - busyPlaces.length;
