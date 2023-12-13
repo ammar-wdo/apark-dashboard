@@ -50,9 +50,9 @@ const MainLinks = ({isAdmin}: Props) => {
       count: data?.count > 0,
     },
     {
-      label: "messages",
-      active: pathname === "/dashboard/messages",
-      link: "/dashboard/messages",
+      label: "reviews",
+      active: pathname === "/dashboard/reviews",
+      link: "/dashboard/reviews",
       Icon: <MessageSquare className="w-5 h-5 mr-3" />,
     },
   ];
@@ -112,7 +112,7 @@ const MainLinks = ({isAdmin}: Props) => {
           </span>{" "}
           {activities[0].label}
         </Link>
-        {isAdmin &&     <Link
+        <Link
         
           key={activities[1].label}
           href={activities[1].link}
@@ -131,7 +131,7 @@ const MainLinks = ({isAdmin}: Props) => {
             )}
           </span>{" "}
           {activities[1].label}
-        </Link>}
+        </Link>
     
      
       <ModeToggle />

@@ -54,3 +54,29 @@ return NextResponse.json({review},{status:200})
 
     }
 }
+
+
+export const GET = async (req:Request)=>{
+try {
+
+    const reviews = await prisma.review.findMany({
+        where:{
+            status:'ACTIVE',
+
+        },take:9,
+        orderBy:{
+            createdAt:'desc'
+        },include:{
+            booking:{select:{firstName:true,lastName:true}},
+            entity:{select:{entityName:true}}
+        }
+    })
+
+
+    return NextResponse.json({reviews},{status:200})
+    
+} catch (error) {
+    console.log(error)
+    return NextResponse.json({error:'internal error'},{status:500})
+}
+}
