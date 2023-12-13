@@ -1,6 +1,6 @@
 import prisma from "@/lib/db";
 import { reviewSchema } from "@/schemas";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
 const corsHeaders = {
@@ -56,12 +56,33 @@ return NextResponse.json({review},{status:200})
 }
 
 
-export const GET = async (req:Request)=>{
+export const GET = async (req:NextRequest)=>{
+
+
+const searchParams = req.nextUrl.searchParams
+
+const serviceId = searchParams.get('serviceId') 
+const entityId = searchParams.get('entityId') 
+
+
+
+
+
+console.log('serviceId:', serviceId);
+console.log('entityId:', entityId);
+
 try {
 
     const reviews = await prisma.review.findMany({
         where:{
             status:'ACTIVE',
+            ...(!!entityId ? {entityId} :{}),
+            ...(!!serviceId ? {serviceId} : {})
+           
+          
+            
+          
+      
 
         },take:9,
         orderBy:{
@@ -72,7 +93,7 @@ try {
         }
     })
 
-
+console.log(reviews)
     return NextResponse.json({reviews},{status:200})
     
 } catch (error) {
