@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth"
 import prisma from "./db"
 import { authOptions } from "@/app/api/auth/[...nextauth]/options"
+import { Company, Entity } from "@prisma/client"
 
 
 
@@ -20,7 +21,7 @@ export const getCurrentCompany = async()=>{
         })
     
         if(!company) return null
-        return company
+        return company 
     }
 
     if(session.user.name === "Entity"){
@@ -36,7 +37,7 @@ export const getCurrentCompany = async()=>{
         })
     
         if(!entity) return null
-        return entity
+        return entity 
     }
 
   

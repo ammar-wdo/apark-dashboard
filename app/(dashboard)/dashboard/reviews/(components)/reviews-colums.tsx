@@ -21,7 +21,11 @@ const themes: { [key: string]: string } = {
 };
 
 export const reviewColumns: ColumnDef<
-  Review & { booking: { firstName: string; lastName: string; email: string } }
+  Review & {
+    service: { name: string };
+    entity: { entityName: string; };
+    booking: { firstName: string; lastName: string; email: string };
+  }
 >[] = [
   {
     accessorKey: "booking.email",
@@ -41,7 +45,7 @@ export const reviewColumns: ColumnDef<
     header: "Rate",
     cell: ({ row }) => (
       <ReactStars
-        className="mx-auto"
+        className="mx-auto flex"
         value={row.getValue("rate")}
         edit={false}
         count={5}
@@ -55,7 +59,9 @@ export const reviewColumns: ColumnDef<
     header: "Content",
     cell: ({ row }) => (
       <ToolTip side="top" title={row.getValue("reviewContent")}>
-        <p className="line-clamp-1">{row.getValue("reviewContent")}</p>
+        <p className="line-clamp-1 max-w-[200px]">
+          {row.getValue("reviewContent")}
+        </p>
       </ToolTip>
     ),
   },
@@ -77,5 +83,17 @@ export const reviewColumns: ColumnDef<
       </p>
     ),
   },
-
+  {
+    accessorKey: "service.name",
+    header: "Service name",
+  },
+  {
+    accessorKey: "entity.entityName",
+    header: "Entity name",
+  },
+  {
+  
+    accessorKey: "entity.company.name",
+    header: "Company name",
+  },
 ];
