@@ -29,7 +29,7 @@ export const useRules =()=>{
           startDate:data.rule ? new Date(data.rule.startDate) : new Date(Date.now()),
           endDate:data.rule ? new Date(data.rule.endDate) :new Date(Date.now()),
           label:data.rule?.label || "",
-          action:data.rule?.action || "TOTAL",
+         
           type:data.rule?.type || "FIXED",
           percentage:data.rule?.percentage || 0,
           value:data.rule?.value || 0
