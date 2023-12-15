@@ -404,3 +404,31 @@ model Blog {
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt
 }
+
+
+model About {
+  id String @unique @default("about")
+
+  content   String
+
+   createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
+
+model FAQ {
+
+
+  id String @id @default(uuid())
+
+
+
+
+question String
+answer String
+
+
+
+   createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+
+}
