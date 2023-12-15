@@ -29,7 +29,7 @@ const airport = searchParams.get('airport') as string
   try {
     const services = await prisma.service.findMany({
       where: {
-        airportId: airport,
+        entity:{airport:{id:airport}},
         isActive: true,
         ...(serviceType?.length ? { parkingType: { in: serviceType } } : {}),
         ...(location?.length ? { parkingLocation: { in: location } } : {}),
