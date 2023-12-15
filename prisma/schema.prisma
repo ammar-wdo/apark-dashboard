@@ -324,10 +324,7 @@ enum RuleType {
   PERCENTAGE
 }
 
-enum RuleAction {
-  TOTAL
-  DAY
-}
+
 
 model Rule {
   id        String   @id @default(uuid())
@@ -336,7 +333,7 @@ model Rule {
   endDate   DateTime
 
   type   RuleType?   @default(FIXED)
-  action RuleAction? @default(TOTAL)
+
 
   percentage Int?
   value      Int?

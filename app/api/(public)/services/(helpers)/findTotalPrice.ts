@@ -19,9 +19,9 @@ export const findTotalPrice = (
     return totalPrice;
   }
 
-  const { type, action, value:theValue, percentage } = rule;
+  const { type, value:theValue, percentage } = rule;
 
-  if (action === "TOTAL") {
+  
     if (type === "FIXED") {
         totalPrice = service.pricings[parkingDays-1] + theValue!;
 
@@ -33,16 +33,5 @@ export const findTotalPrice = (
     }
 
   
-  } else {
 
-    if(type==="FIXED"){
-        totalPrice = service.pricings[parkingDays-1]
-        return totalPrice + theValue! < 0 ? 0 :totalPrice + theValue!
-    }else{
-        totalPrice = service.pricings[parkingDays-1]
-        return totalPrice + totalPrice*percentage!/100 < 0 ? 0 :totalPrice + totalPrice*percentage!/100
-    }
-
-    
-  }
 };

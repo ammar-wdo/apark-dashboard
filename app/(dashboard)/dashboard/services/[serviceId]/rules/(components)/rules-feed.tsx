@@ -30,7 +30,7 @@ const RulesFeed = ({ rules }: Props) => {
       <TableHead className="text-center capitalize">From</TableHead>
       <TableHead className="text-center capitalize">To</TableHead>
       <TableHead className="text-center capitalize">Type</TableHead>
-      <TableHead className="text-center capitalize">Action</TableHead>
+
       <TableHead className="text-center capitalize">Value</TableHead>
       <TableHead className="text-center capitalize">Percentage</TableHead>
       <TableHead className="text-center capitalize">Actions</TableHead>

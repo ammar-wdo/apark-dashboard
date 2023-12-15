@@ -24,7 +24,7 @@ const RuleCard = ({ rule}: Props) => {
       <TableCell className="text-center"> {format(rule.startDate, "yyyy - MM - dd")}</TableCell>
       <TableCell className="text-center">  {format(rule.endDate, "yyyy - MM - dd")}</TableCell>
       <TableCell className="text-center"> {rule.type} </TableCell>
-      <TableCell className="text-center"> {rule.action} </TableCell>
+  
       <TableCell className="text-center"> {rule.value ? "$"+rule.value : "N/A"} </TableCell>
       <TableCell className="text-center"> {rule.percentage ? "%" + rule.percentage : "N/A"} </TableCell>
       <TableCell className=" text-center">

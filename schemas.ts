@@ -116,7 +116,7 @@ export const rulesSchema = z
     startDate: z.date(),
     endDate: z.date(),
     type: z.enum(["FIXED", "PERCENTAGE"]).optional(),
-    action: z.enum(["TOTAL", "DAY"]),
+
     percentage: z.coerce.number().min(-50).max(150).optional(),
     value: z.coerce.number().optional(),
   })

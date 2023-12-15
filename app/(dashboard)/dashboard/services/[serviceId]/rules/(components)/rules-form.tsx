@@ -111,41 +111,7 @@ const loading = form.formState.isSubmitting
             )}
           />
         }
-          <FormField
-          control={form.control}
-          name="action"
-          render={({ field }) => (
-            <FormItem className="space-y-1">
-              <FormLabel>Action</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex justify-between space-y-1"
-                >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="TOTAL" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                     Apply to total price
-                    </FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="DAY" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                      Apply to pricing days
-                    </FormLabel>
-                  </FormItem>
-                  
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+       
       <FormField
         control={form.control}
         name="startDate"
