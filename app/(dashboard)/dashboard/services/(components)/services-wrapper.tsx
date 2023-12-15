@@ -29,10 +29,7 @@ const ServicesWrapper = async({entityId}: Props) => {
             entityId:currentCompany?.id
             
           },
-          include: {
-          airport:true
-            
-          },orderBy:{
+         orderBy:{
             createdAt:'desc'
           }
         });
@@ -45,9 +42,6 @@ const ServicesWrapper = async({entityId}: Props) => {
         services = await prisma.service.findMany({
           where:{
             entityId:entityId as string
-          },
-          include:{
-            airport:true
           },orderBy:{
             createdAt:'desc'
           }
@@ -58,10 +52,8 @@ const ServicesWrapper = async({entityId}: Props) => {
             entity:{
               companyId:currentCompany?.id
             }
-          },
-          include:{
-            airport:true
-          },orderBy:{
+          }
+          ,orderBy:{
             createdAt:'desc'
           }
         })

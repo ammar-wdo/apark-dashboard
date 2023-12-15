@@ -15,7 +15,7 @@ model Airport {
   images    String[]  @default([])
   content   String    @default("")
   Company   Company[]
-  Service   Service[]
+
   entities  Entity[]
 }
 
@@ -286,7 +286,7 @@ model Service {
   spots     Int     @default(1)
   available Boolean @default(false)
 
-  airportId String
+ 
   entityId  String
 
   availability Availability[]
@@ -296,7 +296,7 @@ model Service {
 
   entity Entity @relation(fields: [entityId], references: [id])
 
-  airport Airport @relation(fields: [airportId], references: [id])
+ 
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

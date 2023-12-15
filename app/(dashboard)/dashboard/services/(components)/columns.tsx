@@ -20,7 +20,7 @@ import {
 import ToolTip from "@/components/tool-tip";
 import ActionToolTip from "@/components/tool-tip";
 import { Badge } from "@/components/ui/badge";
-type FullService = Service &{airport:Airport}
+type FullService = Service
 
 export const columnsService: ColumnDef<FullService>[] = [
   {
