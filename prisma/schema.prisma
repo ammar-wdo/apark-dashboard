@@ -432,3 +432,21 @@ answer String
   updatedUt DateTime @updatedAt
 
 }
+
+
+model Term {
+  id String @unique @default("term")
+
+  content   String
+
+   createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
+model Privacy {
+  id String @unique @default("privacy")
+
+  content   String
+
+   createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
