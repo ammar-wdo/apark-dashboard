@@ -167,8 +167,8 @@ model Entity {
   invoicePlace   String
   invoiceCountry String
 
-  images        String[] @default([])
-  content       String  @default("")
+  images  String[] @default([])
+  content String   @default("")
 
   vatNO String?
   IBAN  String?
@@ -247,9 +247,6 @@ enum ParkingLocation {
   BOTH
 }
 
-
-
-
 model Service {
   id String @id @default(uuid())
 
@@ -272,7 +269,7 @@ model Service {
   timeToAirport     String?
 
   facilities String[] @default([])
-  highlights Json[] @default([])
+  highlights Json[]   @default([])
 
   logo   String?
   images String[] @default([])
@@ -295,7 +292,7 @@ model Service {
   availability Availability[]
   bookings     Booking[]
   rules        Rule[]
-  reviews Review[]
+  reviews      Review[]
 
   entity Entity @relation(fields: [entityId], references: [id])
 
@@ -350,36 +347,60 @@ model Rule {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-  
 
-  enum ReviewStatus {
-    PENDING
-    ACTIVE
-  }
+enum ReviewStatus {
+  PENDING
+  ACTIVE
+}
 
-  enum ReviewVisibility {
-    FIRSTNAME
-    FULLNAME
-    ANOUNYMOS
-  }
+enum ReviewVisibility {
+  FIRSTNAME
+  FULLNAME
+  ANOUNYMOS
+}
 
 model Review {
-  id String @id @default(uuid())
-  bookingId String @unique
-  booking Booking @relation(fields: [bookingId],references: [id])
-  entityId String
-  entity    Entity @relation(fields: [entityId],references: [id])
+  id        String  @id @default(uuid())
+  bookingId String  @unique
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  entityId  String
+  entity    Entity  @relation(fields: [entityId], references: [id])
   serviceId String
-  service    Service @relation(fields: [serviceId],references: [id])
+  service   Service @relation(fields: [serviceId], references: [id])
 
   reviewContent String?
-  rate Float
+  rate          Float
 
-  status ReviewStatus @default(PENDING)
+  status     ReviewStatus     @default(PENDING)
   visibility ReviewVisibility
 
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt
+}
 
+model Category {
+  id        String   @id @default(uuid())
+  label     String @unique
 
+  blogs     Blog[]
+  createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
+
+model Blog {
+  id String @id @default(uuid())
+
+  title         String
+  content       String
+  slug          String @unique
+  tags          String[]
+  featuredImage String
+  categoryId    String
+  author        String
+  shortDescription         String
+
+  category Category @relation(fields: [categoryId],references: [id])
+
+  createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
 }
