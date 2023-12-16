@@ -20,11 +20,11 @@ import {
 import ToolTip from "@/components/tool-tip";
 import ActionToolTip from "@/components/tool-tip";
 import { Badge } from "@/components/ui/badge";
-type FullService = Service
+type FullService = Service & {entity :{airport :{name:string}}}
 
 export const columnsService: ColumnDef<FullService>[] = [
   {
-    accessorKey: "airport.name",
+    accessorKey: "entity.airport.name",
     header: ({ column }) => {
       return (
         <Button
