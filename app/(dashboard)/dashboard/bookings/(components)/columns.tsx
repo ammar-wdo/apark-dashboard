@@ -206,7 +206,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
       )
     },
     cell: ({ row }) => (
-      <span className=" whitespace-nowrap   flex justify-center">$ {row.getValue("total")}</span>
+      <span className=" whitespace-nowrap   flex justify-center">€ {row.getValue("total")}</span>
     ),
     
   },

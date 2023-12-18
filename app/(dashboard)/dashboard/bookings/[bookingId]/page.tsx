@@ -133,7 +133,7 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
         <div className="space-y-2">
         <div className="flex items-center justify-between">
         <p>{daysofparking} day(s) of {booking?.service.parkingType} parking</p>
-        <p>$ { total}</p>
+        <p>€ { total}</p>
         </div>
         <div className="flex items-center justify-between capitalize">
         <p>Credit/Dept card cost</p>
