@@ -12,7 +12,7 @@ const DailyChart = ({data}: Props) => {
 
     const usedDate = data.map(el=>({name:el.day,total:el.revenue}))
   return (
-    <ResponsiveContainer width={1400} height={500}>
+    <ResponsiveContainer  height={500}>
     <BarChart
       width={500}
       height={300}

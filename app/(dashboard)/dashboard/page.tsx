@@ -70,8 +70,10 @@ const page = async ({ searchParams }: Props) => {
           <CancelBox searchParams={searchParams.service as string} entity={searchParams.entity as string | undefined}/>
         </Suspense>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3">
-        <div className=" h-[600px] mt-12 p-4 border rounded-xl overflow-x-auto lg:col-span-2">
+
+      <div className="w-full overflow-x-auto
+      ">
+      <div className=" h-[600px] mt-12 p-4 border rounded-xl min-w-[1400px] ">
           <Suspense
             key={(searchParams.service + "" + searchParams.entity + "chart") as string}
             fallback={<Skeleton className="h-[600px] rounded-xl" />}
@@ -84,6 +86,9 @@ const page = async ({ searchParams }: Props) => {
           </Suspense>
         </div>
       </div>
+   
+        
+    
     </div>
   );
 };
