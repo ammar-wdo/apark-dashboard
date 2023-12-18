@@ -87,7 +87,7 @@ export async function GET(req: Request) {
         pricings,
         terms,
         timeToAirport,
-        
+
         ...rest
       } = service;
 
@@ -98,10 +98,33 @@ export async function GET(req: Request) {
       (service) => service.available === true && service.totalPrice > 0
     );
 
-    const finalInvalid = services.filter((service) => {
+    const invalidServices = services.filter((service) => {
       if (finalValid.some((valid) => valid.id === service.id)) return false;
       else return true;
     });
+
+    const finalInvalid = invalidServices.map((service)=>{
+      const {
+        bookings,
+        availability,
+        rules,
+        arrivalTodos,
+        bookingsEmail,
+        departureTodos,
+        distanceToAirport,
+        facilities,
+        generalInformation,
+        importantInfo,
+        images,
+        pricings,
+        terms,
+        timeToAirport,
+
+        ...rest
+      } = service;
+
+      return rest;
+    })
 
     console.log("valid", validServices.length);
 

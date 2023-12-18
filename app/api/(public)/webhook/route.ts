@@ -70,11 +70,27 @@ export async function POST(req: Request) {
             });
 
             await Promise.all([log, notification]);
+        try {
+          throw new Error('wrong')
+          await sendMail('booking payed',`your email ${order.email}, your bookingCode ${order.bookingCode}`,"ammar@wdodigital.com","Ammar")
+        } catch (error) {
+          console.log(error)
+          await prisma.notification.create({
+            data: {
+              IdHolder:order.id,
+              entityId: order.service.entityId,
+              companyId: order.service.entity.companyId,
+              status: "DELETE",
+              type: "BOOKING",
+              message: "An error happened, the approvment email was not sent to customer.shuld be sent manually ",
+            },
+          });
+        }
         
-            await sendMail('booking payed',`your email ${order.email}, your bookingCode ${order.bookingCode}`,"ammar@wdodigital.com","Ammar")
           }
         } catch (error) {
           console.log(error);
+         
         }
       } else {
         console.log(session.metadata);
