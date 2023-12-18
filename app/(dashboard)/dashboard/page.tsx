@@ -15,6 +15,7 @@ import BookingBox from "./(components)/boxes/booking-box";
 import CancelBox from "./(components)/boxes/cancel-box";
 import ChartComponent from "./(components)/chart-component";
 import SearchEntity from "./(components)/search-entity-component";
+import { getCurrentCompany } from "@/lib/helpers";
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -26,6 +27,9 @@ const page = async ({ searchParams }: Props) => {
   }
 
   const session = await getServerSession(authOptions);
+  const company = await getCurrentCompany()
+  if(!company) throw new Error('Unauthenticated')
+  
   const isCompany = session?.user?.name === "Company"
 
   if(isCompany && !searchParams.entity){
