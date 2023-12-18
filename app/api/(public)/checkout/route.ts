@@ -130,7 +130,7 @@ export async function POST(req: Request) {
    
 
     const session = await stripe.checkout.sessions.create({
-      payment_intent_data: { metadata: { id: booking.id ,bookingCode:booking.bookingCode},
+      payment_intent_data: { metadata: { id: booking.id ,bookingCode:booking.bookingCode,payed:total},
       capture_method:'automatic',
       
 
@@ -160,16 +160,7 @@ export async function POST(req: Request) {
       cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled`,
     });
 
-    const notification = await prisma.notification.create({
-      data:{
-        IdHolder:booking.id,
-        entityId:entity?.id,
-        companyId:entity?.companyId,
-        status:'REQUEST',
-        type:'BOOKING',
-        message:'A new booking is pending'
-      }
-    })
+
 
   
 
