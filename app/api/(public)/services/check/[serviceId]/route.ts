@@ -90,7 +90,7 @@ return NextResponse.json({available:true,additionalPrice,additionalDays},{status
 
 }
 
-return NextResponse.json({service:{...theService,totalPrice:totalPrice,parkingDays:parkingDays,startDate:startDate,endDate:endDate,startTime:startTime,endTime:endTime}},{status:200})
+return NextResponse.json({service:{id:theService.id,name:theService.name,totalPrice:totalPrice,parkingDays:parkingDays,startDate:startDate,endDate:endDate,startTime:startTime,endTime:endTime}},{status:200})
 
 
     } catch (error) {

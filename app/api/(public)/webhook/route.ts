@@ -88,7 +88,7 @@ export async function POST(req: Request) {
                   status: "DELETE",
                   type: "BOOKING",
                   message:
-                    "An error happened, the approvment email was not sent to customer.shuld be sent manually ",
+                    "An error happened, the approvment email was not sent to customer.should be sent manually ",
                 },
               });
             }
@@ -276,7 +276,7 @@ export async function POST(req: Request) {
         const values = setLog(
           0,
           "CANCELED",
-          "This payment has been successfully refunded",
+          `This payment has been successfully refunded with €${session.metadata?.payed}`,
           order
         );
         const log = prisma.log.create({
