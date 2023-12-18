@@ -71,7 +71,6 @@ export async function POST(req: Request) {
 
             await Promise.all([log, notification]);
             try {
-             
               await sendMail(
                 "booking payed",
                 `your email ${order.email}, your bookingCode ${order.bookingCode}`,
