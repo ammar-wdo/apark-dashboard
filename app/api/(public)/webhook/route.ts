@@ -276,7 +276,7 @@ export async function POST(req: Request) {
         const values = setLog(
           0,
           "CANCELED",
-          `This payment has been successfully refunded with €${session.metadata?.payed}`,
+          `This payment has been successfully refunded with €${session.metadata?.update? session.metadata?.payed : order.total}`,
           order
         );
         const log = prisma.log.create({
