@@ -167,16 +167,7 @@ if(additionalPrice < 0 ){
       const values = setLog(0,"UPDATED",`This booking has been updated with no additional days, no additional payment`,updatedBooking)
       await prisma.log.create({data:{...values}})
 
-      await prisma.notification.create({
-        data: {
-          entityId: entity?.id,
-          companyId: entity?.companyId,
-          type: "BOOKING",
-          status: "APPROVE",
-          IdHolder: updatedBooking.id,
-          message: "A booking has been updated",
-        },
-      });
+     
 
       return NextResponse.json(
         {
@@ -256,16 +247,7 @@ if(additionalPrice < 0 ){
         cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled`,
       });
 
-      const notification = await prisma.notification.create({
-        data: {
-            IdHolder:booking.id,
-          entityId: entity?.id,
-          companyId: entity?.companyId,
-          status: "REQUEST",
-          type: "BOOKING",
-          message: "A booking is extending parking days",
-        },
-      });
+    
 // create new log
       const values = setLog(0,"UPDATING",`An attemt to extend the period of parking for ${additionalDays} day(s) with additional expected payment of €${additionalPrice}`,updatedBooking)
       await prisma.log.create({data:{...values}})
