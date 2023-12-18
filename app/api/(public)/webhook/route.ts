@@ -60,7 +60,7 @@ export async function POST(req: Request) {
             });
             const notification = prisma.notification.create({
               data: {
-                IdHolder:order.id,
+                IdHolder: order.id,
                 entityId: order.service.entityId,
                 companyId: order.service.entity.companyId,
                 status: "APPROVE",
@@ -70,27 +70,31 @@ export async function POST(req: Request) {
             });
 
             await Promise.all([log, notification]);
-        try {
-          throw new Error('wrong')
-          await sendMail('booking payed',`your email ${order.email}, your bookingCode ${order.bookingCode}`,"ammar@wdodigital.com","Ammar")
-        } catch (error) {
-          console.log(error)
-          await prisma.notification.create({
-            data: {
-              IdHolder:order.id,
-              entityId: order.service.entityId,
-              companyId: order.service.entity.companyId,
-              status: "DELETE",
-              type: "BOOKING",
-              message: "An error happened, the approvment email was not sent to customer.shuld be sent manually ",
-            },
-          });
-        }
-        
+            try {
+              throw new Error("wrong");
+              await sendMail(
+                "booking payed",
+                `your email ${order.email}, your bookingCode ${order.bookingCode}`,
+                "ammar@wdodigital.com",
+                "Ammar"
+              );
+            } catch (error) {
+              console.log(error);
+              await prisma.notification.create({
+                data: {
+                  IdHolder: order.id,
+                  entityId: order.service.entityId,
+                  companyId: order.service.entity.companyId,
+                  status: "DELETE",
+                  type: "BOOKING",
+                  message:
+                    "An error happened, the approvment email was not sent to customer.shuld be sent manually ",
+                },
+              });
+            }
           }
         } catch (error) {
           console.log(error);
-         
         }
       } else {
         console.log(session.metadata);
@@ -124,7 +128,7 @@ export async function POST(req: Request) {
             });
             const notification = prisma.notification.create({
               data: {
-                IdHolder:order.id,
+                IdHolder: order.id,
                 entityId: order.service.entityId,
                 companyId: order.service.entity.companyId,
                 status: "APPROVE",
@@ -180,7 +184,7 @@ export async function POST(req: Request) {
           });
           const notification = prisma.notification.create({
             data: {
-              IdHolder:order.id,
+              IdHolder: order.id,
               entityId: order.service.entityId,
               companyId: order.service.entity.companyId,
               status: "DELETE",
@@ -230,7 +234,7 @@ export async function POST(req: Request) {
           const notification = prisma.notification.create({
             data: {
               entityId: order.service.entityId,
-              IdHolder:order.id,
+              IdHolder: order.id,
               companyId: order.service.entity.companyId,
               status: "APPROVE",
               type: "BOOKING",
@@ -247,56 +251,55 @@ export async function POST(req: Request) {
       break;
     }
 
-case 'charge.refunded' :{
-  console.log('refund')
-  console.log(session.metadata)
+    case "charge.refunded": {
+      console.log("refund");
+      console.log(session.metadata);
 
-  try {
-    const order = await prisma.booking.update({
-      where: {
-        id: session?.metadata?.id,
-      },
-      data: {
-        paymentStatus: "CANCELED",
-        bookingStatus: "REFUNDED",
-      },
-      include: {
-        service: {
-          include: {
-            entity: true,
+      try {
+        const order = await prisma.booking.update({
+          where: {
+            id: session?.metadata?.id,
           },
-        },
-      },
-    });
+          data: {
+            paymentStatus: "CANCELED",
+            bookingStatus: "REFUNDED",
+          },
+          include: {
+            service: {
+              include: {
+                entity: true,
+              },
+            },
+          },
+        });
 
-    const values = setLog(
-      0,
-      "CANCELED",
-      "This payment has been successfully refunded",
-      order
-    );
-    const log = prisma.log.create({
-      data: {
-        ...values,
-      },
-    });
-    const notification = prisma.notification.create({
-      data: {
-        IdHolder:order.id,
-        entityId: order.service.entityId,
-        companyId: order.service.entity.companyId,
-        status: "APPROVE",
-        type: "BOOKING",
-        message: "A booking payment has been refunded",
-      },
-    });
+        const values = setLog(
+          0,
+          "CANCELED",
+          "This payment has been successfully refunded",
+          order
+        );
+        const log = prisma.log.create({
+          data: {
+            ...values,
+          },
+        });
+        const notification = prisma.notification.create({
+          data: {
+            IdHolder: order.id,
+            entityId: order.service.entityId,
+            companyId: order.service.entity.companyId,
+            status: "APPROVE",
+            type: "BOOKING",
+            message: "A booking payment has been refunded",
+          },
+        });
 
-    await Promise.all([log, notification]);
-  } catch (error) {
-    console.log(error);
-  }
-}
-    
+        await Promise.all([log, notification]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     default:
   }
