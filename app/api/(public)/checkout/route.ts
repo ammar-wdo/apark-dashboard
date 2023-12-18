@@ -152,7 +152,7 @@ export async function POST(req: Request) {
       ],
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
       mode: "payment",
-      metadata: { id: booking.id,bookingCode:booking.bookingCode },
+      metadata: { id: booking.id,bookingCode:booking.bookingCode,payed:total },
 
       success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
         booking.id
