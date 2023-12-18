@@ -17,6 +17,7 @@ const ServicesWrapper = async({entityId}: Props) => {
 
   let services
   const currentCompany = await getCurrentCompany()
+  if (!currentCompany) throw Error("Unauthenticated");
 
     const session = await getServerSession(authOptions)
     if(session?.user?.name === "Entity"){

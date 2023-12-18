@@ -10,6 +10,7 @@ export async function fetchNotifications(list:string ){
         
         const session = await getServerSession(authOptions)
         const currentCompany = await getCurrentCompany()
+        if (!currentCompany) throw Error("Unauthenticated");
     
         let notifications
     
