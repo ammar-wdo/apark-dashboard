@@ -121,7 +121,7 @@ const MainLinks = ({ isAdmin }: Props) => {
         variant={"ghost"}
         onClick={() => {
           router.push(activities[0].link);
-          router.refresh();
+          
         }}
         className={cn(
           "link justify-start",
