@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCurrentCompany } from "@/lib/helpers";
-import { Coins, CopyCheck, Edit, Euro, Key, Plug } from "lucide-react";
+import { CarIcon, Coins, CopyCheck, Edit, Euro, Key, Plug, Warehouse } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -82,13 +82,14 @@ const ServicesWrapper = async ({ entityId }: Props) => {
           <div className="flex flex-col gap-1 my-8 text-muted-foreground">
           {!!service.electricCharging && (
             <p className="flex items-center gap-2  text-xs w-fit   ">
-              Electric charging {<Plug className=" p-1 " />}
+              {<Plug className=" p-1 " />}
+              Electric charging 
             </p>
           )}
-           <p className="lowercase first-letter:capitalize  text-xs w-fit   ">{service.parkingLocation}</p>
+           <p className="lowercase first-letter:capitalize  text-xs w-fit  flex items-center gap-2 ">{service.parkingLocation==='INDOOR' ? <Warehouse  className="p-1 "/>:<CarIcon  className="p-1 "/>}{service.parkingLocation}</p>
           <p className="flex items-center gap-2 lowercase first-letter:capitalize   text-xs w-fit   ">
-            {service.keyStatus}
             {<Key className="p-1" />}
+            {service.keyStatus}
           </p>
           </div>
           
