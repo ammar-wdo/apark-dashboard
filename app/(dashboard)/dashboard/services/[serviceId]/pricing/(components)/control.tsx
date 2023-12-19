@@ -13,6 +13,7 @@ import { usePricing } from "../pricing.hook";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {
   previousArray:number[]|undefined
@@ -42,43 +43,47 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
   const [incrementValue, setIncrementValue] = useState(0)
 
   return (
-    <Table className="w-[650px] border p-2 rounded-sm ">
-      <TableHeader>
-        <TableRow>
-          <TableHead className="flex items-center justify-between"><span>Control</span>{!!previousArray?.length &&<Button  onClick={undo}>Undo</Button>}</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow className="">
-          <TableCell className="font-semibold">Set all fields to a certain value</TableCell>
-          <TableCell className="">
-            <Input
-              type="number"
-              min={0}
-              placeholder="0"
-              value={resetValue || ''}
-              onChange={(e) => setResetValue(+e.target.value)}
-            />
-          </TableCell>
-          <TableCell>
-            <Button
-              className="w-full text-xs"
-              onClick={() => reset(resetValue)}
-            >
-              Set
-            </Button>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-semibold">Add value to each day</TableCell>
-          <TableCell>
-          <div className="grid grid-cols-2 gap-1  items-center w-60">
+    <section className=" p-3 rounded-sm  text-xs">
+     
+          <div className="flex items-center justify-between">
+            <span className="font-bold text-lg">Control</span>{!!previousArray?.length &&<Button  onClick={undo}>Undo</Button>}</div>
+      
+      <div className="grid grid-col-1 md:grid-cols-2 gap-2 mt-4">
+        <div className="flex flex-col gap-1 p-3 rounded-md border">
+        <span className="font-semibold">Set all fields to a certain value</span>
+        
+        <Input
+          type="number"
+          className="text-xs"
+          min={0}
+          placeholder="0"
+          value={resetValue || ''}
+          onChange={(e) => setResetValue(+e.target.value)}
+        />
+   
+    
+        <Button
+        variant={'secondary'}
+          className=" text-xs mt-auto"
+          onClick={() => {reset(resetValue);setResetValue(0)}}
+        >
+          Set
+        </Button>
+        </div>
+       
+        
+        
+       
+        <div className="flex flex-col gap-1 p-3 rounded-md border ">
+          <span className="font-semibold">Add value to each day</span>
+        
+          <div className="grid grid-cols-2 gap-1 w-full  items-center ">
                 <span>From</span>
               <Input
               min={0}
                 type="number"
                 placeholder="day"
-                className="pl-4"
+                className="pl-4 text-xs"
                 value={fromValue ||''}
                 onChange={(e) => setFromValue(+e.target.value)}
               />
@@ -87,7 +92,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
               min={0}
                 type="number"
                 placeholder="day"
-                className="pl-4"
+                className="pl-4 text-xs"
                 value={toValue || ''}
                 onChange={(e) => setToValue(+e.target.value)}
               />
@@ -96,33 +101,36 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
             <Input
             min={0}
               type="number"
+              className="text-xs"
               placeholder="0"
               value={dayValue || ''}
               onChange={(e) => setDayValue(+e.target.value)}
             />
           
               </div>
-              </TableCell>
+            
         
-          <TableCell>
+         
             <Button
-              className="w-full text-xs"
-              onClick={() => addValue(dayValue,fromValue,toValue)}
+                variant={'secondary'}
+              className=" text-xs mt-auto"
+              onClick={() => {addValue(dayValue,fromValue,toValue);setFromValue(0);setToValue(0);setDayValue(0)}}
             >
               Add
             </Button>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-semibold">Substract value from each day</TableCell>
-          <TableCell>
-          <div className="grid grid-cols-2 gap-1  items-center w-60">
+        
+        </div>
+        
+        <div className="flex flex-col gap-1 p-3 rounded-md border">
+          <span className="font-semibold">Substract value from each day</span>
+       
+          <div className="grid grid-cols-2 gap-1 w-full items-center ">
                 <span>From</span>
               <Input
               min={0}
                 type="number"
                 placeholder="day"
-                className="pl-4"
+                className="pl-4 text-xs"
                 value={fromSubstract ||''}
                 onChange={(e) => setFromSubstract(+e.target.value)}
               />
@@ -131,7 +139,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
               min={0}
                 type="number"
                 placeholder="day"
-                className="pl-4"
+                className="pl-4 text-xs"
                 value={toSubstract || ''}
                 onChange={(e) => setTooSubstract(+e.target.value)}
               />
@@ -140,55 +148,61 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
             <Input
             min={0}
               type="number"
+              className="text-xs"
               placeholder="0"
               value={substractValue || ''}
               onChange={(e) => setSubstractValue(+e.target.value)}
             />
           
               </div>
-              </TableCell>
+             
         
-          <TableCell>
+        
             <Button
-              className="w-full text-xs"
-              onClick={() => minusValue(substractValue,fromSubstract,toSubstract)}
+                variant={'secondary'}
+              className=" text-xs mt-auto"
+              onClick={() =>{ minusValue(substractValue,fromSubstract,toSubstract);setFromSubstract(0);setTooSubstract(0);setSubstractValue(0)}}
             >
               Substract
             </Button>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-semibold">Add percentage to each day</TableCell>
+       
+        </div>
+        
+        <div className="flex flex-col gap-1 p-3 rounded-md border">
+          <span className="font-semibold">Add percentage to each day</span>
          
-          <TableCell className="relative flex items-center">
-            <span className="absolute left-6 text-xs text-gray-500">%</span>
+          <div className="relative flex items-center">
+            <span className="absolute left-2 text-xs text-gray-500">%</span>
             <Input
               type="number"
-              className="pl-5"
+              
+              className="pl-5 text-xs"
               placeholder="0"
               value={percentage||''}
               onChange={(e) => setPercentage(+e.target.value)}
             />
-          </TableCell>
-          <TableCell>
+          </div>
+       
             <Button
-              className="w-full text-xs"
-              onClick={() => addPercentage(percentage)}
+                variant={'secondary'}
+              className=" text-xs mt-auto"
+              onClick={() => {addPercentage(percentage);setPercentage(0)}}
             >
               Add
             </Button>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-semibold">Add rows with values</TableCell>
-          <TableCell className="">
-            <div className="grid grid-cols-2 gap-1  items-center w-60">
+        
+        </div>
+        
+        <div className="flex flex-col gap-1 p-3 rounded-md border">
+          <span className="font-semibold">Add rows with values</span>
+       
+            <div className="grid grid-cols-2 gap-1 w-full items-center ">
                 <span>Number of rows</span>
               <Input
               min={0}
                 type="number"
                 placeholder="0"
-                className="pl-4"
+                className="pl-4 text-xs"
                 value={rows||''}
                 onChange={(e) => setRows(+e.target.value)}
               />
@@ -197,31 +211,33 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
               min={0}
               placeholder="0"
                 type="number"
-                className="pl-4"
+                className="pl-4 text-xs"
                 value={rowsValue||''}
                 onChange={(e) => setRowsValue(+e.target.value)}
               />
             </div>
-          </TableCell>
-          <TableCell>
+      
+        
             <Button
-              className="w-full text-xs"
-              onClick={() => addRows(rows,rowsValue)}
+                variant={'secondary'}
+              className="w-full text-xs mt-auto"
+              onClick={() => {addRows(rows,rowsValue);setRows(0); setRowsValue(0)}}
             >
               Add
             </Button>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-semibold">Add incremental value </TableCell>
-          <TableCell className="">
-            <div className="grid grid-cols-2 gap-1  items-center w-60">
+          
+        </div>
+        
+        <div className="flex flex-col gap-1 p-3 rounded-md border">
+          <span className="font-semibold">Add incremental value </span>
+      
+            <div className="grid grid-cols-2 gap-1 w-full items-center ">
                 <span>From</span>
               <Input
               min={0}
                 type="number"
                 placeholder="day"
-                className="pl-4"
+                className="pl-4 text-xs"
                 value={from ||''}
                 onChange={(e) => setFrom(+e.target.value)}
               />
@@ -230,7 +246,7 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
               min={0}
                 type="number"
                 placeholder="day"
-                className="pl-4"
+                className="pl-4 text-xs"
                 value={to || ''}
                 onChange={(e) => setTo(+e.target.value)}
               />
@@ -239,23 +255,24 @@ const Control = ({ addValue, addPercentage, reset, addRows ,addIncrement,minusVa
               min={0}
                 type="number"
                 placeholder="0"
-                className="pl-4"
+                className="pl-4 text-xs"
                 value={incrementValue || ''}
                 onChange={(e) => setIncrementValue(+e.target.value)}
               />
             </div>
-          </TableCell>
-          <TableCell>
+       
+     
             <Button
-              className="w-full text-xs"
-              onClick={() => addIncrement(from,to,incrementValue)}
+                variant={'secondary'}
+              className=" text-xs mt-auto"
+              onClick={() => {addIncrement(from,to,incrementValue);setFrom(0);setTo(0);setIncrementValue(0)}}
             >
               Add
             </Button>
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
+     
+        </div>
+      </div>
+    </section>
   );
 };
 

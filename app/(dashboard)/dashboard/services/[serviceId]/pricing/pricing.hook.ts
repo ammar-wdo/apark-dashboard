@@ -2,15 +2,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { pricingSchema } from "./pricing-schema";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
+type Previous = number[]
 export const usePricing = (pricings: number[]) => {
   const [myArray, setMyArray] = useState<number[]>();
-  const [previousArray, setPreviousArray] = useState<number[] | undefined>()
+  const [index, setIndex] = useState(-1)
+  const [previousArray, setPreviousArray] = useState<any>([])
+
+
   useEffect(() => {
     if (pricings?.length) {
       setMyArray(pricings);
@@ -63,28 +67,38 @@ export const usePricing = (pricings: number[]) => {
     form.setValue("pricings", myArray || []);
   }, [myArray]);
 
+
+
+
   const handleChange = (value: number, index: number) => {
     const newArray = [...(myArray || [])];
     newArray[index] = value;
     setMyArray(newArray);
   };
 
+  
   const addRow = () => {
     setMyArray((prev: number[] | undefined) => [...(prev || []), 0]);
 
-    setPreviousArray(myArray)
-
-   
-    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
+    setPreviousArray((prev: number[][]) => [...prev, myArray]);
+    setIndex(prev=>prev+1)
+  
   };
+
+
 
   const deleteRow = (row: number) => {
     setMyArray((prev: number[] | undefined) =>
       prev?.filter((_, i) => i !== row)
     );
-   setPreviousArray(myArray)
-    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
+    setPreviousArray((prev: number[][]) => [...prev, myArray]);
+    setIndex(prev=>prev+1)
+ 
   };
+
+
+
+
 
   const addValue = (value: number,from:number,to:number) => {
     if (from > to || from === to || value===0) return;
@@ -98,13 +112,20 @@ return (el + value < 0 ? 0 : +el + value)
           return el
         }
         })
+        
     );
 
 
-    setPreviousArray(myArray)
+    setPreviousArray((prev: number[][]) => [...prev, myArray]);
+    setIndex(prev=>prev+1)
+    console.log(previousArray)
   
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
+
+
+
+
   const minusValue = (value: number,from:number,to:number) => {
     if (from > to || from === to || value===0) return;
     setMyArray((prev: number[] | undefined) =>
@@ -118,9 +139,15 @@ return (el - value < 0 ? 0 : +el - value)
         }
         })
     );
-    setPreviousArray(myArray)
+    setPreviousArray((prev: number[][]) => [...prev, myArray]);
+    setIndex(prev=>prev+1)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
+
+
+
+
+
   const addPercentage = (value: number) => {
     if(value===0) return
     setMyArray((prev: number[] | undefined) =>
@@ -130,16 +157,32 @@ return (el - value < 0 ? 0 : +el - value)
           : parseInt((el + (el * value) / 100).toString())
       )
     );
-   setPreviousArray(myArray)
+    setPreviousArray((prev: number[][]) => [...prev, myArray]);
+    setIndex(prev=>prev+1)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
+
+
+
+
+
+
   const reset = (value: number) => {
     setMyArray((prev: number[] | undefined) =>
       prev?.map((el) => (value < 0 ? 0 : parseInt(value.toString())))
     );
-   setPreviousArray(myArray)
+    setPreviousArray((prev: number[][]) => [...prev, myArray]);
+    setIndex(prev=>prev+1)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
+   
+    console.log(previousArray,index)
   };
+
+
+
+
+
+
 
   const addRows = (rows: number, value: number) =>
   { 
@@ -149,19 +192,19 @@ return (el - value < 0 ? 0 : +el - value)
       ...(prev || []),
       ...Array(rows).fill(value),
     ])
-   setPreviousArray(myArray)
+    setPreviousArray((prev: number[][]) => [...prev, myArray]);
+    setIndex(prev=>prev+1)
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})};
+
+
+
 
   const addIncrement = (from: number, to: number, value:number) => {
     if (from > to || from === to || !from || !to || !value || value<0) return;
-  
-
-  
-
     let iv = 1;
     let newArry = myArray;
 
-    setPreviousArray(myArray)
+    
 
 
     for (let i = from-1; i < to; i++) {
@@ -175,16 +218,28 @@ return (el - value < 0 ? 0 : +el - value)
       iv++;
     }
    
-    setMyArray(()=>[...(newArry||[])]);
+    setMyArray([...(newArry||[])]);
+    setPreviousArray((prev: number[][]) => [...prev, myArray]);
+    setIndex(prev=>prev+1)
     
 
     toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
   };
 
+
+
+
+
   const undo = ()=>{
-   
-    setMyArray(previousArray)
-    setPreviousArray([])
+
+    setIndex(prev=>prev!==0 ? prev-1 : 0)
+
+    const newArray = previousArray[index]
+    setMyArray(newArray)
+
+    console.log('index',index)
+    console.log('previous array',previousArray)
+
   }
 
   const form = useForm<z.infer<typeof pricingSchema>>({
@@ -223,7 +278,8 @@ return (el - value < 0 ? 0 : +el - value)
     addRows,
     addIncrement,
     undo,
-    previousArray
+    previousArray,
+    index
 
   };
 };
