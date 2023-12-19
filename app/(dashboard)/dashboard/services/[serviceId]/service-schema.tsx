@@ -10,7 +10,7 @@ import { serviceSchema } from "@/schemas";
 
 export const serviceDefaultValues = (service: Service | null) => ({
   name: service?.name || "",
-  terms: service?.name || "",
+  terms: service?.terms || "",
   bookingsEmail: service?.bookingsEmail || "",
   parkingAddress: service?.parkingAddress || "",
   parkingZipcode: service?.parkingZipcode || "",
