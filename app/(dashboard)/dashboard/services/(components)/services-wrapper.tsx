@@ -106,7 +106,7 @@ const ServicesWrapper = async ({ entityId }: Props) => {
         <Separator className="my-3" /> 
           <div className="grid grid-cols-2 gap-2 ">
           <ActionToolTip title="Edit your service" side="top">
-            <Button variant={'secondary'} 
+            <Button asChild variant={'secondary'} 
             className="text-xs"
             >
               <Link className="flex items-center" href={`/dashboard/services/${service.id}`}>
@@ -117,7 +117,7 @@ const ServicesWrapper = async ({ entityId }: Props) => {
             </Button>
             </ActionToolTip>
           <ActionToolTip title="Manage your pricing for each day" side="top">
-            <Button variant={'secondary'}
+            <Button asChild variant={'secondary'}
             className="text-xs"
             >
               <Link className="flex items-center" href={`/dashboard/services/${service.id}/pricing`}>
@@ -128,7 +128,7 @@ const ServicesWrapper = async ({ entityId }: Props) => {
             </Button>
             </ActionToolTip>
           <ActionToolTip title="Enable and disable your service for specific times" side="bottom">
-            <Button variant={'secondary'}
+            <Button asChild variant={'secondary'}
             className="text-xs"
             >
               <Link className="flex items-center" href={`/dashboard/services/${service.id}/availability`}>
@@ -139,7 +139,7 @@ const ServicesWrapper = async ({ entityId }: Props) => {
             </Button>
             </ActionToolTip>
           <ActionToolTip title="Manage your payment rules for different dates" side="bottom">
-            <Button variant={'secondary'}
+            <Button asChild variant={'secondary'}
             className="text-xs"
             >
               <Link className="flex items-center" href={`/dashboard/services/${service.id}/rules`}>
