@@ -168,7 +168,7 @@ return (el - value < 0 ? 0 : +el - value)
       const theValue = iv * value;
    
 
-      newArry![i] =  newArry![i]? newArry![i] + theValue : 0 +theValue + newArry![from-2]  
+      newArry![i] =  newArry![i]? newArry![i] + theValue : 0 +theValue + (newArry![from-2] !== undefined ? newArry![from-2] : 0)
       console.log(newArry![from-2])
     
 
