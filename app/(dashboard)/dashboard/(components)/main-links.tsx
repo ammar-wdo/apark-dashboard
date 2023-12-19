@@ -2,17 +2,19 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import MainSheet from "./main-sheet";
 import { Bell, BookmarkCheck, Boxes, Building2, Group, LayoutDashboard, MessageSquare } from "lucide-react";
 import SignoutButton from "./signout-button";
 import { ModeToggle } from "@/components/theme-toggle";
 import { useNotificationsQuery } from "../notifications/notifications.hook";
+import { Button } from "@/components/ui/button";
 
 type Props = {isAdmin:boolean};
 
 const MainLinks = ({isAdmin}: Props) => {
   const pathname = usePathname();
+  const router = useRouter()
 
   const { data } = useNotificationsQuery();
 
@@ -68,34 +70,40 @@ const MainLinks = ({isAdmin}: Props) => {
     <div className="w-full flex flex-col mt-16 p-1 px-3 gap-1 flex-1 ">
        <h3 className="font-semibold px-4 ">Main</h3>
       {myLinks.map((link,i) => <span key={i===1?entity.label:link.label}>
-      {isAdmin && i===1 && <Link
-       
-          href={entity.link}
-          className={cn(
-            "link",
-            entity.active && "bg-secondary ",!entity.active && 'hover:bg-secondary/60'
-          )}
+      {isAdmin && i===1 && <Button
+        onClick={()=>{router.push(link.link);router.refresh()}}
+        key={link.label}
+      variant={'ghost'}
+        className={cn(
+          "link justify-start",
+          link.active && "bg-secondary ",
+          !link.active && "hover:bg-secondary/60"
+        )}
         >
          {entity.Icon} {entity.label}
-        </Link> }
-     {   <Link
+        </Button> }
+     {   <Button
     
-          href={link.link}
-          className={cn(
-            "link",
-            link.active && "bg-secondary ",!link.active && 'hover:bg-secondary/60'
-          )}
+    onClick={()=>{router.push(link.link);router.refresh()}}
+    key={link.label}
+  variant={'ghost'}
+    className={cn(
+      "link justify-start",
+      link.active && "bg-secondary ",
+      !link.active && "hover:bg-secondary/60"
+    )}
         >
          {link.Icon} {link.label}
-        </Link>}
+        </Button>}
         </span>
       )}
          <h3 className="font-semibold px-4 mt-12">Activites</h3>
      
-        <Link
-        prefetch={false}
+        <Button
+        
           key={activities[0].label}
-          href={activities[0].link}
+          variant={'ghost'}
+          onClick={()=>{router.push(activities[0].link);router.refresh()}}
           className={cn(
             "link",
             activities[0].active && "bg-secondary ",
@@ -111,11 +119,12 @@ const MainLinks = ({isAdmin}: Props) => {
             )}
           </span>{" "}
           {activities[0].label}
-        </Link>
-        <Link
+        </Button>
+        <Button
         
           key={activities[1].label}
-          href={activities[1].link}
+          onClick={()=>{router.push(activities[1].link);router.refresh()}}
+          variant={'ghost'}
           className={cn(
             "link",
             activities[1].active && "bg-secondary ",
@@ -131,7 +140,7 @@ const MainLinks = ({isAdmin}: Props) => {
             )}
           </span>{" "}
           {activities[1].label}
-        </Link>
+        </Button>
     
      
       <ModeToggle />
