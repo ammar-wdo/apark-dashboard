@@ -268,8 +268,8 @@ model Service {
   generalInformation String?
   importantInfo      String?
 
-  distanceToAirport String?
-  timeToAirport     String?
+  distanceToAirport Int?
+  timeToAirport     Int?
 
   facilities String[] @default([])
   highlights Json[]   @default([])
