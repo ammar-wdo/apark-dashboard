@@ -105,7 +105,7 @@ const MainLinks = ({isAdmin}: Props) => {
           variant={'ghost'}
           onClick={()=>{router.push(activities[0].link);router.refresh()}}
           className={cn(
-            "link",
+            "link justify-start",
             activities[0].active && "bg-secondary ",
             !activities[0].active && "hover:bg-secondary/60"
           )}
@@ -126,7 +126,7 @@ const MainLinks = ({isAdmin}: Props) => {
           onClick={()=>{router.push(activities[1].link);router.refresh()}}
           variant={'ghost'}
           className={cn(
-            "link",
+            "link justify-start",
             activities[1].active && "bg-secondary ",
             !activities[1].active && "hover:bg-secondary/60"
           )}
