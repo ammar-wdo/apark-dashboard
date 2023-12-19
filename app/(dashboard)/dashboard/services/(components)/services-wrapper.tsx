@@ -79,14 +79,14 @@ const ServicesWrapper = async ({ entityId }: Props) => {
           <p>
             {service.parkingZipcode} {service.parkingPlace}
           </p>
-          <div className="flex flex-col gap-1 my-8">
+          <div className="flex flex-col gap-1 my-8 text-muted-foreground">
           {!!service.electricCharging && (
-            <p className="flex items-center gap-2 text-gray-500 text-xs w-fit   ">
+            <p className="flex items-center gap-2  text-xs w-fit   ">
               Electric charging {<Plug className=" p-1 " />}
             </p>
           )}
-           <p className="lowercase first-letter:capitalize text-gray-500 text-xs w-fit   ">{service.parkingLocation}</p>
-          <p className="flex items-center gap-2 lowercase first-letter:capitalize  text-gray-500 text-xs w-fit   ">
+           <p className="lowercase first-letter:capitalize  text-xs w-fit   ">{service.parkingLocation}</p>
+          <p className="flex items-center gap-2 lowercase first-letter:capitalize   text-xs w-fit   ">
             {service.keyStatus}
             {<Key className="p-1" />}
           </p>
@@ -95,12 +95,12 @@ const ServicesWrapper = async ({ entityId }: Props) => {
           <Separator className="my-4 mt-auto" />
           <div className="flex items-center justify-between ">
           {!service.isActive &&<Badge
-            className="bg-red-500/20 text-red-500 hover:bg-red-500/20"
+            className="bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/20"
           >
-             inActive
+             Pending
           </Badge>}
 
-          <span className="text-sm p-1 border rounded-lg">{service.available  ? "Available" : "Not available"}</span>
+          <span className="text-sm p-1 border rounded-lg ml-auto">{service.available  ? "Available" : "Not available"}</span>
             </div>
         <Separator className="my-3" /> 
           <div className="grid grid-cols-2 gap-2 ">
