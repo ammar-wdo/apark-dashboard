@@ -138,6 +138,9 @@ model Company {
   contact   String
   password  String
 
+  vatNO String?
+  chamberOfCommerce String?
+
   isActive Boolean @default(false)
   phone    String
   place    String
@@ -238,13 +241,13 @@ model Notification {
 enum Key {
   KEEP
   LEAVE
-  BOTH
+ 
 }
 
 enum ParkingLocation {
   INDOOR
   OUTDOOR
-  BOTH
+  
 }
 
 model Service {
@@ -277,8 +280,8 @@ model Service {
   parkingType ParkingType @default(shuttle)
 
   electricCharging Boolean         @default(false)
-  keyStatus        Key             @default(BOTH)
-  parkingLocation  ParkingLocation @default(BOTH)
+  keyStatus        Key             @default(KEEP)
+  parkingLocation  ParkingLocation @default(INDOOR)
 
   pricings Float[]
 
