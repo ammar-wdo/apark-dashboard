@@ -111,7 +111,7 @@ return (el + value < 0 ? 0 : +el + value)
       prev?.map((el,i) => {
         
         if(i+1>=from && i+1 <=to){
-          console.log(i,from,to)
+        
 return (el - value < 0 ? 0 : +el - value)
         }else{
           return el
@@ -168,7 +168,8 @@ return (el - value < 0 ? 0 : +el - value)
       const theValue = iv * value;
    
 
-      newArry![i] =  newArry![i]? newArry![i] + theValue : 0 +theValue;
+      newArry![i] =  newArry![i]? newArry![i] + theValue : 0 +theValue + newArry![from-2]  
+      console.log(newArry![from-2])
     
 
       iv++;
