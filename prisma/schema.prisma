@@ -16,7 +16,7 @@ model Airport {
   content   String    @default("")
   Company   Company[]
 
-  entities  Entity[]
+  entities Entity[]
 }
 
 enum PaymentMethod {
@@ -76,6 +76,7 @@ model Booking {
   serviceId             String
   service               Service       @relation(fields: [serviceId], references: [id])
   logs                  Log[]
+  extraOptions          ExraOption[]
   reivew                Review?
 }
 
@@ -134,11 +135,11 @@ model Company {
   updatedAt DateTime @updatedAt
   address   String
   commision Float    @default(0)
-  name      String  @unique
+  name      String   @unique
   contact   String
   password  String
 
-  vatNO String?
+  vatNO             String?
   chamberOfCommerce String?
 
   isActive Boolean @default(false)
@@ -156,7 +157,7 @@ model Entity {
   id            String @id @default(uuid())
   email         String @unique
   password      String
-  entityName    String   @unique
+  entityName    String @unique
   entityAddress String
   entityZipcode String
   entityPlace   String
@@ -241,19 +242,17 @@ model Notification {
 enum Key {
   KEEP
   LEAVE
- 
 }
 
 enum ParkingLocation {
   INDOOR
   OUTDOOR
-  
 }
 
 model Service {
   id String @id @default(uuid())
 
-  name           String   @unique
+  name           String @unique
   parkingAddress String
   parkingCountry String
   parkingPlace   String
@@ -289,17 +288,15 @@ model Service {
   spots     Int     @default(1)
   available Boolean @default(false)
 
- 
-  entityId  String
+  entityId String
 
   availability Availability[]
   bookings     Booking[]
   rules        Rule[]
   reviews      Review[]
+  extraOptions ExraOption[]
 
   entity Entity @relation(fields: [entityId], references: [id])
-
- 
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -327,16 +324,13 @@ enum RuleType {
   PERCENTAGE
 }
 
-
-
 model Rule {
   id        String   @id @default(uuid())
   label     String
   startDate DateTime
   endDate   DateTime
 
-  type   RuleType?   @default(FIXED)
-
+  type RuleType? @default(FIXED)
 
   percentage Int?
   value      Int?
@@ -379,8 +373,8 @@ model Review {
 }
 
 model Category {
-  id        String   @id @default(uuid())
-  label     String @unique
+  id    String @id @default(uuid())
+  label String @unique
 
   blogs     Blog[]
   createdAt DateTime @default(now())
@@ -390,63 +384,75 @@ model Category {
 model Blog {
   id String @id @default(uuid())
 
-  title         String
-  content       String
-  slug          String @unique
-  tags          String[]
-  featuredImage String
-  categoryId    String
-  author        String
-  shortDescription         String
+  title            String
+  content          String
+  slug             String   @unique
+  tags             String[]
+  featuredImage    String
+  categoryId       String
+  author           String
+  shortDescription String
 
-  category Category @relation(fields: [categoryId],references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
+
+model About {
+  id String @unique @default("about")
+
+  content String
+
+  createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
+
+model FAQ {
+  id String @id @default(uuid())
+
+  question String
+  answer   String
+
+  createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
+
+model Term {
+  id String @unique @default("term")
+
+  content String
+
+  createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
+
+model Privacy {
+  id String @unique @default("privacy")
+
+  content String
+
+  createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
+
+model ExraOption {
+  id          String @id @default(uuid())
+  label       String
+  description String
+  image       String
+  price       Float
+  isActive Boolean @default(false)
+  available Boolean @default(false)
+
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  bookings Booking[] 
 
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt
 }
 
 
-model About {
-  id String @unique @default("about")
 
-  content   String
-
-   createdAt DateTime @default(now())
-  updatedUt DateTime @updatedAt
-}
-
-model FAQ {
-
-
-  id String @id @default(uuid())
-
-
-
-
-question String
-answer String
-
-
-
-   createdAt DateTime @default(now())
-  updatedUt DateTime @updatedAt
-
-}
-
-
-model Term {
-  id String @unique @default("term")
-
-  content   String
-
-   createdAt DateTime @default(now())
-  updatedUt DateTime @updatedAt
-}
-model Privacy {
-  id String @unique @default("privacy")
-
-  content   String
-
-   createdAt DateTime @default(now())
-  updatedUt DateTime @updatedAt
-}

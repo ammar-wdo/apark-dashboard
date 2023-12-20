@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCurrentCompany } from "@/lib/helpers";
-import { CarIcon, Coins, CopyCheck, Edit, Euro, Key, Plug, Warehouse } from "lucide-react";
+import { CarIcon, Coins, CopyCheck, Edit, Euro, Key, Plug, PlusCircle, Warehouse } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -127,13 +127,15 @@ const ServicesWrapper = async ({ entityId }: Props) => {
 
             </Button>
             </ActionToolTip>
-          <ActionToolTip title="Enable and disable your service for specific times" side="bottom">
+            </div>
+            <div className="grid grid-cols-3 gap-2 mt-2">
+            <ActionToolTip title="Enable and disable your service for specific times" side="bottom">
             <Button asChild variant={'secondary'}
             className="text-xs"
             >
               <Link className="flex items-center" href={`/dashboard/services/${service.id}/availability`}>
-              Availability
-              <CopyCheck className="ml-3 w-4 h-4" />
+            
+              <CopyCheck className="w-4 h-4" />
               </Link>
 
             </Button>
@@ -143,14 +145,27 @@ const ServicesWrapper = async ({ entityId }: Props) => {
             className="text-xs"
             >
               <Link className="flex items-center" href={`/dashboard/services/${service.id}/rules`}>
-              Payment rules
-              <Coins className="ml-3 w-4 h-4" />
+           
+              <Coins className="w-4 h-4" />
               </Link>
 
             </Button>
             </ActionToolTip>
+          <ActionToolTip title="Manage your extra options for the service" side="bottom">
+            <Button asChild variant={'secondary'}
+            className="text-xs"
+            >
+              <Link className="flex items-center" href={`/dashboard/services/${service.id}/extra-options`}>
+            
+              <PlusCircle className="w-4 h-4" />
+              </Link>
+
+            </Button>
+            </ActionToolTip>
+            </div>
+        
            
-          </div>
+          
         </div>
       ))}
     </div>

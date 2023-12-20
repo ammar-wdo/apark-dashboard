@@ -23,8 +23,8 @@ export default function RootLayout({
   
       <html lang="en">
       <body className={inter.className}>
-        <ModalProvider />
       <EdgeStoreProvider>
+        <ModalProvider />
       <ThemeProvider
             attribute="class"
             defaultTheme="system"

@@ -154,3 +154,14 @@ export const rulesSchema = z
     
     
     })
+
+
+    export const extraSchema = z.object({
+   
+      label:z.string().min(1),
+      description:z.string().min(1),
+      image:z.string().min(1),
+      price:z.coerce.number().min(1),
+      isActive:z.boolean().default(false),
+      available:z.boolean().default(false)
+    })

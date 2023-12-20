@@ -34,7 +34,7 @@ const params = useParams()
         try {
             setIsLoading(true)
             await axios.delete(data.url!)
-            router.push(data.redirect!)
+             data.redirect &&  router.push(data.redirect!)
             router.refresh()
             setClose()
             toast.success('Items has been deleted')

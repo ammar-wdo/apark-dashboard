@@ -8,15 +8,11 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
-type Previous = number[]
+type Previous = number[];
 export const usePricing = (pricings: number[]) => {
   const [myArray, setMyArray] = useState<number[]>();
   const [states, setStates] = useState<number[][]>([]);
   const [currentStateIndex, setCurrentStateIndex] = useState<number>(-1);
- 
-
-
-
 
   useEffect(() => {
     if (pricings?.length) {
@@ -24,11 +20,7 @@ export const usePricing = (pricings: number[]) => {
     } else {
       setMyArray(Array(30).fill(0));
     }
-    
   }, [pricings]);
-
-
-
 
   useEffect(() => {
     if (myArray?.length) {
@@ -43,10 +35,6 @@ export const usePricing = (pricings: number[]) => {
         ]);
       }
     }
-
-
-
-   
   }, [myArray]);
 
   //     setMyArray(pricings)
@@ -64,14 +52,9 @@ export const usePricing = (pricings: number[]) => {
   //     setMyArray(Array(60).fill(0))
   // }
 
-
-
   useEffect(() => {
     form.setValue("pricings", myArray || []);
   }, [myArray]);
-
-
-
 
   const handleChange = (value: number, index: number) => {
     const newArray = [...(myArray || [])];
@@ -79,91 +62,71 @@ export const usePricing = (pricings: number[]) => {
     setMyArray(newArray);
   };
 
-  
   const addRow = () => {
     const newState = [...myArray!, 0];
     setMyArray(newState);
 
     // Save the new state and update the current state index
-    const newStates = [...(states||[]).slice(0, currentStateIndex + 1), newState];
+    const newStates = [
+      ...(states || []).slice(0, currentStateIndex + 1),
+      newState,
+    ];
     setStates(newStates);
     setCurrentStateIndex(newStates.length - 1);
-   
-
-    
-
-  
-  
   };
-
-
 
   const deleteRow = (row: number) => {
-  
-
-    const newState = (myArray||[]).filter((_, i) => i !== row);
+    const newState = (myArray || []).filter((_, i) => i !== row);
     setMyArray(newState);
 
     // Save the new state and update the current state index
-    const newStates = [...(states||[]).slice(0, currentStateIndex + 1), newState];
+    const newStates = [
+      ...(states || []).slice(0, currentStateIndex + 1),
+      newState,
+    ];
     setStates(newStates);
     setCurrentStateIndex(newStates.length - 1);
-  
- 
   };
 
+  const addValue = (value: number, from: number, to: number) => {
+    if (from > to || from === to || value === 0) return;
 
-
-
-
-  const addValue = (value: number,from:number,to:number) => {
-    if (from > to || from === to || value===0) return;
- 
-
-
-    const newState =(myArray||[]).map((el,i) => {
-        
-      if(i+1>=from && i+1 <=to){
-      
-return (el + value < 0 ? 0 : +el + value)
-      }else{
-        return el
+    const newState = (myArray || []).map((el, i) => {
+      if (i + 1 >= from && i + 1 <= to) {
+        return el + value < 0 ? 0 : +el + value;
+      } else {
+        return el;
       }
-      });
+    });
 
     setMyArray(newState);
 
     // Save the new state and update the current state index
-    const newStates = [...(states||[]).slice(0, currentStateIndex + 1), newState];
+    const newStates = [
+      ...(states || []).slice(0, currentStateIndex + 1),
+      newState,
+    ];
     setStates(newStates);
     setCurrentStateIndex(newStates.length - 1);
 
-    
-
-    
-  
     // console.log(previousArray)
-  
-    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
+
+    toast.success("Successfully done!", {
+      position: "top-center",
+      style: { fontSize: "1.3rem" },
+    });
   };
 
+  const minusValue = (value: number, from: number, to: number) => {
+    if (from > to || from === to || value === 0) return;
 
-
-
-  const minusValue = (value: number,from:number,to:number) => {
-    if (from > to || from === to || value===0) return;
-  
-
-
-    const newState = (myArray||[]).map((el,i) => {
-        
-      if(i+1>=from && i+1 <=to){
-      
-return (el - value < 0 ? 0 : +el - value)
-      }else{
-        return el
+    const newState = (myArray || []).map((el, i) => {
+      if (i + 1 >= from && i + 1 <= to) {
+        return el - value < 0 ? 0 : +el - value;
+      } else {
+        return el;
       }
-      })
+    });
     setMyArray(newState);
 
     // Save the new state and update the current state index
@@ -171,120 +134,98 @@ return (el - value < 0 ? 0 : +el - value)
     setStates(newStates);
     setCurrentStateIndex(newStates.length - 1);
 
-    
-    
-  
-    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
+    toast.success("Successfully done!", {
+      position: "top-center",
+      style: { fontSize: "1.3rem" },
+    });
   };
-
-
-
-
 
   const addPercentage = (value: number) => {
-    if(value===0) return
-   
+    if (value === 0) return;
 
-    
-    const newState =(myArray||[]).map((el) =>
-    el + (el * value) / 100 < 0
-      ? 0
-      : parseInt((el + (el * value) / 100).toString())
-  )
+    const newState = (myArray || []).map((el) =>
+      el + (el * value) / 100 < 0
+        ? 0
+        : parseInt((el + (el * value) / 100).toString())
+    );
     setMyArray(newState);
 
     // Save the new state and update the current state index
     const newStates = [...states.slice(0, currentStateIndex + 1), newState];
     setStates(newStates);
     setCurrentStateIndex(newStates.length - 1);
-  
-    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
+
+    toast.success("Successfully done!", {
+      position: "top-center",
+      style: { fontSize: "1.3rem" },
+    });
   };
-
-
-
-
-
 
   const reset = (value: number) => {
-  
-    
-    const newState = (myArray||[]).map((el) => (value < 0 ? 0 : parseInt(value.toString())))
+    const newState = (myArray || []).map((el) =>
+      value < 0 ? 0 : parseInt(value.toString())
+    );
     setMyArray(newState);
 
     // Save the new state and update the current state index
     const newStates = [...states.slice(0, currentStateIndex + 1), newState];
     setStates(newStates);
     setCurrentStateIndex(newStates.length - 1);
-  
-    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
-   
-   
+
+    toast.success("Successfully done!", {
+      position: "top-center",
+      style: { fontSize: "1.3rem" },
+    });
   };
 
+  const addRows = (rows: number, value: number) => {
+    if (rows === 0) return;
 
+ 
 
+    const newState = [...(myArray || []), ...Array(rows).fill(value)];
+    setMyArray(newState);
 
+    // Save the new state and update the current state index
+    const newStates = [...states.slice(0, currentStateIndex + 1), newState];
+    setStates(newStates);
+    setCurrentStateIndex(newStates.length - 1);
 
+    toast.success("Successfully done!", {
+      position: "top-center",
+      style: { fontSize: "1.3rem" },
+    });
+  };
 
-
-  const addRows = (rows: number, value: number) =>
-  { 
-    if(rows===0) return
-    
-    setMyArray((prev: number[] | undefined) => [
-      ...(prev || []),
-      ...Array(rows).fill(value),
-    ])
-  
-
-    
-    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})};
-
-
-
-
-  const addIncrement = (from: number, to: number, value:number) => {
-    if (from > to || from === to || !from || !to || !value || value<0) return;
+  const addIncrement = (from: number, to: number, value: number) => {
+    if (from > to || from === to || !from || !to || !value || value < 0) return;
     let iv = 1;
     let newArry = myArray;
 
-    
-
-
-    for (let i = from-1; i < to; i++) {
+    for (let i = from - 1; i < to; i++) {
       const theValue = iv * value;
-   
 
-      newArry![i] =  newArry![i]? newArry![i] + theValue : 0 +theValue + (newArry![from-2] !== undefined ? newArry![from-2] : 0)
-      console.log(newArry![from-2])
-    
+      newArry![i] = newArry![i]
+        ? newArry![i] + theValue
+        : 0 +
+          theValue +
+          (newArry![from - 2] !== undefined ? newArry![from - 2] : 0);
+      console.log(newArry![from - 2]);
 
       iv++;
     }
-   
-    setMyArray([...(newArry||[])]);
-  
 
-    
-    
+    setMyArray([...(newArry || [])]);
 
-    toast.success('Successfully done!',{position:'top-center',style:{fontSize:"1.3rem"}})
+    toast.success("Successfully done!", {
+      position: "top-center",
+      style: { fontSize: "1.3rem" },
+    });
   };
 
+  const undo = () => {};
 
-
-
-
-  const undo = ()=>{
-
-
-  }
-
-  const redo = ()=>{
-    
-
-  }
+  const redo = () => {};
 
   const form = useForm<z.infer<typeof pricingSchema>>({
     resolver: zodResolver(pricingSchema),
@@ -299,11 +240,17 @@ return (el - value < 0 ? 0 : +el - value)
   async function onSubmit(values: z.infer<typeof pricingSchema>) {
     try {
       await axios.patch(`/api/service/${params.serviceId}`, values);
-      toast.success("Changes saved!",{position:'top-center',style:{fontSize:"1.3rem"}});
+      toast.success("Changes saved!", {
+        position: "top-center",
+        style: { fontSize: "1.3rem" },
+      });
       router.refresh();
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong",{position:'top-center',style:{fontSize:"1.3rem"}});
+      toast.error("Something went wrong", {
+        position: "top-center",
+        style: { fontSize: "1.3rem" },
+      });
     }
   }
 
@@ -321,10 +268,7 @@ return (el - value < 0 ? 0 : +el - value)
     reset,
     addRows,
     addIncrement,
-    undo, 
+    undo,
     redo,
- 
- 
-
   };
 };
