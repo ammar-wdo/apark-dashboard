@@ -206,6 +206,7 @@ enum NotificationType {
   ENTITY
   SERVICE
   BOOKING
+  OPTION
 }
 
 enum NotificationsStatus {

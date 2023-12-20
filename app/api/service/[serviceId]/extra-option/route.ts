@@ -29,6 +29,19 @@ console.log("extra")
             }
         })
 
+        await prisma.notification.create({
+            data:{
+                isAdmin:true,
+                IdHolder:serviceId,
+                status:'REQUEST',
+                message:'A new extra option is pending for approvement',
+                type:'OPTION',
+                
+
+
+            }
+        })
+
         return NextResponse.json({message:'success'},{status:201})
 
         
