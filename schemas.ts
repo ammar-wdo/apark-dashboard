@@ -162,6 +162,6 @@ export const rulesSchema = z
       description:z.string().min(1),
       image:z.string().min(1),
       price:z.coerce.number().min(1),
-      isActive:z.boolean(),
+     
       available:z.boolean().default(false)
     })
