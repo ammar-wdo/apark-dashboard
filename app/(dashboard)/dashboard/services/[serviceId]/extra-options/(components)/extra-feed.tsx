@@ -20,7 +20,7 @@ const ExtraFeed = async({serviceId}: Props) => {
   return (
     <div>
         {!service?.extraOptions.length && <p className='text-3xl font-bold text-neutral-500 capitalize text-center'>No extra services</p>}
-        <div className='flex flex-wrap items-center gap-4'>
+        <div className='flex flex-wrap items-stretch gap-4'>
             {service?.extraOptions.map(extra=><ExtraCard key={extra.id} extraOption={extra} />)}
         </div>
     </div>

@@ -76,7 +76,7 @@ const ServiceCard = ({ service }: Props) => {
               className="flex items-center"
               href={`/dashboard/services/${service.id}`}
             >
-                    <Edit className="ml-3 w-4 h-4" />
+                    <Edit className="mr-3 w-4 h-4" />
               Edit
         
             </Link>
@@ -88,7 +88,7 @@ const ServiceCard = ({ service }: Props) => {
               className="flex items-center"
               href={`/dashboard/services/${service.id}/pricing`}
             >
-                     <Euro className="ml-3 w-4 h-4" />
+                     <Euro className="mr-3 w-4 h-4" />
               Pricing
        
             </Link>

@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Checkbox } from '@/components/ui/checkbox'
 import { SingleImageDropzone } from '@/components/single-image-dropezone'
 import { Loader } from 'lucide-react'
+import { Textarea } from '@/components/ui/textarea'
 
 type Props = {}
 
@@ -51,7 +52,7 @@ const ExtraForm = (props: Props) => {
           <FormItem>
             <FormLabel>Description*</FormLabel>
             <FormControl>
-              <Input placeholder="description" {...field} />
+              <Textarea placeholder="description" {...field} />
             </FormControl>
          
             <FormMessage />
