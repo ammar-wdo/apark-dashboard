@@ -32,7 +32,7 @@ export const useExtra = ()=>{
           available:extraOption?.available || false,
         price:extraOption?.price || 0,
         image:extraOption?.image || '',
-       isActive:extraOption?.isActive || false
+
       
         },
       })
