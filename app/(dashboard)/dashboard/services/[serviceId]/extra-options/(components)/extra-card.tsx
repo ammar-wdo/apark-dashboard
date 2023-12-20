@@ -26,7 +26,7 @@ const ExtraCard = ({extraOption}: Props) => {
           
             <p className='font-bold'>€ {extraOption.price}</p>
             <div className='flex items-center justify-between'>
-            {!extraOption.isActive && <Badge className='bg-yellow-500/50 text-yellow-500 rounded-full w-fit hover:bg-yellow-500/50'>Pending</Badge>}
+            {!extraOption.isActive && <Badge className='bg-yellow-500/20 text-yellow-500 rounded-full w-fit hover:bg-yellow-500/50'>Pending</Badge>}
             <p className='p-1 border rounded-md w-fit ml-auto'>{extraOption.available ? "Available" : "Not available"}</p>
             </div>
           
