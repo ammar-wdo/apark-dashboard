@@ -2,7 +2,7 @@ import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 import { isAvailable } from "./(helpers)/isAvailable";
 import prisma from "@/lib/db";
-import { STATUS } from "@prisma/client";
+import { ExraOption, STATUS } from "@prisma/client";
 import { bookingSchema } from "@/schemas";
 import { daysAndTotal } from "./(helpers)/days-and-total";
 import { nanoid } from "nanoid";
@@ -105,19 +105,25 @@ export async function POST(req: Request) {
       });
     }
 
-   const   options = await prisma.exraOption.findMany({
-      where:{
-        serviceId:service.id,
-        id:{in:ids as string[]}
-        
+    let options:ExraOption[] | any[]
+if(ids && ids.length){
+  options = await prisma.exraOption.findMany({
+    where:{
+      serviceId:service.id,
+      id:{in:ids as string[]}
+      
 
-      },
-      select:{
-        label:true,
-        id:true,
-        price:true
-      }
-    })
+    },
+    select:{
+      label:true,
+      id:true,
+      price:true
+    }
+  })
+} else{
+  options = []
+}
+     
 
     console.log(options)
 let additionalPrice = 0
