@@ -117,7 +117,8 @@ if(ids && ids.length){
     select:{
       label:true,
       id:true,
-      price:true
+      price:true,
+      commession:true
     }
   })
 } else{
