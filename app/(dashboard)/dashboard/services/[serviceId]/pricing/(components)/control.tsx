@@ -71,7 +71,7 @@ const Control = ({
       </div>
 
       <div className="grid grid-col-1 md:grid-cols-2 gap-2 mt-4 group">
-        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-105 hover:shadow-md transition bg-background group-hover:scale-95 group-hover:opacity-60 group-hover:hover:opacity-100">
+        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] hover:shadow-md transition bg-background group-hover:scale-95 group-hover:opacity-60 group-hover:hover:opacity-100">
           <span className="font-semibold">
             Set all fields to a certain value
           </span>
@@ -97,7 +97,7 @@ const Control = ({
           </Button>
         </div>
 
-        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-105 group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
+        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
           <span className="font-semibold">Add value to each day</span>
 
           <div className="grid grid-cols-2 gap-1 w-full  items-center ">
@@ -145,7 +145,7 @@ const Control = ({
           </Button>
         </div>
 
-        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-105 group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
+        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
           <span className="font-semibold">Substract value from each day</span>
 
           <div className="grid grid-cols-2 gap-1 w-full items-center ">
@@ -193,7 +193,7 @@ const Control = ({
           </Button>
         </div>
 
-        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-105 group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
+        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
           <span className="font-semibold">Add percentage to each day</span>
 
           <div className="relative flex items-center">
@@ -219,7 +219,7 @@ const Control = ({
           </Button>
         </div>
 
-        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-105 group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
+        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
           <span className="font-semibold">Add rows with values</span>
 
           <div className="grid grid-cols-2 gap-1 w-full items-center ">
@@ -256,7 +256,7 @@ const Control = ({
           </Button>
         </div>
 
-        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-105 group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
+        <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
           <span className="font-semibold">Add incremental value </span>
 
           <div className="grid grid-cols-2 gap-1 w-full items-center ">
