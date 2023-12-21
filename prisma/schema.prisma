@@ -441,10 +441,12 @@ model ExraOption {
   id          String @id @default(uuid())
   label       String
   description String
-  image       String
+  image       String?
   price       Float
   isActive Boolean @default(false)
   available Boolean @default(false)
+
+  commession Int @default(0)
 
   serviceId String
   service   Service @relation(fields: [serviceId], references: [id])

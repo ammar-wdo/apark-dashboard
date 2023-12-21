@@ -30,7 +30,8 @@ export async function POST(req: Request) {
     body.arrivalDate = new Date(body.arrivalDate);
     body.departureDate = new Date(body.departureDate);
     console.log(body);
-    const validBody = bookingSchema.safeParse(body);
+    const {ids,...rest} = body
+    const validBody = bookingSchema.safeParse(rest);
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
 
@@ -43,6 +44,7 @@ export async function POST(req: Request) {
     const service = await prisma.service.findUnique({
       where: {
         id: validBody.data.serviceId,
+        isActive:true
       },
       include: {
         bookings: {
@@ -102,12 +104,38 @@ export async function POST(req: Request) {
       });
     }
 
+    const options = await prisma.exraOption.findMany({
+      where:{
+        serviceId:service.id,
+        id:{in:ids as string[]}
+        
+
+      },
+      select:{
+        label:true,
+        id:true,
+        price:true
+      }
+    })
+let additionalPrice = 0
+    if(!!options.length){
+
+      additionalPrice = options.reduce((result,val)=>result + val.price,0)
+
+    }
+
+
+
     booking = await prisma.booking.create({
       data: {
         ...validBody.data,
         bookingCode,
-        total: total as number,
+        total: total + additionalPrice as number,
         daysofparking,
+...(!!options.length && {extraOptions:{
+  connect: options.map(el=>({id:el.id}))
+  
+}})
       },
     });
 
@@ -142,10 +170,10 @@ export async function POST(req: Request) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "service",
-              description: `Booking for ${daysofparking} day(s) parking `,
+              name: service.name,
+              description: `Booking for ${daysofparking} day(s) parking ${!!options.length && 'with extra options (' + options.map(el=>`${el.label} for ${el.price}`)})`,
             },
-            unit_amount: +total.toFixed(0) * 100,
+            unit_amount: +booking.total.toFixed(0) * 100,
           },
           quantity: 1,
         },
