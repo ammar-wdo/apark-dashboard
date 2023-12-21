@@ -15,6 +15,8 @@ import { daysAndTotal } from "@/app/api/(public)/checkout/(helpers)/days-and-tot
 import { Separator } from "@/components/ui/separator";
 import LogsFeed from "./(components)/logs-feed";
 import { redirect } from "next/navigation";
+import { JsonArray } from "@prisma/client/runtime/library";
+import { ExraOption } from "@prisma/client";
 
 
 type Props = {
@@ -77,6 +79,14 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
                 </p>
               </TableCell>
             </TableRow>
+            <TableRow>
+              <TableCell className="flex items-center justify-between">
+                <p className="font-semibold">Car color</p>
+                <p className="capitalize text-muted-foreground">
+                  {booking?.carColor}
+                </p>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </div>
@@ -135,20 +145,25 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
         <p>{daysofparking} day(s) of {booking?.service.parkingType} parking</p>
         <p>€ { total}</p>
         </div>
-        <div className="flex items-center justify-between capitalize">
-        <p>Credit/Dept card cost</p>
-        <p>free</p>
-        </div>
+        
         </div>
      
         <Separator className="my-4 bg-muted-foreground h-[2px]" />
         <div className="space-y-2  text-black dark:text-white">
-        <div className="flex items-center justify-between font-semibold">
-        <p className="">Total turnover Comfort Parking</p>
-        <p>€ { booking?.total}</p>
-        </div>
+       
+        {booking.extraOptions&&<div className="border-b mt-4 pb-2">
+                <h3 className="font-bold first-letter:capitalize ">Extra options</h3>
+                <div className="flex flex-col gap-1">
+                  {(booking.extraOptions as unknown as ExraOption[]).map((option) =><div key={option.id} className="flex justify-between items-center mt-2 font-semibold">
+                    <span className="first-letter:capitalize">{option.label}</span>
+                    <span>€{option.price}</span>
+                  </div>)}
+
+                </div>
+                
+                </div>}
         <div className="flex items-center justify-between font-semibold space-x-3">
-        <p className="">Total amount Customer (paid in advance)</p>
+        <p className="">Total amount paid</p>
         <p>€ { booking?.total}</p>
         </div>
         </div>
