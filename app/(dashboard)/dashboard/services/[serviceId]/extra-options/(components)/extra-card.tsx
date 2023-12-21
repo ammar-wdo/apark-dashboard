@@ -18,7 +18,7 @@ const ExtraCard = ({extraOption}: Props) => {
   return (
     <div className='max-w-[300px] w-full text-xs border shadow-md hover:shadow-lg transition flex flex-col'>
         <div className='relative w-full aspect-video'>
-            <Image fill alt='option image'  src={extraOption.image} className='object-contain'/>
+            {extraOption.image ?<Image fill alt='option image'  src={extraOption.image} className='object-contain'/> : <div className='w-full h-full bg-gray-50' />}
         </div>
         <div className='p-4 flex flex-col gap-1 flex-1'>
             <h3 className='font-semibold text-xl first-letter:capitalize'>{extraOption.label}</h3>
