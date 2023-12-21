@@ -97,6 +97,7 @@ const ServiceCard = ({ service }: Props) => {
       </div>
       <div className="grid grid-cols-3 gap-2 mt-2">
         <ActionToolTip
+        header="Availability"
           title="Enable and disable your service for specific times"
           side="bottom"
         >
@@ -110,6 +111,7 @@ const ServiceCard = ({ service }: Props) => {
           </Button>
         </ActionToolTip>
         <ActionToolTip
+        header="Rules"
           title="Manage your payment rules for different dates"
           side="bottom"
         >
@@ -123,6 +125,7 @@ const ServiceCard = ({ service }: Props) => {
           </Button>
         </ActionToolTip>
         <ActionToolTip
+        header="Extra options"
           title="Manage your extra options for the service"
           side="bottom"
         >
