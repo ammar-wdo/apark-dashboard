@@ -151,7 +151,7 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
         <Separator className="my-4 bg-muted-foreground h-[2px]" />
         <div className="space-y-2  text-black dark:text-white">
        
-        {booking.extraOptions&&<div className="border-b mt-4 pb-2">
+        {!!booking.extraOptions.length&&<div className="border-b mt-4 pb-2">
                 <h3 className="font-bold first-letter:capitalize ">Extra options</h3>
                 <div className="flex flex-col gap-1">
                   {(booking.extraOptions as unknown as ExraOption[]).map((option) =><div key={option.id} className="flex justify-between items-center mt-2 font-semibold">
