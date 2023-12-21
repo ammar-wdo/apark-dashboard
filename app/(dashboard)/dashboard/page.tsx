@@ -75,9 +75,9 @@ const page = async ({ searchParams }: Props) => {
         </Suspense>
       </div>
 
-      <div className="w-full overflow-x-auto
+      <div className="w-full overflow-x-auto mt-12 p-4 border rounded-xl
       ">
-      <div className=" h-[600px] mt-12 p-4 border rounded-xl min-w-[1400px] ">
+      <div className=" h-[600px]  min-w-[1400px] ">
           <Suspense
             key={(searchParams.service + "" + searchParams.entity + "chart") as string}
             fallback={<Skeleton className="h-[600px] rounded-xl" />}
