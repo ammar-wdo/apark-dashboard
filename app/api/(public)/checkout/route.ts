@@ -31,6 +31,7 @@ export async function POST(req: Request) {
     body.departureDate = new Date(body.departureDate);
     console.log(body);
     const {ids,...rest} = body
+    console.log(ids)
     const validBody = bookingSchema.safeParse(rest);
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
@@ -104,7 +105,7 @@ export async function POST(req: Request) {
       });
     }
 
-    const options = await prisma.exraOption.findMany({
+   const   options = await prisma.exraOption.findMany({
       where:{
         serviceId:service.id,
         id:{in:ids as string[]}
@@ -117,6 +118,8 @@ export async function POST(req: Request) {
         price:true
       }
     })
+
+    console.log(options)
 let additionalPrice = 0
     if(!!options.length){
 
