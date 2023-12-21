@@ -76,7 +76,7 @@ model Booking {
   serviceId             String
   service               Service       @relation(fields: [serviceId], references: [id])
   logs                  Log[]
-  extraOptions          ExraOption[]
+extraOptions            Json[]
   reivew                Review?
 }
 
@@ -451,11 +451,8 @@ model ExraOption {
   serviceId String
   service   Service @relation(fields: [serviceId], references: [id])
 
-  bookings Booking[] 
+
 
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt
 }
-
-
-

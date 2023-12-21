@@ -141,10 +141,9 @@ let additionalPrice = 0
         bookingCode,
         total: total + additionalPrice as number,
         daysofparking,
-...(!!options.length && {extraOptions:{
-  connect: options.map(el=>({id:el.id}))
+...(!!options.length && {extraOptions:options.map((el:ExraOption)=>({id:el.id,commession:el.commession,label:el.label,price:el.price}))
   
-}})
+})
       },
     });
 
