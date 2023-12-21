@@ -180,7 +180,7 @@ let additionalPrice = 0
             currency: "usd",
             product_data: {
               name: service.name,
-              description: `Booking for ${daysofparking} day(s) parking ${!!options.length && 'with extra options (' + options.map(el=>`${el.label} for ${el.price}`)})`,
+              description: `Booking for ${daysofparking} day(s) parking ${(!!options &&!!options.length )&& `with extra options (  ${options.map(el=>`${el.label} for ${el.price}`)})` }`,
             },
             unit_amount: +booking.total.toFixed(0) * 100,
           },
