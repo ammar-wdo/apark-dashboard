@@ -29,12 +29,23 @@ const ServiceCard = ({ service }: Props) => {
       key={service.id}
       className="p-6 rounded-md max-w-[350px] w-full border shadow-md hover:shadow-lg transition flex flex-col "
     >
-      <h3 className="text-xl font-bold mb-6">{service.name}</h3>
+      <div className="flex items-center justify-between">
+        <div>
+        <h3 className="text-xl font-bold mb-6">{service.name}</h3>
 
-      <p>{service.parkingAddress}</p>
-      <p>
-        {service.parkingZipcode} {service.parkingPlace}
-      </p>
+<p>{service.parkingAddress}</p>
+<p>
+  {service.parkingZipcode} {service.parkingPlace}
+</p>
+        </div>
+        <div className="p-2 rounded-full border text-[11px] flex flex-col  justify-center items-center">
+          <span>
+          {service.spots}
+            </span> <span className="font-bold">Spots</span>
+        </div>
+     
+      </div>
+      
       <div className="flex flex-col gap-1 my-8 text-muted-foreground">
         {!!service.electricCharging && (
           <p className="flex items-center gap-2  text-xs w-fit   ">

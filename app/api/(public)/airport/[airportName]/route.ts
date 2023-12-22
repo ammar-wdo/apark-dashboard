@@ -1,7 +1,7 @@
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 
-
+export const revalidate = 0
 export async function GET(req:Request,{params}:{params:{airportName:string}}){
 
 
@@ -9,12 +9,15 @@ export async function GET(req:Request,{params}:{params:{airportName:string}}){
 const airportName = params.airportName
 
 if(!airportName) return NextResponse.json({error:"airport name is required"},{status:400})
+console.log("name",airportName)
 
-const airport = await prisma.airport.findFirst({
+const airport = await prisma.airport.findUnique({
     where:{
-        name:airportName
+      slug:airportName
     }
 })
+
+console.log(airport)
 
 return NextResponse.json({airport},{status:200})
         

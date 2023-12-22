@@ -17,13 +17,13 @@ if(!entityName) return NextResponse.json({error:'entity name is required'},{stat
 
 const entity =await  prisma.entity.findFirst({
     where:{
-        airport:{name:airportName},
-        entityName,
+        airport:{slug:airportName},
+       slug: entityName,
         isActive:true
     },
     include:{
         airport:{
-            select:{name:true}
+            select:{name:true,slug:true}
         }
     }
 })

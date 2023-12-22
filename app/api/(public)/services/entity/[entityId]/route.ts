@@ -18,7 +18,7 @@ export async function GET(req:Request,{params}:{params:{entityId:string}}){
                 isActive:true
             },include:{
                 entity:{
-                    select:{entityName:true,airport:{select:{name:true}}}
+                    select:{entityName:true,slug:true,airport:{select:{name:true,slug:true}}}
                   },
             }
         })

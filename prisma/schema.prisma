@@ -12,6 +12,7 @@ model Airport {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   name      String    @unique
+  slug      String?    @unique
   images    String[]  @default([])
   content   String    @default("")
   Company   Company[]
@@ -136,6 +137,7 @@ model Company {
   address   String
   commision Float    @default(0)
   name      String   @unique
+  slug      String?    @unique
   contact   String
   password  String
 
@@ -158,6 +160,7 @@ model Entity {
   email         String @unique
   password      String
   entityName    String @unique
+    slug      String?    @unique
   entityAddress String
   entityZipcode String
   entityPlace   String
@@ -254,6 +257,7 @@ model Service {
   id String @id @default(uuid())
 
   name           String @unique
+    slug      String?    @unique
   parkingAddress String
   parkingCountry String
   parkingPlace   String

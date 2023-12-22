@@ -32,7 +32,7 @@ export async function GET(req: Request) {
   try {
     const services = await prisma.service.findMany({
       where: {
-        entity: { airport: { id: airport } },
+        entity: { airport: { slug: airport } },
         isActive: true,
         ...(serviceType?.length ? { parkingType: { in: serviceType } } : {}),
         ...(location?.length ? { parkingLocation: { in: location } } : {}),
@@ -48,7 +48,7 @@ export async function GET(req: Request) {
           },
         },
         entity: {
-          select: { entityName: true, airport: { select: { name: true } } },
+          select: { entityName: true,slug:true, airport: { select: { name: true,slug:true } } },
         },
         availability: true,
         rules: true,

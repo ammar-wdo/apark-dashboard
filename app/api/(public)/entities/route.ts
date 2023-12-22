@@ -9,16 +9,16 @@ export async function GET(req:NextRequest){
 console.log('entitiy')
 const searchParams = req.nextUrl.searchParams
 
-const airportId = searchParams.get('airportId')
-console.log(airportId)
-if(!airportId) return NextResponse.json({error:"airport id is required"},{status:400})
+const airportName = searchParams.get('airportName')
+console.log(airportName)
+if(!airportName) return NextResponse.json({error:"airport id is required"},{status:400})
 
 const entities = await prisma.entity.findMany({
     where:{
-        airportId:airportId,
+        airport:{slug:airportName},
         isActive:true
     },
-    select:{entityName:true,id:true,
+    select:{entityName:true,id:true,slug:true,
 
     images:true
     },

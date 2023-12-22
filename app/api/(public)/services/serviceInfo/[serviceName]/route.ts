@@ -15,12 +15,12 @@ if(!airportName) return NextResponse.json({error:"airport name is required"},{st
 
 const service = await prisma.service.findFirst({
     where:{
-        name,
+        slug:name,
         isActive:true,
-        entity:{entityName,airport:{name:airportName}}
+        entity:{slug:entityName,airport:{slug:airportName}}
     },
     include:{
-        entity:{select:{entityName:true,airport:{select:{name:true}}}}
+        entity:{select:{entityName:true,slug:true,airport:{select:{name:true,slug:true}}}}
     }
 })
 
