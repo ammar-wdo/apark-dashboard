@@ -14,7 +14,7 @@ const MainAside = async(props: Props) => {
   const session = await getServerSession(authOptions)
   const company = await getCurrentCompany()
 
-  const theName = session?.user?.name ==='Company' ? company.name : company.entityName
+  const theName = session?.user?.name ==='Company' ? company?.name : company?.entityName
  
 
   return (
