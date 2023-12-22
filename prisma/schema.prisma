@@ -291,6 +291,8 @@ model Service {
 
   entityId String
 
+  commession  Float @default(0)
+
   availability Availability[]
   bookings     Booking[]
   rules        Rule[]
