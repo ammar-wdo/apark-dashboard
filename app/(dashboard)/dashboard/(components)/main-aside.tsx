@@ -6,15 +6,17 @@ import MainlinksWrapper from './mainlinks-wrapper'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import { getCurrentCompany } from '@/lib/helpers'
+import { Company, Entity } from '@prisma/client'
 
 type Props = {}
 
 const MainAside = async(props: Props) => {
 
   const session = await getServerSession(authOptions)
-  const company = await getCurrentCompany()
+  const company = await getCurrentCompany() as Company | Entity
+  
 
-  const theName = session?.user?.name ==='Company' ? company?.name : company?.entityName
+  const theName = session?.user?.name ==='Company' ? (company as Company)?.name : (company as Entity)?.entityName
  
 
   return (
