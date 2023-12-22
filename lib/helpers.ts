@@ -8,7 +8,7 @@ import { Company, Entity } from "@prisma/client"
 
 
 
-export const getCurrentCompany = async()=>{
+export const getCurrentCompany = async() =>{
 
     const session = await getServerSession(authOptions)
     if(!session?.user?.email) return null 
