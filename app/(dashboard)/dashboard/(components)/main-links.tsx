@@ -72,7 +72,7 @@ const MainLinks = ({ isAdmin }: Props) => {
   ];
 
   return (
-    <div className="w-full flex flex-col mt-16 p-1 px-3 gap-1 flex-1 ">
+    <div className="w-full flex flex-col mt-6 p-1 px-3 gap-1 flex-1 ">
       <h3 className="font-semibold px-4 ">Main</h3>
       {myLinks.map((link, i) => {
 
