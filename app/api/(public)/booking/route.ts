@@ -49,7 +49,7 @@ if(review==='true'){
         where:{
             id:bookingId,
             departureDate:{
-                gte:new Date(new Date().setHours(0,0,0,0))
+                gte:new Date()
             }
         }
     })
@@ -88,12 +88,12 @@ console.log(email,bookingCode)
             paymentStatus:{in:['SUCCEEDED']},
             bookingStatus:'ACTIVE',
             departureDate:{
-                gte:new Date(new Date().setHours(0,0,0,0))
+                gte:new Date()
             }
         }
     })
 
-    console.log(booking, new Date())
+
 
     if(!booking) return new NextResponse('invalid creadentials',{status:400})
 

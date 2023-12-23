@@ -89,7 +89,7 @@ try {
             createdAt:'desc'
         },include:{
             booking:{select:{firstName:true,lastName:true}},
-            entity:{select:{entityName:true,airport:{select:{name:true}}}}
+            entity:{select:{entityName:true,slug:true,airport:{select:{name:true,slug:true}}}}
         }
     })
 

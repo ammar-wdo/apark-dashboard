@@ -38,7 +38,7 @@ export const findValidServices = (
       if (!!isBlocked.length) return accumolator;
       console.log("service")
 
-      const busyPlaces = findBusyPlaces(service.bookings, startDate, endDate);
+      const busyPlaces = findBusyPlaces(service.bookings, startDate, endDate,startTime,endTime);
       // console.log("busy places",busyPlaces.length)
 
       const availabelPlaces = service.spots - busyPlaces.length;

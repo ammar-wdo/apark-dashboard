@@ -7,6 +7,7 @@ import { bookingSchema } from "@/schemas";
 import { daysAndTotal } from "./(helpers)/days-and-total";
 import { nanoid } from "nanoid";
 import { findValidServices } from "../services/(helpers)/findValidServices";
+import { getClientDates } from "../services/(helpers)/getClientDates";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -134,12 +135,17 @@ let additionalPrice = 0
 
     }
 
+    const arrivalString = validBody.data.arrivalDate.toString()
+    const departureString = validBody.data.departureDate.toString()
 
+const {clientArrivalDate,clientDepartureDate} = getClientDates(arrivalString,departureString,validBody.data.arrivalTime,validBody.data.departureTime)
 
     booking = await prisma.booking.create({
       data: {
         ...validBody.data,
         bookingCode,
+        arrivalDate:clientArrivalDate,
+        departureDate:clientDepartureDate,
         total: total + additionalPrice as number,
         daysofparking,
 ...(!!options.length && {extraOptions:options.map((el:ExraOption)=>({id:el.id,commession:el.commession,label:el.label,price:el.price}))
