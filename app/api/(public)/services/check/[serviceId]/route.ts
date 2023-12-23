@@ -60,7 +60,7 @@ console.log('work')
 
         if(!service) return NextResponse.json({response:'service is not available'},{status:200})
         console.log('bookings',service?.bookings.length)
-          const validService  = isServiceValid(service,startDate,endDate)
+          const validService  = isServiceValid(service,startDate,endDate,startTime,endTime)
 
           console.log(validService)
 

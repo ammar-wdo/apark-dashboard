@@ -17,7 +17,8 @@ export const isServiceValid = (
   service: FullService,
   startDate: string,
   endDate: string,
-  bookingId?:string,
+startTime:string,
+endTime:string
 
   // parkingDays: number
 ) => {
@@ -32,7 +33,7 @@ export const isServiceValid = (
       if (!!isBlocked.length) return false;
       console.log("service")
 
-      const busyPlaces = findBusyPlaces(service.bookings, startDate, endDate);
+      const busyPlaces = findBusyPlaces(service.bookings, startDate, endDate,startTime,endTime);
       // console.log("busy places",busyPlaces.length)
 
       const availabelPlaces = service.spots - busyPlaces.length;

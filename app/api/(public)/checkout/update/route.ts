@@ -13,6 +13,7 @@ import { isServiceValid } from "./(helpers)/isServiceValid";
 import { calculateParkingDays } from "../../services/(helpers)/findParkingDays";
 import { findTotalPrice } from "./(helpers)/findNewTotal";
 import { setLog } from "../../(helpers)/set-log";
+import { getClientDates } from "../../services/(helpers)/getClientDates";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -46,14 +47,24 @@ export async function POST(req: Request) {
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
 
-    const newArrival = validBody.data.arrivalDate;
-    const newDeparture = validBody.data.departureDate;
+
+      const arriveString = validBody.data.arrivalDate.toString()
+      const departureString = validBody.data.departureDate.toString()
+
+      const {clientArrivalDate,clientDepartureDate} = getClientDates(arriveString,departureString,validBody.data.arrivalTime,validBody.data.departureTime)
+
+  
+
+    const newArrival = clientArrivalDate;
+    const newDeparture = clientDepartureDate;
 
     const booking = await prisma.booking.findUnique({
       where: {
         id: id,
         serviceId: validBody.data.serviceId,
         email: validBody.data.email,
+   
+        
         bookingCode: bookingCode,
         departureDate:{gte:new Date(new Date().setHours(0,0,0,0))},
         paymentStatus:'SUCCEEDED',
@@ -90,6 +101,9 @@ export async function POST(req: Request) {
         service,
         newArrival.toString(),
         newDeparture.toString(),
+        validBody.data.arrivalTime,
+        validBody.data.departureTime
+        
      
        
       ); // new days was removed , if error add again

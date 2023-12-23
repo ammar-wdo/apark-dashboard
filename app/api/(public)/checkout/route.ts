@@ -31,8 +31,8 @@ export async function POST(req: Request) {
     body.arrivalDate = new Date(body.arrivalDate);
     body.departureDate = new Date(body.departureDate);
     console.log(body);
-    const {ids,...rest} = body
-    console.log(ids)
+    const { ids, ...rest } = body;
+    console.log(ids);
     const validBody = bookingSchema.safeParse(rest);
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
@@ -46,18 +46,19 @@ export async function POST(req: Request) {
     const service = await prisma.service.findUnique({
       where: {
         id: validBody.data.serviceId,
-        isActive:true
+        isActive: true,
       },
       include: {
         bookings: {
-          where: { paymentStatus: { in: ["SUCCEEDED", "PENDING"] },bookingStatus:'ACTIVE' },
+          where: {
+            paymentStatus: { in: ["SUCCEEDED", "PENDING"] },
+            bookingStatus: "ACTIVE",
+          },
         },
         availability: true,
         rules: true,
       },
     });
-
-
 
     if (!service)
       return NextResponse.json(
@@ -106,78 +107,82 @@ export async function POST(req: Request) {
       });
     }
 
-    let options:ExraOption[] | any[]
-if(ids && ids.length){
-  options = await prisma.exraOption.findMany({
-    where:{
-      serviceId:service.id,
-      id:{in:ids as string[]}
-      
-
-    },
-    select:{
-      label:true,
-      id:true,
-      price:true,
-      commession:true
-    }
-  })
-} else{
-  options = []
-}
-     
-
-    console.log(options)
-let additionalPrice = 0
-    if(!!options.length){
-
-      additionalPrice = options.reduce((result,val)=>result + val.price,0)
-
+    let options: ExraOption[] | any[];
+    if (ids && ids.length) {
+      options = await prisma.exraOption.findMany({
+        where: {
+          serviceId: service.id,
+          id: { in: ids as string[] },
+        },
+        select: {
+          label: true,
+          id: true,
+          price: true,
+          commession: true,
+        },
+      });
+    } else {
+      options = [];
     }
 
-    const arrivalString = validBody.data.arrivalDate.toString()
-    const departureString = validBody.data.departureDate.toString()
+    console.log(options);
+    let additionalPrice = 0;
+    if (!!options.length) {
+      additionalPrice = options.reduce((result, val) => result + val.price, 0);
+    }
 
-const {clientArrivalDate,clientDepartureDate} = getClientDates(arrivalString,departureString,validBody.data.arrivalTime,validBody.data.departureTime)
+    const arrivalString = validBody.data.arrivalDate.toString();
+    const departureString = validBody.data.departureDate.toString();
+
+    const { clientArrivalDate, clientDepartureDate } = getClientDates(
+      arrivalString,
+      departureString,
+      validBody.data.arrivalTime,
+      validBody.data.departureTime
+    );
 
     booking = await prisma.booking.create({
       data: {
         ...validBody.data,
         bookingCode,
-        arrivalDate:clientArrivalDate,
-        departureDate:clientDepartureDate,
-        total: total + additionalPrice as number,
+        arrivalDate: clientArrivalDate,
+        departureDate: clientDepartureDate,
+        total: (total + additionalPrice) as number,
         daysofparking,
-...(!!options.length && {extraOptions:options.map((el:ExraOption)=>({id:el.id,commession:el.commession,label:el.label,price:el.price}))
-  
-})
+        ...(!!options.length && {
+          extraOptions: options.map((el: ExraOption) => ({
+            id: el.id,
+            commession: el.commession,
+            label: el.label,
+            price: el.price,
+          })),
+        }),
       },
     });
-
-  
 
     const myPayment = methods[booking.paymentMethod];
 
     const entity = await prisma.entity.findFirst({
-      where:{
-        services:{
-          some:{id:service.id}
+      where: {
+        services: {
+          some: { id: service.id },
         },
       },
-      select:{
-        id:true,companyId:true
-      }
-    })
-
-
-   
+      select: {
+        id: true,
+        companyId: true,
+      },
+    });
 
     const session = await stripe.checkout.sessions.create({
-      payment_intent_data: { metadata: { id: booking.id ,bookingCode:booking.bookingCode,payed:total},
-      capture_method:'automatic',
-      
-
-     },
+      payment_intent_data: {
+        metadata: {
+          id: booking.id,
+          bookingCode: booking.bookingCode,
+          payed: total,
+        },
+        capture_method: "automatic",
+      },
       payment_method_types: [myPayment as "card" | "paypal" | "ideal"],
 
       line_items: [
@@ -186,7 +191,13 @@ const {clientArrivalDate,clientDepartureDate} = getClientDates(arrivalString,dep
             currency: "usd",
             product_data: {
               name: service.name,
-              description: `Booking for ${daysofparking} day(s) parking ${(!!options &&!!options.length )? `with extra options (  ${options.map(el=>`${el.label} for  €${el.price}`)})`:'' }`,
+              description: `Booking for ${daysofparking} day(s) parking ${
+                !!options && !!options.length
+                  ? `with extra options (  ${options.map(
+                      (el) => `${el.label} for  €${el.price}`
+                    )})`
+                  : ""
+              }`,
             },
             unit_amount: +booking.total.toFixed(0) * 100,
           },
@@ -195,7 +206,11 @@ const {clientArrivalDate,clientDepartureDate} = getClientDates(arrivalString,dep
       ],
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
       mode: "payment",
-      metadata: { id: booking.id,bookingCode:booking.bookingCode,payed:total },
+      metadata: {
+        id: booking.id,
+        bookingCode: booking.bookingCode,
+        payed: total,
+      },
 
       success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
         booking.id
@@ -203,17 +218,12 @@ const {clientArrivalDate,clientDepartureDate} = getClientDates(arrivalString,dep
       cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled`,
     });
 
-
-
-  
-
     return NextResponse.json(
       { url: session.url },
       {
         headers: corsHeaders,
       }
     );
-    
   } catch (error) {
     console.log(error);
     await prisma.booking.delete({ where: { id: booking?.id } });
