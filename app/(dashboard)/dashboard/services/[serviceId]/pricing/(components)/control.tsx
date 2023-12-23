@@ -14,6 +14,7 @@ import { MutableRefObject, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { boolean } from "zod";
 
 type Props = {
  
@@ -23,8 +24,7 @@ type Props = {
   reset: (value: number) => void;
   addRows: (rows: number, value: number) => void;
   addIncrement: (from: number, to: number, value: number) => void;
-  undo: () => void;
-  redo: () => void;
+
 
 
 };
@@ -36,8 +36,7 @@ const Control = ({
   addRows,
   addIncrement,
   minusValue,
-  undo,
-  redo,
+
  
   
 }: Props) => {
@@ -63,10 +62,7 @@ const Control = ({
       <div className="flex items-center justify-between ">
         <span className="font-bold text-lg">Control</span>
        
-          <div>
-            <Button   onClick={undo}>Undo</Button>
-            <Button  className="ml-1" onClick={redo}>Redo</Button>
-          </div>
+     
         
       </div>
 

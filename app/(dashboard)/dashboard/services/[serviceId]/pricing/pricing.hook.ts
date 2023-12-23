@@ -11,8 +11,7 @@ import { useRouter } from "next/navigation";
 type Previous = number[];
 export const usePricing = (pricings: number[]) => {
   const [myArray, setMyArray] = useState<number[]>();
-  const [states, setStates] = useState<number[][]>([]);
-  const [currentStateIndex, setCurrentStateIndex] = useState<number>(-1);
+
 
   useEffect(() => {
     if (pricings?.length) {
@@ -56,23 +55,19 @@ export const usePricing = (pricings: number[]) => {
     form.setValue("pricings", myArray || []);
   }, [myArray]);
 
-  const handleChange = (value: number, index: number) => {
-    const newArray = [...(myArray || [])];
-    newArray[index] = value;
-    setMyArray(newArray);
-  };
+ const handleChange = (value: string, index: number) => {
+  const floatValue = parseFloat(value.replace(',', '.'));
+  const newArray = [...(myArray || [])];
+  newArray[index] = isNaN(floatValue) ? 0 : floatValue;
+  setMyArray(newArray);
+};
 
   const addRow = () => {
     const newState = [...myArray!, 0];
     setMyArray(newState);
 
     // Save the new state and update the current state index
-    const newStates = [
-      ...(states || []).slice(0, currentStateIndex + 1),
-      newState,
-    ];
-    setStates(newStates);
-    setCurrentStateIndex(newStates.length - 1);
+
   };
 
   const deleteRow = (row: number) => {
@@ -80,12 +75,7 @@ export const usePricing = (pricings: number[]) => {
     setMyArray(newState);
 
     // Save the new state and update the current state index
-    const newStates = [
-      ...(states || []).slice(0, currentStateIndex + 1),
-      newState,
-    ];
-    setStates(newStates);
-    setCurrentStateIndex(newStates.length - 1);
+
   };
 
   const addValue = (value: number, from: number, to: number) => {
@@ -102,12 +92,7 @@ export const usePricing = (pricings: number[]) => {
     setMyArray(newState);
 
     // Save the new state and update the current state index
-    const newStates = [
-      ...(states || []).slice(0, currentStateIndex + 1),
-      newState,
-    ];
-    setStates(newStates);
-    setCurrentStateIndex(newStates.length - 1);
+  
 
     // console.log(previousArray)
 
@@ -130,9 +115,7 @@ export const usePricing = (pricings: number[]) => {
     setMyArray(newState);
 
     // Save the new state and update the current state index
-    const newStates = [...states.slice(0, currentStateIndex + 1), newState];
-    setStates(newStates);
-    setCurrentStateIndex(newStates.length - 1);
+  
 
     toast.success("Successfully done!", {
       position: "top-center",
@@ -151,9 +134,7 @@ export const usePricing = (pricings: number[]) => {
     setMyArray(newState);
 
     // Save the new state and update the current state index
-    const newStates = [...states.slice(0, currentStateIndex + 1), newState];
-    setStates(newStates);
-    setCurrentStateIndex(newStates.length - 1);
+  
 
     toast.success("Successfully done!", {
       position: "top-center",
@@ -168,9 +149,7 @@ export const usePricing = (pricings: number[]) => {
     setMyArray(newState);
 
     // Save the new state and update the current state index
-    const newStates = [...states.slice(0, currentStateIndex + 1), newState];
-    setStates(newStates);
-    setCurrentStateIndex(newStates.length - 1);
+  
 
     toast.success("Successfully done!", {
       position: "top-center",
@@ -187,9 +166,7 @@ export const usePricing = (pricings: number[]) => {
     setMyArray(newState);
 
     // Save the new state and update the current state index
-    const newStates = [...states.slice(0, currentStateIndex + 1), newState];
-    setStates(newStates);
-    setCurrentStateIndex(newStates.length - 1);
+  
 
     toast.success("Successfully done!", {
       position: "top-center",
@@ -215,7 +192,12 @@ export const usePricing = (pricings: number[]) => {
       iv++;
     }
 
-    setMyArray([...(newArry || [])]);
+    const newState = [...(myArray||[])];
+    setMyArray(newState);
+
+  
+
+
 
     toast.success("Successfully done!", {
       position: "top-center",
@@ -223,9 +205,9 @@ export const usePricing = (pricings: number[]) => {
     });
   };
 
-  const undo = () => {};
-
-  const redo = () => {};
+ 
+  
+ 
 
   const form = useForm<z.infer<typeof pricingSchema>>({
     resolver: zodResolver(pricingSchema),
@@ -254,6 +236,9 @@ export const usePricing = (pricings: number[]) => {
     }
   }
 
+
+
+
   return {
     form,
     onSubmit,
@@ -268,7 +253,6 @@ export const usePricing = (pricings: number[]) => {
     reset,
     addRows,
     addIncrement,
-    undo,
-    redo,
+
   };
 };

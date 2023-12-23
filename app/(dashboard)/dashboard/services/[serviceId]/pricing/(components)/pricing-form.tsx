@@ -31,7 +31,7 @@ type Props = {
 };
 
 const PricingForm = ({ pricings }: Props) => {
-  const { onSubmit, form, myArray, addRow, handleChange, deleteRow, addValue ,addPercentage,reset,addRows,addIncrement,minusValue,undo,redo} =
+  const { onSubmit, form, myArray, addRow, handleChange, deleteRow, addValue ,addPercentage,reset,addRows,addIncrement,minusValue} =
     usePricing(pricings);
 
   const [mount, setMount] = useState(false);
@@ -89,14 +89,13 @@ const PricingForm = ({ pricings }: Props) => {
                               €{" "}
                             </span>
                             <Input
-                              className="border-0  p-0 px-8 outline-none  h-8"
-                              min={0}
-                              type="number"
-                              placeholder="0"
-                              value={isNaN(val) ? '' : val || ''}
-                              onChange={(e) => {
-                                handleChange(+e.target.value, i);
-                              }}
+                         className="border-0 p-0 px-8 outline-none h-8"
+                         min={0}
+                         placeholder="0"
+                         value={val || ''}
+                         onChange={(e) => {
+                           handleChange(e.target.value, i);
+                         }}
                             />
                             <span className="italic text-gray-400 ml-3">
                               <XIcon
@@ -116,13 +115,13 @@ const PricingForm = ({ pricings }: Props) => {
 
           {form.getFieldState("pricings").error && (
             <p className="p-1 text-sm text-red-400">
-              Negative values are not allowed
+            { form.getFieldState("pricings").error?.message}
             </p>
           )}
        
         </form>
         <div className="2xl:sticky top-3  max-w-[500px] w-full" >
-        <Control addValue={addValue} addPercentage={addPercentage} reset={reset} addRows={addRows} addIncrement={addIncrement}   minusValue={minusValue} undo={undo} redo={redo}/>
+        <Control addValue={addValue} addPercentage={addPercentage} reset={reset} addRows={addRows} addIncrement={addIncrement}    minusValue={minusValue} />
         </div>
        
    
