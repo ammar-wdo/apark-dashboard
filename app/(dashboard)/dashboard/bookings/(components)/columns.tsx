@@ -148,7 +148,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format( row.getValue('arrivalDate'),"dd-MM-yyyy")}</p>-<p className="text-xs">{format(row.getValue('arrivalDate'),"HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format( row.getValue('arrivalDate'),"dd-MM-yyyy - HH:mm")}</p></div>
   },
   {
     accessorKey: "departureDate",
@@ -163,7 +163,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format(new Date( row.getValue('departureDate')),"dd-MM-yyyy")}</p>-<p className="text-xs">{format(new Date( row.getValue('departureDate')),"HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format(new Date( row.getValue('departureDate')),"dd-MM-yyyy - HH:mm")}</p></div>
   },
   {
     accessorKey: "paymentMethod",

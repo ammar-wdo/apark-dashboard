@@ -54,18 +54,18 @@ export async function POST(req: Request) {
 
       const {clientArrivalDate,clientDepartureDate} = getClientDates(arriveString,departureString,validBody.data.arrivalTime,validBody.data.departureTime)
 
-      console.log("start client",clientArrivalDate,"end client",clientDepartureDate)
+      console.log("start client",clientArrivalDate.getHours(),"end client",clientDepartureDate.getHours())
 
 
-
+      
       // console.log("arrive string",arriveString,"departure string",departureString)
 
       // console.log("arrive date",clientArrivalDate,"departure date",clientDepartureDate)
 
   
 
-    const newArrival = clientArrivalDate;
-    const newDeparture = clientDepartureDate;
+    const newArrival =new Date (clientArrivalDate);
+    const newDeparture =new Date (clientDepartureDate);
 
     console.log("new arrival",newArrival)
     console.log("new departure",newDeparture)
@@ -174,8 +174,8 @@ if(additionalPrice < 0 ){
 
     if (additionalDays === 0) {
 
-      console.log("new arrival",newArrival)
-      console.log("new departure",newDeparture)
+      console.log("client 2 arrival",clientArrivalDate.getHours())
+      console.log("client 2 departure",clientDepartureDate.getHours())
       const updatedBooking = await prisma.booking.update({
         where: {
           id: booking.id,
