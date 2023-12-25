@@ -12,6 +12,7 @@ const loading = (props: Props) => {
     </div>
 
    <Skeleton className='w-full min-h-[500px]' />
+   <Skeleton className='w-full min-h-[500px] mt-4' />
     </div>
   )
 }
