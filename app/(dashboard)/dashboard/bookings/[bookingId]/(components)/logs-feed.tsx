@@ -170,10 +170,10 @@ const bookingStatus = [
                 {format(log.createdAt, "dd-MM-yyyy,  HH:mm:ss")}
               </TableCell>
               <TableCell className="text-center">
-                {format(log.arrivalDate, "dd-MM-yyyy")}, {log.arrivalTime}
+                {format(log.arrivalDate, "dd-MM-yyyy - HH:mm")}
               </TableCell>
               <TableCell className="text-center">
-                {format(log.departureDate, "dd-MM-yyyy")}, {log.departureTime}
+                {format(log.departureDate, "dd-MM-yyyy - HH:mm")}
               </TableCell>
               <TableCell className="text-center">€{log.payed}</TableCell>
               <TableCell className="text-center">{log.daysofparking}</TableCell>
