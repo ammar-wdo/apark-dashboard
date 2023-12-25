@@ -28,7 +28,7 @@ const ExtraForm = (props: Props) => {
   return (
     <Form {...form}>
     <form onSubmit={form.handleSubmit(onSubmit)} className=" mt-10">
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <div className='grid grid-cols-1 gap-3'>
 
       
       <FormField
@@ -98,7 +98,7 @@ const ExtraForm = (props: Props) => {
             control={form.control}
             name="image"
             render={({ field }) => (
-              <div className="flex flex-wrap md:col-span-2 gap-4 items-center">
+              <div className="flex flex-wrap  gap-4 items-center">
                 <FormItem>
                   <FormLabel>Image*</FormLabel>
                   <FormControl>
