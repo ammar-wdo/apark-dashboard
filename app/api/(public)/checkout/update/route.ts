@@ -62,6 +62,9 @@ export async function POST(req: Request) {
     const newArrival = clientArrivalDate;
     const newDeparture = clientDepartureDate;
 
+
+
+
     const booking = await prisma.booking.findUnique({
       where: {
         id: id,
@@ -133,19 +136,23 @@ export async function POST(req: Request) {
 
         const userTotalPrice = findTotalPrice(service,userParkingDays,booking.arrivalDate.toString(),booking.departureDate.toString())
 
-        console.log('user arrival',booking.arrivalDate)
-        console.log('user departure',booking.departureDate)
-        console.log('user parking days',userParkingDays)
-        console.log('user total price',userTotalPrice)
+    
 
         const newParkingDays = parkingDays > userParkingDays
 const additionalDays = newParkingDays ? parkingDays - userParkingDays : 0
+
+
 let additionalPrice = newParkingDays ? totalPrice - userTotalPrice : 0 
 if(additionalPrice < 0 ){
     additionalPrice = 0
 }
 
+console.log('user arrival',booking.arrivalDate)
+console.log('user departure',booking.departureDate)
+console.log('user parking days',userParkingDays)
+console.log('user total price',userTotalPrice)
 
+console.log('additional days',additionalDays)
 
     // const newPakingDays = calculateParkingDays(newArrival, newDeparture);
     // let newDays;
@@ -179,6 +186,9 @@ if(additionalPrice < 0 ){
     });
 
     if (additionalDays === 0) {
+
+      console.log("new arrival",newArrival)
+      console.log("new departure",newDeparture)
       const updatedBooking = await prisma.booking.update({
         where: {
           id: booking.id,
