@@ -21,6 +21,9 @@ const page = async({params}: Props) => {
     console.log(service?.pricings.length)
 
     if(!service) return redirect('/dashboard')
+
+
+  
   return (
     <div className=''>
       <Heading title='Pricing table' description={`Check Pricing for ${service?.name} `} />
