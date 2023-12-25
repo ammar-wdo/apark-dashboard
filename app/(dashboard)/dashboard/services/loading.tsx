@@ -12,7 +12,7 @@ const loading = (props: Props) => {
     </div>
 
     <div className='w- full flex items-center gap-4 mt-10 flex-wrap'>
-        {Array(10).fill('').map((_,i)=><Skeleton className='w-[375px] h-[475px]' />)}
+        {Array(10).fill('').map((_,i)=><Skeleton key={i} className='w-[375px] h-[475px]' />)}
 
     </div>
     </div>
