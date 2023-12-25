@@ -206,6 +206,8 @@ if(additionalPrice < 0 ){
     
     
     else if (additionalDays > 0) {
+
+ 
       const myPayment = methods[booking.paymentMethod];
 
    const updatedBooking=   await prisma.booking.update({
@@ -214,6 +216,8 @@ if(additionalPrice < 0 ){
         },
         data: {
           ...validBody.data,
+          arrivalDate: clientArrivalDate,
+          departureDate: clientDepartureDate,   //added arrival and departure
           paymentStatus: "PENDING",
           total: additionalPrice + booking.total ,
           daysofparking: parkingDays,
