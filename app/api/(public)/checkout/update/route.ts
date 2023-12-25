@@ -53,14 +53,22 @@ export async function POST(req: Request) {
       const departureString = validBody.data.departureDate.toString()
 
       const {clientArrivalDate,clientDepartureDate} = getClientDates(arriveString,departureString,validBody.data.arrivalTime,validBody.data.departureTime)
-      console.log("arrive string",arriveString,"departure string",departureString)
 
-      console.log("arrive date",clientArrivalDate,"departure date",clientDepartureDate)
+      console.log("start client",clientArrivalDate,"end client",clientDepartureDate)
+
+
+
+      // console.log("arrive string",arriveString,"departure string",departureString)
+
+      // console.log("arrive date",clientArrivalDate,"departure date",clientDepartureDate)
 
   
 
     const newArrival = clientArrivalDate;
     const newDeparture = clientDepartureDate;
+
+    console.log("new arrival",newArrival)
+    console.log("new departure",newDeparture)
 
 
 
@@ -113,7 +121,7 @@ export async function POST(req: Request) {
         
      
        
-      ); // new days was removed , if error add again
+      ); 
       if (!validService)
         return new NextResponse("This service is no more available", {
           status: 400,
@@ -125,8 +133,8 @@ export async function POST(req: Request) {
     
         const totalPrice = findTotalPrice(service,parkingDays,newArrival.toString(),newDeparture.toString())
         
-        console.log('parking days',parkingDays)
-        console.log("total price",totalPrice)
+        // console.log('parking days',parkingDays)
+        // console.log("total price",totalPrice)
         
         if(totalPrice===0 || totalPrice === undefined || !totalPrice) return NextResponse.json({response:'service is not available'},{status:200})
 
@@ -147,35 +155,14 @@ if(additionalPrice < 0 ){
     additionalPrice = 0
 }
 
-console.log('user arrival',booking.arrivalDate)
-console.log('user departure',booking.departureDate)
-console.log('user parking days',userParkingDays)
-console.log('user total price',userTotalPrice)
+// console.log('user arrival',booking.arrivalDate)
+// console.log('user departure',booking.departureDate)
+// console.log('user parking days',userParkingDays)
+// console.log('user total price',userTotalPrice)
 
-console.log('additional days',additionalDays)
+// console.log('additional days',additionalDays)
 
-    // const newPakingDays = calculateParkingDays(newArrival, newDeparture);
-    // let newDays;
-    // if (newPakingDays > booking?.daysofparking) {
-    //   newDays = newPakingDays - booking?.daysofparking;
-    // } else {
-    //   newDays = 0;
-    // }
-
-   
-
-    // const newPrice = findTotalPrice(
-    //   service,
-    //   newDays + booking?.daysofparking, //check
-    //   newArrival.toString(),
-    //   newDeparture?.toString()
-    // );
-    // console.log("TOTAL DAYS", newPakingDays);
-    // console.log("NEW DAYS", newDays);
-    // console.log("NEW TOTAL PRICE", newPrice);
-    // console.log("NEW  PRICE", newPrice - booking.total);
-
-    // const additionalPrice = newPrice - booking.total;
+  
 
     const entity = await prisma.entity.findFirst({
       where: {
@@ -195,8 +182,8 @@ console.log('additional days',additionalDays)
         },
         data: {
           ...validBody.data,
-          arrivalDate: newArrival,
-          departureDate: newDeparture,
+          arrivalDate: clientArrivalDate,
+          departureDate: clientDepartureDate,
           daysofparking: parkingDays,
         },
       });
