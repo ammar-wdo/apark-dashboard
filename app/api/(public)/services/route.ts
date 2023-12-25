@@ -5,6 +5,7 @@ import { calculateParkingDays } from "./(helpers)/findParkingDays";
 
 import { findValidServices } from "./(helpers)/findValidServices";
 import { Key, ParkingLocation, ParkingType } from "@prisma/client";
+import { getClientDates } from "./(helpers)/getClientDates";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -28,6 +29,10 @@ export async function GET(req: Request) {
 
   if (!airport || !startDate || !endDate || !startTime || !endTime)
     return new NextResponse("date and time is required", { status: 400 });
+
+    const {clientArrivalDate,clientDepartureDate} = getClientDates(startDate,endDate,startTime,endTime)
+
+    if(clientArrivalDate.getTime()>=clientDepartureDate.getTime())    return new NextResponse("date range error", { status: 400 });
 
   try {
     const services = await prisma.service.findMany({

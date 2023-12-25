@@ -31,6 +31,7 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: Request) {
+  
   try {
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
@@ -52,6 +53,9 @@ export async function POST(req: Request) {
       const departureString = validBody.data.departureDate.toString()
 
       const {clientArrivalDate,clientDepartureDate} = getClientDates(arriveString,departureString,validBody.data.arrivalTime,validBody.data.departureTime)
+      console.log("arrive string",arriveString,"departure string",departureString)
+
+      console.log("arrive date",clientArrivalDate,"departure date",clientDepartureDate)
 
   
 
@@ -114,15 +118,25 @@ export async function POST(req: Request) {
 
 
 
-        const parkingDays = calculateParkingDays(new Date(newArrival), new Date(newDeparture));
+        const parkingDays = calculateParkingDays(newArrival, newDeparture);
+    
         const totalPrice = findTotalPrice(service,parkingDays,newArrival.toString(),newDeparture.toString())
         
-        console.log(totalPrice)
+        console.log('parking days',parkingDays)
+        console.log("total price",totalPrice)
         
         if(totalPrice===0 || totalPrice === undefined || !totalPrice) return NextResponse.json({response:'service is not available'},{status:200})
 
         const userParkingDays = calculateParkingDays(new Date(booking.arrivalDate), new Date(booking.departureDate));
+
+     
+
         const userTotalPrice = findTotalPrice(service,userParkingDays,booking.arrivalDate.toString(),booking.departureDate.toString())
+
+        console.log('user arrival',booking.arrivalDate)
+        console.log('user departure',booking.departureDate)
+        console.log('user parking days',userParkingDays)
+        console.log('user total price',userTotalPrice)
 
         const newParkingDays = parkingDays > userParkingDays
 const additionalDays = newParkingDays ? parkingDays - userParkingDays : 0
