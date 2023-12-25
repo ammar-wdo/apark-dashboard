@@ -22,7 +22,7 @@ const service = await prisma.service.findUnique({
 
 const airports = await prisma.airport.findMany({select:{id:true,name:true}})
 const entities  =await prisma.entity.findMany({where:{companyId:company?.id},select:{id:true,entityName:true}})
-
+await new Promise(res=>setTimeout(res,1000))
   return (
     <div>
         <Heading title={service ? 'Edit your service' : 'Add a service'}  description={service ? 'Customize your service' :'Add your service informations'} />
