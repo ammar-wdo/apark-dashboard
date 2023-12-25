@@ -72,7 +72,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="  max-w-[1200px] ">
         <div className="space-y-12 pt-8">
-          <div className="p-8 border rounded-lg">
+          <div className="p-8 border rounded-lg separate">
             <h3 className="font-bold mb-8 text-xl">Service details</h3>
             <div className="grid grid-cols-2 gap-3 ">
            {/* {  !service && <FormField
@@ -186,7 +186,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
             </div>
           </div>
 
-          <div className="p-8 border rounded-lg">
+          <div className="p-8 border rounded-lg separate">
             <h3 className="font-bold mb-8 text-xl">Parking details</h3>
             <div className="grid grid-cols-2 gap-3">
               <FormField

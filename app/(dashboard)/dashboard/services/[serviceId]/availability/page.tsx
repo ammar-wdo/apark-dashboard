@@ -54,7 +54,7 @@ const page = async({params}: Props) => {
       
         
         <AvailabilityFeed availabilitys={availabilitys} />
-        <div className='mt-20'>
+        <div className='mt-20 '>
             <h3 className='text-center capitalize text-lg font-bold'>Calendar of blocked ranges</h3>
         <Ranges availabilitys={availabilitys} />
         </div>

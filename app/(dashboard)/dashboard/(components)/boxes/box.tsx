@@ -11,7 +11,7 @@ type Props = {
 
 const Box = ({Icon,value,title,dollar,footer}: Props) => {
   return (
-    <div className='border rounded-xl  p-6 h-[175px]'>
+    <div className='border rounded-xl  p-6 h-[175px] separate'>
     <div className='flex items-center justify-between'>
     <p>{title}</p>
     <p>{Icon}</p>

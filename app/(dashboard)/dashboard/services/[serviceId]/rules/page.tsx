@@ -50,7 +50,10 @@ const page =async({params}: Props) => {
     <div className='flex items-center justify-between'><Heading title='Rules' description='Manage your pricing rules for diffirent times' /> 
     <RuleTriggerButton /></div>
 
+<div className='separate'>
+
     <RulesFeed rules={rules} />
+</div>
 
     </div>
     

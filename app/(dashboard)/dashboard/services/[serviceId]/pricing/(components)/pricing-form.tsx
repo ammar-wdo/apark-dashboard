@@ -46,11 +46,11 @@ const PricingForm = ({ pricings }: Props) => {
   return (
     <Form {...form}>
          
-      <div className="flex gap-8 2xl:flex-row flex-col-reverse relative items-start">
+      <div className="flex gap-8 2xl:flex-row flex-col-reverse relative items-start ">
    
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-3 max-w-[600px] w-full"
+          className="space-y-3 max-w-[600px] w-full separate"
         >
              <div className="flex items-center gap-3 sticky top-12 z-10 bg-background p-2  border ">
             <Button disabled={isLoading} type="submit">
@@ -120,7 +120,7 @@ const PricingForm = ({ pricings }: Props) => {
           )}
        
         </form>
-        <div className="2xl:sticky top-3  max-w-[500px] w-full" >
+        <div className="2xl:sticky top-3  max-w-[500px] w-full separate" >
         <Control addValue={addValue} addPercentage={addPercentage} reset={reset} addRows={addRows} addIncrement={addIncrement}    minusValue={minusValue} />
         </div>
        

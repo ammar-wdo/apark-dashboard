@@ -22,7 +22,7 @@ const layout = async({children,params}: Props) => {
      <MainAside />
     <main className='lg:pl-[270px] '>
 <MainSheet  isAdmin={session?.user?.name==="Company"} />
-   <div className=' p-8 xl:p-20'>{children}</div> 
+   <div className=' p-8 xl:p-20 min-h-screen bg-muted'>{children}</div> 
    </main>
     </div>
   )

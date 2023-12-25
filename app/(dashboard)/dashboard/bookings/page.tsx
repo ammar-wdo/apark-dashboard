@@ -83,8 +83,9 @@ const page = async ({ params, searchParams }: Props) => {
   return (
     <div className=" ">
       <Heading title="Bookings" description="Check your bookings" />
+<div className="separate">
 
-      <div className='flex gap-3'>
+<div className='flex gap-3 '>
      <Explane  stages={bookingStatus} title='Boooking status' />
      <Explane  stages={paymentStatus} title='Payment status' />
      </div>
@@ -92,6 +93,8 @@ const page = async ({ params, searchParams }: Props) => {
       <Suspense   key={+searchParams.page}  fallback={<Skeleton className="w-full h-[700px] rounded-lg" />} >
       <TableWrapper  page={searchParams.page} />
       </Suspense>
+</div>
+    
 
    
     </div>

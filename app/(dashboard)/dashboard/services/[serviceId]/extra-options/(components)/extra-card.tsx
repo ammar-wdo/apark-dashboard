@@ -16,7 +16,7 @@ const ExtraCard = ({extraOption}: Props) => {
     const {setOpen} = useModal()
 
   return (
-    <div className='max-w-[300px] w-full text-xs border shadow-md hover:shadow-lg transition flex flex-col'>
+    <div className='max-w-[375px] w-full text-xs border shadow-md hover:shadow-lg transition flex flex-col separate'>
         <div className='relative w-full aspect-video'>
             {extraOption.image ?<Image fill alt='option image'  src={extraOption.image} className='object-contain'/> : <div className='w-full h-full bg-gray-50' />}
         </div>
@@ -25,7 +25,7 @@ const ExtraCard = ({extraOption}: Props) => {
             <p className='line-clamp-1'>{extraOption.description}</p>
           
            
-            <div className='flex items-center justify-between mt-6'>
+            <div className='flex items-center justify-between mt-6 mb-4'>
             {!extraOption.isActive && <Badge className='bg-yellow-500/20 text-yellow-500 rounded-full w-fit hover:bg-yellow-500/50 '>Pending</Badge>}
             <p className='p-1 border rounded-md w-fit ml-auto'>{extraOption.available ? "Available" : "Not available"}</p>
             </div>

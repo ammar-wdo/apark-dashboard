@@ -75,7 +75,7 @@ const page = async ({ searchParams }: Props) => {
         </Suspense>
       </div>
 
-      <div className="w-full overflow-x-auto mt-12 p-4 border rounded-xl
+      <div className="w-full overflow-x-auto mt-12 p-4 border rounded-xl separate
       ">
       <div className=" h-[600px]  min-w-[1400px] ">
           <Suspense

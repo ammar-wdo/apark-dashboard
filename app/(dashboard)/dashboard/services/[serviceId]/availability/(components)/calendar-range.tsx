@@ -11,7 +11,7 @@ const CalendarRange = async({availability}: Props) => {
 
     const daysOfParking =  calculateParkingDays(availability.startDate,availability.endDate)
   return (
-    <div        className='p-3 border rounded-md'>
+    <div        className='p-3 border rounded-md separate'>
             <p className='p-1 text-center uppercase text-lg font-semibold'>{availability.label}</p>
             <Calendar
  

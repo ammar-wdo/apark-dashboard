@@ -8,8 +8,10 @@ const page = (props: Props) => {
   return (
     <div>
         <Heading title='Reviews' description='Read your reviews' />
+<div className='separate'>
 
         <ReviewsFeed />
+</div>
     </div>
   )
 }

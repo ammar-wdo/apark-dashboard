@@ -20,7 +20,7 @@ const RulesFeed = ({ rules }: Props) => {
   return !rules.length ? (
     <p>No Pricing rules added</p>
   ) : (
-    <div className="space-y-1 mt-20">
+    <div className="space-y-1">
 
 <Table>
 

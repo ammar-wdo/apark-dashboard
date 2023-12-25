@@ -19,7 +19,7 @@ const AvailabilityFeed = ({ availabilitys }: Props) => {
   return !availabilitys.length ? (
     <p>No availability blockings added</p>
   ) : (
-    <div className="space-y-1 mt-20">
+    <div className="space-y-1 mt-20 separate">
 
 <Table>
 

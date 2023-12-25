@@ -27,7 +27,7 @@ const ServiceCard = ({ service }: Props) => {
   return (
     <div
       key={service.id}
-      className="p-6 rounded-md max-w-[350px] w-full border shadow-md hover:shadow-lg transition flex flex-col "
+      className="p-6 rounded-md max-w-[375px] w-full border shadow-md hover:shadow-lg transition flex flex-col separate "
     >
       <div className="flex items-center justify-between">
         <div>

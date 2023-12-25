@@ -30,9 +30,9 @@ const page = async ({ searchParams }: Props) => {
       </div>
 
      
-      <Suspense fallback={<Skeleton className="w-full h-[700px] rounded-lg" />}>
+    
       <ServicesWrapper  entityId={entityId}/>
-      </Suspense>
+
 
      
     </div>

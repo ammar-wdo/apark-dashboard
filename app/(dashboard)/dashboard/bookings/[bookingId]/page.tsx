@@ -37,7 +37,7 @@ const page = async ({ params }: Props) => {
   
 const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.departureDate!,booking?.service.id!)
   return (
-    <div className="p-12">
+    <div className="p-12 separate">
       <h2 className="text-3xl font-semibold ">
         Reservation #{booking?.bookingCode}
       </h2>
