@@ -211,7 +211,7 @@ export async function POST(req: Request) {
                 name: "service",
                 description: `Booking for additional ${additionalDays} day(s) parking `,
               },
-              unit_amount: Math.round(+additionalPrice.toFixed(2) * 100),
+              unit_amount: +additionalPrice.toFixed(2) * 100,
             },
             quantity: 1,
           },
