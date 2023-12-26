@@ -51,7 +51,7 @@ export const usePricing = (pricings: number[]) => {
  const handleChange = (value: string, index: number) => {
   
   const newArray:(string | number)[] = [...(myArray || [])];
-  newArray[index] = isNaN(+value) ? 0 : value;
+  newArray[index] = isNaN(+value.replace(',','.')) ? 0 : value.replace(',','.')
   setMyArray(newArray);
 };
 

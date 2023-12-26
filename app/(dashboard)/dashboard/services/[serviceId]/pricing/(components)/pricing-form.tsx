@@ -93,7 +93,7 @@ const PricingForm = ({ pricings }: Props) => {
                          className="border-0 p-0 px-8 outline-none h-8"
                       
                          placeholder="0"
-                         value={val || ''}
+                         value={val.toString().replace('.',',') || ''}
                          onChange={(e) => {
                            handleChange(e.target.value, i);
                          }}
