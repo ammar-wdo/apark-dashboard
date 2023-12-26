@@ -30,7 +30,7 @@ const EntitiesTable = ({ entities }: Props) => {
       )}
       <section className="flex flex-wrap  gap-4">
         {entities.map((entity) => (
-          <div key={entity.id} className="border rounded-md shadow-md transition hover:shadow-lg max-w-[375px] w-full separate">
+          <div key={entity.id} className="border rounded-md  transition  max-w-[375px] w-full separate">
             <div className="relative w-full aspect-video">
               <Image alt="entity image" fill src={entity.images[0]} className="object-contain"/>
             </div>

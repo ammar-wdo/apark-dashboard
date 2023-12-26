@@ -8,7 +8,17 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCurrentCompany } from "@/lib/helpers";
-import { CarIcon, Coins, CopyCheck, Edit, Euro, Key, Plug, PlusCircle, Warehouse } from "lucide-react";
+import {
+  CarIcon,
+  Coins,
+  CopyCheck,
+  Edit,
+  Euro,
+  Key,
+  Plug,
+  PlusCircle,
+  Warehouse,
+} from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -67,10 +77,17 @@ const ServicesWrapper = async ({ entityId }: Props) => {
     }
   }
 
+  if (!services.length)
+    return (
+      <p className="text-3xl text-center capitalize font-bold text-neutral-500 ">
+        No services
+      </p>
+    );
+
   return (
     <div className="flex flex-wrap gap-8">
       {services.map((service) => (
-       <ServiceCard key={service.id} service={service} />
+        <ServiceCard key={service.id} service={service} />
       ))}
     </div>
   );
