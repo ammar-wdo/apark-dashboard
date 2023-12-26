@@ -37,11 +37,13 @@ export async function POST(req: Request) {
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
 
-    const { total, daysofparking } = await daysAndTotal(
+    const { total:totalAmount, daysofparking } = await daysAndTotal(
       validBody.data.arrivalDate,
       validBody.data.departureDate,
       validBody.data.serviceId
     );
+
+    const total = Math.round(totalAmount)
     validBody.data.paymentMethod;
     const service = await prisma.service.findUnique({
       where: {
