@@ -14,6 +14,7 @@ import { calculateParkingDays } from "../../services/(helpers)/findParkingDays";
 import { findTotalPrice } from "./(helpers)/findNewTotal";
 import { setLog } from "../../(helpers)/set-log";
 import { getClientDates } from "../../services/(helpers)/getClientDates";
+import { calculateNewUpdate } from "./(helpers)/calculateNewUpdate";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -31,7 +32,6 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: Request) {
-  
   try {
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
@@ -48,43 +48,29 @@ export async function POST(req: Request) {
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
 
+    const arriveString = validBody.data.arrivalDate.toString();
+    const departureString = validBody.data.departureDate.toString();
 
-      const arriveString = validBody.data.arrivalDate.toString()
-      const departureString = validBody.data.departureDate.toString()
+    const { clientArrivalDate, clientDepartureDate } = getClientDates(
+      arriveString,
+      departureString,
+      validBody.data.arrivalTime,
+      validBody.data.departureTime
+    ); //get the time stamp
 
-      const {clientArrivalDate,clientDepartureDate} = getClientDates(arriveString,departureString,validBody.data.arrivalTime,validBody.data.departureTime)
-
-      console.log("start client",clientArrivalDate.getHours(),"end client",clientDepartureDate.getHours())
-
-
-      
-      // console.log("arrive string",arriveString,"departure string",departureString)
-
-      // console.log("arrive date",clientArrivalDate,"departure date",clientDepartureDate)
-
-  
-
-    const newArrival =new Date (clientArrivalDate);
-    const newDeparture =new Date (clientDepartureDate);
-
-    console.log("new arrival",newArrival)
-    console.log("new departure",newDeparture)
-
-
-
+    const newArrival = new Date(clientArrivalDate); //to reset hours
+    const newDeparture = new Date(clientDepartureDate); //to reset hours
 
     const booking = await prisma.booking.findUnique({
       where: {
         id: id,
         serviceId: validBody.data.serviceId,
         email: validBody.data.email,
-   
-        
-        bookingCode: bookingCode,
-        departureDate:{gte:new Date(new Date().setHours(0,0,0,0))},
-        paymentStatus:'SUCCEEDED',
-        bookingStatus:'ACTIVE'
 
+        bookingCode: bookingCode,
+        departureDate: { gte: new Date(new Date().setHours(0, 0, 0, 0)) },
+        paymentStatus: "SUCCEEDED",
+        bookingStatus: "ACTIVE",
       },
     });
 
@@ -94,12 +80,16 @@ export async function POST(req: Request) {
     const service = await prisma.service.findUnique({
       where: {
         id: validBody.data.serviceId,
-        isActive:true,
-        available:true
+        isActive: true,
+        available: true,
       },
       include: {
         bookings: {
-          where: { paymentStatus: { in: ["SUCCEEDED", "PENDING"] },bookingStatus:'ACTIVE' ,id:{not:booking.id}},
+          where: {
+            paymentStatus: { in: ["SUCCEEDED", "PENDING"] },
+            bookingStatus: "ACTIVE",
+            id: { not: booking.id },
+          },
         },
         availability: true,
         rules: true,
@@ -112,70 +102,45 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-      const validService = isServiceValid(
-        service,
-        newArrival.toString(),
-        newDeparture.toString(),
-        validBody.data.arrivalTime,
-        validBody.data.departureTime
-        
-     
-       
-      ); 
-      if (!validService)
-        return new NextResponse("This service is no more available", {
-          status: 400,
-        });
+    const validService = isServiceValid(
+      service,
+      newArrival.toString(),
+      newDeparture.toString(),
+      validBody.data.arrivalTime,
+      validBody.data.departureTime
+    );
+    if (!validService)
+      return new NextResponse("This service is no more available", {
+        status: 400,
+      });
 
+    const parkingDays = calculateParkingDays(newArrival, newDeparture);
 
+    const totalPrice = findTotalPrice(
+      service,
+      parkingDays,
+      newArrival.toString(),
+      newDeparture.toString()
+    );
 
-        const parkingDays = calculateParkingDays(newArrival, newDeparture);
-    
-        const totalPrice = findTotalPrice(service,parkingDays,newArrival.toString(),newDeparture.toString())
-        
-        // console.log('parking days',parkingDays)
-        // console.log("total price",totalPrice)
-        
-        if(totalPrice===0 || totalPrice === undefined || !totalPrice) return NextResponse.json({response:'service is not available'},{status:200})
-
-        const userParkingDays = calculateParkingDays(new Date(booking.arrivalDate), new Date(booking.departureDate));
-
-     
-
-        const userTotalPrice = findTotalPrice(service,userParkingDays,booking.arrivalDate.toString(),booking.departureDate.toString())
-
-    
-
-        const newParkingDays = parkingDays > userParkingDays
-const additionalDays = newParkingDays ? parkingDays - userParkingDays : 0
-
-
-let additionalPrice = newParkingDays ? totalPrice - userTotalPrice : 0 
-if(additionalPrice < 0 ){
-    additionalPrice = 0
-}
-
-// console.log('user arrival',booking.arrivalDate)
-// console.log('user departure',booking.departureDate)
-// console.log('user parking days',userParkingDays)
-// console.log('user total price',userTotalPrice)
-
-// console.log('additional days',additionalDays)
+    if (totalPrice === 0 || totalPrice === undefined || !totalPrice)
+      return NextResponse.json(
+        { response: "service is not available" },
+        { status: 200 }
+      );
 
   
 
-    const entity = await prisma.entity.findFirst({
-      where: {
-        services: {
-          some: { id: service.id },
-        },
-      },
-    });
+    const { additionalDays,  additionalPrice } =
+      calculateNewUpdate({
+        bookingArrival: booking.arrivalDate,
+        bookingDeparture: booking.departureDate,
+        service,
+        parkingDays,
+        totalPrice,
+      });
 
     if (additionalDays === 0) {
-
-      console.log("client 2 arrival",clientArrivalDate.getHours())
-      console.log("client 2 departure",clientDepartureDate.getHours())
       const updatedBooking = await prisma.booking.update({
         where: {
           id: booking.id,
@@ -188,11 +153,14 @@ if(additionalPrice < 0 ){
         },
       });
 
-// create new log
-      const values = setLog(0,"UPDATED",`This booking has been updated with no additional days, no additional payment`,updatedBooking)
-      await prisma.log.create({data:{...values}})
-
-     
+      // create new log
+      const values = setLog(
+        0,
+        "UPDATED",
+        `This booking has been updated with no additional days, no additional payment`,
+        updatedBooking
+      );
+      await prisma.log.create({ data: { ...values } });
 
       return NextResponse.json(
         {
@@ -202,31 +170,22 @@ if(additionalPrice < 0 ){
         },
         { status: 201 }
       );
-    }
-    
-    
-    else if (additionalDays > 0) {
-
- 
+    } else if (additionalDays > 0) {
       const myPayment = methods[booking.paymentMethod];
 
-   const updatedBooking=   await prisma.booking.update({
+      const updatedBooking = await prisma.booking.update({
         where: {
           id: booking.id,
         },
         data: {
           ...validBody.data,
           arrivalDate: clientArrivalDate,
-          departureDate: clientDepartureDate,   //added arrival and departure
+          departureDate: clientDepartureDate, //added arrival and departure
           paymentStatus: "PENDING",
-          total: additionalPrice + booking.total ,
+          total: additionalPrice + booking.total,
           daysofparking: parkingDays,
         },
       });
-
-
-
-     
 
       const session = await stripe.checkout.sessions.create({
         payment_intent_data: {
@@ -234,7 +193,7 @@ if(additionalPrice < 0 ){
             id: booking.id,
             update: "true",
             bookingCode,
-            payed:additionalPrice,
+            payed: additionalPrice,
             arrivalDate: booking.arrivalDate.toString(),
             departureDate: booking.departureDate.toString(),
             total: booking.total,
@@ -265,7 +224,7 @@ if(additionalPrice < 0 ){
           update: "true",
           arrivalDate: booking.arrivalDate.toString(),
           departureDate: booking.departureDate.toString(),
-          payed:additionalPrice,
+          payed: additionalPrice,
           total: booking.total,
           daysofparking: booking.daysofparking,
         },
@@ -276,11 +235,14 @@ if(additionalPrice < 0 ){
         cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled`,
       });
 
-    
-// create new log
-      const values = setLog(0,"UPDATING",`An attemt to extend the period of parking for ${additionalDays} day(s) with additional expected payment of €${additionalPrice}`,updatedBooking)
-      await prisma.log.create({data:{...values}})
-   
+      // create new log
+      const values = setLog(
+        0,
+        "UPDATING",
+        `An attemt to extend the period of parking for ${additionalDays} day(s) with additional expected payment of €${additionalPrice}`,
+        updatedBooking
+      );
+      await prisma.log.create({ data: { ...values } });
 
       return NextResponse.json(
         { url: session.url },
