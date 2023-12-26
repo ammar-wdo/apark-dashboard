@@ -57,7 +57,7 @@ export const usePricing = (pricings: number[]) => {
 
   const addRow = () => {
     const newState = [...myArray!, 0];
-    setMyArray(newState);
+    setMyArray(newState.map(el=>+Number(el).toFixed(2)));
 
 
 
@@ -65,7 +65,7 @@ export const usePricing = (pricings: number[]) => {
 
   const deleteRow = (row: number) => {
     const newState = (myArray || []).filter((_, i) => i !== row);
-    setMyArray(newState);
+    setMyArray(newState.map(el=>+Number(el).toFixed(2)));
 
 
 
@@ -82,7 +82,7 @@ export const usePricing = (pricings: number[]) => {
       }
     });
 
-    setMyArray(newState);
+    setMyArray(newState.map(el=>+Number(el).toFixed(2)));
 
 
   
@@ -105,7 +105,7 @@ export const usePricing = (pricings: number[]) => {
         return el;
       }
     });
-    setMyArray(newState);
+    setMyArray(newState.map(el=>+Number(el).toFixed(2)));
 
 
   
@@ -124,7 +124,7 @@ export const usePricing = (pricings: number[]) => {
         ? 0
         : parseInt((el + (el * value) / 100).toString())
     );
-    setMyArray(newState);
+    setMyArray(newState.map(el=>+Number(el).toFixed(2)));
 
 
   
@@ -137,9 +137,9 @@ export const usePricing = (pricings: number[]) => {
 
   const reset = (value: number) => {
     const newState = (myArray || []).map((el) =>
-      value < 0 ? 0 : parseInt(value.toString())
+      +value < 0 ? 0 : value
     );
-    setMyArray(newState);
+    setMyArray(newState.map(el=>+Number(el).toFixed(2)));
 
 
   
@@ -156,7 +156,7 @@ export const usePricing = (pricings: number[]) => {
  
 
     const newState = [...(myArray || []), ...Array(rows).fill(value)];
-    setMyArray(newState);
+    setMyArray(newState.map(el=>+Number(el).toFixed(2)));
 
 
   
@@ -186,7 +186,7 @@ export const usePricing = (pricings: number[]) => {
     }
 
   
-    setMyArray(newArry);
+    setMyArray(newArry?.map(el=>+Number(el).toFixed(2)));
 
   
 
