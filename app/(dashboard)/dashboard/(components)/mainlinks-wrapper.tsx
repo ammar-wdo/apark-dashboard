@@ -10,15 +10,15 @@ type Props = {}
 const MainlinksWrapper = async(props: Props) => {
 
   const session = await getServerSession(authOptions)
-  const company = await getCurrentCompany() as Company | Entity
+
   
 
-  const theName = session?.user?.name ==='Company' ? (company as Company)?.name : (company as Entity)?.entityName
+ 
 
 
     
   return (
-    <MainLinks isAdmin = {session?.user?.name==="Company"} theName={theName} email={company.email} name={session?.user?.name ||''} />
+    <MainLinks isAdmin = {session?.user?.name==="Company"}  />
   )
 }
 
