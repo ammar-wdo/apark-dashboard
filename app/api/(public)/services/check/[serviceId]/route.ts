@@ -137,7 +137,7 @@ export const GET = async (
       if (additionalPrice < 0) {
         additionalPrice = 0;
       }
-
+console.log("additional price",additionalPrice)
 
       return NextResponse.json(
         { available: true, additionalPrice, additionalDays },
