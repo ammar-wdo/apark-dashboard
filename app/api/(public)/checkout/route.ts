@@ -147,7 +147,7 @@ export async function POST(req: Request) {
         bookingCode,
         arrivalDate: clientArrivalDate,
         departureDate: clientDepartureDate,
-        total: (total + additionalPrice) as number,
+        total: +(total + additionalPrice).toFixed(2) as number,
         daysofparking,
         ...(!!options.length && {
           extraOptions: options.map((el: ExraOption) => ({
