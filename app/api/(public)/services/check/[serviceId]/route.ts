@@ -133,7 +133,7 @@ export const GET = async (
       const additionalDays = newParkingDays
         ? parkingDays - userParkingDays
         : undefined;
-      let additionalPrice = newParkingDays ? totalPrice - userTotalPrice : 0;
+      let additionalPrice = newParkingDays ? +(totalPrice - userTotalPrice).toFixed(2) : 0;
       if (additionalPrice < 0) {
         additionalPrice = 0;
       }
