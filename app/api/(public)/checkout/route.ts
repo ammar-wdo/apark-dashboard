@@ -37,13 +37,13 @@ export async function POST(req: Request) {
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
 
-    const { total:totalAmount, daysofparking } = await daysAndTotal(
+    const { total, daysofparking } = await daysAndTotal(
       validBody.data.arrivalDate,
       validBody.data.departureDate,
       validBody.data.serviceId
     );
 
-    const total = Math.round(totalAmount)
+   
     validBody.data.paymentMethod;
     const service = await prisma.service.findUnique({
       where: {
@@ -149,7 +149,7 @@ export async function POST(req: Request) {
         bookingCode,
         arrivalDate: clientArrivalDate,
         departureDate: clientDepartureDate,
-        total: +(total + additionalPrice).toFixed(2) as number,
+        total: (total + additionalPrice)as number,
         daysofparking,
         ...(!!options.length && {
           extraOptions: options.map((el: ExraOption) => ({
