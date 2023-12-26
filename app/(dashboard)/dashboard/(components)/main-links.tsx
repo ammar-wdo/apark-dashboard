@@ -17,10 +17,11 @@ import SignoutButton from "./signout-button";
 import { ModeToggle } from "@/components/theme-toggle";
 import { useNotificationsQuery } from "../notifications/notifications.hook";
 import { Button } from "@/components/ui/button";
+import { useEffect, useRef, useState } from "react";
 
-type Props = { isAdmin: boolean };
+type Props = { isAdmin: boolean ,theName:string,name:string,email:string};
 
-const MainLinks = ({ isAdmin }: Props) => {
+const MainLinks = ({ isAdmin,theName,name,email }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -71,9 +72,29 @@ const MainLinks = ({ isAdmin }: Props) => {
     },
   ];
 
+
+  const theRef = useRef<null | HTMLDivElement>(null)
+
+
+
+
+
   return (
-    <div className="w-full flex flex-col mt-6 p-1 px-3 gap-1 flex-1 ">
-      <h3 className="font-semibold px-4 ">Main</h3>
+    <div className={"w-full flex flex-col   px-3 gap-1 h-screen pb-12 "} ref={theRef}>
+       <div className=' border-b py-4 px-3'>
+    
+    <h3 className='text-foreground font-bold capitalize'>
+      {name}
+    </h3>
+
+<p className='text-muted-foreground first-letter:capitalize text-xs font-semibold mt-1'>{theName}</p>
+   
+    <p className='text-muted-foreground text-xs'>
+      {email}
+    </p>
+
+  </div>
+      <h3 className="font-semibold px-4 mt-2">Main</h3>
       {myLinks.map((link, i) => {
 
         if(link.isAdmin && isAdmin){

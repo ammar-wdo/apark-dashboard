@@ -32,7 +32,7 @@ const entities = await prisma.entity.findMany({
   return (
     <div>
         <Heading  title='Entities' description='Manage entities'/>
-        <div className='mt-20'>
+        <div className='mt-8'>
 <EntitiesTable  entities={entities} />
         </div>
     </div>
