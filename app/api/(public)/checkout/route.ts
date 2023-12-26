@@ -199,7 +199,7 @@ export async function POST(req: Request) {
                   : ""
               }`,
             },
-            unit_amount: +booking.total.toFixed(0) * 100,
+            unit_amount: +booking.total * 100,
           },
           quantity: 1,
         },
