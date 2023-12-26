@@ -173,7 +173,8 @@ export async function POST(req: Request) {
         companyId: true,
       },
     });
-
+   console.log(booking.total)
+   
     const session = await stripe.checkout.sessions.create({
       payment_intent_data: {
         metadata: {
