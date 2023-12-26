@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 type Previous = number[];
 export const usePricing = (pricings: number[]) => {
-  const [myArray, setMyArray] = useState<number[]>();
+  const [myArray, setMyArray] = useState<(number | string)[]>();
 
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const usePricing = (pricings: number[]) => {
       if (availableRows < requiredRows) {
         const emptyRows = requiredRows - availableRows;
         const emptyArray = Array(emptyRows).fill(0);
-        setMyArray((prev: number[] | undefined) => [
+        setMyArray((prev: (number|string)[] | undefined) => [
           ...(prev || []),
           ...emptyArray,
         ]);
@@ -36,29 +36,22 @@ export const usePricing = (pricings: number[]) => {
     }
   }, [myArray]);
 
-  //     setMyArray(pricings)
-  // if(myArray && !!myArray.length){
-  //     const requiredRows = 60;
-  // const availableRows = myArray?.length
-  // if(availableRows  < requiredRows) {
-  // const emptyRows = requiredRows - availableRows
-  // const emptyArray  = Array(emptyRows).fill(0)
-  // setMyArray((prev:number[]|undefined)=>[...(prev||[]),...emptyArray])
-  // }
-  // }
-  // if(myArray && !!myArray.length){
 
-  //     setMyArray(Array(60).fill(0))
-  // }
+
+
+  
 
   useEffect(() => {
-    form.setValue("pricings", myArray || []);
+    form.setValue("pricings", myArray?.map(el=>+Number(el).toFixed(2)) || []);
   }, [myArray]);
 
+
+
+
  const handleChange = (value: string, index: number) => {
-  const floatValue = parseFloat(value.replace(',', '.'));
-  const newArray = [...(myArray || [])];
-  newArray[index] = isNaN(floatValue) ? 0 : floatValue;
+  
+  const newArray:(string | number)[] = [...(myArray || [])];
+  newArray[index] = isNaN(+value) ? 0 : value;
   setMyArray(newArray);
 };
 
@@ -66,7 +59,7 @@ export const usePricing = (pricings: number[]) => {
     const newState = [...myArray!, 0];
     setMyArray(newState);
 
-    // Save the new state and update the current state index
+
 
   };
 
@@ -74,14 +67,14 @@ export const usePricing = (pricings: number[]) => {
     const newState = (myArray || []).filter((_, i) => i !== row);
     setMyArray(newState);
 
-    // Save the new state and update the current state index
+
 
   };
 
   const addValue = (value: number, from: number, to: number) => {
     if (from > to || from === to || value === 0) return;
 
-    const newState = (myArray || []).map((el, i) => {
+    const newState = (myArray?.map(el=>+el) || []).map((el, i) => {
       if (i + 1 >= from && i + 1 <= to) {
         return el + value < 0 ? 0 : +el + value;
       } else {
@@ -91,7 +84,7 @@ export const usePricing = (pricings: number[]) => {
 
     setMyArray(newState);
 
-    // Save the new state and update the current state index
+
   
 
     // console.log(previousArray)
@@ -105,7 +98,7 @@ export const usePricing = (pricings: number[]) => {
   const minusValue = (value: number, from: number, to: number) => {
     if (from > to || from === to || value === 0) return;
 
-    const newState = (myArray || []).map((el, i) => {
+    const newState = (myArray?.map(el=>+el) || []).map((el, i) => {
       if (i + 1 >= from && i + 1 <= to) {
         return el - value < 0 ? 0 : +el - value;
       } else {
@@ -114,7 +107,7 @@ export const usePricing = (pricings: number[]) => {
     });
     setMyArray(newState);
 
-    // Save the new state and update the current state index
+
   
 
     toast.success("Successfully done!", {
@@ -126,14 +119,14 @@ export const usePricing = (pricings: number[]) => {
   const addPercentage = (value: number) => {
     if (value === 0) return;
 
-    const newState = (myArray || []).map((el) =>
+    const newState = (myArray?.map(el=>+el) || []).map((el) =>
       el + (el * value) / 100 < 0
         ? 0
         : parseInt((el + (el * value) / 100).toString())
     );
     setMyArray(newState);
 
-    // Save the new state and update the current state index
+
   
 
     toast.success("Successfully done!", {
@@ -148,7 +141,7 @@ export const usePricing = (pricings: number[]) => {
     );
     setMyArray(newState);
 
-    // Save the new state and update the current state index
+
   
 
     toast.success("Successfully done!", {
@@ -165,7 +158,7 @@ export const usePricing = (pricings: number[]) => {
     const newState = [...(myArray || []), ...Array(rows).fill(value)];
     setMyArray(newState);
 
-    // Save the new state and update the current state index
+
   
 
     toast.success("Successfully done!", {
@@ -177,7 +170,7 @@ export const usePricing = (pricings: number[]) => {
   const addIncrement = (from: number, to: number, value: number) => {
     if (from > to || from === to || !from || !to || !value || value < 0) return;
     let iv = 1;
-    let newArry = myArray;
+    let newArry = myArray?.map(el=>+el);
 
     for (let i = from - 1; i < to; i++) {
       const theValue = iv * value;
@@ -192,8 +185,8 @@ export const usePricing = (pricings: number[]) => {
       iv++;
     }
 
-    const newState = [...(myArray||[])];
-    setMyArray(newState);
+  
+    setMyArray(newArry);
 
   
 

@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/form";
 import { Loader, XIcon } from "lucide-react";
 import Control from "./control";
+import { cn } from "@/lib/utils";
 
 type Props = {
   pricings: number[];
@@ -90,7 +91,7 @@ const PricingForm = ({ pricings }: Props) => {
                             </span>
                             <Input
                          className="border-0 p-0 px-8 outline-none h-8"
-                         min={0}
+                      
                          placeholder="0"
                          value={val || ''}
                          onChange={(e) => {
@@ -120,7 +121,7 @@ const PricingForm = ({ pricings }: Props) => {
           )}
        
         </form>
-        <div className="2xl:sticky top-3  max-w-[500px] w-full separate" >
+        <div className={cn("2xl:sticky top-3  max-w-[500px] w-full separate ")} >
         <Control addValue={addValue} addPercentage={addPercentage} reset={reset} addRows={addRows} addIncrement={addIncrement}    minusValue={minusValue} />
         </div>
        
