@@ -28,9 +28,9 @@ const Ranges = ({availabilitys}: Props) => {
       <Calendar
 
         initialFocus
-        mode="multiple"
+        mode="range"
    showOutsideDays={false}
-modifiersStyles={{disabled:{backgroundColor:'red',color:'white',borderRadius:0}}}
+modifiersStyles={{disabled:{backgroundColor:'red',color:'white',opacity:0.4}}}
         numberOfMonths={12}
         disabled={availabilitys.map((el)=>({from:el.startDate,to:el.endDate}))}
         
