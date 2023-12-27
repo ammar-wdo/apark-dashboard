@@ -9,12 +9,12 @@ export const bookingSchema = z
 
     arrivalDate: z.date(),
 
-    firstName: z.string().min(1),
-    lastName: z.string().min(1),
-    email: z.string().email(),
-    carColor: z.string().min(1),
-    carLicense: z.string().min(1),
-    carModel: z.string().min(1),
+    firstName: z.string().min(1,{message:'First name is required'}),
+    lastName: z.string().min(1,{message:'Last name is required'}),
+    email: z.string().email({message:"E-mail is required"}),
+    carColor: z.string().min(1,{message:'Car color is required'}),
+    carLicense: z.string().min(1,{message:'Car license is required'}),
+    carModel: z.string().min(1,{message:'Car model is required'}),
     serviceId: z.string().min(1),
 
     companyName: z.string().optional(),
@@ -23,7 +23,7 @@ export const bookingSchema = z
 
     departureDate: z.date(),
     discount: z.coerce.number(),
-    flightNumber: z.string().min(3, { message: "this field is mandatory" }),
+    flightNumber: z.string().min(3, { message: "Flight number is required" }),
     isCompany: z.boolean(),
     phoneNumber: z.string().refine((value) => {
       const phoneRegex = /^(?:[0-9]){1,3}(?:[ -]*[0-9]){6,14}$/;
@@ -64,7 +64,7 @@ export const bookingSchema = z
 export const availabilitySchema = z
   .object({
     serviceId: z.string().min(1),
-    label: z.string().min(1),
+    label: z.string().min(1,{message:'Enter a label for this period'}),
     startDate: z.date(),
     endDate: z.date(),
   })
@@ -75,17 +75,17 @@ export const availabilitySchema = z
   );
 
 
-  const emailSchema = z.string().email()
+  const emailSchema = z.string().email({message:"E-mail is required"})
 export const serviceSchema = z.object({
-  name:z.string().min(1),
- terms:z.string().min(1),
+  name:z.string().min(1,{message:'Name is required'}),
+ terms:z.string().min(1,{message:'This field is required'}),
  bookingsEmail:z.union([z.string(), z.undefined()])
  .refine((val) => !val || emailSchema.safeParse(val).success),
- parkingAddress:z.string().min(1),
- parkingZipcode:z.string().min(1),
- parkingCountry:z.string().min(1),
- parkingPlace:z.string().min(1),
- spots:z.coerce.number().positive().default(1),
+ parkingAddress:z.string().min(1,{message:'Parking address is required'}),
+ parkingZipcode:z.string().min(1,{message:'Parking zipcode is required'}),
+ parkingCountry:z.string().min(1,{message:'Parking country is required'}),
+ parkingPlace:z.string().min(1,{message:'Parking place is required'}),
+ spots:z.coerce.number().positive({message:"Negative values are not allowed"}).default(1),
  parkingType:z.enum(['shuttle','valet']).default('valet'),
  arrivalTodos:z.string().optional(),
  departureTodos:z.string().optional(),
@@ -111,7 +111,7 @@ export const serviceSchema = z.object({
 
 export const rulesSchema = z
   .object({
-    label: z.string().min(1),
+    label: z.string().min(1,{message:'Enter a label for this payment rule'}),
     serviceId: z.string().min(1),
     startDate: z.date(),
     endDate: z.date(),
@@ -135,11 +135,11 @@ export const rulesSchema = z
 
 
   export const contactSchema = z.object({
-    firstName: z.string().min(2).max(50),
-    lastname: z.string().min(2).max(50),
-    email: z.string().email(),
+    firstName: z.string().min(2,{message:'First name isrequired'}).max(50),
+    lastname: z.string().min(2,{message:'Last name is required'}).max(50),
+    email: z.string().email({message:"E-mail is required"}),
     subject: z.string().optional(),
-    message:z.string().min(2)
+    message:z.string().min(2,{message:'Message is required'})
   })
 
 
@@ -148,7 +148,7 @@ export const rulesSchema = z
     entityId:z.string().min(1),
     serviceId:z.string().min(1),
     reviewContent:z.string().optional(),
-    rate:z.coerce.number().min(0.5).max(5),
+    rate:z.coerce.number().min(0.5,{message:'Rate i required'}).max(5),
     status:z.enum(["PENDING","ACTIVE"]).default('PENDING'),
     visibility:z.enum(["FIRSTNAME","FULLNAME","ANOUNYMOS"]).default('FULLNAME'),
     
@@ -158,10 +158,10 @@ export const rulesSchema = z
 
     export const extraSchema = z.object({
    
-      label:z.string().min(1),
-      description:z.string().min(1),
-      image:z.string().min(1),
-      price:z.coerce.number().min(1),
+      label:z.string().min(1,{message:'Enter a label for the extra option'}),
+      description:z.string().min(1,{message:'Description is required'}),
+      image:z.string().min(1,{message:'Upload an image'}),
+      price:z.coerce.number().min(1,{message:'price is required'}),
      
       available:z.boolean().default(false)
     })
