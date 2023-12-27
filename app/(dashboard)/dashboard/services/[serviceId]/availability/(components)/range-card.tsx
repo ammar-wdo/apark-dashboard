@@ -30,6 +30,7 @@ const RangeCard = ({ startDate, endDate, label, rangeId }: Props) => {
           setOpen("delete-modal", {
             url: `/api/service/${params.serviceId}/availability/${rangeId}`,
             redirect: `/dashboard/services/${params.serviceId}/availability`,
+            
           })
         }
         type="button"
