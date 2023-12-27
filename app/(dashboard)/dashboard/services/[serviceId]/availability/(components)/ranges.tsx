@@ -30,9 +30,9 @@ const Ranges = ({availabilitys}: Props) => {
         initialFocus
         mode="range"
    showOutsideDays={false}
-modifiersStyles={{disabled:{backgroundColor:'red',color:'white',opacity:0.4}}}
+modifiersStyles={{disabled:{backgroundColor:'red',color:'white',opacity:0.4,borderRadius:0}}}
         numberOfMonths={12}
-        disabled={availabilitys.map((el)=>({from:el.startDate,to:el.endDate}))}
+        disabled={availabilitys.map((el)=>({from:el.startDate,to:el.endDate,}))}
         
       />
 
