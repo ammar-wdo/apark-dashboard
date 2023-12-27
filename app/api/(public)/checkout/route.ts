@@ -30,9 +30,9 @@ export async function POST(req: Request) {
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
     body.departureDate = new Date(body.departureDate);
-    console.log(body);
+
     const { ids, ...rest } = body;
-    console.log(ids);
+
     const validBody = bookingSchema.safeParse(rest);
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
@@ -42,6 +42,8 @@ export async function POST(req: Request) {
       validBody.data.departureDate,
       validBody.data.serviceId
     );
+
+    console.log("total",total)
 
    
     validBody.data.paymentMethod;
@@ -127,11 +129,13 @@ export async function POST(req: Request) {
       options = [];
     }
 
-    console.log(options);
+  
     let additionalPrice = 0;
     if (!!options.length) {
       additionalPrice = options.reduce((result, val) => result + val.price, 0);
     }
+
+    console.log("additional price",additionalPrice)
 
     const arrivalString = validBody.data.arrivalDate.toString();
     const departureString = validBody.data.departureDate.toString();
@@ -175,7 +179,13 @@ export async function POST(req: Request) {
         companyId: true,
       },
     });
-   console.log(booking.total)
+   console.log('final total',booking.total)
+
+
+
+
+
+  //  checkout session
    
     const session = await stripe.checkout.sessions.create({
       payment_intent_data: {

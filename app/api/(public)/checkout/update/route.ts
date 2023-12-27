@@ -123,6 +123,8 @@ export async function POST(req: Request) {
       newDeparture.toString()
     );
 
+
+
     if (totalPrice === 0 || totalPrice === undefined || !totalPrice)
       return NextResponse.json(
         { response: "service is not available" },
@@ -139,6 +141,9 @@ export async function POST(req: Request) {
         parkingDays,
         totalPrice,
       });
+
+      console.log("the booking total",booking.total)
+      console.log("additional price",additionalPrice)
 
     if (additionalDays === 0) {
       const updatedBooking = await prisma.booking.update({
