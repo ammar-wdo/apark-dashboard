@@ -19,7 +19,7 @@ const serivce = await prisma.service.findUnique({
 
     const daysofparking = calculateParkingDays(startDate,endDate)
 
-    const total = findTotalPrice(serivce!,daysofparking,startDate.toString(),endDate.toString())
+    const total = findTotalPrice(serivce!,daysofparking,startDate,endDate)
 
     return {total :total as number, daysofparking}
 }

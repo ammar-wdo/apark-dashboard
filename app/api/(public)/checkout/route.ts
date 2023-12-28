@@ -8,6 +8,7 @@ import { daysAndTotal } from "./(helpers)/days-and-total";
 import { nanoid } from "nanoid";
 import { findValidServices } from "../services/(helpers)/findValidServices";
 import { getClientDates } from "../services/(helpers)/getClientDates";
+import { getFinalDates } from "../services/(helpers)/getFinalDates";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -37,9 +38,20 @@ export async function POST(req: Request) {
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
 
+
+    const arrivalString = validBody.data.arrivalDate.toString();
+    const departureString = validBody.data.departureDate.toString();
+
+    const { adjustedStartDate, adjustedEndDate } = getFinalDates(
+      arrivalString,
+      departureString,
+      validBody.data.arrivalTime,
+      validBody.data.departureTime
+    );
+
     const { total, daysofparking } = await daysAndTotal(
-      validBody.data.arrivalDate,
-      validBody.data.departureDate,
+      adjustedStartDate,
+     adjustedEndDate,
       validBody.data.serviceId
     );
 
@@ -137,22 +149,13 @@ export async function POST(req: Request) {
 
     console.log("additional price",additionalPrice)
 
-    const arrivalString = validBody.data.arrivalDate.toString();
-    const departureString = validBody.data.departureDate.toString();
-
-    const { clientArrivalDate, clientDepartureDate } = getClientDates(
-      arrivalString,
-      departureString,
-      validBody.data.arrivalTime,
-      validBody.data.departureTime
-    );
 
     booking = await prisma.booking.create({
       data: {
         ...validBody.data,
         bookingCode,
-        arrivalDate: clientArrivalDate,
-        departureDate: clientDepartureDate,
+        arrivalDate: adjustedStartDate,
+        departureDate: adjustedEndDate,
         total: (total + additionalPrice)as number,
         daysofparking,
         ...(!!options.length && {
