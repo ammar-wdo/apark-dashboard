@@ -101,7 +101,7 @@ const rules = await prisma.rule.findMany({
 })
 
 
-const isBlocked = findBlockingDates(rules,validBody.data.startDate.toString(),validBody.data.endDate.toString())
+const isBlocked = findBlockingDates(rules,validBody.data.startDate,validBody.data.endDate)
 
 if(!!isBlocked.length)  return NextResponse.json({customError:"can't add rules at the same date ranges"},{status:400})
 
