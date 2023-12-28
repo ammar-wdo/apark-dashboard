@@ -13,6 +13,7 @@ export const findTotalPrice = (
   const rule = rules[0];
 
   if (!rule) {
+    console.log("parking days ",parkingDays)
     totalPrice = service.pricings[parkingDays-1]
    
 

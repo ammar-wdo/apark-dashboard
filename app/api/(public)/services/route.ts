@@ -80,6 +80,9 @@ export async function GET(req: Request) {
       adjustedEndDate
     );
 
+
+
+
     const validServices = findValidServices(
       services,
       startDate,
@@ -88,6 +91,11 @@ export async function GET(req: Request) {
       endTime,
       parkingDays
     );
+
+
+
+
+
 
     const returnedServices = validServices.map((service) => {
       const {
@@ -112,10 +120,13 @@ export async function GET(req: Request) {
       return rest;
     });
 
+
+   
+
     const finalValid = returnedServices.filter(
       (service) => service.available === true && service.totalPrice > 0
     );
-
+    console.log("final valid services",finalValid.length)
     const invalidServices = services.filter((service) => {
       if (finalValid.some((valid) => valid.id === service.id)) return false;
       else return true;

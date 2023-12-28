@@ -39,16 +39,21 @@ export const findValidServices = (
       );
 
       if (!!isBlocked.length) return accumolator;
-      console.log("service")
+      // console.log("service")
 
       const busyPlaces = findBusyPlaces(service.bookings,adjustedStartDate,adjustedEndDate);
       // console.log("busy places",busyPlaces.length)
 
+
       const availabelPlaces = service.spots - busyPlaces.length;
+
       // console.log("available places",availabelPlaces)
 
       if (availabelPlaces > 0) {
         const totalPrice = +findTotalPrice(service, parkingDays,adjustedStartDate,adjustedEndDate);
+    
+
+      
 
      
         accumolator.push({
@@ -67,7 +72,7 @@ export const findValidServices = (
     },
     []
   );
-
+// console.log("valid services",validServices.length)
   return validServices
 };
 
