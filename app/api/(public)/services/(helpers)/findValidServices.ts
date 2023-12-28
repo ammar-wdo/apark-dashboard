@@ -29,6 +29,7 @@ export const findValidServices = (
 ) => {
   const {adjustedStartDate,adjustedEndDate} = getFinalDates(startDate,endDate,startTime,endTime)
 
+
   const validServices = services.reduce(
     (accumolator: ReturnedService[], service) => {
       const isBlocked = findBlockingDates(

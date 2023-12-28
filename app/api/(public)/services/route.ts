@@ -43,7 +43,7 @@ export async function GET(req: Request) {
     return  NextResponse.json({message:"Wrong date range "}, { status: 200 });
 
    
-    console.log("start date object handled",adjustedStartDate,"end date object handled",adjustedEndDate)
+  
 
     if(adjustedStartDate.getTime()>=adjustedEndDate.getTime())       return  NextResponse.json({message:"Wrong date range "}, { status: 200 });
 

@@ -97,8 +97,8 @@ export const GET = async (
       );
 
     const parkingDays = calculateParkingDays(
-      new Date(startDate),
-      new Date(endDate)
+     adjustedStartDate,
+     adjustedEndDate
     );
 
     console.log("parking days",parkingDays)

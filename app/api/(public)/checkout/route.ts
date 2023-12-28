@@ -42,6 +42,8 @@ export async function POST(req: Request) {
     const arrivalString = validBody.data.arrivalDate.toString();
     const departureString = validBody.data.departureDate.toString();
 
+    console.log("arrival string",arrivalString,"departure string",departureString)
+
     const { adjustedStartDate, adjustedEndDate } = getFinalDates(
       arrivalString,
       departureString,
@@ -49,13 +51,21 @@ export async function POST(req: Request) {
       validBody.data.departureTime
     );
 
+    console.log('booking start date',adjustedStartDate)
+    console.log('booking start date hours',adjustedStartDate.getHours())
+    console.log('booking start date minutes',adjustedStartDate.getMinutes())
+    console.log('booking start date seconds',adjustedStartDate.getSeconds())
+    console.log('now date',new Date())
+    console.log('booking iso string',adjustedStartDate.toISOString())
+    console.log('now iso string',new Date().toISOString())
+
     const { total, daysofparking } = await daysAndTotal(
       adjustedStartDate,
      adjustedEndDate,
       validBody.data.serviceId
     );
 
-    console.log("total",total)
+    // console.log("total",total)
 
    
     validBody.data.paymentMethod;
@@ -147,15 +157,15 @@ export async function POST(req: Request) {
       additionalPrice = options.reduce((result, val) => result + val.price, 0);
     }
 
-    console.log("additional price",additionalPrice)
+    // console.log("additional price",additionalPrice)
 
 
     booking = await prisma.booking.create({
       data: {
         ...validBody.data,
         bookingCode,
-        arrivalDate: adjustedStartDate,
-        departureDate: adjustedEndDate,
+        arrivalDate:adjustedStartDate,
+        departureDate:adjustedEndDate,
         total: (total + additionalPrice)as number,
         daysofparking,
         ...(!!options.length && {
@@ -182,7 +192,7 @@ export async function POST(req: Request) {
         companyId: true,
       },
     });
-   console.log('final total',booking.total)
+  //  console.log('final total',booking.total)
 
 
 
@@ -196,6 +206,11 @@ export async function POST(req: Request) {
           id: booking.id,
           bookingCode: booking.bookingCode,
           payed: total,
+          startDate:arrivalString,
+          endDate:departureString,
+          startTime:validBody.data.arrivalTime,
+          endTime:validBody.data.departureTime
+
         },
         capture_method: "automatic",
       },
@@ -226,6 +241,10 @@ export async function POST(req: Request) {
         id: booking.id,
         bookingCode: booking.bookingCode,
         payed: total,
+        startDate:arrivalString,
+        endDate:departureString,
+        startTime:validBody.data.arrivalTime,
+        endTime:validBody.data.departureTime
       },
 
       success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
