@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import NotificationButton from "./notification-button";
+import DateClientSide from "@/components/date-client-side";
 
 type Props = {
   notification: Notification;
@@ -63,9 +64,7 @@ const NotificationComponent = ({ notification }: Props) => {
       {showCheck && (
       <NotificationButton url={url} />
       )}
-      <p className="text-xs text-neutral-500 pt-3 absolute bottom-2 right-3 dark:text-neutral-200">
-        {formattedDate}
-      </p>
+     <DateClientSide theDate={notification.createdAt} />
     </div>
   );
 };
