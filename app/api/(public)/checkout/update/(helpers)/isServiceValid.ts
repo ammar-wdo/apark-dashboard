@@ -1,6 +1,8 @@
 import { Service } from "@prisma/client";
 import { findBlockingDates } from "../../../services/(helpers)/findBlockingDates";
-import { findBusyPlaces } from "./findBusyPlaces";
+
+import { getFinalDates } from "../../../services/(helpers)/getFinalDates";
+import { findBusyPlaces } from "../../../services/(helpers)/findBusyPlaces";
 
 
 
@@ -24,16 +26,18 @@ endTime:string
 ) => {
 
 
+  const {adjustedStartDate,adjustedEndDate} = getFinalDates(startDate,endDate,startTime,endTime)
+
       const isBlocked = findBlockingDates(
         service?.availability,
-        startDate,
-        endDate
+        adjustedStartDate,
+        adjustedEndDate
       );
 
       if (!!isBlocked.length) return false;
       console.log("service")
 
-      const busyPlaces = findBusyPlaces(service.bookings, startDate, endDate,startTime,endTime);
+      const busyPlaces = findBusyPlaces(service.bookings, adjustedStartDate, adjustedEndDate);
       // console.log("busy places",busyPlaces.length)
 
       const availabelPlaces = service.spots - busyPlaces.length;
