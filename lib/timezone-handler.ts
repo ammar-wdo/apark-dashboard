@@ -10,9 +10,11 @@ const timezoneOffsetEnd = endDate.getTimezoneOffset() * 60000; // Convert minute
 const adjustedStartDate = new Date(startDate.getTime() - timezoneOffsetStart);
 const adjustedEndDate = new Date(endDate.getTime() - timezoneOffsetEnd);
 
+console.log(adjustedStartDate,adjustedEndDate)
+
 const startDateString = adjustedStartDate.toISOString().split('T')[0];
 const endDateString = adjustedEndDate.toISOString().split('T')[0];
 
 
-return {startDateString,endDateString}
+return {startDateString,endDateString,adjustedStartDate,adjustedEndDate}
 }

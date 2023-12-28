@@ -6,6 +6,7 @@ import { calculateParkingDays } from "./(helpers)/findParkingDays";
 import { findValidServices } from "./(helpers)/findValidServices";
 import { Key, ParkingLocation, ParkingType } from "@prisma/client";
 import { getClientDates } from "./(helpers)/getClientDates";
+import { handleTimezone } from "@/lib/timezone-handler";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -16,6 +17,9 @@ export async function GET(req: Request) {
   const startTime = searchParams.get("startTime") as string;
   const endTime = searchParams.get("endTime") as string;
 
+  console.log("start date string",startDate)
+  console.log("end date string",endDate)
+
   const serviceType = searchParams.getAll("serviceType") as
     | ParkingType[]
     | undefined;
@@ -25,14 +29,21 @@ export async function GET(req: Request) {
   const carsKey = searchParams.getAll("carsKey") as Key[] | undefined;
   const electric = searchParams.get("electric") as string | undefined;
 
-  console.log("Filters", serviceType, location, carsKey, electric);
+
 
   if (!airport || !startDate || !endDate || !startTime || !endTime)
     return new NextResponse("date and time is required", { status: 400 });
 
     const {clientArrivalDate,clientDepartureDate} = getClientDates(startDate,endDate,startTime,endTime)
+    const {adjustedStartDate,adjustedEndDate} = handleTimezone(clientArrivalDate,clientDepartureDate)
 
-    if(clientArrivalDate.getTime()>=clientDepartureDate.getTime())    return new NextResponse("date range error", { status: 400 });
+    if(adjustedStartDate.getTime() < new Date().getTime())
+    return  NextResponse.json({message:"Wrong date range "}, { status: 200 });
+
+    console.log("start date object",clientArrivalDate,"end date object",clientDepartureDate)
+    console.log("start date object handled",adjustedStartDate,"end date object handled",adjustedEndDate)
+
+    if(adjustedStartDate.getTime()>=adjustedEndDate.getTime())       return  NextResponse.json({message:"Wrong date range "}, { status: 200 });
 
   try {
     const services = await prisma.service.findMany({
@@ -60,7 +71,7 @@ export async function GET(req: Request) {
       },
     });
 
-    console.log(services);
+
 
     const parkingDays = calculateParkingDays(
       new Date(startDate),
@@ -131,7 +142,7 @@ export async function GET(req: Request) {
       return rest;
     })
 
-    console.log("valid", validServices.length);
+  
 
     return NextResponse.json({
       valid: finalValid,
