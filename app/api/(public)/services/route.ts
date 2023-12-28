@@ -7,6 +7,7 @@ import { findValidServices } from "./(helpers)/findValidServices";
 import { Key, ParkingLocation, ParkingType } from "@prisma/client";
 import { getClientDates } from "./(helpers)/getClientDates";
 import { handleTimezone } from "@/lib/timezone-handler";
+import { getFinalDates } from "./(helpers)/getFinalDates";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -34,13 +35,14 @@ export async function GET(req: Request) {
   if (!airport || !startDate || !endDate || !startTime || !endTime)
     return new NextResponse("date and time is required", { status: 400 });
 
-    const {clientArrivalDate,clientDepartureDate} = getClientDates(startDate,endDate,startTime,endTime)
-    const {adjustedStartDate,adjustedEndDate} = handleTimezone(clientArrivalDate,clientDepartureDate)
+
+
+    const {adjustedStartDate,adjustedEndDate} = getFinalDates(startDate,endDate,startTime,endTime)
 
     if(adjustedStartDate.getTime() < new Date().getTime())
     return  NextResponse.json({message:"Wrong date range "}, { status: 200 });
 
-    console.log("start date object",clientArrivalDate,"end date object",clientDepartureDate)
+   
     console.log("start date object handled",adjustedStartDate,"end date object handled",adjustedEndDate)
 
     if(adjustedStartDate.getTime()>=adjustedEndDate.getTime())       return  NextResponse.json({message:"Wrong date range "}, { status: 200 });
@@ -74,8 +76,8 @@ export async function GET(req: Request) {
 
 
     const parkingDays = calculateParkingDays(
-      new Date(startDate),
-      new Date(endDate)
+      adjustedStartDate,
+      adjustedEndDate
     );
 
     const validServices = findValidServices(

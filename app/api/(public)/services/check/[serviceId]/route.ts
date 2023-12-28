@@ -4,6 +4,7 @@ import { calculateParkingDays } from "../../(helpers)/findParkingDays";
 import { isServiceValid } from "../../../checkout/update/(helpers)/isServiceValid";
 import { findTotalPrice } from "../../(helpers)/findTotalPrice";
 import { getClientDates } from "../../(helpers)/getClientDates";
+import { getFinalDates } from "../../(helpers)/getFinalDates";
 
 export const GET = async (
   req: NextRequest,
@@ -36,9 +37,9 @@ export const GET = async (
         { status: 200 }
       );
 
-      const {clientArrivalDate,clientDepartureDate} = getClientDates(startDate,endDate,startTime,endTime)
+      const {adjustedStartDate,adjustedEndDate} = getFinalDates(startDate,endDate,startTime,endTime)
 
-      if(clientArrivalDate.getTime()>= clientDepartureDate.getTime())   return NextResponse.json(
+      if(adjustedStartDate.getTime()>= adjustedEndDate.getTime())   return NextResponse.json(
         { response: "service is not available" },
         { status: 200 }
       );
@@ -104,7 +105,7 @@ export const GET = async (
     console.log(startDate,endDate)
 
     
-    const totalPrice = findTotalPrice(service, parkingDays, startDate, endDate);
+    const totalPrice = findTotalPrice(service, parkingDays, adjustedStartDate, adjustedEndDate);
 
     console.log(totalPrice);
 
@@ -124,8 +125,8 @@ export const GET = async (
       const userTotalPrice = findTotalPrice(
         service,
         userParkingDays,
-        userStart,
-        userEnd
+        adjustedStartDate,
+        adjustedEndDate
       );
 
       const newParkingDays = parkingDays > userParkingDays;

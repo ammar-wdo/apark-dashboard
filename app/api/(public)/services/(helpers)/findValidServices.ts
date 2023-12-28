@@ -2,6 +2,7 @@ import { Availability, Booking, Rule, Service } from "@prisma/client";
 import { findBlockingDates } from "./findBlockingDates";
 import { findBusyPlaces } from "./findBusyPlaces";
 import { findTotalPrice } from "./findTotalPrice";
+import { getFinalDates } from "./getFinalDates";
 
 type FullService = Service & {
   availability: Availability[];
@@ -26,26 +27,27 @@ export const findValidServices = (
   endTime: string,
   parkingDays: number
 ) => {
-  console.log(startDate,endDate)
+  const {adjustedStartDate,adjustedEndDate} = getFinalDates(startDate,endDate,startTime,endTime)
+
   const validServices = services.reduce(
     (accumolator: ReturnedService[], service) => {
       const isBlocked = findBlockingDates(
         service.availability,
-        startDate,
-        endDate
+        adjustedStartDate,
+        adjustedEndDate
       );
 
       if (!!isBlocked.length) return accumolator;
       console.log("service")
 
-      const busyPlaces = findBusyPlaces(service.bookings, startDate, endDate,startTime,endTime);
+      const busyPlaces = findBusyPlaces(service.bookings,adjustedStartDate,adjustedEndDate);
       // console.log("busy places",busyPlaces.length)
 
       const availabelPlaces = service.spots - busyPlaces.length;
       // console.log("available places",availabelPlaces)
 
       if (availabelPlaces > 0) {
-        const totalPrice = +findTotalPrice(service, parkingDays,startDate,endDate);
+        const totalPrice = +findTotalPrice(service, parkingDays,adjustedStartDate,adjustedEndDate);
 
      
         accumolator.push({

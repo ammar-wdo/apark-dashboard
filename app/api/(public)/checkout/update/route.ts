@@ -11,10 +11,12 @@ import { findValidServices } from "../../services/(helpers)/findValidServices";
 import { isAvailable } from "../(helpers)/isAvailable";
 import { isServiceValid } from "./(helpers)/isServiceValid";
 import { calculateParkingDays } from "../../services/(helpers)/findParkingDays";
-import { findTotalPrice } from "./(helpers)/findNewTotal";
+
 import { setLog } from "../../(helpers)/set-log";
 import { getClientDates } from "../../services/(helpers)/getClientDates";
 import { calculateNewUpdate } from "./(helpers)/calculateNewUpdate";
+import { getFinalDates } from "../../services/(helpers)/getFinalDates";
+import { findTotalPrice } from "../../services/(helpers)/findTotalPrice";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -51,15 +53,15 @@ export async function POST(req: Request) {
     const arriveString = validBody.data.arrivalDate.toString();
     const departureString = validBody.data.departureDate.toString();
 
-    const { clientArrivalDate, clientDepartureDate } = getClientDates(
+    const { adjustedStartDate, adjustedEndDate } = getFinalDates(
       arriveString,
       departureString,
       validBody.data.arrivalTime,
       validBody.data.departureTime
     ); //get the time stamp
 
-    const newArrival = new Date(clientArrivalDate); //to reset hours
-    const newDeparture = new Date(clientDepartureDate); //to reset hours
+    const newArrival = new Date(adjustedStartDate); //to reset hours
+    const newDeparture = new Date(adjustedEndDate); //to reset hours
 
     const booking = await prisma.booking.findUnique({
       where: {
@@ -119,8 +121,8 @@ export async function POST(req: Request) {
     const totalPrice = findTotalPrice(
       service,
       parkingDays,
-      newArrival.toString(),
-      newDeparture.toString()
+     adjustedStartDate,
+    adjustedEndDate
     );
 
 
@@ -152,8 +154,8 @@ export async function POST(req: Request) {
         },
         data: {
           ...validBody.data,
-          arrivalDate: clientArrivalDate,
-          departureDate: clientDepartureDate,
+          arrivalDate: adjustedStartDate,
+          departureDate: adjustedEndDate,
           daysofparking: parkingDays,
         },
       });
@@ -184,8 +186,8 @@ export async function POST(req: Request) {
         },
         data: {
           ...validBody.data,
-          arrivalDate: clientArrivalDate,
-          departureDate: clientDepartureDate, //added arrival and departure
+          arrivalDate: adjustedStartDate,
+          departureDate: adjustedEndDate, //added arrival and departure
           paymentStatus: "PENDING",
           total: additionalPrice + booking.total,
           daysofparking: parkingDays,

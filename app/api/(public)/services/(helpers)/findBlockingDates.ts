@@ -2,20 +2,25 @@ import { Availability, Rule } from "@prisma/client";
 
 export const findBlockingDates = (
   entity: any[] ,
-  startDate: string,
-  endDate: string
+  startDate: Date,
+  endDate: Date
 ) => {
 
 
   const result = entity.reduce((accumolator: any[], value) => {
 console.log(value)
+
+
+
+const arrivalDate = value.startDate;
+const departureDate = value.endDate;
     if (
-      (new Date(new Date(startDate)) >= new Date(new Date(value.startDate)) &&
-        new Date(new Date(startDate)) <= new Date(new Date(value.endDate))) ||
-      (new Date(new Date(endDate)) >= new Date(new Date(value.startDate)) &&
-        new Date(new Date(endDate)) <= new Date(new Date(value.endDate))) ||
-      (new Date(new Date(startDate)) < new Date(new Date(value.startDate)) &&
-        new Date(new Date(endDate)) > new Date(new Date(value.endDate)))
+      (startDate >= arrivalDate) &&
+        (startDate <= departureDate) ||
+      (endDate >= arrivalDate) &&
+       (endDate <=departureDate) ||
+      (startDate < arrivalDate) &&
+       (endDate > departureDate)
     ) {
       console.log('block')
       accumolator.push(value);

@@ -4,8 +4,8 @@ import { findBlockingDates } from "./findBlockingDates";
 export const findTotalPrice = (
   service: Service & { rules: Rule[] },
   parkingDays: number,
-  startDate: string,
-  endDate: string
+  startDate: Date,
+  endDate: Date
 ) => {
   let totalPrice;
 
