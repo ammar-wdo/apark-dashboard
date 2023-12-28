@@ -1,6 +1,7 @@
 import { Availability, Booking, Rule, Service } from "@prisma/client";
 import { calculateParkingDays } from "../../../services/(helpers)/findParkingDays";
-import { findTotalPrice } from "./findNewTotal";
+import { findTotalPrice } from "../../../services/(helpers)/findTotalPrice";
+
 
 
 
@@ -17,15 +18,15 @@ export const calculateNewUpdate = ({bookingArrival,bookingDeparture,service,park
 
 
     const userParkingDays = calculateParkingDays(
-        new Date(bookingArrival),
-        new Date(bookingDeparture)
+       bookingArrival,
+        bookingDeparture
       );
   
       const userTotalPrice = findTotalPrice(
         service,
         userParkingDays,
-        bookingArrival.toString(),
-        bookingDeparture.toString()
+        bookingArrival,
+        bookingDeparture
       );
   
       const newParkingDays = parkingDays > userParkingDays;
