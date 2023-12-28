@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Booking, Service } from "@prisma/client";
 
 
+
 const paymentImage: { [key: string]: string } = {
  IDEAL: "/ideal.png",
   CREDIT_CARD: "/cards.png",
@@ -148,7 +149,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format( row.getValue('arrivalDate'),"dd-MM-yyyy - HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format(new Date((row.getValue('arrivalDate')as Date).toLocaleString('en-US',{timeZone:'UTC'})),"dd-MM-yyyy - HH:mm")}</p></div>
   },
   {
     accessorKey: "departureDate",
@@ -163,7 +164,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format(new Date( row.getValue('departureDate')),"dd-MM-yyyy - HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format(new Date((row.getValue('departureDate')as Date).toLocaleString('en-US',{timeZone:'UTC'})),"dd-MM-yyyy - HH:mm")}</p></div>
   },
   {
     accessorKey: "paymentMethod",
