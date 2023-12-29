@@ -51,13 +51,7 @@ export async function POST(req: Request) {
       validBody.data.departureTime
     );
 
-    console.log('booking start date',adjustedStartDate)
-    console.log('booking start date hours',adjustedStartDate.getHours())
-    console.log('booking start date minutes',adjustedStartDate.getMinutes())
-    console.log('booking start date seconds',adjustedStartDate.getSeconds())
-    console.log('now date',new Date())
-    console.log('booking iso string',adjustedStartDate.toISOString())
-    console.log('now iso string',new Date().toISOString())
+   
 
     const { total, daysofparking } = await daysAndTotal(
       adjustedStartDate,

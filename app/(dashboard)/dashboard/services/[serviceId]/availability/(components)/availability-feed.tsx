@@ -10,6 +10,7 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
+import { NLtimezone } from "@/lib/nl-timezone";
 
 type Props = {
   availabilitys: Availability[];
@@ -38,8 +39,8 @@ const AvailabilityFeed = ({ availabilitys }: Props) => {
         
         <RangeCard
           key={availability.id}
-          startDate={new Date(availability.startDate)}
-          endDate={new Date(availability.endDate)}
+          startDate={NLtimezone(availability.startDate)}
+          endDate={NLtimezone(availability.endDate)}
           label={availability?.label}
           rangeId={availability.id}
         />

@@ -7,8 +7,8 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 type Props = {
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   label?: string | null;
   rangeId: string;
 };
@@ -23,8 +23,8 @@ const RangeCard = ({ startDate, endDate, label, rangeId }: Props) => {
 
 <TableRow>
       <TableCell className="font-medium text-center capitalize">{label}</TableCell>
-      <TableCell className="text-center"> {format(startDate, "yyyy - MM - dd")}</TableCell>
-      <TableCell className="text-center">  {format(endDate, "yyyy - MM - dd")}</TableCell>
+      <TableCell className="text-center">{startDate}</TableCell>
+      <TableCell className="text-center"> {endDate}</TableCell>
       <TableCell className=" text-center"><button
         onClick={() =>
           setOpen("delete-modal", {

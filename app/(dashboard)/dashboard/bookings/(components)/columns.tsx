@@ -9,6 +9,7 @@ import Link from "next/link";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Booking, Service } from "@prisma/client";
+import { NLtimezone } from "@/lib/nl-timezone";
 
 
 
@@ -133,7 +134,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           </Button>
         )
       },
-    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format( row.getValue('createdAt'),"dd-MM-yyyy")}</p>-<p className="text-xs">{format( row.getValue('createdAt'),"HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{NLtimezone(row.getValue('createdAt'))}</p></div>
 
   },
   {
@@ -149,7 +150,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format(new Date((row.getValue('arrivalDate')as Date).toLocaleString('en-US',{timeZone:'UTC'})),"dd-MM-yyyy - HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{NLtimezone(row.getValue('arrivalDate'))}</p></div>
   },
   {
     accessorKey: "departureDate",
@@ -164,7 +165,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{format(new Date((row.getValue('departureDate')as Date).toLocaleString('en-US',{timeZone:'UTC'})),"dd-MM-yyyy - HH:mm")}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{NLtimezone(row.getValue('departureDate'))}</p></div>
   },
   {
     accessorKey: "paymentMethod",

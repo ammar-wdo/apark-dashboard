@@ -17,6 +17,7 @@ import LogsFeed from "./(components)/logs-feed";
 import { redirect } from "next/navigation";
 import { JsonArray } from "@prisma/client/runtime/library";
 import { ExraOption } from "@prisma/client";
+import { NLtimezone } from "@/lib/nl-timezone";
 
 
 type Props = {
@@ -35,7 +36,7 @@ const page = async ({ params }: Props) => {
 
   if(!booking) return redirect('/dashboard')
   
-const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.departureDate!,booking?.service.id!)
+const {daysofparking} = await daysAndTotal(booking?.arrivalDate!,booking?.departureDate!,booking?.service.id!)
   return (
     <div className="p-12 separate">
       <h2 className="text-3xl font-semibold ">
@@ -101,7 +102,7 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
             <TableRow>
               <TableCell className="flex items-center justify-between">
                 <p className="font-semibold">Reserve date</p>
-                <p className="capitalize text-muted-foreground">{format(new Date(booking?.createdAt!),"yyyy-MM-dd'  'HH:mm:ss")}</p>
+                <p className="capitalize text-muted-foreground">{NLtimezone(booking.createdAt)}</p>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -116,7 +117,7 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
            
               <TableCell className="flex items-center justify-between">
                 <p className="font-semibold">Arrival date</p>
-                <p className="capitalize text-muted-foreground">{format(new Date(booking?.arrivalDate!),"yyyy-MM-dd")} {booking?.arrivalTime}:00</p>
+                <p className="capitalize text-muted-foreground">{NLtimezone(booking.arrivalDate)}</p>
               </TableCell>
            
             </TableRow>
@@ -124,7 +125,7 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
            
               <TableCell className="flex items-center justify-between">
                 <p className="font-semibold">Departure date</p>
-                <p className="capitalize text-muted-foreground">{format(new Date(booking?.departureDate!),"yyyy-MM-dd")} {booking?.departureTime}:00</p>
+                <p className="capitalize text-muted-foreground">{NLtimezone(booking.departureDate)}</p>
               </TableCell>
            
             </TableRow>
@@ -143,7 +144,7 @@ const {daysofparking,total} = await daysAndTotal(booking?.arrivalDate!,booking?.
         <div className="space-y-2">
         <div className="flex items-center justify-between">
         <p>{daysofparking} day(s) of {booking?.service.parkingType} parking</p>
-        <p>€ { total}</p>
+ 
         </div>
         
         </div>

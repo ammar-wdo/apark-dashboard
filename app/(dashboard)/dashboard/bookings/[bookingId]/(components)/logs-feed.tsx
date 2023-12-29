@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import { HelpCircle } from "lucide-react";
 import ActionToolTip from "@/components/tool-tip";
 import Explane from "./explane";
+import { NLtimezone } from "@/lib/nl-timezone";
 
 type Props = {
   bookingId: string;
@@ -167,13 +168,13 @@ const bookingStatus = [
                 </span>
               </TableCell>
               <TableCell className="text-center">
-                {format(log.createdAt, "dd-MM-yyyy,  HH:mm:ss")}
+                {NLtimezone(log.createdAt)}
               </TableCell>
               <TableCell className="text-center">
-                {format(log.arrivalDate, "dd-MM-yyyy - HH:mm")}
+                {NLtimezone(log.arrivalDate)}
               </TableCell>
               <TableCell className="text-center">
-                {format(log.departureDate, "dd-MM-yyyy - HH:mm")}
+                {NLtimezone(log.departureDate)}
               </TableCell>
               <TableCell className="text-center">€{log.payed}</TableCell>
               <TableCell className="text-center">{log.daysofparking}</TableCell>
