@@ -1,6 +1,7 @@
 "use client";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { useModal } from "@/hooks/use-modal";
+import { NLtimezone } from "@/lib/nl-timezone";
 import { Rule } from "@prisma/client";
 import { format } from "date-fns";
 import { Edit, Trash, XIcon } from "lucide-react";
@@ -21,8 +22,8 @@ const RuleCard = ({ rule}: Props) => {
 
 <TableRow>
       <TableCell className="font-medium text-center capitalize">{rule.label}</TableCell>
-      <TableCell className="text-center"> {format(rule.startDate, "yyyy - MM - dd")}</TableCell>
-      <TableCell className="text-center">  {format(rule.endDate, "yyyy - MM - dd")}</TableCell>
+      <TableCell className="text-center"> {NLtimezone(rule.startDate,'UTC')}</TableCell>
+      <TableCell className="text-center">  {NLtimezone(rule.endDate,'UTC')}</TableCell>
       <TableCell className="text-center"> {rule.type} </TableCell>
   
       <TableCell className="text-center"> {rule.value ? "€"+rule.value : "N/A"} </TableCell>

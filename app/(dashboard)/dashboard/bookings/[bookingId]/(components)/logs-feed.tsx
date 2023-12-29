@@ -171,10 +171,10 @@ const bookingStatus = [
                 {NLtimezone(log.createdAt)}
               </TableCell>
               <TableCell className="text-center">
-                {NLtimezone(log.arrivalDate)}
+                {NLtimezone(log.arrivalDate,'UTC')}
               </TableCell>
               <TableCell className="text-center">
-                {NLtimezone(log.departureDate)}
+                {NLtimezone(log.departureDate,'UTC')}
               </TableCell>
               <TableCell className="text-center">€{log.payed}</TableCell>
               <TableCell className="text-center">{log.daysofparking}</TableCell>
