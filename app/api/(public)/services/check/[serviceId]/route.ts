@@ -6,6 +6,7 @@ import { findTotalPrice } from "../../(helpers)/findTotalPrice";
 import { getClientDates } from "../../(helpers)/getClientDates";
 import { getFinalDates } from "../../(helpers)/getFinalDates";
 
+
 export const GET = async (
   req: NextRequest,
   { params }: { params: { serviceId: string } }
@@ -43,6 +44,39 @@ export const GET = async (
         { response: "service is not available" },
         { status: 200 }
       );
+
+   
+
+      const amesterdam = new Date();
+
+      amesterdam.setHours(amesterdam.getHours() + 1);
+    
+      amesterdam.setMinutes(amesterdam.getMinutes());
+    
+    
+    
+    
+      if (adjustedStartDate.getTime() < amesterdam.getTime()) {
+        console.log('bigger')
+    
+    
+        return NextResponse.json(
+          { response: "service is not available" },
+          { status: 200 }
+        );
+      }
+      
+    
+    
+      if (adjustedStartDate.getTime() >= adjustedEndDate.getTime()) {
+        return NextResponse.json(
+          { response: "Wrong date range " },
+          { status: 200 }
+        );
+      }
+
+
+      
 
     const service = await prisma.service.findUnique({
       where: {

@@ -9,6 +9,7 @@ import { getClientDates } from "./(helpers)/getClientDates";
 import { handleTimezone } from "@/lib/timezone-handler";
 import { getFinalDates } from "./(helpers)/getFinalDates";
 
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
@@ -38,15 +39,35 @@ export async function GET(req: Request) {
 
     const {adjustedStartDate,adjustedEndDate} = getFinalDates(startDate,endDate,startTime,endTime)
 
-    const amesterdam = new Date()
-    amesterdam.setHours(new Date().getHours()+1)
-    amesterdam.setMinutes(new Date().getMinutes())
 
-   
-    console.log('our date',adjustedStartDate,adjustedStartDate.getDate(),adjustedStartDate.getHours())
 
-    if(adjustedStartDate.getTime() < amesterdam.getTime())
-    return  NextResponse.json({message:"Wrong date range "}, { status: 200 });
+  const amesterdam = new Date();
+
+  amesterdam.setHours(amesterdam.getHours() + 1);
+
+  amesterdam.setMinutes(amesterdam.getMinutes());
+
+
+
+
+  if (adjustedStartDate.getTime() < amesterdam.getTime()) {
+    console.log('bigger')
+
+
+    return NextResponse.json(
+      { response: "service is not available" },
+      { status: 200 }
+    );
+  }
+  
+
+
+  if (adjustedStartDate.getTime() >= adjustedEndDate.getTime()) {
+    return NextResponse.json(
+      { response: "Wrong date range " },
+      { status: 200 }
+    );
+  }
 
 
 
@@ -54,7 +75,7 @@ export async function GET(req: Request) {
    
   
 
-    if(adjustedStartDate.getTime()>=adjustedEndDate.getTime())       return  NextResponse.json({message:"Wrong date range "}, { status: 200 });
+   
 
   try {
     const services = await prisma.service.findMany({
