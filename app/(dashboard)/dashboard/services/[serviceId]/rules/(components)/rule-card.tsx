@@ -22,8 +22,8 @@ const RuleCard = ({ rule}: Props) => {
 
 <TableRow>
       <TableCell className="font-medium text-center capitalize">{rule.label}</TableCell>
-      <TableCell className="text-center"> {NLtimezone(rule.startDate,'Europe/Amsterdam')}</TableCell>
-      <TableCell className="text-center">  {NLtimezone(rule.endDate,'Europe/Amsterdam')}</TableCell>
+      <TableCell className="text-center"> {NLtimezone(rule.startDate,'UTC')}</TableCell>
+      <TableCell className="text-center">  {NLtimezone(rule.endDate,'UTC')}</TableCell>
       <TableCell className="text-center"> {rule.type} </TableCell>
   
       <TableCell className="text-center"> {rule.value ? "€"+rule.value : "N/A"} </TableCell>

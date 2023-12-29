@@ -39,8 +39,8 @@ const AvailabilityFeed = ({ availabilitys }: Props) => {
         
         <RangeCard
           key={availability.id}
-          startDate={NLtimezone(availability.startDate,'Europe/Amsterdam')}
-          endDate={NLtimezone(availability.endDate,'Europe/Amsterdam')}
+          startDate={NLtimezone(availability.startDate,'UTC')}
+          endDate={NLtimezone(availability.endDate,'UTC')}
           label={availability?.label}
           rangeId={availability.id}
         />
