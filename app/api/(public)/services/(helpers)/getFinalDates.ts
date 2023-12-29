@@ -14,8 +14,8 @@ export const getFinalDates = (
     endTime
   );
   const { adjustedStartDate, adjustedEndDate } = handleTimezone(
-    new Date(clientArrivalDate.toLocaleString('en-US',{timeZone:'Europe/Amsterdam'})),
-    new Date(clientDepartureDate.toLocaleString('en-US',{timeZone:'Europe/Amsterdam'}))
+    new Date(clientArrivalDate),
+    new Date(clientDepartureDate)
   );
 
   return {
