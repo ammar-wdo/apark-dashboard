@@ -1,6 +1,11 @@
-export const NLtimezone = (date: Date) => {
+
+
+
+
+
+export const NLtimezone = (date: Date,type:'Europe/Amsterdam' | 'UTC' = 'Europe/Amsterdam') => {
   const formattedDate = date.toLocaleString("en-NL", {
-    timeZone: "Europe/Amsterdam",
+    timeZone: type,
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',

@@ -150,7 +150,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{NLtimezone(row.getValue('arrivalDate'))}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{NLtimezone(row.getValue('arrivalDate'),'UTC')}</p></div>
   },
   {
     accessorKey: "departureDate",
@@ -165,7 +165,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{NLtimezone(row.getValue('departureDate'))}</p></div>
+    cell:({row})=><div className="flex items-center gap-1 justify-center"><p className="text-xs ">{NLtimezone(row.getValue('departureDate'),'UTC')}</p></div>
   },
   {
     accessorKey: "paymentMethod",
