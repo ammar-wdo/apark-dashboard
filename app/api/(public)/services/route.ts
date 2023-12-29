@@ -18,8 +18,7 @@ export async function GET(req: Request) {
   const startTime = searchParams.get("startTime") as string;
   const endTime = searchParams.get("endTime") as string;
 
-  console.log("start date string",startDate)
-  console.log("end date string",endDate)
+ 
 
   const serviceType = searchParams.getAll("serviceType") as
     | ParkingType[]
@@ -38,6 +37,8 @@ export async function GET(req: Request) {
 
 
     const {adjustedStartDate,adjustedEndDate} = getFinalDates(startDate,endDate,startTime,endTime)
+    console.log("start date ",adjustedStartDate)
+    console.log("end date ",adjustedEndDate)
 
     if(adjustedStartDate.getTime() < new Date().getTime())
     return  NextResponse.json({message:"Wrong date range "}, { status: 200 });
