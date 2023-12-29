@@ -3,9 +3,9 @@
 
 
 
-export const NLtimezone = (date: Date,type:'Europe/Amsterdam' | 'UTC' = 'Europe/Amsterdam') => {
+export const NLtimezone = (date: Date,type?:'Europe/Amsterdam' | 'UTC' ) => {
   const formattedDate = date.toLocaleString("en-NL", {
-    timeZone: type,
+   ...(type && {timeZone:type}),
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',

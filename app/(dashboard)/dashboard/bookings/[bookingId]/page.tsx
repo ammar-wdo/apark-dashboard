@@ -102,7 +102,7 @@ const {daysofparking} = await daysAndTotal(booking?.arrivalDate!,booking?.depart
             <TableRow>
               <TableCell className="flex items-center justify-between">
                 <p className="font-semibold">Reserve date</p>
-                <p className="capitalize text-muted-foreground">{NLtimezone(booking.createdAt)}</p>
+                <p className="capitalize text-muted-foreground">{NLtimezone(booking.createdAt,'Europe/Amsterdam')}</p>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -117,7 +117,7 @@ const {daysofparking} = await daysAndTotal(booking?.arrivalDate!,booking?.depart
            
               <TableCell className="flex items-center justify-between">
                 <p className="font-semibold">Arrival date</p>
-                <p className="capitalize text-muted-foreground">{NLtimezone(booking.arrivalDate,'UTC')}</p>
+                <p className="capitalize text-muted-foreground">{NLtimezone(booking.arrivalDate,'Europe/Amsterdam')}</p>
               </TableCell>
            
             </TableRow>
@@ -125,7 +125,7 @@ const {daysofparking} = await daysAndTotal(booking?.arrivalDate!,booking?.depart
            
               <TableCell className="flex items-center justify-between">
                 <p className="font-semibold">Departure date</p>
-                <p className="capitalize text-muted-foreground">{NLtimezone(booking.departureDate,'UTC')}</p>
+                <p className="capitalize text-muted-foreground">{NLtimezone(booking.departureDate,'Europe/Amsterdam')}</p>
               </TableCell>
            
             </TableRow>

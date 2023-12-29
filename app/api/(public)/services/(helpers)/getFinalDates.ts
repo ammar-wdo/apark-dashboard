@@ -19,7 +19,7 @@ export const getFinalDates = (
   );
 
   return {
-    adjustedStartDate,
-    adjustedEndDate,
+    adjustedStartDate:clientArrivalDate,
+    adjustedEndDate:clientDepartureDate,
   };
 };

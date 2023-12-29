@@ -2,7 +2,7 @@
 'use client'
 import { NLtimezone } from '@/lib/nl-timezone';
 import { format } from 'date-fns';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 type Props = {
     theDate:Date
@@ -10,11 +10,17 @@ type Props = {
 
 const DateClientSide = ({theDate}: Props) => {
 
-    const formattedDate = format(new Date(theDate), "EEE, MMM/d, HH:mm");
     console.log(theDate)
+
+    const [mount,setMount]=useState(false)
+
+    useEffect(()=>{setMount(true)},[])
+
+    if(!mount) return null
   return (
     <p className="text-xs text-neutral-500 pt-3 absolute bottom-2 right-3 dark:text-neutral-200">
-        {NLtimezone(theDate)}
+       {NLtimezone(theDate,'Europe/Amsterdam')}
+       
       </p>
   )
 }

@@ -37,11 +37,19 @@ export async function GET(req: Request) {
 
 
     const {adjustedStartDate,adjustedEndDate} = getFinalDates(startDate,endDate,startTime,endTime)
-    console.log("start date ",adjustedStartDate)
-    console.log("end date ",adjustedEndDate)
 
-    if(adjustedStartDate.getTime() < new Date().getTime())
+    const amesterdam = new Date()
+    amesterdam.setHours(new Date().getHours()+1)
+    amesterdam.setMinutes(new Date().getMinutes())
+
+   
+    console.log('our date',adjustedStartDate,adjustedStartDate.getDate(),adjustedStartDate.getHours())
+
+    if(adjustedStartDate.getTime() < amesterdam.getTime())
     return  NextResponse.json({message:"Wrong date range "}, { status: 200 });
+
+
+
 
    
   
