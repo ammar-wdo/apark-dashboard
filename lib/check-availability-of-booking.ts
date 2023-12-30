@@ -5,7 +5,7 @@ import { calculateBookingsPerDay } from "./calculate-bookings-per-day";
 
 export const checkBookingAvailability = (bookings: Booking[], startDate: Date, endDate: Date, availableRooms: number): boolean => {
     const bookingsPerDay = calculateBookingsPerDay(bookings, startDate, endDate);
-  console.log(bookingsPerDay)
+
   
     const startDateTime = startDate.getTime();
     const endDateTime = endDate.getTime();
