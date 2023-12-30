@@ -3,6 +3,7 @@ import { findBlockingDates } from "./findBlockingDates";
 import { findBusyPlaces } from "./findBusyPlaces";
 import { findTotalPrice } from "./findTotalPrice";
 import { getFinalDates } from "./getFinalDates";
+import { checkBookingAvailability } from "@/lib/check-availability-of-booking";
 
 type FullService = Service & {
   availability: Availability[];
@@ -44,12 +45,17 @@ export const findValidServices = (
       const busyPlaces = findBusyPlaces(service.bookings,adjustedStartDate,adjustedEndDate);
       // console.log("busy places",busyPlaces.length)
 
+      const canBook = checkBookingAvailability(busyPlaces,adjustedStartDate,adjustedEndDate,service.spots)
 
-      const availabelPlaces = service.spots - busyPlaces.length;
 
-      // console.log("available places",availabelPlaces)
+      // const availabelPlaces = service.spots - busyPlaces.length;
 
-      if (availabelPlaces > 0) {
+      // // console.log("available places",availabelPlaces)
+
+      // if (availabelPlaces > 0) {
+      //   const totalPrice = +findTotalPrice(service, parkingDays,adjustedStartDate,adjustedEndDate);
+      
+      if (canBook) {
         const totalPrice = +findTotalPrice(service, parkingDays,adjustedStartDate,adjustedEndDate);
     
 
