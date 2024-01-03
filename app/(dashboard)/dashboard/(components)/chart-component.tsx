@@ -17,7 +17,7 @@ const ChartComponent = async ({ searchParams,entity}: Props) => {
 
   return (
     <div className="h-full ">
-      <h3 className="pb-10    ">Daily revenue for this month</h3>
+      <h3 className="pb-10    ">Daily  Revenue for this month</h3>
       
       <DailyChart data={chartDate} />
     </div>
