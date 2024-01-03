@@ -62,7 +62,7 @@ export const calculateBookingsPerDay = (bookings:Booking[], arrivalDate:Date, de
   
    
     });
-  
+  console.log(numBookingsPerDay)
     return numBookingsPerDay;
   };
 
