@@ -11,16 +11,34 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { NLtimezone } from "@/lib/nl-timezone";
+import prisma from "@/lib/db";
+import { getCurrentCompany } from "@/lib/helpers";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import Ranges from "./ranges";
 
 type Props = {
-  availabilitys: Availability[];
+  serviceId:string
 };
 
-const AvailabilityFeed = ({ availabilitys }: Props) => {
-  return !availabilitys.length ? (
-    <p>No availability blockings added</p>
-  ) : (
-    <div className="space-y-1 mt-20 separate">
+const AvailabilityFeed = async({ serviceId }: Props) => {
+
+  const currentCompany = await getCurrentCompany();
+  const session = await getServerSession(authOptions);
+  const availabilitys = await prisma.availability.findMany({
+    where: {
+      service: { id: serviceId ,
+        ...(session?.user?.name==='Company' &&{entity:{companyId:currentCompany?.id}} ),
+        ...(session?.user?.name==='Entity' &&{entityId:currentCompany?.id} )
+    },
+    
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return  (
+    <div className=" mt-20 separate">
 
 <Table>
 
@@ -33,6 +51,8 @@ const AvailabilityFeed = ({ availabilitys }: Props) => {
     </TableRow>
   </TableHeader>
   <TableBody>
+
+
  
 
     {availabilitys.map((availability) => (
@@ -49,6 +69,13 @@ const AvailabilityFeed = ({ availabilitys }: Props) => {
 
   </TableBody>
 </Table>
+{  !availabilitys.length && (
+    <p className="font-bold text-center mt-4 text-muted-foreground">No availability blockings added</p>
+  )}
+<h3 className="text-center capitalize text-lg font-bold mt-24 pt-4">
+          Calendar of blocked ranges
+        </h3>
+<Ranges availabilitys={availabilitys} />
 
     </div>
   );
