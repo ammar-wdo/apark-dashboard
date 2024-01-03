@@ -1,3 +1,4 @@
+import DailyChart from "@/app/(dashboard)/dashboard/(components)/boxes/daily-chart";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import Heading from "@/components/heading";
 import { calculateBookingsPerDay } from "@/lib/calculate-bookings-per-day";
@@ -42,6 +43,8 @@ const BookingsRange = async ({ serviceId }: Props) => {
           entityId: currentCompany?.id,
         }),
       },
+      paymentStatus:'SUCCEEDED',
+      bookingStatus:'ACTIVE',
       departureDate: {
         gte: startDate,
       },
@@ -55,23 +58,34 @@ const BookingsRange = async ({ serviceId }: Props) => {
     },
   });
 
-  // const bookingsRange = calculateBookingsPerDay(bookings,startDate,lastDate)
+  const bookingsRange = calculateBookingsPerDay(bookings,startDate,lastDate)
+  let refinedBookings = Object.entries(bookingsRange).map(([key, value]) => {
+    const name = key;
+    const total = value;
+    return {name,total}
+    // You can use `return` instead of `console.log()` if within a function
+  });
+  refinedBookings.sort((a, b) => {
+    const dateA = new Date(a.name);
+    const dateB = new Date(b.name);
+    return dateA.getTime() - dateB.getTime();
+  });
+
+ 
+
+  
+  const currentDate = new Date();
+  const monthName = currentDate.toLocaleString('default', { month: 'long' });
+  
 
   return (
-    <div className="my-12">
-      <Heading title="Bookings list" description="Bookings for this month" />
+    <div className="">
+    
+    <p className="font-semibold">Bookings for {monthName}</p>
       <div className="my-12">
-        {/* {JSON.stringify(bookingsRange)} */}
-        <div className="my-4">
-          {bookings.map((booking) => (
-            <div key={booking.id} className="my-6">
-              <p>{NLtimezone(booking.arrivalDate, "UTC")}</p>
-              <p>{NLtimezone(booking.departureDate, "UTC")}</p>
-            </div>
-          ))}
-        </div>
-        <p>current month {queryMonth}</p>
-        <p>last day of month {lastDayOfMonth}</p>
+       <DailyChart bookingsPerDay={refinedBookings} />
+     
+      
       </div>
     </div>
   );

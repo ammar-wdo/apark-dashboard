@@ -40,8 +40,13 @@ const page = async ({ params }: Props) => {
       
 
       <AvailabilityFeed  serviceId={params.serviceId} />
+      <div className="overflow-x-auto separate mt-12">
+        <div className="min-w-[1400px]">
+        <BookingsRange  serviceId={params.serviceId}/>
+        </div>
+      </div>
     
-      <BookingsRange  serviceId={params.serviceId}/>
+   
     </div>
   );
 };

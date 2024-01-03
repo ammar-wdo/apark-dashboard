@@ -34,8 +34,15 @@ export const calculateBookingsPerDay = (
       // Case 2: Arrival date is different from departure date
 
       const currentDate = new Date(arrivalDate);
+      console.log(currentDate.getDate());
+      console.log(departureDate.getDate());
 
-      while (currentDate.getDate() <= departureDate.getDate()) {
+      while (
+        currentDate.getDate() <= departureDate.getDate() &&
+        currentDate.getMonth() <= departureDate.getMonth() &&
+        currentDate.getFullYear() <= departureDate.getFullYear()
+      ) {
+        console.log(currentDate);
         if (currentDate.getDate() === arrivalDate.getDate()) {
           //Case a: Current day is equal to user arrival day
           if (
