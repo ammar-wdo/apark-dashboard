@@ -21,6 +21,16 @@ const BookingsRange = async ({ serviceId }: Props) => {
   const currentYear = new Date().getFullYear();
   const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
+  const startDate = new Date(currentYear, currentMonth, 1);
+  startDate.setHours(0, 0, 0, 0);
+
+  console.log("start date", startDate.toLocaleString());
+
+  const lastDate = new Date(currentYear, currentMonth, lastDayOfMonth);
+  lastDate.setHours(23, 45, 0, 0);
+
+  console.log("end date", lastDate.toLocaleString());
+
   const bookings = await prisma.booking.findMany({
     where: {
       service: {
@@ -32,28 +42,10 @@ const BookingsRange = async ({ serviceId }: Props) => {
           entityId: currentCompany?.id,
         }),
       },
-      OR: [
-        {
-          arrivalDate: {
-            gte: new Date(currentYear, queryMonth - 1, 1),
-            lt: new Date(currentYear, queryMonth, 1),
-          },
-        },
-        {
-          departureDate: {
-            gt: new Date(currentYear, queryMonth - 1, 1),
-            lte: new Date(currentYear, queryMonth, 1),
-          },
-        },
-        {
-          arrivalDate: {
-            lt: new Date(currentYear, queryMonth - 1, 1),
-          },
-          departureDate: {
-            gt: new Date(currentYear, queryMonth, 1),
-          },
-        },
-      ],
+      departureDate: {
+        gte: startDate,
+      },
+      arrivalDate: { lte: lastDate },
     },
 
     select: {
@@ -62,16 +54,6 @@ const BookingsRange = async ({ serviceId }: Props) => {
       departureDate: true,
     },
   });
-
-  const startDate = new Date(currentYear, currentMonth, 1);
-  startDate.setHours(0, 0, 0, 0);
-
-  console.log("start date", startDate);
-
-  const lastDate = new Date(currentYear, currentMonth, lastDayOfMonth);
-  lastDate.setHours(23, 45, 0, 0);
-
-  console.log("end date", lastDate);
 
   // const bookingsRange = calculateBookingsPerDay(bookings,startDate,lastDate)
 

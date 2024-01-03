@@ -16,7 +16,7 @@ const ExtraCard = ({extraOption}: Props) => {
     const {setOpen} = useModal()
 
   return (
-    <div className='max-w-[375px] w-full text-xs border shadow-md hover:shadow-lg transition flex flex-col separate'>
+    <div className='max-w-[375px] w-full text-xs border transition flex flex-col separate'>
         <div className='relative w-full aspect-video'>
             {extraOption.image ?<Image fill alt='option image'  src={extraOption.image} className='object-contain'/> : <div className='w-full h-full bg-gray-50' />}
         </div>
