@@ -3,6 +3,7 @@ import { findBlockingDates } from "../../../services/(helpers)/findBlockingDates
 
 import { getFinalDates } from "../../../services/(helpers)/getFinalDates";
 import { findBusyPlaces } from "../../../services/(helpers)/findBusyPlaces";
+import { checkBookingAvailability } from "@/lib/check-availability-of-booking";
 
 
 
@@ -35,15 +36,19 @@ endTime:string
       );
 
       if (!!isBlocked.length) return false;
-      console.log("service")
+    
 
       const busyPlaces = findBusyPlaces(service.bookings, adjustedStartDate, adjustedEndDate);
-      // console.log("busy places",busyPlaces.length)
+ 
+
+    
+
+      const canBook = checkBookingAvailability(busyPlaces,adjustedStartDate,adjustedEndDate,service.spots)
 
       const availabelPlaces = service.spots - busyPlaces.length;
-      // console.log("available places",availabelPlaces)
+     
 
-      if (availabelPlaces > 0) {
+      if (canBook) {
 
     return  true
       }else{
