@@ -1,36 +1,69 @@
 import { Booking } from "@prisma/client";
 
-export const calculateBookingsPerDay = (
-  bookings: Booking[],
-  startDate: Date,
-  endDate: Date
-): Record<string, number> => {
-  const bookingsPerDay: Record<string, number> = {};
-  console.log(startDate);
-  console.log(endDate);
-
-  for (
-    let date = new Date(startDate);
-    date <= new Date(endDate);
-    date.setDate(date.getDate() + 1)
-  ) {
-    console.log("start date", date, "hours", date.getHours());
-    const dateString = date.toISOString().split("T")[0];
-
+export const calculateBookingsPerDay = (bookings:Booking[], arrivalDate:Date, departureDate:Date):Record<string,number> => {
+    const numBookingsPerDay:Record<string,number> = {};
+  
     bookings.forEach((booking) => {
-      const { arrivalDate, departureDate } = booking;
+      const bookingStart = booking.arrivalDate.getTime();
+      const bookingEnd = booking.departureDate.getTime();
 
-        if (bookingsPerDay[dateString]) {
-          bookingsPerDay[dateString]++;
-        } else {
-          bookingsPerDay[dateString] = 1;
+     
+  
+      // Case 1: Arrival date is the same as departure date
+
+
+      if (new Date(arrivalDate).setHours(0,0,0,0) === new Date(departureDate).setHours(0,0,0,0)) {
+      
+        if (bookingStart <= departureDate.getTime() && bookingEnd >= arrivalDate.getTime()) {
+          const currentDay = `${arrivalDate.getFullYear()}-${arrivalDate.getMonth()+1}-${arrivalDate.getDate()}`;
+          numBookingsPerDay[currentDay] = (numBookingsPerDay[currentDay] || 0) + 1;
         }
-      }
-    );
-  }
-  console.log(bookingsPerDay);
-  return bookingsPerDay;
-};
+      }else{
+        // Case 2: Arrival date is different from departure date
 
+        const currentDate = new Date(arrivalDate);
+
+        while( currentDate.getDate() <= departureDate.getDate()){
+
+
+
+            if(currentDate.getDate()===arrivalDate.getDate()){
+                //Case a: Current day is equal to user arrival day
+                if (bookingStart <= new Date(currentDate.getTime()).setHours(23,45,0,0)  && bookingEnd >= currentDate.getTime()) {
+                    const currentDay = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}`;
+                    numBookingsPerDay[currentDay] = (numBookingsPerDay[currentDay] || 0) + 1;
+                  }
+
+
+            }else if(currentDate.getDate()===departureDate.getDate()){
+                //Case b: Current day is equal to user departure day
+                if (bookingStart <= departureDate.getTime() && bookingEnd >=new Date( currentDate.getTime()).setHours(0,0,0,0)) {
+                      const currentDay = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}`;
+                    numBookingsPerDay[currentDay] = (numBookingsPerDay[currentDay] || 0) + 1;
+                  }
+            }else{
+                if (bookingStart <= new Date(currentDate.getTime()).setHours(23,45,0,0)&& bookingEnd >=new Date( currentDate.getTime()).setHours(0,0,0,0)) {
+                      const currentDay = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}`;
+                    numBookingsPerDay[currentDay] = (numBookingsPerDay[currentDay] || 0) + 1;
+                  }
+            }
+
+
+            currentDate.setDate(currentDate.getDate() + 1)
+
+        }
+      
+
+
+
+
+
+      }
+  
+   
+    });
+  
+    return numBookingsPerDay;
+  };
 
 //refactor

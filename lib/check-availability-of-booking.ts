@@ -7,16 +7,12 @@ export const checkBookingAvailability = (bookings: Booking[], startDate: Date, e
     const bookingsPerDay = calculateBookingsPerDay(bookings, startDate, endDate);
 
   
-    const startDateTime = startDate.getTime();
-    const endDateTime = endDate.getTime();
-  
-    for (let date = new Date(startDateTime); date <= new Date(endDateTime); date.setDate(date.getDate() + 1)) {
-      const dateString = date.toISOString().split('T')[0];
-  
-      if (bookingsPerDay[dateString] && bookingsPerDay[dateString] >= availableRooms) {
-        return false;
-      }
+   for(const theDate in bookingsPerDay){
+    if(bookingsPerDay[theDate] && bookingsPerDay[theDate] >= availableRooms)
+    {
+        return false
     }
+   }
   
     return true;
   };
