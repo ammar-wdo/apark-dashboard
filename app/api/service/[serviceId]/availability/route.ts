@@ -16,7 +16,7 @@ if(!company) return new NextResponse('Unauthenticated',{status:401})
 
 const body = await req.json()
 console.log(body)
-const refinedBody = {...body,startDate:new Date(body.startDate),endDate:new Date(body.endDate).setHours(23,45,0,0)}
+const refinedBody = {...body,startDate:new Date(body.startDate),endDate:new Date(body.endDate.setHours(23,45,0,0))}
 
 console.log(refinedBody)
 const validBody = availabilitySchema.safeParse(refinedBody)
