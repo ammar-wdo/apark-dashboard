@@ -120,6 +120,7 @@ if(session?.user?.name === "Company"){
               id:ruleId
           },data:{
               ...requiredDate,
+              endDate:new Date(validBody.data.endDate.setHours(23,45,0,0))
               
           }
         },
@@ -139,6 +140,7 @@ if(session?.user?.name === "Company"){
               id:ruleId
           },data:{
               ...requiredDate,
+              endDate:new Date(validBody.data.endDate.setHours(23,45,0,0))
               
           }
         },

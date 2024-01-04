@@ -48,6 +48,7 @@ if(!!isBlocked.length)  return NextResponse.json({customError:"can't add rules a
 await prisma.rule.create({
     data:{
   ...validBody.data,
+  endDate:new Date(validBody.data.endDate.setHours(23,45,0,0))
 
     }
 })
