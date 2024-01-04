@@ -5,6 +5,7 @@ import { calculateBookingsPerDay } from "@/lib/calculate-bookings-per-day";
 import prisma from "@/lib/db";
 import { getCurrentCompany } from "@/lib/helpers";
 import { NLtimezone } from "@/lib/nl-timezone";
+import { processBookingPerDay } from "@/lib/proccess-booking-per-day";
 import { Booking } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import React from "react";
@@ -18,7 +19,7 @@ const BookingsRange = async ({ serviceId }: Props) => {
   const session = await getServerSession(authOptions);
 
   const currentMonth = new Date().getMonth();
-  const queryMonth = currentMonth + 1;
+
   const currentYear = new Date().getFullYear();
   const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
@@ -43,8 +44,8 @@ const BookingsRange = async ({ serviceId }: Props) => {
           entityId: currentCompany?.id,
         }),
       },
-      paymentStatus:'SUCCEEDED',
-      bookingStatus:'ACTIVE',
+      paymentStatus: "SUCCEEDED",
+      bookingStatus: "ACTIVE",
       departureDate: {
         gte: startDate,
       },
@@ -58,34 +59,23 @@ const BookingsRange = async ({ serviceId }: Props) => {
     },
   });
 
-  const bookingsRange = calculateBookingsPerDay(bookings,startDate,lastDate)
-  let refinedBookings = Object.entries(bookingsRange).map(([key, value]) => {
-    const name = key;
-    const total = value;
-    return {name,total}
-    // You can use `return` instead of `console.log()` if within a function
-  });
-  refinedBookings.sort((a, b) => {
-    const dateA = new Date(a.name);
-    const dateB = new Date(b.name);
-    return dateA.getTime() - dateB.getTime();
-  });
+  const bookingsRange = calculateBookingsPerDay(bookings, startDate, lastDate);
 
- 
+  const resultArray = processBookingPerDay(
+    bookingsRange,
+    currentYear,
+    currentMonth,
+    lastDayOfMonth
+  );
 
-  
   const currentDate = new Date();
-  const monthName = currentDate.toLocaleString('default', { month: 'long' });
-  
+  const monthName = currentDate.toLocaleString("default", { month: "long" });
 
   return (
     <div className="">
-    
-    <p className="font-semibold">Bookings for {monthName}</p>
+      <p className="font-semibold">Bookings for {monthName}</p>
       <div className="my-12">
-       <DailyChart bookingsPerDay={refinedBookings} />
-     
-      
+        <DailyChart bookingsPerDay={resultArray} />
       </div>
     </div>
   );

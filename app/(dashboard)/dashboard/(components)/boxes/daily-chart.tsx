@@ -32,7 +32,7 @@ const DailyChart = ({data,bookingsPerDay}: Props) => {
       <Tooltip />
       
    
-      <Bar dataKey="total" fill="#6366F1"  activeBar={<Rectangle fill="gold" stroke="purple" />}  />
+      <Bar dataKey="total" fill="#6366F1"  activeBar={<Rectangle fill="gold" stroke="purple" />}  maxBarSize={35}/>
     </BarChart>
   </ResponsiveContainer>
   )
