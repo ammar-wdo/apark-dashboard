@@ -141,7 +141,7 @@ const loading = form.formState.isSubmitting
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={new Date(field.value.setUTCHours(0, 0, 0, 0))}
+                    selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
                      new Date (date).setHours(0,0,0,0) < new Date().setHours(0,0,0,0)
@@ -185,7 +185,7 @@ const loading = form.formState.isSubmitting
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={new Date(field.value.setUTCHours(0, 0, 0, 0))}
+                    selected={field.value}
                     onSelect={e=>field.onChange(e)}
                     disabled={(date) =>
                        new Date (date).setHours(0,0,0,0) < new Date().setHours(0,0,0,0) || date < form.getValues('startDate')

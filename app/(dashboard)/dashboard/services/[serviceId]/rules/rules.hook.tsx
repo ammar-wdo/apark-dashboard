@@ -26,8 +26,8 @@ export const useRules =()=>{
     const form = useForm<z.infer<typeof rulesSchema>>({
         resolver: zodResolver(rulesSchema),
         defaultValues: {
-          startDate:data.rule ? new Date(data.rule.startDate) : new Date(Date.now()),
-          endDate:data.rule ? new Date(data.rule.endDate) :new Date(Date.now()),
+          startDate:data.rule ? new Date(data.rule.startDate.setUTCHours(0,0,0,0)) : new Date(Date.now()),
+          endDate:data.rule ? new Date(data.rule.endDate.setUTCHours(0,0,0,0)) :new Date(Date.now()),
           label:data.rule?.label || "",
          
           type:data.rule?.type || "FIXED",
