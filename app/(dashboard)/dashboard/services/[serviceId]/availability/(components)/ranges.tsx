@@ -1,6 +1,6 @@
 "use client";
 
-"use client";
+
 
 import { calculateParkingDays } from "@/app/api/(public)/services/(helpers)/findParkingDays";
 import { Calendar } from "@/components/ui/calendar";
@@ -14,6 +14,7 @@ type Props = {
 };
 
 const Ranges = ({ availabilitys }: Props) => {
+  console.log("availability",availabilitys)
   return (
     <div className="p-4 flex  gap-4 flex-wrap mt-2 ">
       <div className="w-full">
@@ -30,10 +31,13 @@ const Ranges = ({ availabilitys }: Props) => {
             },
           }}
           numberOfMonths={12}
-          disabled={availabilitys.map((el) => ({
-            from: el.startDate,
-            to: el.endDate,
-          }))}
+          disabled={availabilitys.map((el) => {
+            const from = new Date(el.startDate);
+            const to = new Date(el.endDate);
+            from.setUTCHours(0, 0, 0, 0);
+            to.setUTCHours(0, 0, 0, 0);
+            return { from, to };
+          })}
         />
       </div>
     </div>

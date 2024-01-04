@@ -26,12 +26,12 @@ const BookingsRange = async ({ serviceId }: Props) => {
   const startDate = new Date(currentYear, currentMonth, 1);
   startDate.setHours(0, 0, 0, 0);
 
-  console.log("start date", startDate.toLocaleString());
+
 
   const lastDate = new Date(currentYear, currentMonth, lastDayOfMonth);
   lastDate.setHours(23, 45, 0, 0);
 
-  console.log("end date", lastDate.toLocaleString());
+
 
   const bookings = await prisma.booking.findMany({
     where: {
