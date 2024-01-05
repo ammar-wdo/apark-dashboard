@@ -138,7 +138,7 @@ export async function POST(req: Request) {
           companyId: entity?.companyId,
           status: "DELETE",
           type: "BOOKING",
-          message: "A booking has been canceled and requiring a refund action",
+          message: "A booking has been canceled and a refund action would be made.",
         },
       });
 
