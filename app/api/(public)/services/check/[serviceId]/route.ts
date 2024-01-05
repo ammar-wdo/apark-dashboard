@@ -41,7 +41,7 @@ export const GET = async (
       const {adjustedStartDate,adjustedEndDate} = getFinalDates(startDate,endDate,startTime,endTime)
 
       if(adjustedStartDate.getTime()>= adjustedEndDate.getTime())   return NextResponse.json(
-        { response: "service is not available" },
+        { response: "Departure date should be greater than arrival date" },
         { status: 200 }
       );
 
@@ -61,19 +61,14 @@ export const GET = async (
     
     
         return NextResponse.json(
-          { response: "service is not available" },
+          { response: `Arrival date should be greater than current date in Netherlands   ${new Date().toLocaleString('en-US',{timeZone:'Europe/Amsterdam'})}` },
           { status: 200 }
         );
       }
       
     
     
-      if (adjustedStartDate.getTime() >= adjustedEndDate.getTime()) {
-        return NextResponse.json(
-          { response: "Wrong date range " },
-          { status: 200 }
-        );
-      }
+   
 
 
       

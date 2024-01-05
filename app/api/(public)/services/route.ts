@@ -55,7 +55,7 @@ export async function GET(req: Request) {
 
 
     return NextResponse.json(
-      { response: "Arrival date should be greater than departure date" },
+      { response: "Departure date should be greater than arrival date" },
       { status: 200 }
     );
   }
