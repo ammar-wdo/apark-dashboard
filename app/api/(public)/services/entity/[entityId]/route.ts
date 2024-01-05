@@ -31,7 +31,8 @@ export async function GET(req:Request,{params}:{params:{entityId:string}}){
         const services = data.map((service)=>{
             let totalReviews = 0
             if(service.reviews.length){
-                totalReviews = service.reviews.reduce((total,val)=>total+val.rate,0)
+              const  totalRate = service.reviews.reduce((total,val)=>total+val.rate,0)
+              totalReviews = totalRate / service.reviews.length
             }
 
             const {reviews,...pureService} = service
