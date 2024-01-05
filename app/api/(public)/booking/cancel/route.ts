@@ -32,9 +32,7 @@ export async function POST(req: Request) {
         email,
         paymentStatus: "SUCCEEDED",
         bookingStatus: "ACTIVE",
-        departureDate: {
-          gte: new Date(new Date().setHours(0,0,0,0)),
-        },
+     
       },
     });
 
@@ -43,6 +41,18 @@ export async function POST(req: Request) {
         { error: "Booking is not valid" },
         { status: 400 }
       );
+
+      const amesterdam = new Date();
+
+      amesterdam.setHours(amesterdam.getHours() + 1);
+    
+      amesterdam.setMinutes(amesterdam.getMinutes());
+  
+        if(booking.arrivalDate <= amesterdam)
+        return NextResponse.json(
+          { customError: "You can no more update your booking because arrival date already passed." },
+          { status: 400 }
+        );
 
     const entity = await prisma.entity.findFirst({
       where: {

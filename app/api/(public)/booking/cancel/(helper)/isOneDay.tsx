@@ -1,8 +1,14 @@
 export const morethanOneDay = (arrivalDate: Date):boolean => {
  
-  const currentTime = new Date();
+  const amesterdam = new Date();
 
-  const timeDifference = arrivalDate.getTime() - currentTime.getTime() ;
+    amesterdam.setHours(amesterdam.getHours() + 1);
+  
+    amesterdam.setMinutes(amesterdam.getMinutes());
+
+    
+
+  const timeDifference = arrivalDate.getTime() - amesterdam.getTime() ;
 
   const timeDifferenceInHours = timeDifference / (1000 * 60 * 60);
 
