@@ -9,6 +9,7 @@ type FullService = Service & {
   availability: Availability[];
   bookings: Booking[];
   rules:Rule[]
+  reviews?:{id:string,rate:number}[]
 };
 
 type ReturnedService = FullService & {
@@ -18,6 +19,7 @@ type ReturnedService = FullService & {
   startTime: string;
   endTime: string;
   parkingDays:number
+  totalReviews?:number
 };
 
 export const findValidServices = (
@@ -57,6 +59,12 @@ export const findValidServices = (
       
       if (canBook) {
         const totalPrice = +findTotalPrice(service, parkingDays,adjustedStartDate,adjustedEndDate);
+
+        let totalReviews = 0
+        if(!!service.reviews?.length){
+          const reviewsTotal = service.reviews.reduce((total,val)=>total + val.rate,0)
+          totalReviews = reviewsTotal/service.reviews.length
+        }
     
 
       
@@ -69,7 +77,8 @@ export const findValidServices = (
           endDate,
           startTime,
           endTime,
-          parkingDays
+          parkingDays,
+          totalReviews
           
         });
       }

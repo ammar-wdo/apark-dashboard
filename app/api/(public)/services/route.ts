@@ -101,6 +101,13 @@ export async function GET(req: Request) {
         },
         availability: true,
         rules: true,
+        reviews:{
+          select:{
+            id:true,
+            rate:true,
+          
+          }
+        }
       },
     });
 
