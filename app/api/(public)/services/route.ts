@@ -55,7 +55,7 @@ export async function GET(req: Request) {
 
 
     return NextResponse.json(
-      { response: "service is not available" },
+      { response: "Arrival date should be greater than departure date" },
       { status: 200 }
     );
   }
@@ -64,7 +64,7 @@ export async function GET(req: Request) {
 
   if (adjustedStartDate.getTime() >= adjustedEndDate.getTime()) {
     return NextResponse.json(
-      { response: "Wrong date range " },
+      { response: `Arrival date should be greater than current date in Netherlands   ${new Date().toLocaleString('en-US',{timeZone:'Europe/Amsterdam'})}` },
       { status: 200 }
     );
   }
