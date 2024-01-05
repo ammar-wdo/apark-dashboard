@@ -69,9 +69,7 @@ export async function POST(req: Request) {
         bookingCode,
         paymentStatus: { in: ["SUCCEEDED"] },
         bookingStatus: "ACTIVE",
-        departureDate: {
-          gte: new Date(),
-        },
+      
       },
     });
 
@@ -82,7 +80,10 @@ export async function POST(req: Request) {
     console.log("new date hours", new Date().getHours());
 
     if (!booking)
-      return new NextResponse("invalid creadentials", { status: 400 });
+      return  NextResponse.json({message:'Invalid credentials'}, { status: 200 });
+
+      if(booking.arrivalDate <= new Date())
+      return  NextResponse.json({message:'You can not update your booking info because arrival date has already passed.'}, { status: 200 });
 
     return NextResponse.json({ booking }, { status: 200 });
   } catch (error) {

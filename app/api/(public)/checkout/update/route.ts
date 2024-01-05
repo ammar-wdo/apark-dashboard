@@ -70,14 +70,23 @@ export async function POST(req: Request) {
         email: validBody.data.email,
 
         bookingCode: bookingCode,
-        departureDate: { gte: new Date(new Date().setHours(0, 0, 0, 0)) },
+       
         paymentStatus: "SUCCEEDED",
         bookingStatus: "ACTIVE",
       },
     });
 
     if (!booking)
-      return new NextResponse("Invalid credintials", { status: 400 });
+    return NextResponse.json(
+      { customError: "Invalid credentials" },
+      { status: 400 }
+    );
+
+      if(booking.arrivalDate <= new Date())
+      return NextResponse.json(
+        { customError: "You can no more update your booking because arrival date already passed." },
+        { status: 400 }
+      );
 
     const service = await prisma.service.findUnique({
       where: {
@@ -112,9 +121,10 @@ export async function POST(req: Request) {
       validBody.data.departureTime
     );
     if (!validService)
-      return new NextResponse("This service is no more available", {
-        status: 400,
-      });
+    return NextResponse.json(
+      { customError: "This service is no more available" },
+      { status: 400 }
+    );
 
     const parkingDays = calculateParkingDays(newArrival, newDeparture);
 
