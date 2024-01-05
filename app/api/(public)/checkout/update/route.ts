@@ -115,7 +115,7 @@ export async function POST(req: Request) {
 
     if (!service)
       return NextResponse.json(
-        { customError: "This service does not exist" },
+        { customError: "This service is not available" },
         { status: 400 }
       );
 
