@@ -20,13 +20,26 @@ const service = await prisma.service.findFirst({
         entity:{slug:entityName,airport:{slug:airportName}}
     },
     include:{
-        entity:{select:{entityName:true,slug:true,airport:{select:{name:true,slug:true}}}}
+        entity:{select:{entityName:true,slug:true,airport:{select:{name:true,slug:true}}}},
+        reviews:{
+            where:{
+                status:'ACTIVE'
+            },select:{
+                id:true,rate:true
+            }
+        }
     }
 })
+let totalReviews = 0
+if(service?.reviews.length){
+
+    const totalRate = service.reviews.reduce((total,val)=>total + val.rate,0)
+    totalReviews = totalRate / service.reviews.length
+}
 
 
 
-return NextResponse.json({service},{status:200})
+return NextResponse.json({service:{...service,totalReviews}},{status:200})
         
     } catch (error) {
         console.log(error)
