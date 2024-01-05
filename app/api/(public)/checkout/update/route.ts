@@ -82,7 +82,13 @@ export async function POST(req: Request) {
       { status: 400 }
     );
 
-      if(booking.arrivalDate <= new Date())
+    const amesterdam = new Date();
+
+    amesterdam.setHours(amesterdam.getHours() + 1);
+  
+    amesterdam.setMinutes(amesterdam.getMinutes());
+
+      if(booking.arrivalDate <= amesterdam)
       return NextResponse.json(
         { customError: "You can no more update your booking because arrival date already passed." },
         { status: 400 }

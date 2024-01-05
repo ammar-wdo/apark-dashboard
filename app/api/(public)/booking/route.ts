@@ -73,16 +73,27 @@ export async function POST(req: Request) {
       },
     });
 
-    console.log("booking departure date string", booking?.departureDate.toLocaleString('en-US',{timeZoneName:'long'}));
-    console.log("booking departure date hours", booking?.departureDate.getHours());
-    console.log("booking departure date ", booking?.departureDate);
-    console.log("new date", new Date());
-    console.log("new date hours", new Date().getHours());
+  
 
     if (!booking)
       return  NextResponse.json({message:'Invalid credentials'}, { status: 200 });
 
-      if(booking.arrivalDate <= new Date())
+      console.log('date',new Date())
+      console.log('booking arrival date',booking.arrivalDate)
+
+      const amesterdam = new Date();
+
+      amesterdam.setHours(amesterdam.getHours() + 1);
+    
+      amesterdam.setMinutes(amesterdam.getMinutes());
+
+      console.log("booking arrival date string", booking?.arrivalDate.toLocaleString('en-US',{timeZoneName:'long'}));
+      console.log("booking arrival date hours", booking?.arrivalDate.getHours());
+      console.log("booking arrival date ", booking?.arrivalDate);
+      console.log("new date",amesterdam);
+      console.log("new date hours",amesterdam.getHours());
+
+      if(booking.arrivalDate <= amesterdam)
       return  NextResponse.json({message:'You can not update your booking info because arrival date has already passed.'}, { status: 200 });
 
     return NextResponse.json({ booking }, { status: 200 });
