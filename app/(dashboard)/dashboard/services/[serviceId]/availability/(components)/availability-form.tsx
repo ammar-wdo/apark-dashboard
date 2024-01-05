@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input'
 
 
 const AvailabilityForm = () => {
-const {form,onSubmit} = useAvailability()
+const {form,onSubmit,startOpen,endOpen,setStartOpen,setEndOpen} = useAvailability()
 
 const loading = form.formState.isSubmitting
 
@@ -28,7 +28,7 @@ const loading = form.formState.isSubmitting
           <FormItem className='flex flex-col gap-4'>
             <FormLabel>Start date</FormLabel>
             <FormControl>
-            <Popover>
+            <Popover  open={startOpen} onOpenChange={setStartOpen}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
@@ -72,7 +72,7 @@ const loading = form.formState.isSubmitting
           <FormItem className='flex flex-col gap-4'>
             <FormLabel>End date</FormLabel>
             <FormControl>
-            <Popover>
+            <Popover open={endOpen} onOpenChange={setEndOpen}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button

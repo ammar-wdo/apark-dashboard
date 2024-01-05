@@ -6,7 +6,7 @@ import { availabilitySchema } from "@/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { useParams, useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -22,6 +22,12 @@ export const useAvailability =()=>{
         form.setValue('serviceId',params.serviceId as string)
     },[])
 
+    const [startOpen, setStartOpen] = useState(false)
+    const [endOpen, setEndOpen] = useState(false)
+
+
+    
+
 const {setClose}= useModal()
     const form = useForm<z.infer<typeof availabilitySchema>>({
         resolver: zodResolver(availabilitySchema),
@@ -31,6 +37,19 @@ const {setClose}= useModal()
           label:""
         },
       })
+
+      useEffect(()=>{
+        if(form.watch('startDate')){
+          setStartOpen(false)
+        }
+            },[form.watch('startDate')])
+        
+        
+            useEffect(()=>{
+              if(form.watch('endDate')){
+                setEndOpen(false)
+              }
+            },[form.watch('endDate')])
 
       const router = useRouter()
 
@@ -61,6 +80,6 @@ const {startDateString,endDateString} = handleTimezone(values.startDate,values.e
 
 
 
-      return {form,onSubmit}
+      return {form,onSubmit,startOpen,endOpen,setStartOpen,setEndOpen}
 
 }

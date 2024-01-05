@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Rule } from "@prisma/client"
 import axios from "axios"
 import { useParams, useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -23,6 +23,10 @@ export const useRules =()=>{
 
   const {data} = useModal()
   const {setClose}= useModal()
+
+
+const [startOpen, setStartOpen] = useState(false)
+const [endOpen, setEndOpen] = useState(false)
     const form = useForm<z.infer<typeof rulesSchema>>({
         resolver: zodResolver(rulesSchema),
         defaultValues: {
@@ -41,6 +45,19 @@ export const useRules =()=>{
     useEffect(()=>{
         form.setValue('serviceId',params.serviceId as string)
     },[])
+
+    useEffect(()=>{
+if(form.watch('startDate')){
+  setStartOpen(false)
+}
+    },[form.watch('startDate')])
+
+
+    useEffect(()=>{
+      if(form.watch('endDate')){
+        setEndOpen(false)
+      }
+    },[form.watch('endDate')])
 
 
     useEffect(()=>{
@@ -88,6 +105,6 @@ res=  await axios.post(`/api/service/${params.serviceId}/rules`,refinedValues)
 
 
 
-      return {form,onSubmit}
+      return {form,onSubmit,startOpen,endOpen,setStartOpen,setEndOpen}
 
 }

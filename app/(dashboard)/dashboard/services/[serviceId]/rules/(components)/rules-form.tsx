@@ -1,7 +1,7 @@
 'use client'
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -21,9 +21,10 @@ type Props = {
 
 
 const RulesForm = () => {
-const {form,onSubmit} = useRules()
+const {form,onSubmit,startOpen,endOpen,setStartOpen,setEndOpen} = useRules()
 
 const loading = form.formState.isSubmitting
+
 
 
   return (
@@ -119,8 +120,8 @@ const loading = form.formState.isSubmitting
           <FormItem className='flex flex-col '>
             <FormLabel>Start date</FormLabel>
             <FormControl>
-            <Popover>
-                <PopoverTrigger asChild>
+            <Popover open={startOpen} onOpenChange={setStartOpen}>
+                <PopoverTrigger asChild >
                   <FormControl>
                     <Button
                       variant={"outline"}
@@ -140,6 +141,7 @@ const loading = form.formState.isSubmitting
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
+
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
@@ -163,7 +165,7 @@ const loading = form.formState.isSubmitting
           <FormItem className='flex flex-col '>
             <FormLabel>End date</FormLabel>
             <FormControl>
-            <Popover>
+            <Popover open={endOpen} onOpenChange={setEndOpen}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
