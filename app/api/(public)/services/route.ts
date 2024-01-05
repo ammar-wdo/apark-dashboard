@@ -102,6 +102,9 @@ export async function GET(req: Request) {
         availability: true,
         rules: true,
         reviews:{
+          where:{
+            status:'ACTIVE'
+          },
           select:{
             id:true,
             rate:true,

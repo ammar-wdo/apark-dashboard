@@ -12,7 +12,7 @@ export async function GET(req:Request,{params}:{params:{entityId:string}}){
         const entityId = params.entityId
         if(!entityId) return NextResponse.json({error:"entity Id is required"},{status:400})
 
-        const services = await prisma.service.findMany({
+        const data = await prisma.service.findMany({
             where:{
                 entityId,
                 isActive:true
@@ -20,7 +20,22 @@ export async function GET(req:Request,{params}:{params:{entityId:string}}){
                 entity:{
                     select:{entityName:true,slug:true,airport:{select:{name:true,slug:true}}}
                   },
+                  reviews:{
+                    where:{
+                        status:'ACTIVE'
+                    },select:{id:true,rate:true}
+                  }
             }
+        })
+
+        const services = data.map((service)=>{
+            let totalReviews = 0
+            if(service.reviews.length){
+                totalReviews = service.reviews.reduce((total,val)=>total+val.rate,0)
+            }
+
+            const {reviews,...pureService} = service
+            return ({...pureService,totalReviews})
         })
 
         return NextResponse.json({services},{status:200})
