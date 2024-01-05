@@ -421,6 +421,9 @@ model FAQ {
   question String
   answer   String
 
+  categoryFaqId String?
+  categoryFaq  CategoryFAQ? @relation(fields: [categoryFaqId],references: [id])
+
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt
 }
@@ -458,6 +461,17 @@ model ExraOption {
   service   Service @relation(fields: [serviceId], references: [id])
 
 
+
+  createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
+
+
+model CategoryFAQ {
+  id  String @id @default(uuid())
+  label String
+
+  faqs  FAQ[]
 
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt
