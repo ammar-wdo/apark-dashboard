@@ -79,6 +79,20 @@ export async function GET(req: Request) {
    
 
   try {
+
+    const airportCheck = await prisma.airport.findUnique({
+      where:{
+        slug:airport
+      }
+    })
+
+console.log('airport check',airportCheck)
+
+    if(!airportCheck) {return NextResponse.json(
+      { response: "Invalid airport slug" },
+      { status: 200 }
+    );}
+
     const services = await prisma.service.findMany({
       where: {
         entity: { airport: { slug: airport } },
