@@ -421,7 +421,7 @@ model FAQ {
   question String
   answer   String
 
-  categoryFaqId String?
+  categoryFaqId String
   categoryFaq  CategoryFAQ? @relation(fields: [categoryFaqId],references: [id])
 
   createdAt DateTime @default(now())

@@ -1,13 +1,19 @@
 import prisma from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const revalidate = 0
 
-export const GET = async (Req:Request) =>{
+export const GET = async (req:NextRequest) =>{
 
     try {
+        const searchParams = req.nextUrl.searchParams
+        const category = searchParams.get('category')
 
         const faqs = await prisma.fAQ.findMany({
+            where:{
+                ...(category && {categoryFaq:{label:category}})
+            },
+
             orderBy:{
                 createdAt:'desc'
             }
