@@ -14,9 +14,7 @@ export const GET = async (req:NextRequest) =>{
                 ...(category && {categoryFaq:{label:category}})
             },
 
-            orderBy:{
-                createdAt:'desc'
-            }
+           
         })
 
         console.log(faqs)
