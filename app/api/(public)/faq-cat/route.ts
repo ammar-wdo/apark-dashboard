@@ -11,7 +11,7 @@ export const GET = async (req:Request) =>{
 
 
         const faqCat = await prisma.categoryFAQ.findMany({
-            orderBy:{createdAt:'desc'}
+       
         })
 
 
