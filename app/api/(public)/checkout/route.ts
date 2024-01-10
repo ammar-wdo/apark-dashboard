@@ -38,11 +38,15 @@ export async function POST(req: Request) {
     if (!validBody.success)
       return NextResponse.json(validBody.error, { status: 400 });
 
-
     const arrivalString = validBody.data.arrivalDate.toString();
     const departureString = validBody.data.departureDate.toString();
 
-    console.log("arrival string",arrivalString,"departure string",departureString)
+    console.log(
+      "arrival string",
+      arrivalString,
+      "departure string",
+      departureString
+    );
 
     const { adjustedStartDate, adjustedEndDate } = getFinalDates(
       arrivalString,
@@ -51,17 +55,14 @@ export async function POST(req: Request) {
       validBody.data.departureTime
     );
 
-   
-
     const { total, daysofparking } = await daysAndTotal(
       adjustedStartDate,
-     adjustedEndDate,
+      adjustedEndDate,
       validBody.data.serviceId
     );
 
     // console.log("total",total)
 
-   
     validBody.data.paymentMethod;
     const service = await prisma.service.findUnique({
       where: {
@@ -145,7 +146,6 @@ export async function POST(req: Request) {
       options = [];
     }
 
-  
     let additionalPrice = 0;
     if (!!options.length) {
       additionalPrice = options.reduce((result, val) => result + val.price, 0);
@@ -153,14 +153,13 @@ export async function POST(req: Request) {
 
     // console.log("additional price",additionalPrice)
 
-
     booking = await prisma.booking.create({
       data: {
         ...validBody.data,
         bookingCode,
-        arrivalDate:adjustedStartDate,
-        departureDate:adjustedEndDate,
-        total: (total + additionalPrice)as number,
+        arrivalDate: adjustedStartDate,
+        departureDate: adjustedEndDate,
+        total: (total + additionalPrice) as number,
         daysofparking,
         ...(!!options.length && {
           extraOptions: options.map((el: ExraOption) => ({
@@ -186,25 +185,29 @@ export async function POST(req: Request) {
         companyId: true,
       },
     });
-  //  console.log('final total',booking.total)
+    //  console.log('final total',booking.total)
 
+    //  checkout session
 
-
-
-
-  //  checkout session
-   
     const session = await stripe.checkout.sessions.create({
       payment_intent_data: {
         metadata: {
           id: booking.id,
           bookingCode: booking.bookingCode,
           payed: total,
-          startDate:arrivalString,
-          endDate:departureString,
-          startTime:validBody.data.arrivalTime,
-          endTime:validBody.data.departureTime
-
+          startDate: arrivalString,
+          endDate: departureString,
+          startTime: validBody.data.arrivalTime,
+          endTime: validBody.data.departureTime,
+          service: service.name,
+          arrivalString: `${booking.arrivalDate.getDate()}-${
+            booking.arrivalDate.getMonth() + 1
+          }-${booking.arrivalDate.getFullYear()} ${validBody.data.arrivalTime}`,
+          departureString: `${booking.departureDate.getDate()}-${
+            booking.departureDate.getMonth() + 1
+          }-${booking.departureDate.getFullYear()} ${
+            validBody.data.departureTime
+          }`,
         },
         capture_method: "automatic",
       },
@@ -235,10 +238,19 @@ export async function POST(req: Request) {
         id: booking.id,
         bookingCode: booking.bookingCode,
         payed: total,
-        startDate:arrivalString,
-        endDate:departureString,
-        startTime:validBody.data.arrivalTime,
-        endTime:validBody.data.departureTime
+        startDate: arrivalString,
+        endDate: departureString,
+        startTime: validBody.data.arrivalTime,
+        endTime: validBody.data.departureTime,
+        service: service.name,
+        arrivalString: `${booking.arrivalDate.getDate()}-${
+          booking.arrivalDate.getMonth() + 1
+        }-${booking.arrivalDate.getFullYear()} ${validBody.data.arrivalTime}`,
+        departureString: `${booking.departureDate.getDate()}-${
+          booking.departureDate.getMonth() + 1
+        }-${booking.departureDate.getFullYear()} ${
+          validBody.data.departureTime
+        }`,
       },
 
       success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
