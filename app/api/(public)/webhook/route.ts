@@ -14,8 +14,10 @@ export async function POST(req: Request) {
   console.log('body',body)
   const signature = headers().get("Stripe-Signature") as string;
   console.log('signature',signature)
+  console.log('secret key',process.env.STRIPE_WEBHOOK_SECRET)
 
   let event: Stripe.Event;
+
 
 
 
