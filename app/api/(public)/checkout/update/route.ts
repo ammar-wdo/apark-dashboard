@@ -194,7 +194,7 @@ export async function POST(req: Request) {
         { status: 201 }
       );
     } else if (additionalDays > 0) {
-      
+
       const myPayment = methods[booking.paymentMethod];
 
       const updatedBooking = await prisma.booking.update({
@@ -212,6 +212,7 @@ export async function POST(req: Request) {
       });
 
       const session = await stripe.checkout.sessions.create({
+        customer_email:booking.email,
         payment_intent_data: {
           metadata: {
             id: booking.id,
