@@ -11,10 +11,10 @@ export async function POST(req: Request) {
 
   console.log('webhook')
   const body = await req.text();
-  console.log('body',body)
+  
+
   const signature = headers().get("Stripe-Signature") as string;
-  console.log('signature',signature)
-  console.log('secret key',process.env.STRIPE_WEBHOOK_SECRET)
+
 
   let event: Stripe.Event;
 
@@ -28,8 +28,7 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
 
-    console.log('event',event)
-    console.log('secret key',process.env.STRIPE_WEBHOOK_SECRET)
+
   } catch (error: any) {
     console.log(error)
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
