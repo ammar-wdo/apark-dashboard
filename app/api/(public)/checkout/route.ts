@@ -194,6 +194,7 @@ export async function POST(req: Request) {
         metadata: {
           id: booking.id,
           bookingCode: booking.bookingCode,
+
           payed: total,
           startDate: arrivalString,
           endDate: departureString,
@@ -208,6 +209,8 @@ export async function POST(req: Request) {
           }-${booking.departureDate.getFullYear()} ${
             validBody.data.departureTime
           }`,
+          firstName: booking.firstName,
+          lastName: booking.lastName,
         },
         capture_method: "automatic",
       },
@@ -237,6 +240,7 @@ export async function POST(req: Request) {
       metadata: {
         id: booking.id,
         bookingCode: booking.bookingCode,
+
         payed: total,
         startDate: arrivalString,
         endDate: departureString,
@@ -251,6 +255,8 @@ export async function POST(req: Request) {
         }-${booking.departureDate.getFullYear()} ${
           validBody.data.departureTime
         }`,
+        firstName: booking.firstName,
+        lastName: booking.lastName,
       },
 
       success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
