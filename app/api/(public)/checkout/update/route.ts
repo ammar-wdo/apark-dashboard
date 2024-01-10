@@ -221,6 +221,17 @@ export async function POST(req: Request) {
             departureDate: booking.departureDate.toString(),
             total: booking.total,
             daysofparking: booking.daysofparking,
+            service: service.name,
+            arrivalString: `${booking.arrivalDate.getDate()}-${
+              booking.arrivalDate.getMonth() + 1
+            }-${booking.arrivalDate.getFullYear()} ${validBody.data.arrivalTime}`,
+            departureString: `${booking.departureDate.getDate()}-${
+              booking.departureDate.getMonth() + 1
+            }-${booking.departureDate.getFullYear()} ${
+              validBody.data.departureTime
+            }`,
+            firstName: booking.firstName,
+            lastName: booking.lastName,
           },
           capture_method: "automatic",
         },
@@ -250,6 +261,17 @@ export async function POST(req: Request) {
           payed: additionalPrice,
           total: booking.total,
           daysofparking: booking.daysofparking,
+          service: service.name,
+          arrivalString: `${booking.arrivalDate.getDate()}-${
+            booking.arrivalDate.getMonth() + 1
+          }-${booking.arrivalDate.getFullYear()} ${validBody.data.arrivalTime}`,
+          departureString: `${booking.departureDate.getDate()}-${
+            booking.departureDate.getMonth() + 1
+          }-${booking.departureDate.getFullYear()} ${
+            validBody.data.departureTime
+          }`,
+          firstName: booking.firstName,
+          lastName: booking.lastName,
         },
 
         success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
