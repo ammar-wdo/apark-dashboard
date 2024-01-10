@@ -8,10 +8,14 @@ import { sendMail } from "./(helpers)/send-email";
 import { setLog } from "../(helpers)/set-log";
 
 export async function POST(req: Request) {
+
+  console.log('webhook')
   const body = await req.text();
   const signature = headers().get("Stripe-Signature") as string;
 
   let event: Stripe.Event;
+
+
 
   try {
     event = stripe.webhooks.constructEvent(
