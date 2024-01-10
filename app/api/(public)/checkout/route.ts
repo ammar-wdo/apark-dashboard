@@ -216,7 +216,7 @@ export async function POST(req: Request) {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: "eur",
             product_data: {
               name: service.name,
               description: `Booking for ${daysofparking} day(s) parking ${
