@@ -11,7 +11,9 @@ export async function POST(req: Request) {
 
   console.log('webhook')
   const body = await req.text();
+  console.log('body',body)
   const signature = headers().get("Stripe-Signature") as string;
+  console.log('signature',signature)
 
   let event: Stripe.Event;
 
@@ -23,6 +25,8 @@ export async function POST(req: Request) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
+
+    console.log('event',event)
   } catch (error: any) {
     console.log(error)
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
