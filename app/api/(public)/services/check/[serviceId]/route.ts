@@ -183,6 +183,7 @@ console.log("additional price",additionalPrice)
           totalPrice: totalPrice,
           parkingDays: parkingDays,
           startDate: startDate,
+          parkingType:theService.parkingType,
           endDate: endDate,
           startTime: startTime,
           endTime: endTime,
