@@ -175,6 +175,7 @@ model Entity {
   invoiceCountry String
 
   images  String[] @default([])
+  logo    String @default("")
   content String   @default("")
 
   vatNO String?
@@ -278,7 +279,7 @@ model Service {
   facilities String[] @default([])
   highlights Json[]   @default([])
 
-  logo   String?
+
   images String[] @default([])
 
   parkingType ParkingType @default(shuttle)
