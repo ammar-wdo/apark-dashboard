@@ -82,27 +82,27 @@ export async function POST(req: Request) {
             });
 
             await Promise.all([log, notification]);
-            try {
-              await sendMail(
-                "booking payed",
-                `your email ${order.email}, your bookingCode ${order.bookingCode}`,
-                "ammar@wdodigital.com",
-                "Ammar"
-              );
-            } catch (error) {
-              console.log(error);
-              await prisma.notification.create({
-                data: {
-                  IdHolder: order.id,
-                  entityId: order.service.entityId,
-                  companyId: order.service.entity.companyId,
-                  status: "DELETE",
-                  type: "BOOKING",
-                  message:
-                    "An error happened, the approvment email was not sent to customer.should be sent manually ",
-                },
-              });
-            }
+            // try {
+            //   await sendMail(
+            //     "booking payed",
+            //     `your email ${order.email}, your bookingCode ${order.bookingCode}`,
+            //     "ammar@wdodigital.com",
+            //     "Ammar"
+            //   );
+            // } catch (error) {
+            //   console.log(error);
+            //   await prisma.notification.create({
+            //     data: {
+            //       IdHolder: order.id,
+            //       entityId: order.service.entityId,
+            //       companyId: order.service.entity.companyId,
+            //       status: "DELETE",
+            //       type: "BOOKING",
+            //       message:
+            //         "An error happened, the approvment email was not sent to customer.should be sent manually ",
+            //     },
+            //   });
+            // }
           }
         } catch (error) {
           console.log(error);
@@ -250,7 +250,7 @@ export async function POST(req: Request) {
               status: "APPROVE",
               type: "BOOKING",
               message:
-                "A booking status has failed to extend parking days and  been reverted to its previous parking date and succeeded status",
+                "A booking  has failed to extend new parking days and  been reverted to its previous parking date and succeeded status",
             },
           });
 

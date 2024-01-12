@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { morethanOneDay } from "./(helper)/isOneDay";
 import { setLog } from "../../(helpers)/set-log";
 import { sendMail } from "../../webhook/(helpers)/send-email";
+import { sendEmail } from "./(helper)/send-email";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -33,7 +34,9 @@ export async function POST(req: Request) {
         paymentStatus: "SUCCEEDED",
         bookingStatus: "ACTIVE",
      
-      },
+      },include:{
+        service:{select:{name:true}}
+      }
     });
 
     if (!booking)
@@ -106,7 +109,7 @@ export async function POST(req: Request) {
       });
 
       await Promise.all([newLog, notification]);
-      await sendMail('booking canceled','your booking is successfully canceled',"ammar@wdodigital.com","Ammar")
+      await sendEmail(booking,'no-refund',booking.service.name)
     } else {
 
     const updatedBooking =  await prisma.booking.update({
@@ -143,7 +146,7 @@ export async function POST(req: Request) {
       });
 
       await Promise.all([newLog, notification]);
-      await sendMail('booking canceled','your booking is successfully canceled and you will be refunded',"ammar@wdodigital.com","Ammar")
+      await sendEmail(booking,'refund',booking.service.name)
     }
 
    

@@ -17,6 +17,7 @@ import { getClientDates } from "../../services/(helpers)/getClientDates";
 import { calculateNewUpdate } from "./(helpers)/calculateNewUpdate";
 import { getFinalDates } from "../../services/(helpers)/getFinalDates";
 import { findTotalPrice } from "../../services/(helpers)/findTotalPrice";
+import { sendEmail } from "../../booking/cancel/(helper)/send-email";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -184,6 +185,7 @@ export async function POST(req: Request) {
         updatedBooking
       );
       await prisma.log.create({ data: { ...values } });
+      await sendEmail(booking,'update',service.name)
 
       return NextResponse.json(
         {
