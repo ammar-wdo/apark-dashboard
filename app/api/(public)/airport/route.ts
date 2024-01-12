@@ -10,7 +10,7 @@ export async function GET(req:Request){
     try {
         
         const airports = await prisma.airport.findMany({select:{id:true,name:true,images:true,slug:true}
-        ,orderBy:{updatedAt:'desc'}})
+        ,orderBy:{createdAt:'asc'}})
 console.log(airports.length)
         return NextResponse.json({airports},{status:200})
 
