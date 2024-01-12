@@ -9,6 +9,7 @@ import { nanoid } from "nanoid";
 import { findValidServices } from "../services/(helpers)/findValidServices";
 import { getClientDates } from "../services/(helpers)/getClientDates";
 import { getFinalDates } from "../services/(helpers)/getFinalDates";
+import { generateUniquePattern } from "./(helpers)/generateId";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -110,7 +111,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-    let bookingCode = nanoid(9);
+    let bookingCode = generateUniquePattern();
     let existingBooking = await prisma.booking.findFirst({
       where: {
         bookingCode: bookingCode,
@@ -119,7 +120,7 @@ export async function POST(req: Request) {
     });
 
     while (existingBooking) {
-      bookingCode = nanoid(9);
+      bookingCode = generateUniquePattern();
       existingBooking = await prisma.booking.findFirst({
         where: {
           bookingCode: bookingCode,
