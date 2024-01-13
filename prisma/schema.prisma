@@ -55,7 +55,6 @@ model Booking {
   email                 String
   firstName             String
   lastName              String
-  discount              Float?
   flightNumber          String?
   isCompany             Boolean       @default(false)
   parkingPrice          Float
@@ -77,8 +76,9 @@ model Booking {
   serviceId             String
   service               Service       @relation(fields: [serviceId], references: [id])
   logs                  Log[]
-extraOptions            Json[]
+  extraOptions          Json[]
   reivew                Review?
+  discount              Json?
 }
 
 enum Attempt {
