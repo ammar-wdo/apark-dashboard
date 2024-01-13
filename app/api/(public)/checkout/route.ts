@@ -11,6 +11,7 @@ import { getClientDates } from "../services/(helpers)/getClientDates";
 import { getFinalDates } from "../services/(helpers)/getFinalDates";
 import { generateUniquePattern } from "./(helpers)/generateId";
 import { checkOptions } from "./(helpers)/check-options";
+import { generateBookingCode } from "./(helpers)/generateBookingCode";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -29,7 +30,11 @@ export async function OPTIONS() {
 
 export async function POST(req: Request) {
   let booking;
+
+
   try {
+
+
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
     body.departureDate = new Date(body.departureDate);
@@ -43,12 +48,7 @@ export async function POST(req: Request) {
     const arrivalString = validBody.data.arrivalDate.toString();
     const departureString = validBody.data.departureDate.toString();
 
-    console.log(
-      "arrival string",
-      arrivalString,
-      "departure string",
-      departureString
-    );
+ 
 
     const { adjustedStartDate, adjustedEndDate } = getFinalDates(
       arrivalString,
@@ -63,9 +63,7 @@ export async function POST(req: Request) {
       validBody.data.serviceId
     );
 
-    // console.log("total",total)
-
-    validBody.data.paymentMethod;
+  
     const service = await prisma.service.findUnique({
       where: {
         id: validBody.data.serviceId,
@@ -112,50 +110,28 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-    let bookingCode = generateUniquePattern();
-    let existingBooking = await prisma.booking.findFirst({
-      where: {
-        bookingCode: bookingCode,
-      },
-      select: { bookingCode: true },
-    });
+    // let bookingCode = generateUniquePattern();
+    // let existingBooking = await prisma.booking.findFirst({
+    //   where: {
+    //     bookingCode: bookingCode,
+    //   },
+    //   select: { bookingCode: true },
+    // });
 
-    while (existingBooking) {
-      bookingCode = generateUniquePattern();
-      existingBooking = await prisma.booking.findFirst({
-        where: {
-          bookingCode: bookingCode,
-        },
-        select: { bookingCode: true },
-      });
-    }
+    // while (existingBooking) {
+    //   bookingCode = generateUniquePattern();
+    //   existingBooking = await prisma.booking.findFirst({
+    //     where: {
+    //       bookingCode: bookingCode,
+    //     },
+    //     select: { bookingCode: true },
+    //   });
+    // }
+    const bookingCode =  await  generateBookingCode()
 
     const {additionalPrice,options} = await checkOptions(ids,service.id)
 
-    // let options: ExraOption[] | any[];
-    // if (ids && ids.length) {
-    //   options = await prisma.exraOption.findMany({
-    //     where: {
-    //       serviceId: service.id,
-    //       id: { in: ids as string[] },
-    //     },
-    //     select: {
-    //       label: true,
-    //       id: true,
-    //       price: true,
-    //       commession: true,
-    //     },
-    //   });
-    // } else {
-    //   options = [];
-    // }
-
-    // let additionalPrice = 0;
-    // if (!!options.length) {
-    //   additionalPrice = options.reduce((result, val) => result + val.price, 0);
-    // }
-
-    // console.log("additional price",additionalPrice)
+    
 
     booking = await prisma.booking.create({
       data: {
@@ -178,18 +154,8 @@ export async function POST(req: Request) {
 
     const myPayment = methods[booking.paymentMethod];
 
-    const entity = await prisma.entity.findFirst({
-      where: {
-        services: {
-          some: { id: service.id },
-        },
-      },
-      select: {
-        id: true,
-        companyId: true,
-      },
-    });
-    //  console.log('final total',booking.total)
+   
+   
 
     //  checkout session
 
