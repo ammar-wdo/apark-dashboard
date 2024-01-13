@@ -10,6 +10,7 @@ import { findValidServices } from "../services/(helpers)/findValidServices";
 import { getClientDates } from "../services/(helpers)/getClientDates";
 import { getFinalDates } from "../services/(helpers)/getFinalDates";
 import { generateUniquePattern } from "./(helpers)/generateId";
+import { checkOptions } from "./(helpers)/check-options";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -129,28 +130,30 @@ export async function POST(req: Request) {
       });
     }
 
-    let options: ExraOption[] | any[];
-    if (ids && ids.length) {
-      options = await prisma.exraOption.findMany({
-        where: {
-          serviceId: service.id,
-          id: { in: ids as string[] },
-        },
-        select: {
-          label: true,
-          id: true,
-          price: true,
-          commession: true,
-        },
-      });
-    } else {
-      options = [];
-    }
+    const {additionalPrice,options} = await checkOptions(ids,service.id)
 
-    let additionalPrice = 0;
-    if (!!options.length) {
-      additionalPrice = options.reduce((result, val) => result + val.price, 0);
-    }
+    // let options: ExraOption[] | any[];
+    // if (ids && ids.length) {
+    //   options = await prisma.exraOption.findMany({
+    //     where: {
+    //       serviceId: service.id,
+    //       id: { in: ids as string[] },
+    //     },
+    //     select: {
+    //       label: true,
+    //       id: true,
+    //       price: true,
+    //       commession: true,
+    //     },
+    //   });
+    // } else {
+    //   options = [];
+    // }
+
+    // let additionalPrice = 0;
+    // if (!!options.length) {
+    //   additionalPrice = options.reduce((result, val) => result + val.price, 0);
+    // }
 
     // console.log("additional price",additionalPrice)
 
