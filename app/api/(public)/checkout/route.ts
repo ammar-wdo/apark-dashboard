@@ -12,6 +12,7 @@ import { getFinalDates } from "../services/(helpers)/getFinalDates";
 import { generateUniquePattern } from "./(helpers)/generateId";
 import { checkOptions } from "./(helpers)/check-options";
 import { generateBookingCode } from "./(helpers)/generateBookingCode";
+import { stripeCheckout } from "./(helpers)/stripe-checkout";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -31,10 +32,7 @@ export async function OPTIONS() {
 export async function POST(req: Request) {
   let booking;
 
-
   try {
-
-
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
     body.departureDate = new Date(body.departureDate);
@@ -47,8 +45,6 @@ export async function POST(req: Request) {
 
     const arrivalString = validBody.data.arrivalDate.toString();
     const departureString = validBody.data.departureDate.toString();
-
- 
 
     const { adjustedStartDate, adjustedEndDate } = getFinalDates(
       arrivalString,
@@ -63,7 +59,6 @@ export async function POST(req: Request) {
       validBody.data.serviceId
     );
 
-  
     const service = await prisma.service.findUnique({
       where: {
         id: validBody.data.serviceId,
@@ -110,28 +105,9 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-    // let bookingCode = generateUniquePattern();
-    // let existingBooking = await prisma.booking.findFirst({
-    //   where: {
-    //     bookingCode: bookingCode,
-    //   },
-    //   select: { bookingCode: true },
-    // });
+    const bookingCode = await generateBookingCode();
 
-    // while (existingBooking) {
-    //   bookingCode = generateUniquePattern();
-    //   existingBooking = await prisma.booking.findFirst({
-    //     where: {
-    //       bookingCode: bookingCode,
-    //     },
-    //     select: { bookingCode: true },
-    //   });
-    // }
-    const bookingCode =  await  generateBookingCode()
-
-    const {additionalPrice,options} = await checkOptions(ids,service.id)
-
-    
+    const { additionalPrice, options } = await checkOptions(ids, service.id);
 
     booking = await prisma.booking.create({
       data: {
@@ -154,87 +130,97 @@ export async function POST(req: Request) {
 
     const myPayment = methods[booking.paymentMethod];
 
-   
-   
-
     //  checkout session
 
-    const session = await stripe.checkout.sessions.create({
-      customer_email:booking.email,
-      payment_intent_data: {
-        metadata: {
-          id: booking.id,
-          bookingCode: booking.bookingCode,
+    const session = await stripeCheckout(
+      booking,
+      total,
+      arrivalString,
+      departureString,
+      validBody.data.arrivalTime,
+      validBody.data.departureTime,
+      service.name,
+      myPayment as "card" | "paypal" | "ideal",
+      daysofparking,
+      options
+    );
 
-          payed: total,
-          startDate: arrivalString,
-          endDate: departureString,
-          startTime: validBody.data.arrivalTime,
-          endTime: validBody.data.departureTime,
-          service: service.name,
-          arrivalString: `${booking.arrivalDate.getDate()}-${
-            booking.arrivalDate.getMonth() + 1
-          }-${booking.arrivalDate.getFullYear()} ${validBody.data.arrivalTime}`,
-          departureString: `${booking.departureDate.getDate()}-${
-            booking.departureDate.getMonth() + 1
-          }-${booking.departureDate.getFullYear()} ${
-            validBody.data.departureTime
-          }`,
-          firstName: booking.firstName,
-          lastName: booking.lastName,
-        },
-        capture_method: "automatic",
-      },
-      payment_method_types: [myPayment as "card" | "paypal" | "ideal"],
+    // const session = await stripe.checkout.sessions.create({
+    //   customer_email: booking.email,
+    //   payment_intent_data: {
+    //     metadata: {
+    //       id: booking.id,
+    //       bookingCode: booking.bookingCode,
 
-      line_items: [
-        {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: service.name,
-              description: `Booking for ${daysofparking} day(s) parking ${
-                !!options && !!options.length
-                  ? `with extra options (  ${options.map(
-                      (el) => `${el.label} for  €${el.price}`
-                    )})`
-                  : ""
-              }`,
-            },
-            unit_amount: booking.total * 100,
-          },
-          quantity: 1,
-        },
-      ],
-      expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
-      mode: "payment",
-      metadata: {
-        id: booking.id,
-        bookingCode: booking.bookingCode,
+    //       payed: total,
+    //       startDate: arrivalString,
+    //       endDate: departureString,
+    //       startTime: validBody.data.arrivalTime,
+    //       endTime: validBody.data.departureTime,
+    //       service: service.name,
+    //       arrivalString: `${booking.arrivalDate.getDate()}-${
+    //         booking.arrivalDate.getMonth() + 1
+    //       }-${booking.arrivalDate.getFullYear()} ${validBody.data.arrivalTime}`,
+    //       departureString: `${booking.departureDate.getDate()}-${
+    //         booking.departureDate.getMonth() + 1
+    //       }-${booking.departureDate.getFullYear()} ${
+    //         validBody.data.departureTime
+    //       }`,
+    //       firstName: booking.firstName,
+    //       lastName: booking.lastName,
+    //     },
+    //     capture_method: "automatic",
+    //   },
+    //   payment_method_types: [myPayment as "card" | "paypal" | "ideal"],
 
-        payed: total,
-        startDate: arrivalString,
-        endDate: departureString,
-        startTime: validBody.data.arrivalTime,
-        endTime: validBody.data.departureTime,
-        service: service.name,
-        arrivalString: `${booking.arrivalDate.getDate()}-${
-          booking.arrivalDate.getMonth() + 1
-        }-${booking.arrivalDate.getFullYear()} ${validBody.data.arrivalTime}`,
-        departureString: `${booking.departureDate.getDate()}-${
-          booking.departureDate.getMonth() + 1
-        }-${booking.departureDate.getFullYear()} ${
-          validBody.data.departureTime
-        }`,
-        firstName: booking.firstName,
-        lastName: booking.lastName,
-      },
+    //   line_items: [
+    //     {
+    //       price_data: {
+    //         currency: "eur",
+    //         product_data: {
+    //           name: service.name,
+    //           description: `Booking for ${daysofparking} day(s) parking ${
+    //             !!options && !!options.length
+    //               ? `with extra options (  ${options.map(
+    //                   (el) => `${el.label} for  €${el.price}`
+    //                 )})`
+    //               : ""
+    //           }`,
+    //         },
+    //         unit_amount: booking.total * 100,
+    //       },
+    //       quantity: 1,
+    //     },
+    //   ],
+    //   expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
+    //   mode: "payment",
+    //   metadata: {
+    //     id: booking.id,
+    //     bookingCode: booking.bookingCode,
 
-      success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
-        booking.id
-      }`,
-      cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled`,
-    });
+    //     payed: total,
+    //     startDate: arrivalString,
+    //     endDate: departureString,
+    //     startTime: validBody.data.arrivalTime,
+    //     endTime: validBody.data.departureTime,
+    //     service: service.name,
+    //     arrivalString: `${booking.arrivalDate.getDate()}-${
+    //       booking.arrivalDate.getMonth() + 1
+    //     }-${booking.arrivalDate.getFullYear()} ${validBody.data.arrivalTime}`,
+    //     departureString: `${booking.departureDate.getDate()}-${
+    //       booking.departureDate.getMonth() + 1
+    //     }-${booking.departureDate.getFullYear()} ${
+    //       validBody.data.departureTime
+    //     }`,
+    //     firstName: booking.firstName,
+    //     lastName: booking.lastName,
+    //   },
+
+    //   success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
+    //     booking.id
+    //   }`,
+    //   cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?canceled`,
+    // });
 
     return NextResponse.json(
       { url: session.url },
