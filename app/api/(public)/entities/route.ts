@@ -20,7 +20,7 @@ const entities = await prisma.entity.findMany({
     },
     select:{entityName:true,id:true,slug:true,
 
-    images:true
+    logo:true
     },
 
     orderBy:{
