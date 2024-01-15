@@ -44,7 +44,7 @@ const BookingsRange = async ({ serviceId }: Props) => {
           entityId: currentCompany?.id,
         }),
       },
-      paymentStatus: "SUCCEEDED",
+      paymentStatus: {in:['SUCCEEDED','PENDING']},
       bookingStatus: "ACTIVE",
       departureDate: {
         gte: startDate,
