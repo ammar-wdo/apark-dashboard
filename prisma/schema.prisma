@@ -12,7 +12,7 @@ model Airport {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   name      String    @unique
-  slug      String?    @unique
+  slug      String?   @unique
   images    String[]  @default([])
   content   String    @default("")
   Company   Company[]
@@ -79,6 +79,7 @@ model Booking {
   extraOptions          Json[]
   reivew                Review?
   discount              Json?
+  serviceCommession     Float
 }
 
 enum Attempt {
@@ -137,7 +138,7 @@ model Company {
   address   String
   commision Float    @default(0)
   name      String   @unique
-  slug      String?    @unique
+  slug      String?  @unique
   contact   String
   password  String
 
@@ -156,11 +157,11 @@ model Company {
 }
 
 model Entity {
-  id            String @id @default(uuid())
-  email         String @unique
+  id            String  @id @default(uuid())
+  email         String  @unique
   password      String
-  entityName    String @unique
-    slug      String?    @unique
+  entityName    String  @unique
+  slug          String? @unique
   entityAddress String
   entityZipcode String
   entityPlace   String
@@ -175,7 +176,7 @@ model Entity {
   invoiceCountry String
 
   images  String[] @default([])
-  logo    String @default("")
+  logo    String   @default("")
   content String   @default("")
 
   vatNO String?
@@ -257,8 +258,8 @@ enum ParkingLocation {
 model Service {
   id String @id @default(uuid())
 
-  name           String @unique
-    slug      String?    @unique
+  name           String  @unique
+  slug           String? @unique
   parkingAddress String
   parkingCountry String
   parkingPlace   String
@@ -279,7 +280,6 @@ model Service {
   facilities String[] @default([])
   highlights Json[]   @default([])
 
-
   images String[] @default([])
 
   parkingType ParkingType @default(shuttle)
@@ -296,7 +296,7 @@ model Service {
 
   entityId String
 
-  commession  Float @default(0)
+  commession Float @default(0)
 
   availability Availability[]
   bookings     Booking[]
@@ -316,7 +316,7 @@ model Availability {
   endDate   DateTime
   label     String?
   serviceId String
-  service   Service  @relation(fields: [serviceId], references: [id],onDelete: Cascade)
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -344,7 +344,7 @@ model Rule {
   value      Int?
 
   serviceId String
-  service   Service @relation(fields: [serviceId], references: [id],onDelete: Cascade)
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -423,7 +423,7 @@ model FAQ {
   answer   String
 
   categoryFaqId String
-  categoryFaq  CategoryFAQ? @relation(fields: [categoryFaqId],references: [id])
+  categoryFaq   CategoryFAQ? @relation(fields: [categoryFaqId], references: [id])
 
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt
@@ -448,31 +448,57 @@ model Privacy {
 }
 
 model ExraOption {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   label       String
   description String
   image       String?
   price       Float
-  isActive Boolean @default(false)
-  available Boolean @default(false)
+  isActive    Boolean @default(false)
+  available   Boolean @default(false)
 
   commession Int @default(0)
 
   serviceId String
-  service   Service @relation(fields: [serviceId], references: [id],onDelete: Cascade)
-
-
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt
 }
 
-
 model CategoryFAQ {
-  id  String @id @default(uuid())
+  id    String @id @default(uuid())
   label String
 
-  faqs  FAQ[]
+  faqs FAQ[]
+
+  createdAt DateTime @default(now())
+  updatedUt DateTime @updatedAt
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum Based {
+  BOOKING
+  CREATING
+}
+
+model Discount {
+  id    String @id @default(uuid())
+  label String
+
+  code  String @unique
+
+  type  DiscountType @default(PERCENTAGE)
+  based Based        @default(CREATING)
+
+  percentage Int?
+  value      Int?
+
+  startDate DateTime
+  endDate   DateTime
 
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt

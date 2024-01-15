@@ -117,6 +117,7 @@ export async function POST(req: Request) {
         departureDate: adjustedEndDate,
         total: (total + additionalPrice) as number,
         daysofparking,
+        serviceCommession:service.commession,
         ...(!!options.length && {
           extraOptions: options.map((el: ExraOption) => ({
             id: el.id,
