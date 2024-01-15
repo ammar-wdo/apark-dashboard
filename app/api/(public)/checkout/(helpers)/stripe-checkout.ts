@@ -29,7 +29,7 @@ const metaData = {
      (booking.arrivalDate.getMonth() + 1).toString().padStart(2, '0')
     }-${booking.arrivalDate.getFullYear()} ${startTime}`,
     departureString: `${booking.departureDate.getDate()}-${
-      booking.departureDate.getMonth() + 1
+      (booking.departureDate.getMonth() + 1).toString().padStart(2, '0')
     }-${booking.departureDate.getFullYear()} ${
         endTime
     }`,
