@@ -32,7 +32,7 @@ const EntitiesTable = ({ entities }: Props) => {
         {entities.map((entity) => (
           <div key={entity.id} className="border rounded-md  transition  max-w-[375px] w-full separate">
             <div className="relative w-full aspect-video">
-              <Image alt="entity image" fill src={entity.images[0]} className="object-contain"/>
+              <Image alt="entity image" fill src={entity.logo} className="object-contain"/>
             </div>
             
             <div className="p-3 flex flex-col ga-3 text-lg ">
