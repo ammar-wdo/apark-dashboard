@@ -9,20 +9,21 @@ import { getBookingsAndCount } from '../(helpers)/get-bookings-count';
 import Explane from '../[bookingId]/(components)/explane';
 
 type Props = {
-    page:string | string[] | undefined
+    page:string | string[] | undefined,
+    bookingCode:string | undefined
 }
 
-const TableWrapper =async ({page}: Props) => {
+const TableWrapper =async ({page,bookingCode}: Props) => {
     const session = await getServerSession(authOptions);
 
     const company = await getCurrentCompany()
     
 
     if (!company) throw Error("Unauthenticated");
-    const ITEMS_PER_PAGE = 6;
+    const ITEMS_PER_PAGE = 20;
 
    
-    const {bookings,bookingsCount} = await getBookingsAndCount(ITEMS_PER_PAGE,page)
+    const {bookings,bookingsCount} = await getBookingsAndCount(ITEMS_PER_PAGE,page,bookingCode)
     const totalPages = Math.ceil(bookingsCount / ITEMS_PER_PAGE);
     const isLastPage = +page! >= totalPages ;
   

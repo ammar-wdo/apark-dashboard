@@ -4,7 +4,7 @@ import { getCurrentCompany } from "@/lib/helpers";
 import { getServerSession } from "next-auth";
 
 
-export const getBookingsAndCount = async (ITEMS_PER_PAGE:number,page:string | string[] | undefined)=>{
+export const getBookingsAndCount = async (ITEMS_PER_PAGE:number,page:string | string[] | undefined,bookingCode?:string | undefined)=>{
 
     const session = await getServerSession(authOptions)
     const company = await getCurrentCompany()
@@ -28,6 +28,7 @@ export const getBookingsAndCount = async (ITEMS_PER_PAGE:number,page:string | st
           service: {
             entity:{companyId:company?.id},
           },
+          ...(bookingCode && {bookingCode})
         },
         include: {
           service: true,
@@ -58,6 +59,7 @@ export const getBookingsAndCount = async (ITEMS_PER_PAGE:number,page:string | st
         service: {
           entityId: company?.id,
         },
+        ...(bookingCode && {bookingCode})
       },
       include: {
         service: true,

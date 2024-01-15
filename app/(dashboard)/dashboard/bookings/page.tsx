@@ -30,6 +30,8 @@ const page = async ({ params, searchParams }: Props) => {
     redirect("/");
   }
 
+  const bookingCode = searchParams.bookingCode
+
   const paymentStatus = [
     {
     label:'succeeded',
@@ -91,7 +93,7 @@ const page = async ({ params, searchParams }: Props) => {
      </div>
 
       <Suspense   key={+searchParams.page}  fallback={<Skeleton className="w-full h-[700px] rounded-lg" />} >
-      <TableWrapper  page={searchParams.page} />
+      <TableWrapper bookingCode={bookingCode as string | undefined} page={searchParams.page} />
       </Suspense>
 </div>
     
