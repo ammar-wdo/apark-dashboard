@@ -13,6 +13,7 @@ import { generateUniquePattern } from "./(helpers)/generateId";
 import { checkOptions } from "./(helpers)/check-options";
 import { generateBookingCode } from "./(helpers)/generateBookingCode";
 import { stripeCheckout } from "./(helpers)/stripe-checkout";
+import { checkDiscount } from "./(helpers)/check-discount";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
     body.arrivalDate = new Date(body.arrivalDate);
     body.departureDate = new Date(body.departureDate);
 
-    const { ids, ...rest } = body;
+    const { ids, discountId, ...rest } = body;
 
     const validBody = bookingSchema.safeParse(rest);
     if (!validBody.success)
@@ -107,7 +108,21 @@ export async function POST(req: Request) {
 
     const bookingCode = await generateBookingCode();
 
-    const { additionalPrice, options } = await checkOptions(ids, service.id);
+    const { priceWithOptions, options } = await checkOptions(ids, service.id);
+    const { priceWithDiscount, error, discount } = await checkDiscount(
+      discountId,
+      total,
+      priceWithOptions,
+      adjustedStartDate,
+      adjustedEndDate
+    );
+    if (error) {
+      return NextResponse.json({ error }, { status: 400 });
+    }
+
+    const finalTotal = (total +
+      priceWithOptions -
+      priceWithDiscount!) as number;
 
     booking = await prisma.booking.create({
       data: {
@@ -115,9 +130,10 @@ export async function POST(req: Request) {
         bookingCode,
         arrivalDate: adjustedStartDate,
         departureDate: adjustedEndDate,
-        total: (total + additionalPrice) as number,
+        total: finalTotal,
         daysofparking,
-        serviceCommession:service.commession,
+        serviceCommession: service.commession,
+        ...(discount && { discount }),
         ...(!!options.length && {
           extraOptions: options.map((el: ExraOption) => ({
             id: el.id,
@@ -135,7 +151,7 @@ export async function POST(req: Request) {
 
     const session = await stripeCheckout(
       booking,
-      total,
+      finalTotal,  //from total to final total ??
       arrivalString,
       departureString,
       validBody.data.arrivalTime,
@@ -145,8 +161,6 @@ export async function POST(req: Request) {
       daysofparking,
       options
     );
-
-   
 
     return NextResponse.json(
       { url: session.url },

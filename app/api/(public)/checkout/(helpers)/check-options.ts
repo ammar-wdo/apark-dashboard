@@ -23,12 +23,12 @@ export const checkOptions = async (ids:string[] | undefined,theServiceId:string)
           options = [];
         }
     
-        let additionalPrice = 0;
+        let priceWithOptions = 0;
         if (!!options.length) {
-          additionalPrice = options.reduce((result, val) => result + val.price, 0);
+          priceWithOptions = options.reduce((result, val) => result + val.price, 0);
         }
 
-        return {additionalPrice,options}
+        return {priceWithOptions,options}
 
    
 }

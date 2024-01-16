@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
+import { daysAndTotal } from "../checkout/(helpers)/days-and-total";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,6 +15,12 @@ export const POST = async (req: Request) => {
   try {
     const body = await req.json();
 
+
+    if(!body.code || !body.startDate || !body.endDate || !body.serviceId) return NextResponse.json(
+        { message: "all info are required" },
+        { status: 400 }
+      );
+
     const discount = await prisma.discount.findUnique({
       where: { code: body.code },
     });
@@ -23,6 +30,24 @@ export const POST = async (req: Request) => {
         { message: "Invalid promocode" },
         { status: 200 }
       );
+
+
+      const service = await prisma.service.findUnique({where:{id:body.serviceId}})
+      if(!service)  return NextResponse.json(
+        { message: "service is not available" },
+        { status: 400 }
+      );
+
+      const bookingStart = new Date(body.startDate);
+      const bookingEnd = new Date(body.endDate);
+
+      const {total} = await daysAndTotal(bookingStart,bookingEnd,body.serviceId)
+
+      if(discount.type === "FIXED" && discount.value! >=total) return NextResponse.json(
+        { message: "Promocode is not applicable to this service with this date range!" },
+        { status: 200 }
+      );
+
 
     if (discount.based === "CREATING") {
       const currentDate = new Date();
@@ -35,9 +60,9 @@ export const POST = async (req: Request) => {
       if (currentDate >= startDate && currentDate <= endDate) {
         return NextResponse.json(
           {
-            label: discount.label,
-            percentage: discount.percentage,
-            value: discount.value,
+            label: discount.code,
+            percentage:discount.type==='PERCENTAGE' ? discount.percentage : undefined,
+            value:discount.type==='FIXED' ? discount.value : undefined,
             id: discount.id,
           },
           { status: 200 }
@@ -51,8 +76,7 @@ export const POST = async (req: Request) => {
     } else if (discount.based === "BOOKING") {
       const promoStart = new Date(discount.startDate);
       const promoEnd = new Date(discount.endDate);
-      const bookingStart = new Date(body.startDate);
-      const bookingEnd = new Date(body.endDate);
+   
 
       console.log('startDate',bookingStart)
       console.log('endDate',bookingEnd)
@@ -62,9 +86,9 @@ export const POST = async (req: Request) => {
       if (bookingStart <= promoEnd && bookingEnd >= promoStart) {
         return NextResponse.json(
           {
-            label: discount.label,
-            percentage: discount.percentage,
-            value: discount.value,
+            label: discount.code,
+            percentage:discount.type==='PERCENTAGE' ? discount.percentage : undefined,
+            value:discount.type==='FIXED' ? discount.value : undefined,
             id: discount.id,
           },
           { status: 200 }
