@@ -71,27 +71,30 @@ export async function POST(req: Request) {
         email: validBody.data.email,
 
         bookingCode: bookingCode,
-       
+
         paymentStatus: "SUCCEEDED",
         bookingStatus: "ACTIVE",
       },
     });
 
     if (!booking)
-    return NextResponse.json(
-      { customError: "Invalid credentials" },
-      { status: 400 }
-    );
+      return NextResponse.json(
+        { customError: "Invalid credentials" },
+        { status: 400 }
+      );
 
     const amesterdam = new Date();
 
     amesterdam.setHours(amesterdam.getHours() + 1);
-  
+
     amesterdam.setMinutes(amesterdam.getMinutes());
 
-      if(booking.arrivalDate <= amesterdam)
+    if (booking.arrivalDate <= amesterdam)
       return NextResponse.json(
-        { customError: "You can no more update your booking because arrival date already passed." },
+        {
+          customError:
+            "You can no more update your booking because arrival date already passed.",
+        },
         { status: 400 }
       );
 
@@ -128,21 +131,19 @@ export async function POST(req: Request) {
       validBody.data.departureTime
     );
     if (!validService)
-    return NextResponse.json(
-      { customError: "This service is no more available" },
-      { status: 400 }
-    );
+      return NextResponse.json(
+        { customError: "This service is no more available" },
+        { status: 400 }
+      );
 
     const parkingDays = calculateParkingDays(newArrival, newDeparture);
 
     const totalPrice = findTotalPrice(
       service,
       parkingDays,
-     adjustedStartDate,
-    adjustedEndDate
+      adjustedStartDate,
+      adjustedEndDate
     );
-
-
 
     if (totalPrice === 0 || totalPrice === undefined || !totalPrice)
       return NextResponse.json(
@@ -150,19 +151,16 @@ export async function POST(req: Request) {
         { status: 200 }
       );
 
-  
+    const { additionalDays, additionalPrice } = calculateNewUpdate({
+      bookingArrival: booking.arrivalDate,
+      bookingDeparture: booking.departureDate,
+      service,
+      parkingDays,
+      totalPrice,
+    });
 
-    const { additionalDays,  additionalPrice } =
-      calculateNewUpdate({
-        bookingArrival: booking.arrivalDate,
-        bookingDeparture: booking.departureDate,
-        service,
-        parkingDays,
-        totalPrice,
-      });
-
-      console.log("the booking total",booking.total)
-      console.log("additional price",additionalPrice)
+    console.log("the booking total", booking.total);
+    console.log("additional price", additionalPrice);
 
     if (additionalDays === 0) {
       const updatedBooking = await prisma.booking.update({
@@ -185,7 +183,7 @@ export async function POST(req: Request) {
         updatedBooking
       );
       await prisma.log.create({ data: { ...values } });
-      await sendEmail(booking,'update',service.name)
+      await sendEmail(booking, "update", service.name);
 
       return NextResponse.json(
         {
@@ -196,7 +194,6 @@ export async function POST(req: Request) {
         { status: 201 }
       );
     } else if (additionalDays > 0) {
-
       const myPayment = methods[validBody.data.paymentMethod];
 
       const updatedBooking = await prisma.booking.update({
@@ -214,7 +211,7 @@ export async function POST(req: Request) {
       });
 
       const session = await stripe.checkout.sessions.create({
-        customer_email:booking.email,
+        customer_email: booking.email,
         payment_intent_data: {
           metadata: {
             id: booking.id,
@@ -226,12 +223,20 @@ export async function POST(req: Request) {
             total: booking.total,
             daysofparking: booking.daysofparking,
             service: service.name,
-            arrivalString: `${booking.arrivalDate.getDate()}-${
-              booking.arrivalDate.getMonth() + 1
-            }-${booking.arrivalDate.getFullYear()} ${validBody.data.arrivalTime}`,
-            departureString: `${booking.departureDate.getDate()}-${
-              booking.departureDate.getMonth() + 1
-            }-${booking.departureDate.getFullYear()} ${
+            arrivalString: `${booking.arrivalDate
+              .getDate()
+              .toString()
+              .padStart(2, "0")}-${(booking.arrivalDate.getMonth() + 1)
+              .toString()
+              .padStart(2, "0")}-${booking.arrivalDate.getFullYear()} ${
+              validBody.data.arrivalTime
+            }`,
+            departureString: `${booking.departureDate
+              .getDate()
+              .toString()
+              .padStart(2, "0")}-${(booking.departureDate.getMonth() + 1)
+              .toString()
+              .padStart(2, "0")}-${booking.departureDate.getFullYear()} ${
               validBody.data.departureTime
             }`,
             firstName: booking.firstName,
@@ -258,20 +263,28 @@ export async function POST(req: Request) {
         mode: "payment",
         metadata: {
           id: booking.id,
-          bookingCode,
           update: "true",
+          bookingCode,
+          payed: additionalPrice,
           arrivalDate: booking.arrivalDate.toString(),
           departureDate: booking.departureDate.toString(),
-          payed: additionalPrice,
           total: booking.total,
           daysofparking: booking.daysofparking,
           service: service.name,
-          arrivalString: `${booking.arrivalDate.getDate()}-${
-            booking.arrivalDate.getMonth() + 1
-          }-${booking.arrivalDate.getFullYear()} ${validBody.data.arrivalTime}`,
-          departureString: `${booking.departureDate.getDate()}-${
-            booking.departureDate.getMonth() + 1
-          }-${booking.departureDate.getFullYear()} ${
+          arrivalString: `${booking.arrivalDate
+            .getDate()
+            .toString()
+            .padStart(2, "0")}-${(booking.arrivalDate.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}-${booking.arrivalDate.getFullYear()} ${
+            validBody.data.arrivalTime
+          }`,
+          departureString: `${booking.departureDate
+            .getDate()
+            .toString()
+            .padStart(2, "0")}-${(booking.departureDate.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}-${booking.departureDate.getFullYear()} ${
             validBody.data.departureTime
           }`,
           firstName: booking.firstName,
