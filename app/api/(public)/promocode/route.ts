@@ -27,7 +27,7 @@ export const POST = async (req: Request) => {
 
     if (!discount)
       return NextResponse.json(
-        { message: "Invalid promocode" },
+        { message: "Ongeldige kortingscode" },
         { status: 200 }
       );
 
@@ -44,7 +44,7 @@ export const POST = async (req: Request) => {
       const {total} = await daysAndTotal(bookingStart,bookingEnd,body.serviceId)
 
       if(discount.type === "FIXED" && discount.value! >=total) return NextResponse.json(
-        { message: "Promocode is not applicable to this service with this date range!" },
+        { message: "Promocode is niet toepasbaar op deze dienst binnen dit datumbereik!" },
         { status: 200 }
       );
 
@@ -69,7 +69,7 @@ export const POST = async (req: Request) => {
         );
       } else {
         return NextResponse.json(
-          { message: "Promocode is not applicable to your booking" },
+          { message: "Promocode is niet toepasbaar op deze dienst binnen dit datumbereik!" },
           { status: 200 }
         );
       }
@@ -95,7 +95,7 @@ export const POST = async (req: Request) => {
         );
       } else {
         return NextResponse.json(
-          { message: "Promocode is not applicable to your booking" },
+          { message: "Promocode is niet toepasbaar op deze dienst binnen dit datumbereik!" },
           { status: 200 }
         );
       }
