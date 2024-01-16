@@ -251,7 +251,7 @@ export async function POST(req: Request) {
             price_data: {
               currency: "eur",
               product_data: {
-                name: "service",
+                name: service.name,
                 description: `Booking for additional ${additionalDays} day(s) parking `,
               },
               unit_amount: additionalPrice * 100,
