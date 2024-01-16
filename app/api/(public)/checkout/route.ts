@@ -124,6 +124,8 @@ export async function POST(req: Request) {
       priceWithOptions -
       priceWithDiscount!) as number;
 
+      console.log('total',total,'price with options',priceWithOptions,"price With Discount",priceWithDiscount)
+
     booking = await prisma.booking.create({
       data: {
         ...validBody.data,

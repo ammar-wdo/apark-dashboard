@@ -7,6 +7,7 @@ import { Discount } from "@prisma/client";
 
 
 export const checkDiscount = async (discountId: string, total: number,priceWithOptions:number, bookingStart: Date, bookingEnd: Date): Promise<{priceWithDiscount: number | undefined, error: string,discount:Discount | null}> => {
+    if(!discountId) return { priceWithDiscount: 0, error: '' ,discount:null};
     const discount = await prisma.discount.findUnique({
         where: { id: discountId }
     });
