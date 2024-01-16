@@ -41,6 +41,7 @@ export const stripeCheckout = async (
 
   const session = await stripe.checkout.sessions.create({
     customer_email: booking.email,
+    
     payment_intent_data: {
       metadata: metaData,
       capture_method: "automatic",
