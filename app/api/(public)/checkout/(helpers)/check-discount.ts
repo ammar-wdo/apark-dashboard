@@ -12,6 +12,8 @@ export const checkDiscount = async (discountId: string, total: number,priceWithO
         where: { id: discountId }
     });
 
+    if(typeof discount?.value !=='number' || typeof discount.percentage !== 'number')return { priceWithDiscount: 0, error: '' ,discount:null};
+
     if (!discount) return { priceWithDiscount: 0, error: '' ,discount:null};
 
     const currentDate = new Date();
