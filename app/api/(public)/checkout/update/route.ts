@@ -197,7 +197,7 @@ export async function POST(req: Request) {
       );
     } else if (additionalDays > 0) {
 
-      const myPayment = methods[booking.paymentMethod];
+      const myPayment = methods[validBody.data.paymentMethod];
 
       const updatedBooking = await prisma.booking.update({
         where: {
