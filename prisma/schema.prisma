@@ -47,7 +47,7 @@ model Booking {
   address               String?
   arrivalDate           DateTime
   bookingCode           String        @unique
-  carColor              String
+  carColor              String?
   carLicense            String
   carModel              String
   companyName           String?
@@ -61,10 +61,10 @@ model Booking {
   paymentStatus         STATUS?       @default(PENDING)
   bookingStatus         BookingStatus @default(ACTIVE)
   place                 String?
-  returnFlightNumber    Int?
   phoneNumber           String
   total                 Float
-  vatNumber             Int?
+  vatNumber             String?
+  numberOfPeople        Int
   zipcode               String?
   arrivalTime           String
   departureTime         String
@@ -99,7 +99,7 @@ model Log {
   attempt               Attempt       @default(CREATED)
   arrivalDate           DateTime
   bookingCode           String
-  carColor              String
+  carColor              String?
   carLicense            String
   carModel              String
   companyName           String?
@@ -114,10 +114,10 @@ model Log {
   paymentStatus         STATUS?       @default(PENDING)
   bookingStatus         BookingStatus @default(ACTIVE)
   place                 String?
-  returnFlightNumber    Int?
   phoneNumber           String
   payed                 Float
-  vatNumber             Int?
+  vatNumber             String?
+  numberOfPeople        Int
   zipcode               String?
   arrivalTime           String
   departureTime         String

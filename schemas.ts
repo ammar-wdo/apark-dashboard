@@ -12,10 +12,11 @@ export const bookingSchema = z
     firstName: z.string().min(1,{message:'First name is required'}),
     lastName: z.string().min(1,{message:'Last name is required'}),
     email: z.string().email({message:"E-mail is required"}),
-    carColor: z.string().min(1,{message:'Car color is required'}),
+    carColor: z.string().optional(),
     carLicense: z.string().min(1,{message:'Car license is required'}),
     carModel: z.string().min(1,{message:'Car model is required'}),
     serviceId: z.string().min(1),
+    numberOfPeople:z.coerce.number().min(1),
 
     companyName: z.string().optional(),
     arrivalTime: z.string(),
@@ -23,7 +24,7 @@ export const bookingSchema = z
 
     departureDate: z.date(),
    
-    flightNumber: z.string().min(3, { message: "Flight number is required" }),
+    flightNumber: z.string().optional(),
     isCompany: z.boolean(),
     phoneNumber: z.string().refine((value) => {
       const phoneRegex = /^(?:[0-9]){1,3}(?:[ -]*[0-9]){6,14}$/;
@@ -36,7 +37,7 @@ export const bookingSchema = z
     place: z.string().optional(),
     returnFlightNumber: z.coerce.number().optional(),
 
-    vatNumber: z.coerce.number().optional(),
+    vatNumber: z.string().optional(),
     zipcode: z.string().optional(),
   })
   .refine((data) => !data.isCompany || data.zipcode, {
@@ -50,6 +51,14 @@ export const bookingSchema = z
   .refine((data) => !data.isCompany || data.zipcode, {
     message: "zipcode is required",
     path: ["zipcode"],
+  })
+  .refine((data) => !data.isCompany || data.place, {
+    message: "place is required",
+    path: ["place"],
+  })
+  .refine((data) => !data.isCompany || data.vatNumber, {
+    message: "vat  is required",
+    path: ["vat"],
   })
   .refine(
     (data) =>
