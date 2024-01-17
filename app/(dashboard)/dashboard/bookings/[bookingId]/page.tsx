@@ -16,7 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import LogsFeed from "./(components)/logs-feed";
 import { redirect } from "next/navigation";
 import { JsonArray } from "@prisma/client/runtime/library";
-import { ExraOption } from "@prisma/client";
+import { Discount, ExraOption } from "@prisma/client";
 import { NLtimezone } from "@/lib/nl-timezone";
 
 
@@ -37,6 +37,10 @@ const page = async ({ params }: Props) => {
   if(!booking) return redirect('/dashboard')
   
 const {daysofparking} = await daysAndTotal(booking?.arrivalDate!,booking?.departureDate!,booking?.service.id!)
+
+const discount  = booking.discount as  Discount | null
+
+const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%${discount?.percentage}`
   return (
     <div className="p-12 separate">
       <h2 className="text-3xl font-semibold ">
@@ -159,6 +163,10 @@ const {daysofparking} = await daysAndTotal(booking?.arrivalDate!,booking?.depart
                     <span className="first-letter:capitalize">{option.label}</span>
                     <span>€{option.price}</span>
                   </div>)}
+                  {!!booking.discount && <div className="flex items-center justify-between">
+                  <p className="font-semibold">Discount applied</p>
+                  <p className="font-semibold">{discountApplied}</p>
+                  </div>}
 
                 </div>
                 
