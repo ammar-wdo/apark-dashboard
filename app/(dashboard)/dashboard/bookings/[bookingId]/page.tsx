@@ -163,12 +163,14 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
                     <span className="first-letter:capitalize font-normal text-neutral-500">{option.label}</span>
                     <span>€{option.price}</span>
                   </div>)}
-                  {!!booking.discount && <div className="flex items-center justify-between">
+                
+
+                </div>
+
+                {!!booking.discount && <div className="flex items-center justify-between">
                   <p className="font-semibold">Discount applied</p>
                   <p className="font-semibold">{discountApplied}</p>
                   </div>}
-
-                </div>
                 
                 </div>}
         <div className="flex items-center justify-between font-semibold space-x-3">
