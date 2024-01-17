@@ -33,7 +33,7 @@ export const setLog = (payed:number,attempt:Attempt,message:string,order:Booking
       paymentMethod:order.paymentMethod,
       paymentStatus:order.paymentStatus,
       place:order.place,
-      returnFlightNumber:order.returnFlightNumber,
+    
       status:order.status,
       vatNumber:order.vatNumber,
       zipcode:order.zipcode,
