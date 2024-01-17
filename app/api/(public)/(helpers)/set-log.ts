@@ -26,6 +26,7 @@ export const setLog = (payed:number,attempt:Attempt,message:string,order:Booking
       bookingOnBusinessName:order.bookingOnBusinessName,
       bookingStatus:order.bookingStatus,
       companyName:order.companyName,
+      numberOfPeople:order.numberOfPeople,
      
       extraServiceFee:order.extraServiceFee,
       flightNumber:order.flightNumber,
