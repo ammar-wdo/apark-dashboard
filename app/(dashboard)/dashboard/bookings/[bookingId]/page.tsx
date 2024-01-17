@@ -159,8 +159,8 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
         {!!booking.extraOptions.length&&<div className="border-b mt-4 pb-2">
                 <h3 className="font-bold first-letter:capitalize ">Extra options</h3>
                 <div className="flex flex-col gap-1">
-                  {(booking.extraOptions as unknown as ExraOption[]).map((option) =><div key={option.id} className="flex justify-between items-center mt-2 font-semibold">
-                    <span className="first-letter:capitalize">{option.label}</span>
+                {(booking.extraOptions as unknown as ExraOption[]).map((option) =><div key={option.id} className="flex justify-between items-center font-semibold">
+                    <span className="first-letter:capitalize font-normal text-neutral-500">{option.label}</span>
                     <span>€{option.price}</span>
                   </div>)}
                   {!!booking.discount && <div className="flex items-center justify-between">
