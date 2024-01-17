@@ -167,12 +167,14 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
 
                 </div>
 
+            
+                
+                </div>}
+
                 {!!booking.discount && <div className="flex items-center justify-between">
                   <p className="font-semibold">Discount applied</p>
                   <p className="font-semibold">{discountApplied}</p>
                   </div>}
-                
-                </div>}
         <div className="flex items-center justify-between font-semibold space-x-3">
         <p className="">Total amount paid</p>
         <p>€ { booking?.total}</p>
