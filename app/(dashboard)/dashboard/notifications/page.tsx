@@ -6,6 +6,7 @@ import NotificationsFeedSkeleton from './(components)/notifications-feed-skeleto
 import NotificationsFeed from './(components)/notifications-feed'
 import Revalidator from './(components)/revalidator'
 import { getCurrentCompany } from '@/lib/helpers'
+import ErrorHolder from '../(components)/error-holder'
 
 
 type Props = {searchParams:{[key:string]:string | string[] | undefined}}
@@ -16,7 +17,7 @@ export const revalidate = 0
 
 const page = async({searchParams}: Props) => {
   const company = await getCurrentCompany()
-if(!company) throw new Error('auth')
+if(!company) return <ErrorHolder/>
 
   if(!searchParams.list || searchParams.list ==="0" || searchParams.list < "0" || isNaN(+searchParams.list)){
     searchParams.list="1"

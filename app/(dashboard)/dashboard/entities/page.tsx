@@ -6,13 +6,14 @@ import { redirect } from 'next/navigation'
 import React from 'react'
 import EntitiesTable from './(components)/entitiesTable'
 import { getCurrentCompany } from '@/lib/helpers'
+import ErrorHolder from '../(components)/error-holder'
 
 type Props = {}
 
 const page = async(props: Props) => {
 const session = await getServerSession(authOptions)
 const company = await getCurrentCompany()
-if(!company) throw new Error('auth')
+if(!company) return <ErrorHolder />
 
 if(session?.user?.name !=="Company") return redirect('/')
 

@@ -7,6 +7,7 @@ import Control from './(components)/control'
 import { notFound, redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
+import ErrorHolder from '../../../(components)/error-holder'
 
 type Props = {
     params:{serviceId:string}
@@ -15,7 +16,7 @@ type Props = {
 const page = async({params}: Props) => {
   const session = await getServerSession(authOptions)
   const company = await getCurrentCompany()
-  if(!company) throw new Error('auth')
+  if(!company) return <ErrorHolder/>
 
     const service = await prisma.service.findUnique({where:{
         id:params.serviceId,

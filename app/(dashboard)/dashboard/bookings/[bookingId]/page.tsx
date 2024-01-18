@@ -19,6 +19,7 @@ import { JsonArray } from "@prisma/client/runtime/library";
 import { Discount, ExraOption } from "@prisma/client";
 import { NLtimezone } from "@/lib/nl-timezone";
 import { getCurrentCompany } from "@/lib/helpers";
+import ErrorHolder from "../../(components)/error-holder";
 
 
 type Props = {
@@ -27,7 +28,7 @@ type Props = {
 
 const page = async ({ params }: Props) => {
   const company = await getCurrentCompany()
-  if(!company) throw new Error('auth')
+  if(!company) return <ErrorHolder/>
 
   
   const booking = await prisma.booking.findUnique({

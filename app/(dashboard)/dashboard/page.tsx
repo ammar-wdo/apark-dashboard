@@ -16,6 +16,7 @@ import CancelBox from "./(components)/boxes/cancel-box";
 import ChartComponent from "./(components)/chart-component";
 import SearchEntity from "./(components)/search-entity-component";
 import { getCurrentCompany } from "@/lib/helpers";
+import ErrorHolder from "./(components)/error-holder";
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -27,7 +28,10 @@ const page = async ({ searchParams }: Props) => {
   }
 
   const company = await getCurrentCompany()
-  if(!company) throw new Error('auth')
+  if (!company)
+  return <ErrorHolder />
+
+  
   const session = await getServerSession(authOptions);
 
   

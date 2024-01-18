@@ -9,6 +9,7 @@ import { getCurrentCompany } from "@/lib/helpers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import BookingsRange from "./(components)/bookings-range";
+import ErrorHolder from "../../../(components)/error-holder";
 
 type Props = {
   params: { serviceId: string };
@@ -16,7 +17,7 @@ type Props = {
 
 const page = async ({ params }: Props) => {
   const company = await getCurrentCompany()
-  if(!company) throw new Error('auth')
+  if(!company) return <ErrorHolder />
 
   const session = await getServerSession(authOptions);
 

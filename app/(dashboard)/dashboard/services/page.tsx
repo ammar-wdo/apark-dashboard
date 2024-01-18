@@ -13,6 +13,7 @@ import { columnsService } from "./(components)/columns";
 import { DataTable } from "./(components)/data-table";
 import ServicesWrapper from "./(components)/services-wrapper";
 import { getCurrentCompany } from "@/lib/helpers";
+import ErrorHolder from "../(components)/error-holder";
 
 type Props = {
   searchParams: {[key:string]:string | string[] | undefined };
@@ -21,7 +22,8 @@ type Props = {
 const page = async ({ searchParams }: Props) => {
 
   const company = await getCurrentCompany()
-if(!company) throw new Error('auth')
+  if (!company)
+  return <ErrorHolder/>
 
  const entityId = searchParams.entityId
 
