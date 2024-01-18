@@ -62,7 +62,7 @@ export const stripeCheckout = async (
                 : ""
             }`,
           },
-          unit_amount: booking.total * 100,
+          unit_amount: total * 100,
         },
         quantity: 1,
       },
