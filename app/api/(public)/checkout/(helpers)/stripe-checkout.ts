@@ -13,6 +13,8 @@ export const stripeCheckout = async (
   daysofparking: number,
   options: ExraOption[]
 ) => {
+
+  
   const metaData = {
     id: booking.id,
     bookingCode: booking.bookingCode,
@@ -62,7 +64,7 @@ export const stripeCheckout = async (
                 : ""
             }`,
           },
-          unit_amount: total * 100,
+          unit_amount: Math.round(booking.total * 100),
         },
         quantity: 1,
       },

@@ -120,7 +120,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error }, { status: 400 });
     }
 console.log('discount value',priceWithDiscount)
-    const finalTotal = +((total + priceWithOptions - priceWithDiscount!).toFixed(2)) as number;
+    const finalTotal = (total +
+      priceWithOptions -
+      priceWithDiscount!) as number;
 
       console.log('total',total,'price with options',priceWithOptions,"price With Discount",priceWithDiscount,'final total',finalTotal)
 
