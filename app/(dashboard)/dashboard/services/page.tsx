@@ -12,12 +12,16 @@ import { Button } from "@/components/ui/button";
 import { columnsService } from "./(components)/columns";
 import { DataTable } from "./(components)/data-table";
 import ServicesWrapper from "./(components)/services-wrapper";
+import { getCurrentCompany } from "@/lib/helpers";
 
 type Props = {
   searchParams: {[key:string]:string | string[] | undefined };
 };
 
 const page = async ({ searchParams }: Props) => {
+
+  const company = await getCurrentCompany()
+if(!company) throw new Error('auth')
 
  const entityId = searchParams.entityId
 

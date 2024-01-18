@@ -12,7 +12,7 @@ type Props = {}
 const page = async(props: Props) => {
 const session = await getServerSession(authOptions)
 const company = await getCurrentCompany()
-if (!company) throw Error("Unauthenticated");
+if(!company) throw new Error('auth')
 
 if(session?.user?.name !=="Company") return redirect('/')
 

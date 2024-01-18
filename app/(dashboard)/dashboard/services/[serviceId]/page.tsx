@@ -13,6 +13,7 @@ const page = async({params}: Props) => {
 
   const session = await getServerSession(authOptions)
   const company = await getCurrentCompany()
+  if(!company) throw new Error('auth')
 
 const service = await prisma.service.findUnique({
    where:{id:params.serviceId} 

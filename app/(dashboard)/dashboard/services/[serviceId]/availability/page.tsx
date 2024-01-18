@@ -15,8 +15,8 @@ type Props = {
 };
 
 const page = async ({ params }: Props) => {
-  const currentCompany = await getCurrentCompany();
-  if (!currentCompany) throw Error("not authenticated");
+  const company = await getCurrentCompany()
+  if(!company) throw new Error('auth')
 
   const session = await getServerSession(authOptions);
 

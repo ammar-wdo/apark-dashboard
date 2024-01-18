@@ -13,8 +13,8 @@ type Props = {params:{serviceId:string}}
 const page =async({params}: Props) => {
 
 
-    const currentCompany = await getCurrentCompany()
-    if(!currentCompany) throw Error('not authenticated')
+  const company = await getCurrentCompany()
+if(!company) throw new Error('auth')
 
     const session = await getServerSession(authOptions)
 
@@ -23,10 +23,10 @@ const page =async({params}: Props) => {
       where:{
         id:params.serviceId,
         ...(session?.user?.name === "Company" && {
-          entity: { companyId: currentCompany?.id },
+          entity: { companyId: company?.id },
         }),
         ...(session?.user?.name === "Entity" && {
-          entityId: currentCompany?.id,
+          entityId: company?.id,
         })
       }
     })
@@ -36,10 +36,10 @@ const page =async({params}: Props) => {
           service:{
             id:params.serviceId,
             ...(session?.user?.name === "Company" && {
-              entity: { companyId: currentCompany?.id },
+              entity: { companyId: company?.id },
             }),
             ...(session?.user?.name === "Entity" && {
-              entityId: currentCompany?.id,
+              entityId: company?.id,
             })
           }
         }

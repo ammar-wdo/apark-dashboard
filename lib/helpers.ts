@@ -16,7 +16,8 @@ export const getCurrentCompany = async() =>{
     if(session.user.name === "Company"){
         const company = await prisma.company.findUnique({
             where:{
-                email:session?.user?.email 
+                email:session?.user?.email ,
+                isActive:true
             }
         })
     
@@ -29,7 +30,8 @@ export const getCurrentCompany = async() =>{
 
         const entity = await prisma.entity.findUnique({
             where:{
-                email:session?.user?.email 
+                email:session?.user?.email ,
+                isActive:true
             },
             include:{
                 company:true

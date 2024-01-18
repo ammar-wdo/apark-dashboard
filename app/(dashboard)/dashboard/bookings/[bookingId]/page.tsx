@@ -18,6 +18,7 @@ import { notFound, redirect } from "next/navigation";
 import { JsonArray } from "@prisma/client/runtime/library";
 import { Discount, ExraOption } from "@prisma/client";
 import { NLtimezone } from "@/lib/nl-timezone";
+import { getCurrentCompany } from "@/lib/helpers";
 
 
 type Props = {
@@ -25,6 +26,10 @@ type Props = {
 };
 
 const page = async ({ params }: Props) => {
+  const company = await getCurrentCompany()
+  if(!company) throw new Error('auth')
+
+  
   const booking = await prisma.booking.findUnique({
     where: {
       id: params.bookingId,

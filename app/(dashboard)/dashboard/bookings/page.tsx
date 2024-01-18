@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import TableWrapper from "./(components)/table-wrapper";
 import { Skeleton } from "@/components/ui/skeleton";
 import Explane from "./[bookingId]/(components)/explane";
+import { getCurrentCompany } from "@/lib/helpers";
 
 type Props = {
   params: { companyId: string };
@@ -18,7 +19,8 @@ type Props = {
 
 const page = async ({ params, searchParams }: Props) => {
 
- 
+  const company = await getCurrentCompany()
+  if(!company) throw new Error('auth')
 
 
 
@@ -81,6 +83,8 @@ const bookingStatus = [
 
 ]
  
+
+
 
   return (
     <div className=" ">

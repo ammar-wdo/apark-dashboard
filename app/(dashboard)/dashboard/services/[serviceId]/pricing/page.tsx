@@ -14,15 +14,16 @@ type Props = {
 
 const page = async({params}: Props) => {
   const session = await getServerSession(authOptions)
-    const currentCompany = await getCurrentCompany()
+  const company = await getCurrentCompany()
+  if(!company) throw new Error('auth')
 
     const service = await prisma.service.findUnique({where:{
         id:params.serviceId,
         ...(session?.user?.name === "Company" && {
-          entity: { companyId: currentCompany?.id },
+          entity: { companyId: company?.id },
         }),
         ...(session?.user?.name === "Entity" && {
-          entityId: currentCompany?.id,
+          entityId: company?.id,
         })
      
     }})
