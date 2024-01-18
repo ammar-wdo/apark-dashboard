@@ -211,39 +211,43 @@ export async function POST(req: Request) {
           daysofparking: parkingDays,
         },
       });
+const stripePrice = Math.round(additionalPrice * 100)
+      console.log('stripe price',stripePrice)
+
+      const metadata = {
+        id: booking.id,
+        update: "true",
+        bookingCode,
+        payed: additionalPrice,
+        arrivalDate: booking.arrivalDate.toString(),
+        departureDate: booking.departureDate.toString(),
+        total: booking.total,
+        daysofparking: booking.daysofparking,
+        service: service.name,
+        arrivalString: `${booking.arrivalDate
+          .getDate()
+          .toString()
+          .padStart(2, "0")}-${(booking.arrivalDate.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}-${booking.arrivalDate.getFullYear()} ${
+          validBody.data.arrivalTime
+        }`,
+        departureString: `${booking.departureDate
+          .getDate()
+          .toString()
+          .padStart(2, "0")}-${(booking.departureDate.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}-${booking.departureDate.getFullYear()} ${
+          validBody.data.departureTime
+        }`,
+        firstName: booking.firstName,
+        lastName: booking.lastName,
+      }
 
       const session = await stripe.checkout.sessions.create({
         customer_email: booking.email,
         payment_intent_data: {
-          metadata: {
-            id: booking.id,
-            update: "true",
-            bookingCode,
-            payed: additionalPrice,
-            arrivalDate: booking.arrivalDate.toString(),
-            departureDate: booking.departureDate.toString(),
-            total: booking.total,
-            daysofparking: booking.daysofparking,
-            service: service.name,
-            arrivalString: `${booking.arrivalDate
-              .getDate()
-              .toString()
-              .padStart(2, "0")}-${(booking.arrivalDate.getMonth() + 1)
-              .toString()
-              .padStart(2, "0")}-${booking.arrivalDate.getFullYear()} ${
-              validBody.data.arrivalTime
-            }`,
-            departureString: `${booking.departureDate
-              .getDate()
-              .toString()
-              .padStart(2, "0")}-${(booking.departureDate.getMonth() + 1)
-              .toString()
-              .padStart(2, "0")}-${booking.departureDate.getFullYear()} ${
-              validBody.data.departureTime
-            }`,
-            firstName: booking.firstName,
-            lastName: booking.lastName,
-          },
+          metadata,
           capture_method: "automatic",
         },
         payment_method_types: [myPayment as "card" | "paypal" | "ideal"],
@@ -256,42 +260,14 @@ export async function POST(req: Request) {
                 name: service.name,
                 description: `Booking for additional ${additionalDays} day(s) parking `,
               },
-              unit_amount: Math.round(additionalPrice * 100),
+              unit_amount: stripePrice,
             },
             quantity: 1,
           },
         ],
         expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
         mode: "payment",
-        metadata: {
-          id: booking.id,
-          update: "true",
-          bookingCode,
-          payed: additionalPrice,
-          arrivalDate: booking.arrivalDate.toString(),
-          departureDate: booking.departureDate.toString(),
-          total: booking.total,
-          daysofparking: booking.daysofparking,
-          service: service.name,
-          arrivalString: `${booking.arrivalDate
-            .getDate()
-            .toString()
-            .padStart(2, "0")}-${(booking.arrivalDate.getMonth() + 1)
-            .toString()
-            .padStart(2, "0")}-${booking.arrivalDate.getFullYear()} ${
-            validBody.data.arrivalTime
-          }`,
-          departureString: `${booking.departureDate
-            .getDate()
-            .toString()
-            .padStart(2, "0")}-${(booking.departureDate.getMonth() + 1)
-            .toString()
-            .padStart(2, "0")}-${booking.departureDate.getFullYear()} ${
-            validBody.data.departureTime
-          }`,
-          firstName: booking.firstName,
-          lastName: booking.lastName,
-        },
+        metadata,
 
         success_url: `${process.env.NEXT_PUBLIC_FRONTEND!}/checkout?success=${
           booking.id
