@@ -13,7 +13,7 @@ export const getCurrentCompany = async() =>{
     const session = await getServerSession(authOptions)
     if(!session?.user?.email) return null 
 
-    if(session.user.name === "Company"){
+    if(session?.user?.name === "Company"){
         const company = await prisma.company.findUnique({
             where:{
                 email:session?.user?.email ,
@@ -25,7 +25,7 @@ export const getCurrentCompany = async() =>{
         return company 
     }
 
-    if(session.user.name === "Entity"){
+    if(session?.user?.name === "Entity"){
 
 
         const entity = await prisma.entity.findUnique({

@@ -26,9 +26,10 @@ const page = async ({ searchParams }: Props) => {
     searchParams.service = "all";
   }
 
-  const session = await getServerSession(authOptions);
   const company = await getCurrentCompany()
   if(!company) throw new Error('auth')
+  const session = await getServerSession(authOptions);
+
   
   const isCompany = session?.user?.name === "Company"
 
