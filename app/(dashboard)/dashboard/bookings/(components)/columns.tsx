@@ -44,7 +44,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Booking code
+          Reservering code
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -82,7 +82,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-         Parking provider
+         Parkeer aanbieder
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -97,7 +97,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Parking type
+          Parkeer type
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -112,7 +112,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Name
+            Naam
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
@@ -129,7 +129,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-           Booking date
+           Reserverings datum
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
@@ -145,7 +145,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Arrival date
+          Aankomst datum
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -160,7 +160,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-         Departure date
+         Terugkomst datum
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -175,7 +175,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-         Payment method
+         Betaal methode
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -202,7 +202,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Total
+          Totaal
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -220,7 +220,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Booking status
+          Reservering status
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -235,7 +235,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Payment status
+          Betaal status
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )

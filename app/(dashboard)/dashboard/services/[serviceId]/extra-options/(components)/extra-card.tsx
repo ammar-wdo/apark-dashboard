@@ -27,7 +27,7 @@ const ExtraCard = ({extraOption}: Props) => {
            
             <div className='flex items-center justify-between mt-6 mb-4'>
             {!extraOption.isActive && <Badge className='bg-yellow-500/20 text-yellow-500 rounded-full w-fit hover:bg-yellow-500/50 '>In behandeling</Badge>}
-            <p className='p-1 border rounded-md w-fit ml-auto'>{extraOption.available ? "Available" : "Not available"}</p>
+            <p className='p-1 border rounded-md w-fit ml-auto'>{extraOption.available ? "Beschikbaar" : "Niet Beschikbaar"}</p>
             </div>
             <p className='font-bold mt-auto'>€ {extraOption.price}</p>
 

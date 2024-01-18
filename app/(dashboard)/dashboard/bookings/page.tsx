@@ -89,7 +89,7 @@ const bookingStatus = [
 
   return (
     <div className=" ">
-      <Heading title="Bookings" description="Check your bookings" />
+      <Heading title="Reserveringen" description="Bekijk Reserveringen" />
 <div className="separate">
 
 <div className='flex gap-3 '>

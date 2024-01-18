@@ -115,7 +115,7 @@ const handleNext = ()=>{
           <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Filter columns
+              Filter 
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
