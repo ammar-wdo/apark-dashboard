@@ -26,7 +26,7 @@ export default function Error({
   
       
           <div className="py-4 text-rose-400 text-4xl font-bold ">
-            {error.message==='auth' ? <p className="text-center">"This account is not valid <br/> please cantact super admin"</p> : <p>Internal server error</p>}
+            {error.message==='auth' ? <p className="text-center">This account is not valid <br/> please cantact super admin</p> : <p>Internal server error</p>}
           </div>
        
         <div className="flex items-center gap-4 mx-auto justify-center">
