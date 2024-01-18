@@ -18,30 +18,35 @@ const page =async({params}: Props) => {
 
     const session = await getServerSession(authOptions)
 
-    let rules
 
-    if(session?.user?.name === "Company"){
-      rules = await prisma.rule.findMany({
+    const service = await prisma.service.findUnique({
+      where:{
+        id:params.serviceId,
+        ...(session?.user?.name === "Company" && {
+          entity: { companyId: currentCompany?.id },
+        }),
+        ...(session?.user?.name === "Entity" && {
+          entityId: currentCompany?.id,
+        })
+      }
+    })
+ 
+     const  rules = await prisma.rule.findMany({
         where:{
           service:{
             id:params.serviceId,
-            entity:{companyId:currentCompany.id}
+            ...(session?.user?.name === "Company" && {
+              entity: { companyId: currentCompany?.id },
+            }),
+            ...(session?.user?.name === "Entity" && {
+              entityId: currentCompany?.id,
+            })
           }
         }
       })
-    }else{
-      rules = await  prisma.rule.findMany({
-        where:{
-            service:{entityId:currentCompany.id,id:params.serviceId},
-           
-        },
-        orderBy:{
-            createdAt:'desc'
-        }
-    })
-    }
+    
 
- if(!rules) return notFound()
+ if(!service) return notFound()
 
 
   return (
