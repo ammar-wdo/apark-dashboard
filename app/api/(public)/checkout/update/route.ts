@@ -196,6 +196,8 @@ export async function POST(req: Request) {
     } else if (additionalDays > 0) {
       const myPayment = methods[validBody.data.paymentMethod];
 
+      
+
       const updatedBooking = await prisma.booking.update({
         where: {
           id: booking.id,
@@ -254,7 +256,7 @@ export async function POST(req: Request) {
                 name: service.name,
                 description: `Booking for additional ${additionalDays} day(s) parking `,
               },
-              unit_amount: additionalPrice * 100,
+              unit_amount: Math.round(additionalPrice * 100),
             },
             quantity: 1,
           },
