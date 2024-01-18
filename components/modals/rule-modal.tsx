@@ -31,7 +31,7 @@ import RulesForm from "@/app/(dashboard)/dashboard/services/[serviceId]/rules/(c
         <DialogContent>
         <DialogHeader>
             <DialogTitle>
-            Add a Rule
+           Toevoegen
             </DialogTitle>
              
             </DialogHeader>

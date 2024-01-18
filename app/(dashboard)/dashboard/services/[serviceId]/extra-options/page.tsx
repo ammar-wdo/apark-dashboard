@@ -36,7 +36,7 @@ const page = async({params}: Props) => {
   return (
     <div className=''>
         <div className='flex justify-between items-center'>
-        <Heading title='Extra options' description={`Manage extra options for ${service?.name} `} />
+        <Heading title='Extra opies' description={`Beheer extra opties voor ${service?.name} `} />
         <ExtraButton />
         </div>
         <div>

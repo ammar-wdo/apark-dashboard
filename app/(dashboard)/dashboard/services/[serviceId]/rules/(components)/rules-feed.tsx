@@ -27,13 +27,13 @@ const RulesFeed = ({ rules }: Props) => {
   <TableHeader>
     <TableRow>
       <TableHead className=" text-center capitalize">Label</TableHead>
-      <TableHead className="text-center capitalize">From</TableHead>
-      <TableHead className="text-center capitalize">To</TableHead>
+      <TableHead className="text-center capitalize">Van</TableHead>
+      <TableHead className="text-center capitalize">Tot</TableHead>
       <TableHead className="text-center capitalize">Type</TableHead>
 
-      <TableHead className="text-center capitalize">Value</TableHead>
+      <TableHead className="text-center capitalize">Waarde</TableHead>
       <TableHead className="text-center capitalize">Percentage</TableHead>
-      <TableHead className="text-center capitalize">Actions</TableHead>
+      <TableHead className="text-center capitalize">Actie</TableHead>
     </TableRow>
   </TableHeader>
   <TableBody>

@@ -59,9 +59,9 @@ const AvailabilityFeed = async ({ serviceId }: Props) => {
         <TableHeader>
           <TableRow>
             <TableHead className=" text-center">Label</TableHead>
-            <TableHead className="text-center">From</TableHead>
-            <TableHead className="text-center">To</TableHead>
-            <TableHead className="text-center">Action</TableHead>
+            <TableHead className="text-center">Van</TableHead>
+            <TableHead className="text-center">Tot</TableHead>
+            <TableHead className="text-center">Actie</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -78,11 +78,11 @@ const AvailabilityFeed = async ({ serviceId }: Props) => {
       </Table>
       {!availabilitys.length && (
         <p className="font-bold text-center mt-4 text-muted-foreground">
-          No availability blockings added
+          Geen blokkeringen
         </p>
       )}
       <h3 className="text-center capitalize text-lg font-bold mt-24 pt-4">
-        Calendar of blocked ranges
+      Kalender van geblokkeerde periodes
       </h3>
       <Ranges availabilitys={availabilitys} />
     </div>

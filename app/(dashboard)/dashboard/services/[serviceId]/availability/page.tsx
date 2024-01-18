@@ -32,8 +32,8 @@ const page = async ({ params }: Props) => {
     <div>
       <div className="flex items-center justify-between">
         <Heading
-          title="Availability"
-          description="Manage your availability times"
+          title="Beschikbaarheid"
+          description="Schakel uw service in en uit voor specifieke dagen "
         />
         <AvailabilityTriggerButton />
       </div>

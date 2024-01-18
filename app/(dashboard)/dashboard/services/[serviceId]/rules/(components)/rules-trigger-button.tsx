@@ -15,7 +15,7 @@ const RuleTriggerButton = (props: Props) => {
 
     const {setOpen} = useModal()
   return (
-    <Button onClick={()=>setOpen('rule-modal',{})}>Add Rule</Button>
+    <Button onClick={()=>setOpen('rule-modal',{})}>Toevoegen</Button>
   )
 }
 

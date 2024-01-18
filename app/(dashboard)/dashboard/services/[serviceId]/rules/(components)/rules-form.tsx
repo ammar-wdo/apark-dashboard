@@ -50,7 +50,7 @@ const loading = form.formState.isSubmitting
           name="type"
           render={({ field }) => (
             <FormItem className="space-y-1">
-              <FormLabel>Rule type</FormLabel>
+              <FormLabel>Regel type</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -62,7 +62,7 @@ const loading = form.formState.isSubmitting
                       <RadioGroupItem value="FIXED" />
                     </FormControl>
                     <FormLabel className="font-normal">
-                     Fixed
+                     BEDRAG
                     </FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
@@ -86,7 +86,7 @@ const loading = form.formState.isSubmitting
             name="value"
             render={({ field }) => (
               <FormItem className='flex flex-col w-full'>
-                <FormLabel>Value</FormLabel>
+                <FormLabel>Waarde</FormLabel>
                 <FormControl>
                <Input {...field} className='' value={form.watch('value')||''} placeholder='0' type='number' />
                 </FormControl>
@@ -118,7 +118,7 @@ const loading = form.formState.isSubmitting
         name="startDate"
         render={({ field }) => (
           <FormItem className='flex flex-col '>
-            <FormLabel>Start date</FormLabel>
+            <FormLabel>Start datum</FormLabel>
             <FormControl>
             <Popover open={startOpen} onOpenChange={setStartOpen}>
                 <PopoverTrigger asChild >
@@ -163,7 +163,7 @@ const loading = form.formState.isSubmitting
         name="endDate"
         render={({ field }) => (
           <FormItem className='flex flex-col '>
-            <FormLabel>End date</FormLabel>
+            <FormLabel>eind datum</FormLabel>
             <FormControl>
             <Popover open={endOpen} onOpenChange={setEndOpen}>
                 <PopoverTrigger asChild>
@@ -203,7 +203,7 @@ const loading = form.formState.isSubmitting
         )}
       />
     
-      <Button  disabled={loading} type="submit">Submit{loading && <Loader className='ml-2 w-3 h-3 animate-spin' />}</Button>
+      <Button  disabled={loading} type="submit">Bevestigen{loading && <Loader className='ml-2 w-3 h-3 animate-spin' />}</Button>
    
     </form>
   </Form>

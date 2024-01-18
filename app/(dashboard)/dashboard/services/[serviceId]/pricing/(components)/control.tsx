@@ -69,7 +69,7 @@ const Control = ({
       <div className="grid grid-col-1 md:grid-cols-2 gap-2 mt-4 group">
         <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] hover:shadow-md transition bg-background group-hover:scale-95 group-hover:opacity-60 group-hover:hover:opacity-100">
           <span className="font-semibold">
-            Set all fields to a certain value
+           Vaste prijs voor iedere dag
           </span>
 
           <Input
@@ -89,15 +89,15 @@ const Control = ({
               setResetValue(0);
             }}
           >
-            Set
+            Toevoegen
           </Button>
         </div>
 
         <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
-          <span className="font-semibold">Add value to each day</span>
+          <span className="font-semibold">Prijs per dag toevoegen</span>
 
           <div className="grid grid-cols-2 gap-1 w-full  items-center ">
-            <span>From</span>
+            <span>Van</span>
             <Input
               min={0}
               type="number"
@@ -106,7 +106,7 @@ const Control = ({
               value={fromValue || ""}
               onChange={(e) => setFromValue(+e.target.value)}
             />
-            <span>To</span>
+            <span>Naar</span>
             <Input
               min={0}
               type="number"
@@ -115,7 +115,7 @@ const Control = ({
               value={toValue || ""}
               onChange={(e) => setToValue(+e.target.value)}
             />
-            <span>Value</span>
+            <span>Waarde</span>
 
             <Input
               min={0}
@@ -137,15 +137,15 @@ const Control = ({
               setDayValue(0);
             }}
           >
-            Add
+            Toevoegen
           </Button>
         </div>
 
         <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
-          <span className="font-semibold">Substract value from each day</span>
+          <span className="font-semibold">waarde aftrekken van elke dag</span>
 
           <div className="grid grid-cols-2 gap-1 w-full items-center ">
-            <span>From</span>
+            <span>Van</span>
             <Input
               min={0}
               type="number"
@@ -154,7 +154,7 @@ const Control = ({
               value={fromSubstract || ""}
               onChange={(e) => setFromSubstract(+e.target.value)}
             />
-            <span>To</span>
+            <span>Naar</span>
             <Input
               min={0}
               type="number"
@@ -163,7 +163,7 @@ const Control = ({
               value={toSubstract || ""}
               onChange={(e) => setTooSubstract(+e.target.value)}
             />
-            <span>Value</span>
+            <span>Waarde</span>
 
             <Input
               min={0}
@@ -185,12 +185,12 @@ const Control = ({
               setSubstractValue(0);
             }}
           >
-            Substract
+            Aftrekken
           </Button>
         </div>
 
         <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
-          <span className="font-semibold">Add percentage to each day</span>
+          <span className="font-semibold">Voeg percentage toe aan elke dag</span>
 
           <div className="relative flex items-center">
             <span className="absolute left-2 text-xs text-gray-500">%</span>
@@ -211,15 +211,15 @@ const Control = ({
               setPercentage(0);
             }}
           >
-            Add
+            Toevoegen
           </Button>
         </div>
 
         <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
-          <span className="font-semibold">Add rows with values</span>
+          <span className="font-semibold">Rijen toevoegen met waarden</span>
 
           <div className="grid grid-cols-2 gap-1 w-full items-center ">
-            <span>Number of rows</span>
+            <span>Aantal rijen</span>
             <Input
               min={0}
               type="number"
@@ -228,7 +228,7 @@ const Control = ({
               value={rows || ""}
               onChange={(e) => setRows(+e.target.value)}
             />
-            <span>Value of each</span>
+            <span>Waarde van elk</span>
             <Input
               min={0}
               placeholder="0"
@@ -248,15 +248,15 @@ const Control = ({
               setRowsValue(0);
             }}
           >
-            Add
+            Toevoegen
           </Button>
         </div>
 
         <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
-          <span className="font-semibold">Add incremental value </span>
+          <span className="font-semibold">Voeg toenemend waarde toe </span>
 
           <div className="grid grid-cols-2 gap-1 w-full items-center ">
-            <span>From</span>
+            <span>Van</span>
             <Input
               min={0}
               type="number"
@@ -265,7 +265,7 @@ const Control = ({
               value={from || ""}
               onChange={(e) => setFrom(+e.target.value)}
             />
-            <span>To</span>
+            <span>Naar</span>
             <Input
               min={0}
               type="number"
@@ -274,7 +274,7 @@ const Control = ({
               value={to || ""}
               onChange={(e) => setTo(+e.target.value)}
             />
-            <span>Value</span>
+            <span>Waarde</span>
             <Input
               min={0}
               type="number"
@@ -295,7 +295,7 @@ const Control = ({
               setIncrementValue(0);
             }}
           >
-            Add
+            Toevoegen
           </Button>
         </div>
       </div>

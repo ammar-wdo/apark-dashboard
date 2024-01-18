@@ -10,7 +10,7 @@ const ExtraButton = (props: Props) => {
 
     const {setOpen} = useModal()
   return (
-    <Button onClick={()=>setOpen('extra-option')}>Add option</Button>
+    <Button onClick={()=>setOpen('extra-option')}>Toevoegen</Button>
   )
 }
 

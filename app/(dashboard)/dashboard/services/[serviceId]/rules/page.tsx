@@ -54,7 +54,7 @@ if(!company) return <ErrorHolder/>
     <div>
 
 
-    <div className='flex items-center justify-between'><Heading title='Rules' description='Manage your pricing rules for diffirent times' /> 
+    <div className='flex items-center justify-between'><Heading title='Regels' description='Beheer prijsregels' /> 
     <RuleTriggerButton /></div>
 
 <div className='separate'>

@@ -15,7 +15,7 @@ const AvailabilityTriggerButton = (props: Props) => {
 
     const {setOpen} = useModal()
   return (
-    <Button onClick={()=>setOpen('availability-modal',{metaDate:params.serviceid as string})}>Add Range</Button>
+    <Button onClick={()=>setOpen('availability-modal',{metaDate:params.serviceid as string})}>Toevoegen</Button>
   )
 }
 
