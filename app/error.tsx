@@ -23,13 +23,12 @@ export default function Error({
         <h2 className="py-4  text-4xl font-bold ">Something went wrong!</h2>
         <div className="w-[200px] h-[200px] relative mx-auto"></div>
 
-        {error instanceof Error ? (
-          <p className="py-4 text-rose-400 text-4xl font-bold">{error.message}</p>
-        ) : (
-          <p className="py-4 text-rose-400 text-4xl font-bold ">
-            Internal server error
-          </p>
-        )}
+  
+      
+          <div className="py-4 text-rose-400 text-4xl font-bold ">
+            {error.message==='auth' ? <p className="text-center">"This account is not valid <br/> please cantact super admin"</p> : <p>Internal server error</p>}
+          </div>
+       
         <div className="flex items-center gap-4 mx-auto justify-center">
           <Button
             onClick={
