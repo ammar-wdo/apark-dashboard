@@ -279,7 +279,7 @@ const stripePrice = Math.round(additionalPrice * 100)
       const values = setLog(
         0,
         "UPDATING",
-        `An attemt to extend the period of parking for ${additionalDays} day(s) with additional expected payment of €${additionalPrice.toFixed(2)}`,
+        `An attemt to extend the period of parking for ${additionalDays} day(s) with additional expected payment of €${additionalPrice}`,
         updatedBooking
       );
       await prisma.log.create({ data: { ...values } });

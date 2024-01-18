@@ -38,5 +38,5 @@ export const calculateNewUpdate = ({bookingArrival,bookingDeparture,service,park
       }
 
 
-      return {additionalDays,additionalPrice}
+      return {additionalDays,additionalPrice:+additionalPrice.toFixed(2)}
 }
