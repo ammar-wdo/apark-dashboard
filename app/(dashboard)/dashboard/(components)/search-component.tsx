@@ -58,7 +58,7 @@ if(entityId==="all"){
 
   return (
     <div>
-    <h3 className='pb-1 text-sm text-neutral-500'>Choose a service</h3>
+    <h3 className='pb-1 text-sm text-neutral-500'>Kies een service</h3>
     
    <SearchDropdown searchParams={searchParams} services={services} />
    </div>

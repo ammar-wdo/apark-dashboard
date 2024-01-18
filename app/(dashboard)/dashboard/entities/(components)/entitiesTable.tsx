@@ -70,15 +70,15 @@ const EntitiesTable = ({ entities }: Props) => {
               <div className="flex items-center justify-between ">
                 {entity.isActive ? (
                   <Badge className="text-green-500 bg-green-500/20 hover:bg-green-500/20 p-1 px-3 rounded-full">
-                    Active
+                    Actief
                   </Badge>
                 ) : (
                   <Badge className="text-red-500 bg-red-500/20 hover:bg-red-500/20 p-1 px-3 rounded-full">
-                    inActive
+                    Inactief
                   </Badge>
                 )}
 
-                <Button asChild variant={'secondary'}><Link href={`/dashboard/services?entityId=${entity.id}`}>Check services</Link></Button>
+                <Button asChild variant={'secondary'}><Link href={`/dashboard/services?entityId=${entity.id}`}>Bekijk services</Link></Button>
               </div>
             </div>
           </div>

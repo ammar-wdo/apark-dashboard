@@ -55,12 +55,12 @@ const PricingForm = ({ pricings }: Props) => {
         >
              <div className="flex items-center gap-3 sticky top-12 z-10 bg-background p-2  border ">
             <Button disabled={isLoading} type="submit">
-              Save changes{" "}
+              Opslaan{" "}
               {isLoading && <Loader className="animate-spin w-3 h-3 ml-2" />}
             </Button>
             <Button type="button" onClick={addRow} variant={"secondary"}>
               {" "}
-              Add a day
+              Voeg dag toe
             </Button>
           </div>
           <FormField
@@ -69,12 +69,12 @@ const PricingForm = ({ pricings }: Props) => {
             render={({ field }) => (
               <>
                 <Table className="w-full border  rounded-sm">
-                  <TableCaption>A list of your service pricing</TableCaption>
+               
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="text-center">Day</TableHead>
+                      <TableHead className="text-center">Dag</TableHead>
 
-                      <TableHead className="text-center">Price</TableHead>
+                      <TableHead className="text-center">Prijs</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>

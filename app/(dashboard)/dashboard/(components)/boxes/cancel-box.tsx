@@ -19,7 +19,7 @@ const CancelBox = async({searchParams,entity}: Props) => {
 
   const {monthlyCanceledBookings} = getTotal(services!)
   return (
- <Box title='Total cancelation' footer='For this month' Icon={<CircleSlash className='w-7 h-7 text-neutral-500' />} value={monthlyCanceledBookings} />
+ <Box title='Totale annuleringen' footer='Deze maand' Icon={<CircleSlash className='w-7 h-7 text-neutral-500' />} value={monthlyCanceledBookings} />
   )
 }
 

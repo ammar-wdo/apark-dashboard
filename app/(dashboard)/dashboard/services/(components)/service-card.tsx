@@ -41,7 +41,7 @@ const ServiceCard = ({ service }: Props) => {
         <div className="p-2 rounded-full border text-[11px] flex flex-col  justify-center items-center">
           <span>
           {service.spots}
-            </span> <span className="font-bold">Spots</span>
+            </span> <span className="font-bold">plekken</span>
         </div>
      
       </div>
@@ -50,7 +50,7 @@ const ServiceCard = ({ service }: Props) => {
         {!!service.electricCharging && (
           <p className="flex items-center gap-2  text-xs w-fit   ">
             {<Plug className=" p-1 " />}
-            Electric charging
+            elektrisch laden
           </p>
         )}
         <p className="lowercase first-letter:capitalize  text-xs w-fit  flex items-center gap-2 ">
@@ -71,36 +71,36 @@ const ServiceCard = ({ service }: Props) => {
       <div className="flex items-center justify-between ">
         {!service.isActive && (
           <Badge className="bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/20">
-            Pending
+            in behandeling
           </Badge>
         )}
 
         <span className="text-sm p-1 border rounded-lg ml-auto">
-          {service.available ? "Available" : "Not available"}
+          {service.available ? "Beschikbaar" : "Niet Beschikbaar"}
         </span>
       </div>
       <Separator className="my-3" />
       <div className="grid grid-cols-2 gap-2 ">
-        <ActionToolTip title="Edit your service" side="top">
+        <ActionToolTip title="Pas uw service aan" side="top">
           <Button asChild variant={"secondary"} className="text-xs">
             <Link
               className="flex items-center"
               href={`/dashboard/services/${service.id}`}
             >
                     <Edit className="mr-3 w-4 h-4" />
-              Edit
+              Bewerken
         
             </Link>
           </Button>
         </ActionToolTip>
-        <ActionToolTip title="Manage your pricing for each day" side="top">
+        <ActionToolTip title="Beheer uw prijzen per dag" side="top">
           <Button asChild variant={"secondary"} className="text-xs">
             <Link
               className="flex items-center"
               href={`/dashboard/services/${service.id}/pricing`}
             >
                      <Euro className="mr-3 w-4 h-4" />
-              Pricing
+              Prijzen
        
             </Link>
           </Button>
@@ -108,8 +108,8 @@ const ServiceCard = ({ service }: Props) => {
       </div>
       <div className="grid grid-cols-3 gap-2 mt-2">
         <ActionToolTip
-        header="Availability"
-          title="Enable and disable your service for specific times"
+        header="Beschikbaarheid"
+          title="Schakel uw service in en uit voor specifieke dagen"
           side="bottom"
         >
           <Button asChild variant={"secondary"} className="text-xs">
@@ -122,8 +122,8 @@ const ServiceCard = ({ service }: Props) => {
           </Button>
         </ActionToolTip>
         <ActionToolTip
-        header="Rules"
-          title="Manage your payment rules for different dates"
+        header="Regels"
+          title="Beheer prijsregels"
           side="bottom"
         >
           <Button asChild variant={"secondary"} className="text-xs">
@@ -136,8 +136,8 @@ const ServiceCard = ({ service }: Props) => {
           </Button>
         </ActionToolTip>
         <ActionToolTip
-        header="Extra options"
-          title="Manage your extra options for the service"
+        header="Extra opties"
+          title="Beheer opties"
           side="bottom"
         >
           <Button asChild variant={"secondary"} className="text-xs">

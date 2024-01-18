@@ -31,8 +31,8 @@ const page = async ({ searchParams }: Props) => {
   return (
     <div >
       <div className="flex justify-between items-center">
-      <Heading title="Services" description="Manage your services" />
-      <Link className="" href={`/dashboard/services/new`}><Button>Add service</Button></Link>
+      <Heading title="Services" description="Beheer services" />
+      <Link className="" href={`/dashboard/services/new`}><Button>Service toevoegen</Button></Link>
       </div>
 
      

@@ -63,11 +63,11 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="entityId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Choose your entity*</FormLabel>
+                    <FormLabel>Kies uw entiteit*</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select an entity" />
+                    <SelectValue placeholder="Kies entiteit" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -86,7 +86,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="terms"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Link to the Terms*</FormLabel>
+                    <FormLabel>Link naar de voorwaarden*</FormLabel>
                     <FormControl>
                       <Input placeholder="https://" {...field} />
                     </FormControl>
@@ -100,7 +100,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Service name*</FormLabel>
+                    <FormLabel>Service naam*</FormLabel>
                     <FormControl>
                       <Input placeholder="Indoor park" {...field} />
                     </FormControl>
@@ -114,9 +114,9 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="bookingsEmail"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Bookings e-mail</FormLabel>
+                    <FormLabel>Reserverings e-mail</FormLabel>
                     <FormControl>
-                      <Input placeholder="bookings email" {...field} />
+                      <Input placeholder="Reserverings e-mail" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -135,9 +135,9 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
-                      <FormLabel>Current availability</FormLabel>
+                      <FormLabel>Beschikbaarheid</FormLabel>
                       <FormDescription>
-                        You can enable or desable your availability{" "}
+                      Beschikbaarheid beheeren{" "}
                       </FormDescription>
                     </div>
                   </FormItem>
@@ -154,9 +154,9 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="parkingAddress"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address*</FormLabel>
+                    <FormLabel>adres*</FormLabel>
                     <FormControl>
-                      <Input placeholder="Address" {...field} />
+                      <Input placeholder="adres" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -168,9 +168,9 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="parkingZipcode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Zipcode*</FormLabel>
+                    <FormLabel>Postcode*</FormLabel>
                     <FormControl>
-                      <Input placeholder="Zipcode" {...field} />
+                      <Input placeholder="Postcode" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -182,9 +182,9 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="parkingPlace"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Place*</FormLabel>
+                    <FormLabel>Plaats*</FormLabel>
                     <FormControl>
-                      <Input placeholder="Place" {...field} />
+                      <Input placeholder="Plaats" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -196,9 +196,9 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="parkingCountry"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Country*</FormLabel>
+                    <FormLabel>Land*</FormLabel>
                     <FormControl>
-                      <Input placeholder="Country" {...field} />
+                      <Input placeholder="Land" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -210,10 +210,10 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="spots"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Total parking spots available* </FormLabel>
+                    <FormLabel>Parkeerplaatsen Beschikbaar* </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="total spots"
+                        placeholder="Parkeerplaatsen Beschikbaar"
                         type="number"
                         {...field}
                       />
@@ -228,14 +228,14 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="parkingType"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Parking type</FormLabel>
+                    <FormLabel>Parkeertype</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a verified email to display" />
+                          <SelectValue placeholder="Kies type" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -257,10 +257,10 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="arrivalTodos"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>What to do on arrival</FormLabel>
+                    <FormLabel>Wat te doen bij aankomst</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Tell us a little bit about yourself"
+                        placeholder="Wat te doen bij aankomst"
                         className="resize-none"
                         {...field}
                       />
@@ -275,10 +275,10 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                 name="departureTodos"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>What to do on arrival</FormLabel>
+                    <FormLabel>Wat te doen bij terugkomst</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Tell us a little bit about yourself"
+                        placeholder="Wat te doen bij terugkomst"
                         className="resize-none"
                         {...field}
                       />
@@ -302,7 +302,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>
-                  Electric charging
+                 Electrisch laden
                 </FormLabel>
            
               </div>
@@ -315,7 +315,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
           name="parkingLocation"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Parking location</FormLabel>
+              <FormLabel>Parkeer locatie</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -327,7 +327,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                       <RadioGroupItem value={ParkingLocation.INDOOR} />
                     </FormControl>
                     <FormLabel className="font-normal">
-                      Indoor
+                      Binnen
                     </FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
@@ -335,7 +335,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                       <RadioGroupItem value={ParkingLocation.OUTDOOR} />
                     </FormControl>
                     <FormLabel className="font-normal">
-                     Outdoor
+                     Buiten
                     </FormLabel>
                   </FormItem>
                 
@@ -350,7 +350,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
           name="keyStatus"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Keys</FormLabel>
+              <FormLabel>Sleutels</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -362,7 +362,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                       <RadioGroupItem value={Key.KEEP} />
                     </FormControl>
                     <FormLabel className="font-normal">
-                      Keep
+                      Meenemen
                     </FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
@@ -370,7 +370,7 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
                       <RadioGroupItem value={Key.LEAVE} />
                     </FormControl>
                     <FormLabel className="font-normal">
-                     Leave
+                    Afgeven
                     </FormLabel>
                   </FormItem>
               
@@ -390,14 +390,14 @@ const ServiceForm = ({ service,airports,entities ,isCompany,entityId}: Props) =>
           <Button disabled={isLoading} type="submit">
             {isLoading ? (
               <>
-                {service ? "Saving.." : "  Submitting"}
+                {service ? "Opslaan.." : "  Indienen"}
 
                 <Loader className="ml-3 w-3 h-3 animate-spin" />
               </>
             ) : service ? (
-              "Save changes"
+              "Wizigingen opslaan"
             ) : (
-              "Submit"
+              "Indienen"
             )}
           </Button>
       

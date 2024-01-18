@@ -37,7 +37,7 @@ const SearchEntity = async({searchParams}: Props) => {
 
   return (
     <div>
-    <h3 className='pb-1 text-sm text-neutral-500'>Choose an entity</h3>
+    <h3 className='pb-1 text-sm text-neutral-500'>Kies een entiteit</h3>
     
    <SearchEntityDropdown entities={entities}  searchParams={searchParams}/>
    </div>

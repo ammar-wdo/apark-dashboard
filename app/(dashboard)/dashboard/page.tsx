@@ -49,7 +49,7 @@ const page = async ({ searchParams }: Props) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <Heading title="Dashboard" description="Manage your account" />
+        <Heading title="Dashboard" description="Beheer je account" />
         <div className="flex items-center gap-3"> 
           <SearchComponent
           entityId={searchParams.entity}

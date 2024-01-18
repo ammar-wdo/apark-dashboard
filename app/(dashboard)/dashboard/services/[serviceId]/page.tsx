@@ -33,9 +33,9 @@ const page = async ({ params }: Props) => {
   return (
     <div>
       <Heading
-        title={service ? "Edit your service" : "Add a service"}
+        title={service ? "Bewerk uw service" : "Service toevoegen"}
         description={
-          service ? "Customize your service" : "Add your service informations"
+          service ? `${service.name} bewerken` : "Service informatie toevoegen"
         }
       />
 

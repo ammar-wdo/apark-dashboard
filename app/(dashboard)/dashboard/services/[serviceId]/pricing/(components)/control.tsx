@@ -60,7 +60,7 @@ const Control = ({
   return (
     <section className=" p-3 rounded-sm  text-xs">
       <div className="flex items-center justify-between ">
-        <span className="font-bold text-lg">Control</span>
+        <span className="font-bold text-lg">Aanpassen</span>
        
      
         

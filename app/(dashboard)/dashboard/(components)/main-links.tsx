@@ -28,13 +28,13 @@ const MainLinks = ({ isAdmin }: Props) => {
 
   const myLinks = [
     {
-      label: "dashboard",
+      label: "Dashboard",
       active: pathname === "/dashboard",
       link: "/dashboard",
       Icon: <LayoutDashboard className="w-5 h-5 mr-3" />,
     },
     {
-      label: "entities",
+      label: "Entiteit",
       active: pathname === "/dashboard/entities",
       link: "/dashboard/entities",
       Icon: <Building2 className="w-5 h-5 mr-3" />,
@@ -42,13 +42,13 @@ const MainLinks = ({ isAdmin }: Props) => {
     },
 
     {
-      label: "services",
+      label: "Diensten",
       active: pathname === "/dashboard/services",
       link: "/dashboard/services",
       Icon: <Boxes className="w-5 h-5 mr-3" />,
     },
     {
-      label: "Reserveringen",
+      label: "reserveringen",
       active: pathname === "/dashboard/bookings",
       link: "/dashboard/bookings",
       Icon: <BookmarkCheck className="w-5 h-5 mr-3" />,

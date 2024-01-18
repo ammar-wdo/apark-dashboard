@@ -28,7 +28,7 @@ const BookingBox = async({searchParams,entity}: Props) => {
 
 
   return (
-   <Box title='Total bookings'  Icon={<BookmarkCheck className='w-7 h-7 text-neutral-500'/>} footer='For this month' dollar={false} value={bookings as number}/>
+   <Box title='Totale reserveringen'  Icon={<BookmarkCheck className='w-7 h-7 text-neutral-500'/>} footer='Deze maand' dollar={false} value={bookings as number}/>
   )
 }
 
