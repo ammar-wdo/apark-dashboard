@@ -17,7 +17,7 @@ const signout = async()=>{
 }
 
   return (
-    <button  className='link' onClick={signout}><LogOut className='h-4 w-4 mr-3' />Signout</button>
+    <button  className='link' onClick={signout}><LogOut className='h-4 w-4 mr-3' />afmelden</button>
   )
 }
 

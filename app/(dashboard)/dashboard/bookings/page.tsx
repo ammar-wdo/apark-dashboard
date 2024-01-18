@@ -34,50 +34,50 @@ const page = async ({ params, searchParams }: Props) => {
 
   const paymentStatus = [
     {
-    label:'succeeded',
+    label:'Geslaagd',
     description:'The payment is made successfully',
     color:'border-l-2 border-green-500'
   },
   {
-    label:'pending',
+    label:'In Behandeling',
     description:'The payment is pending ',
     color:'border-l-2 border-yellow-500'
   },
     {
-    label:'expired',
+    label:'Verlopen',
     description:'The payment checkout was expired and payment failed ',
     color:'border-l-2 border-rose-500'
   },
 
     {
-    label:'canceled',
+    label:'Geannuleerd',
     description:'The payment is canceled and a refund action made',
     color:'border-l-2 border-rose-500'
   },
 
 ]
-  const bookingStatus = [
-    {
-    label:'active',
-    description:'The booking is either paid or pending',
-    color:'border-l-2 border-green-500'
-  },
+const bookingStatus = [
   {
-    label:'refund request',
-    description:'The booking is pending to be refunded ',
-    color:'border-l-2 border-yellow-500'
-  },
-    {
-    label:'refunded',
-    description:'The booking is successfully refunded',
-    color:'border-l-2 border-green-500'
-  },
+  label:'Actief',
+  description:'The booking is either paid or pending',
+  color:'border-l-2 border-green-500'
+},
+{
+  label:'Verzoek om teruggave',
+  description:'The booking is pending to be refunded ',
+  color:'border-l-2 border-yellow-500'
+},
+  {
+  label:'Terugbetaald',
+  description:'The booking is successfully refunded',
+  color:'border-l-2 border-green-500'
+},
 
-    {
-    label:'canceled',
-    description:'The booking is canceled',
-    color:'border-l-2 border-rose-500'
-  },
+  {
+  label:'Geannuleerd',
+  description:'The booking is canceled',
+  color:'border-l-2 border-rose-500'
+},
 
 ]
  
@@ -88,8 +88,8 @@ const page = async ({ params, searchParams }: Props) => {
 <div className="separate">
 
 <div className='flex gap-3 '>
-     <Explane  stages={bookingStatus} title='Boooking status' />
-     <Explane  stages={paymentStatus} title='Payment status' />
+     <Explane  stages={bookingStatus} title=' Reservering status' />
+     <Explane  stages={paymentStatus} title='Betaal status' />
      </div>
 
       <Suspense   key={+searchParams.page}  fallback={<Skeleton className="w-full h-[700px] rounded-lg" />} >

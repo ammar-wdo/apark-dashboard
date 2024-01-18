@@ -49,28 +49,28 @@ const LogsFeed = async ({ bookingId }: Props) => {
 
   const stages = [
     {
-    label:'created',
+    label:'Gemaakt',
     description:'The booking is created',
     color:'border-l-2 border-green-500'
   },
   {
-    label:'updated',
+    label:'Bijgewerkt',
     description:'The booking is updated ',
     color:'border-l-2 border-green-500'
   },
     {
-    label:'updating',
+    label:'Bijwerken',
     description:'The booking is pending to update ',
     color:'border-l-2 border-yellow-500'
   },
   
     {
-    label:'reverted',
+    label:'Teruggekeerd',
     description:'The booking is reverted to its previous succeeded status ',
     color:'border-l-2 border-rose-500'
   },
     {
-    label:'canceled',
+    label:'geannuleerd',
     description:'The booking is canceled ',
     color:'border-l-2 border-rose-500'
   },
@@ -79,23 +79,23 @@ const LogsFeed = async ({ bookingId }: Props) => {
 
 const paymentStatus = [
   {
-  label:'succeeded',
+  label:'Geslaagd',
   description:'The payment is made successfully',
   color:'border-l-2 border-green-500'
 },
 {
-  label:'pending',
+  label:'In Behandeling',
   description:'The payment is pending ',
   color:'border-l-2 border-yellow-500'
 },
   {
-  label:'expired',
+  label:'Verlopen',
   description:'The payment checkout was expired and payment failed ',
   color:'border-l-2 border-rose-500'
 },
 
   {
-  label:'canceled',
+  label:'Geannuleerd',
   description:'The payment is canceled and a refund action made',
   color:'border-l-2 border-rose-500'
 },
@@ -103,23 +103,23 @@ const paymentStatus = [
 ]
 const bookingStatus = [
   {
-  label:'active',
+  label:'Actief',
   description:'The booking is either paid or pending',
   color:'border-l-2 border-green-500'
 },
 {
-  label:'refund request',
+  label:'Verzoek om teruggave',
   description:'The booking is pending to be refunded ',
   color:'border-l-2 border-yellow-500'
 },
   {
-  label:'refunded',
+  label:'Terugbetaald',
   description:'The booking is successfully refunded',
   color:'border-l-2 border-green-500'
 },
 
   {
-  label:'canceled',
+  label:'Geannuleerd',
   description:'The booking is canceled',
   color:'border-l-2 border-rose-500'
 },
@@ -129,27 +129,27 @@ const bookingStatus = [
     <div className="mt-12">
     
     
-      <h3 className="text-xl font-bold capitalize mb-4">Logs</h3>
+      <h3 className="text-xl font-bold capitalize mb-4">Logboek</h3>
       <div className="flex gap-3">
-      <Explane stages={stages} title="Stage" />
-      <Explane stages={bookingStatus} title="Booking status" />
-      <Explane stages={paymentStatus} title="Payment status" />
+      <Explane stages={stages} title="Fase" />
+      <Explane stages={bookingStatus} title="Reservering status" />
+      <Explane stages={paymentStatus} title="Betaal status" />
       </div>
  
 
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="text-center">Stage</TableHead>
-            <TableHead className="text-center">Created at</TableHead>
-            <TableHead className="text-center">Arrival date</TableHead>
-            <TableHead className="text-center">Departure date</TableHead>
-            <TableHead className="text-center">Payed</TableHead>
-            <TableHead className="text-center">Parking days</TableHead>
+            <TableHead className="text-center">Fase</TableHead>
+            <TableHead className="text-center">Gemaakt op</TableHead>
+            <TableHead className="text-center">Aankomstdatum</TableHead>
+            <TableHead className="text-center">Vertrekdatum</TableHead>
+            <TableHead className="text-center">Betaald</TableHead>
+            <TableHead className="text-center">Parkeer dagen</TableHead>
 
-            <TableHead className="text-center">Booking status</TableHead>
-            <TableHead className="text-center">Payment status</TableHead>
-            <TableHead className="text-center">More info</TableHead>
+            <TableHead className="text-center">Reservering status</TableHead>
+            <TableHead className="text-center">Betaal status</TableHead>
+            <TableHead className="text-center">Meer info</TableHead>
           </TableRow>
         </TableHeader>
 

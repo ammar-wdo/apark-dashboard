@@ -48,7 +48,7 @@ const MainLinks = ({ isAdmin }: Props) => {
       Icon: <Boxes className="w-5 h-5 mr-3" />,
     },
     {
-      label: "bookings",
+      label: "Reserveringen",
       active: pathname === "/dashboard/bookings",
       link: "/dashboard/bookings",
       Icon: <BookmarkCheck className="w-5 h-5 mr-3" />,
@@ -57,7 +57,7 @@ const MainLinks = ({ isAdmin }: Props) => {
 
   const activities = [
     {
-      label: "notifications",
+      label: "Meldingen",
       active: pathname === "/dashboard/notifications",
       link: "/dashboard/notifications",
       Icon: <Bell className="w-5 h-5 mr-3" />,
@@ -74,7 +74,7 @@ const MainLinks = ({ isAdmin }: Props) => {
   return (
     <div className="w-full flex flex-col mt-6 p-1 px-3 gap-1 flex-1 ">
       
-      <h3 className="font-semibold px-4 ">Main</h3>
+      <h3 className="font-semibold px-4 ">Menu</h3>
       {myLinks.map((link, i) => {
 
         if(link.isAdmin && isAdmin){

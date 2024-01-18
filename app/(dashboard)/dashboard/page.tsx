@@ -39,7 +39,7 @@ const page = async ({ searchParams }: Props) => {
   if(!isCompany && searchParams.entity) return redirect('/dashboard')
 
 
-
+throw new Error('bad error')
 
   return (
     <div>

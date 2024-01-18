@@ -24,7 +24,7 @@ const MainAside = async(props: Props) => {
       <div className='p-6 py-4 border-b'>
     
         <h3 className='text-foreground font-bold capitalize'>
-          {session?.user?.name}
+          {session?.user?.name ==='Entity' ? 'Entiteit' : 'Bedrijf'}
         </h3>
    
     <p className='text-muted-foreground first-letter:capitalize text-xs font-semibold mt-1'>{theName}</p>

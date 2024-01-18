@@ -44,25 +44,25 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
   return (
     <div className="p-12 separate">
       <h2 className="text-3xl font-semibold ">
-        Reservation #{booking?.bookingCode}
+      Reservering #{booking?.bookingCode}
       </h2>
       <div className="mt-12 border  rounded-sm border-muted-foreground overflow-hidden">
         <Table>
           <TableHeader className="">
             <TableRow>
-              <TableHead className="w-full bg-muted/80">Customer data</TableHead>
+              <TableHead className="w-full bg-muted/80">Klantgegevens</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Name</p>
+                <p className="font-semibold">Naam</p>
                 <p className="capitalize text-muted-foreground">{`${booking?.firstName}  ${booking?.lastName}`}</p>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Phone number</p>
+                <p className="font-semibold">Mobiel nummer</p>
                 <p className="capitalize text-muted-foreground">
                   + {booking?.phoneNumber}
                 </p>
@@ -70,7 +70,7 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
             </TableRow>
             <TableRow>
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Car model</p>
+                <p className="font-semibold">Merk en model</p>
                 <p className="capitalize text-muted-foreground">
                   {booking?.carModel}
                 </p>
@@ -78,7 +78,7 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
             </TableRow>
             <TableRow>
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Car lisence</p>
+                <p className="font-semibold">Kenteken</p>
                 <p className="capitalize text-muted-foreground">
                   {booking?.carLicense}
                 </p>
@@ -86,9 +86,9 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
             </TableRow>
             <TableRow>
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Car color</p>
+                <p className="font-semibold">Aantal personen</p>
                 <p className="capitalize text-muted-foreground">
-                  {booking?.carColor}
+                  {booking?.numberOfPeople}
                 </p>
               </TableCell>
             </TableRow>
@@ -99,19 +99,19 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-full bg-muted/80">Reservation</TableHead>
+              <TableHead className="w-full bg-muted/80">Reservering</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Reserve date</p>
+                <p className="font-semibold">Reserverings datum</p>
                 <p className="capitalize text-muted-foreground">{NLtimezone(booking.createdAt,'Europe/Amsterdam')}</p>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Provider</p>
+                <p className="font-semibold">Parkeer aanbieder</p>
                 <p className="capitalize text-muted-foreground">
                    {booking?.service.name}
                 </p>
@@ -120,7 +120,7 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
             <TableRow>
            
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Arrival date</p>
+                <p className="font-semibold">Aankomst datum</p>
                 <p className="capitalize text-muted-foreground">{NLtimezone(booking.arrivalDate,'UTC')}</p>
               </TableCell>
            
@@ -128,14 +128,14 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
             <TableRow>
            
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Departure date</p>
+                <p className="font-semibold">Vertrek datum</p>
                 <p className="capitalize text-muted-foreground">{NLtimezone(booking.departureDate,'UTC')}</p>
               </TableCell>
            
             </TableRow>
             <TableRow>
               <TableCell className="flex items-center justify-between">
-                <p className="font-semibold">Flight number</p>
+                <p className="font-semibold"> Vlucht nummer</p>
                 <p className="capitalize text-muted-foreground">
                   {booking?.flightNumber}
                 </p>
@@ -147,7 +147,7 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
       <div className="mt-12 border p-3 rounded-sm text-sm space-y-5 font-light max-w-[350px]   w-full text-muted-foreground">
         <div className="space-y-2">
         <div className="flex items-center justify-between">
-        <p>{daysofparking} day(s) of {booking?.service.parkingType} parking</p>
+        <p>{daysofparking} dag(en) {booking?.service.parkingType} parking</p>
  
         </div>
         
@@ -157,7 +157,7 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
         <div className="space-y-2  text-black dark:text-white">
        
         {!!booking.extraOptions.length&&<div className="border-b mt-4 pb-2">
-                <h3 className="font-bold first-letter:capitalize ">Extra options</h3>
+                <h3 className="font-bold first-letter:capitalize ">Extra opties</h3>
                 <div className="flex flex-col gap-1">
                 {(booking.extraOptions as unknown as ExraOption[]).map((option) =><div key={option.id} className="flex justify-between items-center font-semibold">
                     <span className="first-letter:capitalize font-normal text-neutral-500">{option.label}</span>
@@ -172,11 +172,11 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
                 </div>}
 
                 {!!booking.discount && <div className="flex items-center justify-between">
-                  <p className="font-semibold">Discount applied</p>
+                  <p className="font-semibold">Kortingscode toegepast</p>
                   <p className="font-semibold">{discountApplied}</p>
                   </div>}
         <div className="flex items-center justify-between font-semibold space-x-3">
-        <p className="">Total amount paid</p>
+        <p className="">Totaal betaald</p>
         <p>€ { booking?.total}</p>
         </div>
         </div>
