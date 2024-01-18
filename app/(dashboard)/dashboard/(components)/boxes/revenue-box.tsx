@@ -23,7 +23,7 @@ const RevenueBox = async({searchParams,entity}: Props) => {
 
 
   return (
-   <Box title='Total revenue'  Icon={<Euro className='w-7 h-7 text-neutral-500'/>} footer='For this month' dollar={true} value={monthlyRevenue as number}/>
+   <Box title='Total revenue'  Icon={<Euro className='w-7 h-7 text-neutral-500'/>} footer='For this month' dollar={true} value={+monthlyRevenue.toFixed(2) as number}/>
   )
 }
 

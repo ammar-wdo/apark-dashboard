@@ -167,7 +167,7 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
                 <div className="flex flex-col gap-1">
                 {(booking.extraOptions as unknown as ExraOption[]).map((option) =><div key={option.id} className="flex justify-between items-center font-semibold">
                     <span className="first-letter:capitalize font-normal text-neutral-500">{option.label}</span>
-                    <span>€{option.price}</span>
+                    <span>€{option.price.toFixed(2)}</span>
                   </div>)}
                 
 
@@ -183,7 +183,7 @@ const discountApplied = discount?.type ==='FIXED' ? `€${discount.value}` : `%$
                   </div>}
         <div className="flex items-center justify-between font-semibold space-x-3">
         <p className="">Totaal betaald</p>
-        <p>€ { booking?.total}</p>
+        <p>€ { booking?.total.toFixed(2)}</p>
         </div>
         </div>
        

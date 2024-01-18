@@ -176,7 +176,7 @@ const bookingStatus = [
               <TableCell className="text-center">
                 {NLtimezone(log.departureDate,'UTC')}
               </TableCell>
-              <TableCell className="text-center">€{log.payed}</TableCell>
+              <TableCell className="text-center">€{log.payed.toFixed(2)}</TableCell>
               <TableCell className="text-center">{log.daysofparking}</TableCell>
 
               <TableCell className="text-center">
