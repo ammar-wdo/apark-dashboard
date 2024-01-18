@@ -218,7 +218,7 @@ const stripePrice = Math.round(additionalPrice * 100)
         id: booking.id,
         update: "true",
         bookingCode,
-        payed: additionalPrice,
+        payed: +additionalPrice.toFixed(2),
         arrivalDate: booking.arrivalDate.toString(),
         departureDate: booking.departureDate.toString(),
         total: booking.total,

@@ -19,7 +19,7 @@ export const stripeCheckout = async (
     id: booking.id,
     bookingCode: booking.bookingCode,
 
-    payed: total,
+    payed: +total.toFixed(2),
     startDate: arrivalDateString,
     endDate: departureDateString,
     startTime: startTime,
