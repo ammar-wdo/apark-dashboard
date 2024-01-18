@@ -56,11 +56,11 @@ export const checkDiscount = async (
 
   // Calculate discount value
   let discountValue =
-  discount.type === "FIXED"
-    ? Math.round(discount.value * 100)
-    : discount.type === "PERCENTAGE"
-    ? Math.round((discount.percentage / 100) * (total + priceWithOptions) * 100)
-    : 0;
+    discount.type === "FIXED"
+      ? discount.value
+      : discount.type === "PERCENTAGE"
+      ? (discount.percentage! / 100) * (total + priceWithOptions)
+      : 0;
 
   return { priceWithDiscount: discountValue as number, error: "", discount };
 };
