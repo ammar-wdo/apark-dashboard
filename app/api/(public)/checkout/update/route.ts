@@ -224,24 +224,24 @@ const stripePrice = Math.round(additionalPrice * 100)
         total: booking.total,
         daysofparking: booking.daysofparking,
         service: service.name,
-        arrivalString: `${booking.arrivalDate
+        arrivalString: `${updatedBooking.arrivalDate
           .getDate()
           .toString()
-          .padStart(2, "0")}-${(booking.arrivalDate.getMonth() + 1)
+          .padStart(2, "0")}-${(updatedBooking.arrivalDate.getMonth() + 1)
           .toString()
-          .padStart(2, "0")}-${booking.arrivalDate.getFullYear()} ${
-          validBody.data.arrivalTime
+          .padStart(2, "0")}-${updatedBooking.arrivalDate.getFullYear()} ${
+          updatedBooking.arrivalTime
         }`,
-        departureString: `${booking.departureDate
+        departureString: `${updatedBooking.departureDate
           .getDate()
           .toString()
-          .padStart(2, "0")}-${(booking.departureDate.getMonth() + 1)
+          .padStart(2, "0")}-${(updatedBooking.departureDate.getMonth() + 1)
           .toString()
-          .padStart(2, "0")}-${booking.departureDate.getFullYear()} ${
-          validBody.data.departureTime
+          .padStart(2, "0")}-${updatedBooking.departureDate.getFullYear()} ${
+          updatedBooking.departureTime
         }`,
-        firstName: booking.firstName,
-        lastName: booking.lastName,
+        firstName: updatedBooking.firstName,
+        lastName: updatedBooking.lastName,
       }
 
       const session = await stripe.checkout.sessions.create({
