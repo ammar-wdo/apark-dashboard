@@ -16,6 +16,7 @@ import { getCurrentCompany } from "@/lib/helpers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import Ranges from "./ranges";
+import { notFound } from "next/navigation";
 
 type Props = {
   serviceId:string
@@ -37,6 +38,8 @@ const AvailabilityFeed = async({ serviceId }: Props) => {
       createdAt: "desc",
     },
   });
+
+  if(!availabilitys) return notFound()
   return  (
     <div className=" mt-20 separate">
 

@@ -4,7 +4,7 @@ import React from 'react'
 import PricingForm from './(components)/pricing-form'
 import Heading from '@/components/heading'
 import Control from './(components)/control'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 type Props = {
     params:{serviceId:string}
@@ -20,7 +20,7 @@ const page = async({params}: Props) => {
 
     console.log(service?.pricings.length)
 
-    if(!service) return redirect('/dashboard')
+    if(!service) return notFound()
 
 
   

@@ -6,6 +6,7 @@ import RuleTriggerButton from './(components)/rules-trigger-button'
 import RulesFeed from './(components)/rules-feed'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
+import { notFound } from 'next/navigation'
 
 type Props = {params:{serviceId:string}}
 
@@ -40,7 +41,7 @@ const page =async({params}: Props) => {
     })
     }
 
- 
+ if(!rules) return notFound()
 
 
   return (

@@ -4,7 +4,7 @@ import React from 'react'
 
 import Heading from '@/components/heading'
 
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import ExtraButton from './(components)/extra-button'
 import ExtraFeed from './(components)/extra-feed'
 import { getServerSession } from 'next-auth'
@@ -30,7 +30,7 @@ const page = async({params}: Props) => {
 
   
 
-    if(!service) return redirect('/dashboard')
+    if(!service) return notFound()
   return (
     <div className=''>
         <div className='flex justify-between items-center'>

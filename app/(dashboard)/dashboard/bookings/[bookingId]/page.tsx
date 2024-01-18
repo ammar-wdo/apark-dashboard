@@ -14,7 +14,7 @@ import { calculateParkingDays } from "@/app/api/(public)/services/(helpers)/find
 import { daysAndTotal } from "@/app/api/(public)/checkout/(helpers)/days-and-total";
 import { Separator } from "@/components/ui/separator";
 import LogsFeed from "./(components)/logs-feed";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { JsonArray } from "@prisma/client/runtime/library";
 import { Discount, ExraOption } from "@prisma/client";
 import { NLtimezone } from "@/lib/nl-timezone";
@@ -34,7 +34,7 @@ const page = async ({ params }: Props) => {
     },
   });
 
-  if(!booking) return redirect('/dashboard')
+  if(!booking) return notFound()
   
 const {daysofparking} = await daysAndTotal(booking?.arrivalDate!,booking?.departureDate!,booking?.service.id!)
 
