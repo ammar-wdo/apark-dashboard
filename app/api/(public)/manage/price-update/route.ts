@@ -42,7 +42,7 @@ export const POST = async (req: Request) => {
     });
 
 
-return NextResponse.json(null,{status:201})
+return NextResponse.json({message:"changes made successfully"},{status:201})
 
   } catch (error) {
     console.log(error);
