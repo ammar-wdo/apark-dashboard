@@ -18,6 +18,7 @@ import { calculateNewUpdate } from "./(helpers)/calculateNewUpdate";
 import { getFinalDates } from "../../services/(helpers)/getFinalDates";
 import { findTotalPrice } from "../../services/(helpers)/findTotalPrice";
 import { sendEmail } from "../../booking/cancel/(helper)/send-email";
+import { JsonArray } from "@prisma/client/runtime/library";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -35,6 +36,8 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: Request) {
+
+ let booking
   try {
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
@@ -64,7 +67,7 @@ export async function POST(req: Request) {
     const newArrival = new Date(adjustedStartDate); //to reset hours
     const newDeparture = new Date(adjustedEndDate); //to reset hours
 
-    const booking = await prisma.booking.findUnique({
+     booking = await prisma.booking.findUnique({
       where: {
         id: id,
         serviceId: validBody.data.serviceId,
@@ -82,6 +85,8 @@ export async function POST(req: Request) {
         { customError: "Invalid credentials" },
         { status: 400 }
       );
+
+     
 
     const amesterdam = new Date();
 
@@ -297,7 +302,46 @@ const stripePrice = Math.round(additionalPrice * 100)
     return NextResponse.json({ try: "success" }, { status: 201 });
   } catch (error) {
     console.log(error);
-    // await prisma.booking.delete({ where: { id: booking?.id } });
+  
+    await prisma.booking.update({
+      where:{id:booking?.id},
+      data:{
+        address:booking?.address,
+        arrivalDate:booking?.arrivalDate,
+        departureDate:booking?.departureDate,
+        arrivalTime:booking?.arrivalTime,
+        departureTime:booking?.departureTime,
+        bookingCode:booking?.bookingCode,
+        bookingOnBusinessName:booking?.bookingOnBusinessName,
+        bookingStatus:booking?.bookingStatus,
+        carColor:booking?.carColor,
+        carLicense:booking?.carLicense,
+        carModel:booking?.carModel,
+        companyName:booking?.companyName,
+        daysofparking:booking?.daysofparking,
+        discount:booking?.discount!,
+        email:booking?.email,
+        extraOptions:booking?.extraOptions as JsonArray[],
+        extraServiceFee:booking?.extraServiceFee,
+        firstName:booking?.firstName,
+        flightNumber:booking?.flightNumber,
+        isCompany:booking?.isCompany,
+        lastName:booking?.lastName,
+        numberOfPeople:booking?.numberOfPeople,
+        parkingPrice:booking?.parkingPrice,
+        paymentMethod:booking?.paymentMethod,
+        paymentStatus:booking?.paymentStatus,
+        total:booking?.total,
+        phoneNumber:booking?.phoneNumber,
+        place:booking?.place,
+        zipcode:booking?.zipcode,
+        vatNumber:booking?.vatNumber,
+        updatedAt:booking?.updatedAt,
+        createdAt:booking?.createdAt
+
+
+      }
+    })
     return new NextResponse("internal error", { status: 500 });
   }
 }
