@@ -1,14 +1,21 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
+
+const bodySchema = z.object({
+    key:z.literal('the-secret-key'),
+    prices:z.array(z.coerce.number())
+})
 
 export const POST = async (req:Request) =>{
     try {
 
         const body = await req.json()
 
-        console.log(body)
+       const validBody = bodySchema.parse(body)
 
-        return NextResponse.json({success:'request done'},{status:201})
+
+        return NextResponse.json({key:validBody.key,prices:validBody.prices},{status:201})
         
     } catch (error) {
         console.log(error)
