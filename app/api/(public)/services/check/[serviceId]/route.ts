@@ -5,6 +5,7 @@ import { isServiceValid } from "../../../checkout/update/(helpers)/isServiceVali
 import { findTotalPrice } from "../../(helpers)/findTotalPrice";
 import { getClientDates } from "../../(helpers)/getClientDates";
 import { getFinalDates } from "../../(helpers)/getFinalDates";
+import { getCurrentDateInNetherlands } from "../../../checkout/update/(helpers)/toAmsterdam";
 
 
 export const GET = async (
@@ -47,16 +48,16 @@ export const GET = async (
 
    
 
-      const amesterdam = new Date();
+      // const amesterdam = new Date();
 
-      amesterdam.setHours(amesterdam.getHours() + 1);
+      // amesterdam.setHours(amesterdam.getHours() + 1);
     
-      amesterdam.setMinutes(amesterdam.getMinutes());
-    
-    
+      // amesterdam.setMinutes(amesterdam.getMinutes());
     
     
-      if (adjustedStartDate.getTime() < amesterdam.getTime()) {
+    
+    
+      if (adjustedStartDate.getTime() < getCurrentDateInNetherlands().getTime()) {
         console.log('bigger')
     
     

@@ -4,6 +4,7 @@ import { morethanOneDay } from "./(helper)/isOneDay";
 import { setLog } from "../../(helpers)/set-log";
 import { sendMail } from "../../webhook/(helpers)/send-email";
 import { sendEmail } from "./(helper)/send-email";
+import { getCurrentDateInNetherlands } from "../../checkout/update/(helpers)/toAmsterdam";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -45,13 +46,13 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-      const amesterdam = new Date();
+      // const amesterdam = new Date();
 
-      amesterdam.setHours(amesterdam.getHours() + 1);
+      // amesterdam.setHours(amesterdam.getHours() + 1);
     
-      amesterdam.setMinutes(amesterdam.getMinutes());
+      // amesterdam.setMinutes(amesterdam.getMinutes());
   
-        if(booking.arrivalDate <= amesterdam)
+        if(booking.arrivalDate <= getCurrentDateInNetherlands())
         return NextResponse.json(
           { customError: "You can no more update your booking because arrival date already passed." },
           { status: 400 }

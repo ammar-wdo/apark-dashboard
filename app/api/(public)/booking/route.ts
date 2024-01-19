@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
+import { getCurrentDateInNetherlands } from "../checkout/update/(helpers)/toAmsterdam";
 
 export const revalidate = 0;
 
@@ -81,19 +82,19 @@ export async function POST(req: Request) {
       console.log('date',new Date())
       console.log('booking arrival date',booking.arrivalDate)
 
-      const amesterdam = new Date();
+      // const amesterdam = new Date();
 
-      amesterdam.setHours(amesterdam.getHours() + 1);
+      // amesterdam.setHours(amesterdam.getHours() + 1);
     
-      amesterdam.setMinutes(amesterdam.getMinutes());
+      // amesterdam.setMinutes(amesterdam.getMinutes());
 
-      console.log("booking arrival date string", booking?.arrivalDate.toLocaleString('en-US',{timeZoneName:'long'}));
-      console.log("booking arrival date hours", booking?.arrivalDate.getHours());
-      console.log("booking arrival date ", booking?.arrivalDate);
-      console.log("new date",amesterdam);
-      console.log("new date hours",amesterdam.getHours());
+      // console.log("booking arrival date string", booking?.arrivalDate.toLocaleString('en-US',{timeZoneName:'long'}));
+      // console.log("booking arrival date hours", booking?.arrivalDate.getHours());
+      // console.log("booking arrival date ", booking?.arrivalDate);
+      // console.log("new date",amesterdam);
+      // console.log("new date hours",amesterdam.getHours());
 
-      if(booking.arrivalDate <= amesterdam)
+      if(booking.arrivalDate <= getCurrentDateInNetherlands())
       return  NextResponse.json({message:'You can not update your booking info because arrival date has already passed.'}, { status: 200 });
 
     return NextResponse.json({ booking }, { status: 200 });

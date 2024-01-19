@@ -8,6 +8,7 @@ import { Key, ParkingLocation, ParkingType } from "@prisma/client";
 import { getClientDates } from "./(helpers)/getClientDates";
 import { handleTimezone } from "@/lib/timezone-handler";
 import { getFinalDates } from "./(helpers)/getFinalDates";
+import { getCurrentDateInNetherlands } from "../checkout/update/(helpers)/toAmsterdam";
 
 
 export async function GET(req: Request) {
@@ -41,16 +42,16 @@ export async function GET(req: Request) {
 
 
 
-  const amesterdam = new Date();
+  // const amesterdam = new Date();
 
-  amesterdam.setHours(amesterdam.getHours() + 1);
+  // amesterdam.setHours(amesterdam.getHours() + 1);
 
-  amesterdam.setMinutes(amesterdam.getMinutes());
-
-
+  // amesterdam.setMinutes(amesterdam.getMinutes());
 
 
-  if (adjustedStartDate.getTime() < amesterdam.getTime()) {
+
+
+  if (adjustedStartDate.getTime() < getCurrentDateInNetherlands().getTime()) {
     console.log('bigger')
 
 

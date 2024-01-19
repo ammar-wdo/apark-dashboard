@@ -19,6 +19,7 @@ import { getFinalDates } from "../../services/(helpers)/getFinalDates";
 import { findTotalPrice } from "../../services/(helpers)/findTotalPrice";
 import { sendEmail } from "../../booking/cancel/(helper)/send-email";
 import { JsonArray } from "@prisma/client/runtime/library";
+import { getCurrentDateInNetherlands } from "./(helpers)/toAmsterdam";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -88,13 +89,13 @@ export async function POST(req: Request) {
 
      
 
-    const amesterdam = new Date();
+    // const amesterdam = new Date();
 
-    amesterdam.setHours(amesterdam.getHours() + 1);
+    // amesterdam.setHours(amesterdam.getHours() + 1);
 
-    amesterdam.setMinutes(amesterdam.getMinutes());
+    // amesterdam.setMinutes(amesterdam.getMinutes());
 
-    if (booking.arrivalDate <= amesterdam)
+    if (booking.arrivalDate <= getCurrentDateInNetherlands())
       return NextResponse.json(
         {
           customError:
