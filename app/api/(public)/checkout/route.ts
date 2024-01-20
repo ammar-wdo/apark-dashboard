@@ -94,7 +94,7 @@ export async function POST(req: Request) {
 
     if (!validServices.length)
       return NextResponse.json(
-        { customError: "This service has no more free spots!" },
+        { customError: "Deze dienst heeft geen vrije plaatsen meer!" },
         { status: 400 }
       );
 

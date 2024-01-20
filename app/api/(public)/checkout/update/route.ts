@@ -125,7 +125,7 @@ export async function POST(req: Request) {
 
     if (!service)
       return NextResponse.json(
-        { customError: "This service is not available" },
+        { customError: "Deze dienst is niet beschikbaar." },
         { status: 400 }
       );
 
@@ -138,7 +138,7 @@ export async function POST(req: Request) {
     );
     if (!validService)
       return NextResponse.json(
-        { customError: "This service is no more available" },
+        { customError: "Deze dienst is niet langer beschikbaar." },
         { status: 400 }
       );
 
@@ -153,7 +153,7 @@ export async function POST(req: Request) {
 
     if (totalPrice === 0 || totalPrice === undefined || !totalPrice)
       return NextResponse.json(
-        { response: "service is not available" },
+        { response: "Deze dienst is niet beschikbaar." },
         { status: 200 }
       );
 
@@ -185,7 +185,7 @@ export async function POST(req: Request) {
       const values = setLog(
         0,
         "UPDATED",
-        `This booking has been updated with no additional days, no additional payment`,
+        `Deze boeking is bijgewerkt zonder extra dagen, geen extra betaling.`,
         updatedBooking
       );
       await prisma.log.create({ data: { ...values } });
@@ -264,7 +264,7 @@ const stripePrice = Math.round(additionalPrice * 100)
               currency: "eur",
               product_data: {
                 name: service.name,
-                description: `Booking for additional ${additionalDays} day(s) parking `,
+                description: `Boeking voor ${additionalDays} extra dag(en) parkeren`,
               },
               unit_amount: stripePrice,
             },
@@ -285,7 +285,7 @@ const stripePrice = Math.round(additionalPrice * 100)
       const values = setLog(
         0,
         "UPDATING",
-        `An attemt to extend the period of parking for ${additionalDays} day(s) with additional expected payment of €${additionalPrice}`,
+        `Een poging om de parkeerperiode met ${additionalDays} dag(en) te verlengen met een verwachte extra betaling van €${additionalPrice}`,
         updatedBooking
       );
       await prisma.log.create({ data: { ...values } });
@@ -307,38 +307,9 @@ const stripePrice = Math.round(additionalPrice * 100)
     await prisma.booking.update({
       where:{id:booking?.id},
       data:{
-        address:booking?.address,
-        arrivalDate:booking?.arrivalDate,
-        departureDate:booking?.departureDate,
-        arrivalTime:booking?.arrivalTime,
-        departureTime:booking?.departureTime,
-        bookingCode:booking?.bookingCode,
-        bookingOnBusinessName:booking?.bookingOnBusinessName,
-        bookingStatus:booking?.bookingStatus,
-        carColor:booking?.carColor,
-        carLicense:booking?.carLicense,
-        carModel:booking?.carModel,
-        companyName:booking?.companyName,
-        daysofparking:booking?.daysofparking,
-        discount:booking?.discount!,
-        email:booking?.email,
-        extraOptions:booking?.extraOptions as JsonArray[],
-        extraServiceFee:booking?.extraServiceFee,
-        firstName:booking?.firstName,
-        flightNumber:booking?.flightNumber,
-        isCompany:booking?.isCompany,
-        lastName:booking?.lastName,
-        numberOfPeople:booking?.numberOfPeople,
-        parkingPrice:booking?.parkingPrice,
-        paymentMethod:booking?.paymentMethod,
-        paymentStatus:booking?.paymentStatus,
-        total:booking?.total,
-        phoneNumber:booking?.phoneNumber,
-        place:booking?.place,
-        zipcode:booking?.zipcode,
-        vatNumber:booking?.vatNumber,
-        updatedAt:booking?.updatedAt,
-        createdAt:booking?.createdAt
+       ...booking,
+       extraOptions:booking?.extraOptions as JsonArray[],
+       discount:booking?.discount!
 
 
       }
