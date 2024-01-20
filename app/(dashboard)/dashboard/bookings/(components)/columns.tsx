@@ -35,6 +35,21 @@ const styles :{ [key: string]: string }= {
  
 }
 
+const strings :{ [key: string]: string }= {
+  CANCELED: "Geannuleerd",
+  REVERTED: "Teruggekeerd",
+  EXPIRED: "Verlopen",
+  ACTIVE: "Actief",
+  SUCCEEDED: "Geslaagd",
+  REFUNDED: "Terugbetaald",
+  CREATED: "Gemaakt",
+  PENDING: "In Behandeling",
+  UPDATED: "Bijgewerkt",
+  UPDATING: "Bijwerken",
+  REFUND_REQUEST: "Verzoek om teruggave",
+ 
+}
+
 export const columns: ColumnDef<Booking & {service:Service}>[] = [
   {
     accessorKey: "bookingCode",
@@ -225,7 +240,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><span className={cn('px-4 py-2 text-xs font-bold rounded-md mx-auto w-fit block',styles[row.getValue!('bookingStatus') as string])}>{row.getValue('bookingStatus')}</span>
+    cell:({row})=><span className={cn('px-4 py-2 text-xs font-bold rounded-md mx-auto w-fit block',styles[row.getValue!('bookingStatus') as string])}>{strings[row.getValue('bookingStatus') as string]}</span>
   },
   {
     accessorKey: "paymentStatus",
@@ -240,7 +255,7 @@ export const columns: ColumnDef<Booking & {service:Service}>[] = [
         </Button>
       )
     },
-    cell:({row})=><span className={cn('px-4 py-2 text-xs font-bold rounded-md mx-auto w-fit block',styles[row.getValue!('paymentStatus') as string])}>{row.getValue('paymentStatus')}</span>
+    cell:({row})=><span className={cn('px-4 py-2 text-xs font-bold rounded-md mx-auto w-fit block',styles[row.getValue!('paymentStatus') as string])}>{strings[row.getValue('paymentStatus') as string]}</span>
   },
  
 ];

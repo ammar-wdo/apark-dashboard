@@ -45,33 +45,48 @@ const LogsFeed = async ({ bookingId }: Props) => {
     REFUND_REQUEST: "text-yellow-500 text-yellow-500 bg-yellow-500/20",
   };
 
+  const strings :{ [key: string]: string }= {
+    CANCELED: "Geannuleerd",
+    REVERTED: "Teruggekeerd",
+    EXPIRED: "Verlopen",
+    ACTIVE: "Actief",
+    SUCCEEDED: "Geslaagd",
+    REFUNDED: "Terugbetaald",
+    CREATED: "Gemaakt",
+    PENDING: "In Behandeling",
+    UPDATED: "Bijgewerkt",
+    UPDATING: "Bijwerken",
+    REFUND_REQUEST: "Verzoek om teruggave",
+   
+  }
+
 
 
   const stages = [
     {
     label:'Gemaakt',
-    description:'The booking is created',
+    description:'De boeking is gemaakt.',
     color:'border-l-2 border-green-500'
   },
   {
     label:'Bijgewerkt',
-    description:'The booking is updated ',
+    description:'De boeking is bijgewerkt. ',
     color:'border-l-2 border-green-500'
   },
     {
     label:'Bijwerken',
-    description:'The booking is pending to update ',
+    description:'De boeking wacht op bijwerking.',
     color:'border-l-2 border-yellow-500'
   },
   
     {
     label:'Teruggekeerd',
-    description:'The booking is reverted to its previous succeeded status ',
+    description:'De boeking is teruggezet naar de vorige geslaagde status.',
     color:'border-l-2 border-rose-500'
   },
     {
     label:'geannuleerd',
-    description:'The booking is canceled ',
+    description:'De boeking is geannuleerd.',
     color:'border-l-2 border-rose-500'
   },
 
@@ -80,23 +95,23 @@ const LogsFeed = async ({ bookingId }: Props) => {
 const paymentStatus = [
   {
   label:'Geslaagd',
-  description:'The payment is made successfully',
+  description:'De betaling is succesvol uitgevoerd.',
   color:'border-l-2 border-green-500'
 },
 {
   label:'In Behandeling',
-  description:'The payment is pending ',
+  description:'De betaling is in behandeling.',
   color:'border-l-2 border-yellow-500'
 },
   {
   label:'Verlopen',
-  description:'The payment checkout was expired and payment failed ',
+  description:'De betaalcheckout is verlopen en de betaling is mislukt.',
   color:'border-l-2 border-rose-500'
 },
 
   {
   label:'Geannuleerd',
-  description:'The payment is canceled and a refund action made',
+  description:'De betaling is geannuleerd en er is een terugbetalingsactie uitgevoerd.',
   color:'border-l-2 border-rose-500'
 },
 
@@ -104,23 +119,23 @@ const paymentStatus = [
 const bookingStatus = [
   {
   label:'Actief',
-  description:'The booking is either paid or pending',
+  description:'De boeking is betaald of in behandeling.',
   color:'border-l-2 border-green-500'
 },
 {
   label:'Verzoek om teruggave',
-  description:'The booking is pending to be refunded ',
+  description:'De boeking wacht op terugbetaling. ',
   color:'border-l-2 border-yellow-500'
 },
   {
   label:'Terugbetaald',
-  description:'The booking is successfully refunded',
+  description:'De boeking is succesvol terugbetaald.',
   color:'border-l-2 border-green-500'
 },
 
   {
   label:'Geannuleerd',
-  description:'The booking is canceled',
+  description:'De boeking is geannuleerd.',
   color:'border-l-2 border-rose-500'
 },
 
@@ -164,7 +179,7 @@ const bookingStatus = [
                     themes[log.attempt]
                   )}
                 >
-                  {log.attempt}
+                  {strings[log.attempt]}
                 </span>
               </TableCell>
               <TableCell className="text-center">
@@ -186,7 +201,7 @@ const bookingStatus = [
                     themes[log.bookingStatus]
                   )}
                 >
-                  {log.bookingStatus}
+                  {strings[log.bookingStatus]}
                 </span>
               </TableCell>
               <TableCell className="text-center">
@@ -196,7 +211,7 @@ const bookingStatus = [
                     themes[log.paymentStatus!]
                   )}
                 >
-                  {log.paymentStatus}
+                  {strings[log.paymentStatus as string]}
                 </span>
               </TableCell>
               <TableCell className="text-center">

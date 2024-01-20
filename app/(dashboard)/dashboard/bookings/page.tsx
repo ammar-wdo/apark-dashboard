@@ -38,51 +38,51 @@ const page = async ({ params, searchParams }: Props) => {
   const paymentStatus = [
     {
     label:'Geslaagd',
-    description:'The payment is made successfully',
+    description:'De betaling is succesvol uitgevoerd.',
     color:'border-l-2 border-green-500'
   },
   {
     label:'In Behandeling',
-    description:'The payment is pending ',
+    description:'De betaling is in behandeling.',
     color:'border-l-2 border-yellow-500'
   },
     {
     label:'Verlopen',
-    description:'The payment checkout was expired and payment failed ',
+    description:'De betaalcheckout is verlopen en de betaling is mislukt.',
     color:'border-l-2 border-rose-500'
   },
-
+  
     {
     label:'Geannuleerd',
-    description:'The payment is canceled and a refund action made',
+    description:'De betaling is geannuleerd en er is een terugbetalingsactie uitgevoerd.',
     color:'border-l-2 border-rose-500'
   },
-
-]
-const bookingStatus = [
+  
+  ]
+  const bookingStatus = [
+    {
+    label:'Actief',
+    description:'De boeking is betaald of in behandeling.',
+    color:'border-l-2 border-green-500'
+  },
   {
-  label:'Actief',
-  description:'The booking is either paid or pending',
-  color:'border-l-2 border-green-500'
-},
-{
-  label:'Verzoek om teruggave',
-  description:'The booking is pending to be refunded ',
-  color:'border-l-2 border-yellow-500'
-},
-  {
-  label:'Terugbetaald',
-  description:'The booking is successfully refunded',
-  color:'border-l-2 border-green-500'
-},
-
-  {
-  label:'Geannuleerd',
-  description:'The booking is canceled',
-  color:'border-l-2 border-rose-500'
-},
-
-]
+    label:'Verzoek om teruggave',
+    description:'De boeking wacht op terugbetaling. ',
+    color:'border-l-2 border-yellow-500'
+  },
+    {
+    label:'Terugbetaald',
+    description:'De boeking is succesvol terugbetaald.',
+    color:'border-l-2 border-green-500'
+  },
+  
+    {
+    label:'Geannuleerd',
+    description:'De boeking is geannuleerd.',
+    color:'border-l-2 border-rose-500'
+  },
+  
+  ]
  
 
 
