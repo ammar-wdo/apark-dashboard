@@ -10,7 +10,6 @@ import { handleTimezone } from "@/lib/timezone-handler";
 import { getFinalDates } from "./(helpers)/getFinalDates";
 import { getCurrentDateInNetherlands } from "../checkout/update/(helpers)/toAmsterdam";
 
-
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
@@ -19,8 +18,6 @@ export async function GET(req: Request) {
   const endDate = searchParams.get("endDate") as string;
   const startTime = searchParams.get("startTime") as string;
   const endTime = searchParams.get("endTime") as string;
-
- 
 
   const serviceType = searchParams.getAll("serviceType") as
     | ParkingType[]
@@ -31,16 +28,15 @@ export async function GET(req: Request) {
   const carsKey = searchParams.getAll("carsKey") as Key[] | undefined;
   const electric = searchParams.get("electric") as string | undefined;
 
-
-
   if (!airport || !startDate || !endDate || !startTime || !endTime)
     return new NextResponse("date and time is required", { status: 400 });
 
-
-
-    const {adjustedStartDate,adjustedEndDate} = getFinalDates(startDate,endDate,startTime,endTime)
-
-
+  const { adjustedStartDate, adjustedEndDate } = getFinalDates(
+    startDate,
+    endDate,
+    startTime,
+    endTime
+  );
 
   // const amesterdam = new Date();
 
@@ -48,20 +44,19 @@ export async function GET(req: Request) {
 
   // amesterdam.setMinutes(amesterdam.getMinutes());
 
-
-
-
   if (adjustedStartDate.getTime() < getCurrentDateInNetherlands().getTime()) {
-    console.log('bigger')
-
+    console.log("bigger");
 
     return NextResponse.json(
-      { response: `Aankomstdatum moet later zijn dan de huidige datum in Nederland.  -  ${new Date().toLocaleString('en-US',{timeZone:'Europe/Amsterdam', hour: 'numeric', minute: 'numeric'})}` },
+      {
+        response: `Aankomstdatum moet later zijn dan de huidige datum in Nederland  -  ${new Date().toLocaleString(
+          "en-US",
+          { timeZone: "Europe/Amsterdam", hour: "numeric", minute: "numeric" }
+        )}`,
+      },
       { status: 200 }
     );
   }
-  
-
 
   if (adjustedStartDate.getTime() >= adjustedEndDate.getTime()) {
     return NextResponse.json(
@@ -70,29 +65,21 @@ export async function GET(req: Request) {
     );
   }
 
- 
-
-
-
-   
-  
-
-   
-
   try {
-
     const airportCheck = await prisma.airport.findUnique({
-      where:{
-        slug:airport
-      }
-    })
+      where: {
+        slug: airport,
+      },
+    });
 
-console.log('airport check',airportCheck)
+    console.log("airport check", airportCheck);
 
-    if(!airportCheck) {return NextResponse.json(
-      { response: "Invalid airport slug" },
-      { status: 200 }
-    );}
+    if (!airportCheck) {
+      return NextResponse.json(
+        { response: "Invalid airport slug" },
+        { status: 200 }
+      );
+    }
 
     const services = await prisma.service.findMany({
       where: {
@@ -112,32 +99,30 @@ console.log('airport check',airportCheck)
           },
         },
         entity: {
-          select: { entityName: true,slug:true, airport: { select: { name: true,slug:true } } },
+          select: {
+            entityName: true,
+            slug: true,
+            airport: { select: { name: true, slug: true } },
+          },
         },
         availability: true,
         rules: true,
-        reviews:{
-          where:{
-            status:'ACTIVE'
+        reviews: {
+          where: {
+            status: "ACTIVE",
           },
-          select:{
-            id:true,
-            rate:true,
-          
-          }
-        }
+          select: {
+            id: true,
+            rate: true,
+          },
+        },
       },
     });
-
-
 
     const parkingDays = calculateParkingDays(
       adjustedStartDate,
       adjustedEndDate
     );
-
-
-
 
     const validServices = findValidServices(
       services,
@@ -147,11 +132,6 @@ console.log('airport check',airportCheck)
       endTime,
       parkingDays
     );
-
-
-
-
-
 
     const returnedServices = validServices.map((service) => {
       const {
@@ -176,19 +156,16 @@ console.log('airport check',airportCheck)
       return rest;
     });
 
-
-   
-
     const finalValid = returnedServices.filter(
       (service) => service.available === true && service.totalPrice > 0
     );
-    console.log("final valid services",finalValid.length)
+    console.log("final valid services", finalValid.length);
     const invalidServices = services.filter((service) => {
       if (finalValid.some((valid) => valid.id === service.id)) return false;
       else return true;
     });
 
-    const finalInvalid = invalidServices.map((service)=>{
+    const finalInvalid = invalidServices.map((service) => {
       const {
         bookings,
         availability,
@@ -209,9 +186,7 @@ console.log('airport check',airportCheck)
       } = service;
 
       return rest;
-    })
-
-  
+    });
 
     return NextResponse.json({
       valid: finalValid,
