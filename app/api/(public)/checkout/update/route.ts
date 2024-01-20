@@ -37,8 +37,7 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: Request) {
-
- let booking
+  let booking;
   try {
     const body = await req.json();
     body.arrivalDate = new Date(body.arrivalDate);
@@ -68,7 +67,7 @@ export async function POST(req: Request) {
     const newArrival = new Date(adjustedStartDate); //to reset hours
     const newDeparture = new Date(adjustedEndDate); //to reset hours
 
-     booking = await prisma.booking.findUnique({
+    booking = await prisma.booking.findUnique({
       where: {
         id: id,
         serviceId: validBody.data.serviceId,
@@ -86,8 +85,6 @@ export async function POST(req: Request) {
         { customError: "Invalid credentials" },
         { status: 400 }
       );
-
-     
 
     // const amesterdam = new Date();
 
@@ -202,8 +199,6 @@ export async function POST(req: Request) {
     } else if (additionalDays > 0) {
       const myPayment = methods[validBody.data.paymentMethod];
 
-      
-
       const updatedBooking = await prisma.booking.update({
         where: {
           id: booking.id,
@@ -217,8 +212,8 @@ export async function POST(req: Request) {
           daysofparking: parkingDays,
         },
       });
-const stripePrice = Math.round(additionalPrice * 100)
-      console.log('stripe price',stripePrice)
+      const stripePrice = Math.round(additionalPrice * 100);
+      console.log("stripe price", stripePrice);
 
       const metadata = {
         id: booking.id,
@@ -248,7 +243,7 @@ const stripePrice = Math.round(additionalPrice * 100)
         }`,
         firstName: updatedBooking.firstName,
         lastName: updatedBooking.lastName,
-      }
+      };
 
       const session = await stripe.checkout.sessions.create({
         customer_email: booking.email,
@@ -303,17 +298,15 @@ const stripePrice = Math.round(additionalPrice * 100)
     return NextResponse.json({ try: "success" }, { status: 201 });
   } catch (error) {
     console.log(error);
-  
+
     await prisma.booking.update({
-      where:{id:booking?.id},
-      data:{
-       ...booking,
-       extraOptions:booking?.extraOptions as JsonArray[],
-       discount:booking?.discount!
-
-
-      }
-    })
+      where: { id: booking?.id },
+      data: {
+        ...booking,
+        extraOptions: booking?.extraOptions as JsonArray[],
+        discount: booking?.discount!,
+      },
+    });
     return new NextResponse("internal error", { status: 500 });
   }
 }

@@ -62,7 +62,7 @@ export async function POST(req: Request) {
             const values = setLog(
               order.total,
               "CREATED",
-              "This booking has been  created and paid successfully",
+              "Deze boeking is aangemaakt en succesvol betaald.",
               order
             );
             const log = prisma.log.create({
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
                 companyId: order.service.entity.companyId,
                 status: "APPROVE",
                 type: "BOOKING",
-                message: "New booking payment has been succeeded",
+                message: "De betaling voor de nieuwe boeking is geslaagd.",
               },
             });
 
@@ -129,7 +129,7 @@ export async function POST(req: Request) {
             const values = setLog(
               +session.metadata?.payed,
               "UPDATED",
-              `This booking has been updated with additional extra days and a €${session.metadata.payed} has been paid`,
+              `Deze boeking is bijgewerkt met extra dagen en er is een bedrag van €${session.metadata.payed} betaald.`,
               order
             );
             const log = prisma.log.create({
@@ -145,7 +145,7 @@ export async function POST(req: Request) {
                 status: "APPROVE",
                 type: "BOOKING",
                 message:
-                  "New booking payment has been succeeded to extend new days",
+                  "Een boeking is bijgewerkt en succesvol betaald.",
               },
             });
 
@@ -185,7 +185,7 @@ export async function POST(req: Request) {
           const values = setLog(
             0,
             "CANCELED",
-            "An attempt of booking has been canceled because the checkout session expired with no payment ",
+            "Een poging om een boeking te maken is geannuleerd, de betaalsessie is verlopen zonder betaling.",
             order
           );
           const log = prisma.log.create({
@@ -200,7 +200,7 @@ export async function POST(req: Request) {
               companyId: order.service.entity.companyId,
               status: "DELETE",
               type: "BOOKING",
-              message: "A booking session has expired",
+              message: "Een boekingssessie is verlopen.",
             },
           });
 
@@ -234,7 +234,7 @@ export async function POST(req: Request) {
           const values = setLog(
             0,
             "REVERTED",
-            "An attempt to update a booking was reverted to its previous state because the payment for extra days was not succeeded, but if any changed information, then they will be saved",
+            "Een poging om een boeking bij te werken is teruggedraaid naar de vorige staat omdat de betaling voor extra dagen niet is gelukt, maar als er informatie is bewerkt, dan wordt deze opgeslagen.",
             order
           );
           const log = prisma.log.create({
@@ -250,7 +250,7 @@ export async function POST(req: Request) {
               status: "APPROVE",
               type: "BOOKING",
               message:
-                "A booking  has failed to extend new parking days and  been reverted to its previous parking date and succeeded status",
+                "Een boeking is er niet in geslaagd om nieuwe parkeerdagen uit te breiden en is teruggezet naar de vorige parkeerdatum en geslaagde status.",
             },
           });
 
@@ -287,7 +287,7 @@ export async function POST(req: Request) {
         const values = setLog(
           0,
           "CANCELED",
-          `This payment has been successfully refunded with €${session.metadata?.payed}`,
+          `Deze betaling is succesvol terugbetaald met €${session.metadata?.payed}`,
           order
         );
         const log = prisma.log.create({
@@ -302,7 +302,7 @@ export async function POST(req: Request) {
             companyId: order.service.entity.companyId,
             status: "APPROVE",
             type: "BOOKING",
-            message: "A booking payment has been refunded",
+            message: "Een betaling voor een boeking is terugbetaald.",
           },
         });
 
