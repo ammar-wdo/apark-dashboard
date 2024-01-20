@@ -11,7 +11,7 @@ type Props = {
 const DailyChart = ({data,bookingsPerDay}: Props) => {
 
 
-    const usedDate =Array.isArray(data) ? data.map(el=>({name:el.day,total:el.revenue})) : data
+    const usedDate =Array.isArray(data) ? data.map(el=>({name:el.day,total:el.revenue.toFixed(2)})) : data
     const tickCount = bookingsPerDay ? Math.max(...bookingsPerDay.map(d => d.total)) + 1 : undefined;
 
    
