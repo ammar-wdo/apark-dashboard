@@ -95,7 +95,7 @@ export async function POST(req: Request) {
       // console.log("new date hours",amesterdam.getHours());
 
       if(booking.arrivalDate <= getCurrentDateInNetherlands())
-      return  NextResponse.json({message:'You can not update your booking info because arrival date has already passed.'}, { status: 200 });
+      return  NextResponse.json({message:'U kunt uw boekingsgegevens niet bijwerken omdat de aankomstdatum al is verstreken.'}, { status: 200 });
 
     return NextResponse.json({ booking }, { status: 200 });
   } catch (error) {

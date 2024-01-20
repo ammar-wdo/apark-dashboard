@@ -54,7 +54,7 @@ export async function POST(req: Request) {
   
         if(booking.arrivalDate <= getCurrentDateInNetherlands())
         return NextResponse.json(
-          { customError: "You can no more update your booking because arrival date already passed." },
+          { customError: "U kunt uw boekingsgegevens niet bijwerken omdat de aankomstdatum al is verstreken." },
           { status: 400 }
         );
 
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
       const values = setLog(
         0,
         "CANCELED",
-        "This booking has been canceled , but no refunding steps are required",
+        "Deze boeking is geannuleerd, maar er zijn geen stappen voor terugbetaling nodig.",
         updatedBooking
       );
       const newLog = prisma.log.create({
@@ -102,7 +102,7 @@ export async function POST(req: Request) {
           companyId: entity?.companyId,
           status: "DELETE",
           type: "BOOKING",
-          message: "A booking has been canceled",
+          message: "Een boeking is geannuleerd.",
         },
       
       
@@ -125,7 +125,7 @@ export async function POST(req: Request) {
       const values = setLog(
         0,
         "CANCELED",
-        "This booking has been canceled and requiring a refund action ",
+        "Deze boeking is geannuleerd en vereist een terugbetalingsactie.",
         updatedBooking
       );
       const newLog = prisma.log.create({
@@ -142,7 +142,7 @@ export async function POST(req: Request) {
           companyId: entity?.companyId,
           status: "DELETE",
           type: "BOOKING",
-          message: "A booking has been canceled and a refund action would be made.",
+          message: "Een boeking is geannuleerd en er zal een terugbetalingsactie worden uitgevoerd.",
         },
       });
 
