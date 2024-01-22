@@ -85,6 +85,10 @@ export const GET = async (
           where: {
             paymentStatus: { in: ["SUCCEEDED", "PENDING"] },
             bookingStatus: "ACTIVE",
+            AND: [
+              { arrivalDate: { lte: adjustedEndDate } },
+              { departureDate: { gte: adjustedStartDate } },
+            ],
             ...(bookingId && { id: { not: bookingId } }),
           },
         },

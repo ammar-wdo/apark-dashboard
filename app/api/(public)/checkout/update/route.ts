@@ -111,6 +111,10 @@ export async function POST(req: Request) {
             paymentStatus: { in: ["SUCCEEDED", "PENDING"] },
             bookingStatus: "ACTIVE",
             id: { not: booking.id },
+            AND: [
+              { arrivalDate: { lte: adjustedEndDate } },
+              { departureDate: { gte: adjustedStartDate } },
+            ],
           },
         },
         availability: true,

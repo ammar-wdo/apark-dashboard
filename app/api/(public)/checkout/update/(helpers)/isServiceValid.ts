@@ -38,14 +38,14 @@ endTime:string
       if (!!isBlocked.length) return false;
     
 
-      const busyPlaces = findBusyPlaces(service.bookings, adjustedStartDate, adjustedEndDate);
+      // const busyPlaces = findBusyPlaces(service.bookings, adjustedStartDate, adjustedEndDate);
  
 
     
 
-      const canBook = checkBookingAvailability(busyPlaces,adjustedStartDate,adjustedEndDate,service.spots)
+      const canBook = checkBookingAvailability(service.bookings,adjustedStartDate,adjustedEndDate,service.spots)
 
-      const availabelPlaces = service.spots - busyPlaces.length;
+   
      
 
       if (canBook) {
