@@ -58,7 +58,7 @@ model Booking {
   flightNumber          String?
   isCompany             Boolean       @default(false)
   parkingPrice          Float
-  paymentStatus         STATUS?       @default(PENDING)
+  paymentStatus         STATUS?       @default(PENDING) 
   bookingStatus         BookingStatus @default(ACTIVE)
   place                 String?
   phoneNumber           String
@@ -73,13 +73,21 @@ model Booking {
   extraServiceFee       Float?
   status                String?
   paymentMethod         PaymentMethod @default(IDEAL)
-  serviceId             String
+  serviceId             String 
   service               Service       @relation(fields: [serviceId], references: [id])
   logs                  Log[]
   extraOptions          Json[]
   reivew                Review?
   discount              Json?
   serviceCommession     Float
+
+
+   @@index([arrivalDate])
+  @@index([departureDate])
+  @@index([paymentStatus])
+  @@index([bookingStatus])
+  @@index([serviceId])
+   @@index([arrivalDate, departureDate])
 }
 
 enum Attempt {
