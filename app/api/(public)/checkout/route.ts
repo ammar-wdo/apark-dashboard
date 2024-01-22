@@ -70,6 +70,10 @@ export async function POST(req: Request) {
           where: {
             paymentStatus: { in: ["SUCCEEDED", "PENDING"] },
             bookingStatus: "ACTIVE",
+            AND: [
+              { arrivalDate: { lte: adjustedEndDate } },
+              { departureDate: { gte: adjustedStartDate } },
+            ],
           },
         },
         availability: true,

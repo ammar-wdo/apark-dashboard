@@ -5,8 +5,7 @@ import { calculateParkingDays } from "./(helpers)/findParkingDays";
 
 import { findValidServices } from "./(helpers)/findValidServices";
 import { Key, ParkingLocation, ParkingType } from "@prisma/client";
-import { getClientDates } from "./(helpers)/getClientDates";
-import { handleTimezone } from "@/lib/timezone-handler";
+
 import { getFinalDates } from "./(helpers)/getFinalDates";
 import { getCurrentDateInNetherlands } from "../checkout/update/(helpers)/toAmsterdam";
 

@@ -44,10 +44,10 @@ export const findValidServices = (
       if (!!isBlocked.length) return accumolator;
       // console.log("service")
 
-      const busyPlaces = findBusyPlaces(service.bookings,adjustedStartDate,adjustedEndDate);
+      // const busyPlaces = findBusyPlaces(service.bookings,adjustedStartDate,adjustedEndDate);
       // console.log("busy places",busyPlaces.length)
 
-      const canBook = checkBookingAvailability(busyPlaces,adjustedStartDate,adjustedEndDate,service.spots)
+      const canBook = checkBookingAvailability(service.bookings,adjustedStartDate,adjustedEndDate,service.spots)
 
 
       // const availabelPlaces = service.spots - busyPlaces.length;

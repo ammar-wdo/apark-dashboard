@@ -2,18 +2,16 @@ import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 
 import prisma from "@/lib/db";
-import { STATUS } from "@prisma/client";
+
 import { bookingSchema } from "@/schemas";
 
-import { nanoid } from "nanoid";
-import { daysAndTotal } from "../(helpers)/days-and-total";
-import { findValidServices } from "../../services/(helpers)/findValidServices";
-import { isAvailable } from "../(helpers)/isAvailable";
+
+
 import { isServiceValid } from "./(helpers)/isServiceValid";
 import { calculateParkingDays } from "../../services/(helpers)/findParkingDays";
 
 import { setLog } from "../../(helpers)/set-log";
-import { getClientDates } from "../../services/(helpers)/getClientDates";
+
 import { calculateNewUpdate } from "./(helpers)/calculateNewUpdate";
 import { getFinalDates } from "../../services/(helpers)/getFinalDates";
 import { findTotalPrice } from "../../services/(helpers)/findTotalPrice";
