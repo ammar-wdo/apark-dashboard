@@ -96,6 +96,10 @@ export async function GET(req: Request) {
           where: {
             paymentStatus: { in: ["SUCCEEDED", "PENDING"] },
             bookingStatus: "ACTIVE",
+            AND: [
+              { arrivalDate: { lte: adjustedEndDate } },
+              { departureDate: { gte: adjustedStartDate } },
+            ],
           },
         },
         entity: {
