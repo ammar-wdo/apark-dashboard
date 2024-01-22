@@ -66,7 +66,7 @@ export async function POST(req: Request) {
 
     const booking = await prisma.booking.findUnique({
       where: {
-        email,
+        email:email.toLowerCase(),
         bookingCode,
         paymentStatus: { in: ["SUCCEEDED"] },
         bookingStatus: "ACTIVE",
