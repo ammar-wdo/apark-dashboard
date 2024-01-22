@@ -8,6 +8,8 @@ const Scroller = (props: Props) => {
 
 
     const scrollerRef = useRef<HTMLDivElement | null>(null)
+
+    
     useEffect(()=>{
         scrollerRef.current?.scrollIntoView({behavior:'smooth'})
     },[])

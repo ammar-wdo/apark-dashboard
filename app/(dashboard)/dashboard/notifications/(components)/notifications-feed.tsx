@@ -31,7 +31,7 @@ const showController = count > 12 * +list
         {noNotifications && <p className='mt-10'>No notifications</p>}
         {notifications.map((notification)=><NotificationComponent key={notification.id} notification={notification} />) }
         {showController && <Controller list={list} />}
-        <Scroller />
+        <Scroller  />
 
 
     </div>
