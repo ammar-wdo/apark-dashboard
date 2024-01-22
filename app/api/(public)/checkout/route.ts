@@ -133,6 +133,7 @@ console.log('discount value',priceWithDiscount)
     booking = await prisma.booking.create({
       data: {
         ...validBody.data,
+        email:validBody.data.email.toLowerCase(),
         bookingCode,
         arrivalDate: adjustedStartDate,
         departureDate: adjustedEndDate,

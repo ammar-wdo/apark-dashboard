@@ -69,7 +69,7 @@ export async function POST(req: Request) {
       where: {
         id: id,
         serviceId: validBody.data.serviceId,
-        email: validBody.data.email,
+        email: validBody.data.email.toLowerCase(),
 
         bookingCode: bookingCode,
 
