@@ -14,6 +14,7 @@ import { checkOptions } from "./(helpers)/check-options";
 import { generateBookingCode } from "./(helpers)/generateBookingCode";
 import { stripeCheckout } from "./(helpers)/stripe-checkout";
 import { checkDiscount } from "./(helpers)/check-discount";
+import { isServiceValid } from "./update/(helpers)/isServiceValid";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -88,16 +89,16 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-    const validServices = findValidServices(
-      [service],
+    const validServices = isServiceValid(
+      service,
       validBody.data.arrivalDate.toString(),
       validBody.data.departureDate.toString(),
       validBody.data.arrivalTime,
       validBody.data.departureTime,
-      daysofparking
+  
     );
 
-    if (!validServices.length)
+    if (!validServices)
       return NextResponse.json(
         { customError: "Deze dienst heeft geen vrije plaatsen meer!" },
         { status: 400 }
