@@ -31,7 +31,7 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: Request) {
-  return await prisma.$transaction(async (prismaTransaction) => {
+  
   let booking;
 
   try {
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
       validBody.data.serviceId
     );
 
-    const service = await prismaTransaction.service.findUnique({
+    const service = await prisma.service.findUnique({
       where: {
         id: validBody.data.serviceId,
         isActive: true,
@@ -131,7 +131,7 @@ console.log('discount value',priceWithDiscount)
 
       console.log('total',total,'price with options',priceWithOptions,"price With Discount",priceWithDiscount,'final total',finalTotal)
 
-    booking = await prismaTransaction.booking.create({
+    booking = await prisma.booking.create({
       data: {
         ...validBody.data,
         email:validBody.data.email.toLowerCase(),
@@ -178,7 +178,7 @@ console.log('discount value',priceWithDiscount)
     );
   } catch (error) {
     console.log(error);
-    await prismaTransaction.booking.delete({ where: { id: booking?.id } });
+    await prisma.booking.delete({ where: { id: booking?.id } });
     return new NextResponse("internal error", { status: 500 });
   }
-})}
+}
