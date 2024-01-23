@@ -189,7 +189,7 @@ export async function POST(req: Request) {
         updatedBooking
       );
       await prisma.log.create({ data: { ...values } });
-      await sendEmail(booking, "update", service.name);
+      await sendEmail(updatedBooking, "update", service.name);
 
       return NextResponse.json(
         {
