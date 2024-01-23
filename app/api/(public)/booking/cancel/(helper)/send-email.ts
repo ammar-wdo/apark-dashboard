@@ -12,12 +12,18 @@ export const sendEmail = async (
     service: name,
     email:booking.email,
     bookingCode: booking.bookingCode,
-    arrivalString: `${booking.arrivalDate.getDate()}-${
-      booking.arrivalDate.getMonth() + 1
-    }-${booking.arrivalDate.getFullYear()} ${booking.arrivalTime}`,
-    departureString: `${booking.departureDate.getDate()}-${
-      booking.departureDate.getMonth() + 1
-    }-${booking.departureDate.getFullYear()} ${booking.departureTime}`,
+    arrivalString: `${booking.arrivalDate
+      .getDate()
+      .toString()
+      .padStart(2, "0")}-${(booking.arrivalDate.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${booking.arrivalDate.getFullYear()} ${booking.arrivalTime}`,
+    departureString: `${booking.departureDate
+      .getDate()
+      .toString()
+      .padStart(2, "0")}-${(booking.departureDate.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${booking.departureDate.getFullYear()} ${booking.departureTime}`,
     firstName: booking.firstName,
     lastName: booking.lastName,
   };
