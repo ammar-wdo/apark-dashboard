@@ -44,6 +44,7 @@ endTime:string
     
 
       const canBook = checkBookingAvailability(service.bookings,adjustedStartDate,adjustedEndDate,service.spots)
+      console.log('spots',service.spots)
 
    
      

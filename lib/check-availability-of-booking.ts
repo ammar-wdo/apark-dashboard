@@ -8,8 +8,10 @@ export const checkBookingAvailability = (bookings: Booking[], startDate: Date, e
 
   
    for(const theDate in bookingsPerDay){
+    console.log('places',bookingsPerDay[theDate])
     if(bookingsPerDay[theDate] && bookingsPerDay[theDate] >= availableRooms)
     {
+        console.log('places',bookingsPerDay[theDate])
         return false
     }
    }

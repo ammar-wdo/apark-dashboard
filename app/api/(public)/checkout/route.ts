@@ -153,7 +153,7 @@ console.log('discount value',priceWithDiscount)
         }),
       },
     });
-
+console.log('name',booking.firstName)
     const myPayment = methods[booking.paymentMethod];
 
     //  checkout session
