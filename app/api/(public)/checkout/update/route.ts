@@ -35,6 +35,7 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: Request) {
+  return await prisma.$transaction(async (prismaTransaction) => {
   let booking;
   try {
     const body = await req.json();
@@ -65,7 +66,7 @@ export async function POST(req: Request) {
     const newArrival = new Date(adjustedStartDate); //to reset hours
     const newDeparture = new Date(adjustedEndDate); //to reset hours
 
-    booking = await prisma.booking.findUnique({
+    booking = await prismaTransaction.booking.findUnique({
       where: {
         id: id,
         serviceId: validBody.data.serviceId,
@@ -99,7 +100,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-    const service = await prisma.service.findUnique({
+    const service = await prismaTransaction.service.findUnique({
       where: {
         id: validBody.data.serviceId,
         isActive: true,
@@ -168,7 +169,7 @@ export async function POST(req: Request) {
     console.log("additional price", additionalPrice);
 
     if (additionalDays === 0) {
-      const updatedBooking = await prisma.booking.update({
+      const updatedBooking = await prismaTransaction.booking.update({
         where: {
           id: booking.id,
         },
@@ -187,7 +188,7 @@ export async function POST(req: Request) {
         `Deze boeking is bijgewerkt zonder extra dagen, geen extra betaling.`,
         updatedBooking
       );
-      await prisma.log.create({ data: { ...values } });
+      await prismaTransaction.log.create({ data: { ...values } });
       await sendEmail(booking, "update", service.name);
 
       return NextResponse.json(
@@ -201,7 +202,7 @@ export async function POST(req: Request) {
     } else if (additionalDays > 0) {
       const myPayment = methods[validBody.data.paymentMethod];
 
-      const updatedBooking = await prisma.booking.update({
+      const updatedBooking = await prismaTransaction.booking.update({
         where: {
           id: booking.id,
         },
@@ -285,7 +286,7 @@ export async function POST(req: Request) {
         `Een poging om de parkeerperiode met ${additionalDays} dag(en) te verlengen met een verwachte extra betaling van €${additionalPrice}`,
         updatedBooking
       );
-      await prisma.log.create({ data: { ...values } });
+      await prismaTransaction.log.create({ data: { ...values } });
 
       return NextResponse.json(
         { url: session.url },
@@ -301,7 +302,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.log(error);
 
-    await prisma.booking.update({
+    await prismaTransaction.booking.update({
       where: { id: booking?.id },
       data: {
         ...booking,
@@ -312,3 +313,4 @@ export async function POST(req: Request) {
     return new NextResponse("internal error", { status: 500 });
   }
 }
+)}
