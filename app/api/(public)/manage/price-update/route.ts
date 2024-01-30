@@ -12,7 +12,7 @@ export const POST = async (req: Request) => {
     const apiKey = req.headers.get("x-api-key");
 
     // Verify API key
-    if (apiKey !== "my key") {
+    if (apiKey !== "PV+AIRVrjpu+r2k5M9rCPH62hOLYvrLjwo399Sc+b0I") {
       return NextResponse.json(
         { error: "Unauthorized access" },
         { status: 401 }
