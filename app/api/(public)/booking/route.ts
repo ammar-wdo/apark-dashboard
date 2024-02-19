@@ -29,7 +29,7 @@ export async function GET(req: Request) {
         if (booking?.reivew) {
           return NextResponse.json(
             { booking: null },
-            { status: 200, statusText: "all ready has review" }
+            { status: 200, statusText: "Er is al een beoordeling geplaatst." }
           );
         } else {
           return NextResponse.json({ booking }, { status: 200 });
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
   
 
     if (!booking)
-      return  NextResponse.json({message:'Invalid credentials'}, { status: 200 });
+      return  NextResponse.json({message:'Ongeldige inloggegevens.'}, { status: 200 });
 
       console.log('date',new Date())
       console.log('booking arrival date',booking.arrivalDate)
