@@ -56,10 +56,10 @@ export const stripeCheckout = async (
           currency: "eur",
           product_data: {
             name: serviceName,
-            description: `Booking for ${daysofparking} day(s) parking ${
+            description: `Reservering voor ${daysofparking} dag(en)  ${
               !!options && !!options.length
-                ? `with extra options (  ${options.map(
-                    (el) => `${el.label} for  €${el.price}`
+                ? `met extra opties (  ${options.map(
+                    (el) => `${el.label} voor  €${el.price}`
                   )})`
                 : ""
             }`,
