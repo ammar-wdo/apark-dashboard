@@ -113,9 +113,7 @@ export const editList = async (
         startDate: new Date(
           new Date(validData.data.startDate).setHours(0, 0, 0, 0)
         ),
-        endDate: new Date(
-          new Date(validData.data.endDate).setHours(23, 45, 0, 0)
-        ),
+        endDate:new Date(validData.data.endDate.setHours(23,45,0,0)),
         label: validData.data.label,
         pricings:validData.data.pricings
       },
