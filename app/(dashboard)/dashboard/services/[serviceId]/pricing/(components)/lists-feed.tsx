@@ -41,7 +41,7 @@ const ListFeed = async ({ serviceId }: Props) => {
       {!!lists.length && (
         <div className="flex flex-wrap gap-6 items-center">
           {lists.map((list) => (
-           <ListCard list={list}  serviceId={serviceId}/>
+           <ListCard list={list} key={list.id}  serviceId={serviceId}/>
           ))}
         </div>
       )}
