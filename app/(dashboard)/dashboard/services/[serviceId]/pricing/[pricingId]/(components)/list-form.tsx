@@ -108,7 +108,7 @@ const ListForm = ({ list }: Props) => {
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
-                    fromMonth={form.watch('startDate') ? new Date(form.watch('startDate')) : new Date()}
+                 
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
@@ -152,7 +152,7 @@ const ListForm = ({ list }: Props) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    fromMonth={form.watch('endDate') ? new Date(form.watch('endDate')) : new Date()}
+               
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>
