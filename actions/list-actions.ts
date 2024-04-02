@@ -49,7 +49,7 @@ export const addList = async (serviceId: string, data: any) => {
         pricings:validData.data.pricings
       },
     });
-    console.log('startDate',list.startDate,'end date',list.endDate)
+    console.log("string",startDateUtc,endDateUtc)
     return { success: true, message: "Successfully Created" };
   } catch (error) {
     return { success: false, error: "Something went wrong" };
@@ -110,6 +110,8 @@ export const editList = async (
     const startDateUtc = convertDateToISOString(validData.data.startDate)
     const endDateUtc = convertDateToISOString(validData.data.endDate)
 
+    console.log("string",startDateUtc,endDateUtc)
+
     const list = await prisma.list.update({
       where: {
         id: listId,
@@ -125,7 +127,7 @@ export const editList = async (
     });
 
 
-    console.log('startDate',list.startDate,'end date',list.endDate)
+  
 
     return { success: true, message: "Successfully Updated" };
   } catch (error) {
