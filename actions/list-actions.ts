@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/db";
 import { getCurrentCompany } from "@/lib/helpers";
+import { convertDateToISOString } from "@/lib/utils";
 import { listSchema } from "@/schemas";
 import { getServerSession } from "next-auth";
 
@@ -34,15 +35,16 @@ export const addList = async (serviceId: string, data: any) => {
 
     if(!!overlapedDate.length) return {success:false,error:"Dates are overlaping with another list"}
 
+    const startDateUtc = convertDateToISOString(validData.data.startDate)
+    const endDateUtc = convertDateToISOString(validData.data.endDate)
+
     const list = await prisma.list.create({
       data: {
         serviceId,
         startDate: new Date(
-          new Date(validData.data.startDate).setHours(0, 0, 0, 0)
-        ),
-        endDate: new Date(
-          new Date(validData.data.endDate).setHours(23, 45, 0, 0)
-        ),
+            new Date(new Date(startDateUtc!).setHours(0, 0, 0, 0))
+          ),
+          endDate:new Date(new Date(endDateUtc!).setHours(23,45,0,0)),
         label: validData.data.label,
         pricings:validData.data.pricings
       },
@@ -105,15 +107,18 @@ export const editList = async (
 
     if(!!overlapedDate.length) return {success:false,error:"Dates are overlaping with another list"}
 
+    const startDateUtc = convertDateToISOString(validData.data.startDate)
+    const endDateUtc = convertDateToISOString(validData.data.endDate)
+
     const list = await prisma.list.update({
       where: {
         id: listId,
       },
       data: {
         startDate: new Date(
-          new Date(validData.data.startDate).setHours(0, 0, 0, 0)
+          new Date(new Date(startDateUtc!).setHours(0, 0, 0, 0))
         ),
-        endDate:new Date(validData.data.endDate.setHours(23,45,0,0)),
+        endDate:new Date(new Date(endDateUtc!).setHours(23,45,0,0)),
         label: validData.data.label,
         pricings:validData.data.pricings
       },
