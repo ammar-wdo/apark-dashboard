@@ -42,9 +42,9 @@ export const addList = async (serviceId: string, data: any) => {
       data: {
         serviceId,
         startDate: new Date(
-            new Date(new Date(startDateUtc!).setHours(0, 0, 0, 0))
+        startDateUtc!
           ),
-          endDate:new Date(new Date(endDateUtc!).setHours(23,45,0,0)),
+          endDate:new Date(endDateUtc!),
         label: validData.data.label,
         pricings:validData.data.pricings
       },
@@ -116,9 +116,9 @@ export const editList = async (
       },
       data: {
         startDate: new Date(
-          new Date(new Date(startDateUtc!).setHours(0, 0, 0, 0))
+         startDateUtc!
         ),
-        endDate:new Date(new Date(endDateUtc!).setHours(23,45,0,0)),
+        endDate:new Date(endDateUtc!),
         label: validData.data.label,
         pricings:validData.data.pricings
       },
