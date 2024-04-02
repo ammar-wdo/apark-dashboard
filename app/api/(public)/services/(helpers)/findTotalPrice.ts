@@ -1,8 +1,8 @@
-import { Rule, Service } from "@prisma/client";
+import { List, Rule, Service } from "@prisma/client";
 import { findBlockingDates } from "./findBlockingDates";
 
 export const findTotalPrice = (
-  service: Service & { rules: Rule[] },
+  service: Service & { rules: Rule[],lists:List[] },
   parkingDays: number,
   startDate: Date,
   endDate: Date
@@ -12,9 +12,11 @@ export const findTotalPrice = (
   const rules = findBlockingDates(service.rules, startDate, endDate) as Rule[];
   const rule = rules[0];
 
+  const pricings = !!service.lists.length ? service.lists[0].pricings : service.pricings
+
   if (!rule) {
     console.log("parking days ",parkingDays)
-    totalPrice = service.pricings[parkingDays-1]
+    totalPrice = pricings[parkingDays-1]
    
 
     return totalPrice;
@@ -24,11 +26,11 @@ export const findTotalPrice = (
 
   
     if (type === "FIXED") {
-        totalPrice = service.pricings[parkingDays-1] + theValue!;
+        totalPrice = pricings[parkingDays-1] + theValue!;
 
         return totalPrice < 0 ? 0 : +totalPrice
     } else {
-        totalPrice = service.pricings[parkingDays-1]
+        totalPrice = pricings[parkingDays-1]
 
         return totalPrice < 0 ? 0 : totalPrice + totalPrice*percentage!/100
     }

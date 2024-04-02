@@ -1,4 +1,4 @@
-import { Availability, Booking, Rule, Service } from "@prisma/client";
+import { Availability, Booking, List, Rule, Service } from "@prisma/client";
 import { findBlockingDates } from "./findBlockingDates";
 import { findBusyPlaces } from "./findBusyPlaces";
 import { findTotalPrice } from "./findTotalPrice";
@@ -10,6 +10,7 @@ type FullService = Service & {
   bookings: Booking[];
   rules:Rule[]
   reviews?:{id:string,rate:number}[]
+  lists:List[]
 };
 
 type ReturnedService = FullService & {

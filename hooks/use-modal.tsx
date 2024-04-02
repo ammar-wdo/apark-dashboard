@@ -9,6 +9,7 @@ type Data = {
     metaDate?:string
     rule?:Rule
     extraOption?:ExraOption
+    deleteFn?:()=>Promise<{success:boolean,error?:string,message?:string}>
 }
 
 type Modal = {

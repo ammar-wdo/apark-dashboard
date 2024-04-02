@@ -120,6 +120,16 @@ export async function POST(req: Request) {
         },
         availability: true,
         rules: true,
+        lists:{
+          where:{
+              startDate:{
+                  lte:adjustedStartDate
+              },
+              endDate:{
+                  gte:adjustedStartDate
+              }
+          }
+      }
       },
     });
 

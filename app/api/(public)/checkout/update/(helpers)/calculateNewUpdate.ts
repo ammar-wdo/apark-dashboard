@@ -1,4 +1,4 @@
-import { Availability, Booking, Rule, Service } from "@prisma/client";
+import { Availability, Booking, List, Rule, Service } from "@prisma/client";
 import { calculateParkingDays } from "../../../services/(helpers)/findParkingDays";
 import { findTotalPrice } from "../../../services/(helpers)/findTotalPrice";
 
@@ -10,7 +10,7 @@ type Props = {
     bookingDeparture:Date,
 parkingDays:number,
 totalPrice:number
-    service:Service &{bookings:Booking[],rules:Rule[],availability:Availability[]}
+    service:Service &{bookings:Booking[],rules:Rule[],availability:Availability[],lists:List[]}
 }
 
 export const calculateNewUpdate = ({bookingArrival,bookingDeparture,service,parkingDays,totalPrice}:Props)=>{

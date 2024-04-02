@@ -8,6 +8,7 @@ import { notFound, redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import ErrorHolder from '../../../(components)/error-holder'
+import ListFeed from './(components)/lists-feed'
 
 type Props = {
     params:{serviceId:string}
@@ -40,7 +41,9 @@ const page = async({params}: Props) => {
       <Heading title='Prijzen' description={`Bekijk prijzen voor ${service?.name} `} />
 
       <PricingForm pricings={service?.pricings! } />
-
+<div className='mt-12'>
+  <ListFeed serviceId={params.serviceId} />
+</div>
       
     </div>
   )

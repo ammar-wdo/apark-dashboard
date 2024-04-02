@@ -9,7 +9,17 @@ const serivce = await prisma.service.findUnique({
         id:serviceId
     },
     include:{
-        rules:true
+        rules:true,
+        lists:{
+            where:{
+                startDate:{
+                    lte:startDate
+                },
+                endDate:{
+                    gte:startDate
+                }
+            }
+        }
     }
 })
    

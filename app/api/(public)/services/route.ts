@@ -110,6 +110,16 @@ export async function GET(req: Request) {
         },
         availability: true,
         rules: true,
+        lists:{
+          where:{
+              startDate:{
+                  lte:adjustedStartDate
+              },
+              endDate:{
+                  gte:adjustedStartDate
+              }
+          }
+      },
         reviews: {
           where: {
             status: "ACTIVE",

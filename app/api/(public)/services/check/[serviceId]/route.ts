@@ -97,6 +97,17 @@ export const GET = async (
         },
         availability: true,
         rules: true,
+        lists:{
+          where:{
+              startDate:{
+                  lte:adjustedStartDate
+              },
+              endDate:{
+                  gte:adjustedStartDate
+              }
+          }
+      },
+        
         extraOptions: {
           where: {
             isActive: true,
