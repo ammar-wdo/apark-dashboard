@@ -108,6 +108,7 @@ const ListForm = ({ list }: Props) => {
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
+                    fromMonth={form.watch('startDate') ? new Date(form.watch('startDate')) : new Date()}
                     mode="single"
                     selected={new Date(field.value)}
                     onSelect={(val)=>{field.onChange(convertDateToISOString(val));console.log(val)}}
@@ -151,6 +152,7 @@ const ListForm = ({ list }: Props) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
+                    fromMonth={form.watch('endDate') ? new Date(form.watch('endDate')) : new Date()}
                     selected={new Date(field.value)}
                     onSelect={(val)=>{field.onChange(convertDateToISOString(val));console.log(form.watch('endDate'))}}
                     disabled={(date) =>
