@@ -182,4 +182,8 @@ export const rulesSchema = z
       endDate:z.date(),
       pricings: z
       .array(z.number().refine((val) => val >= 0, { message: "Price must be a non-negative number" }))
-    }).refine(data=>new Date(data.startDate) < new Date(data.endDate),'Start Date should be less than End Date')
+    }).refine(
+      (date) =>
+        new Date(date.startDate).getTime() <= new Date(date.endDate).getTime(),
+      { message: "Invalid blocking range", path: ["startDate"] }
+    );
