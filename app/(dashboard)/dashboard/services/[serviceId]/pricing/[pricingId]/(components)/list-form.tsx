@@ -110,8 +110,8 @@ const ListForm = ({ list }: Props) => {
                   <Calendar
                     fromMonth={form.watch('startDate') ? new Date(form.watch('startDate')) : new Date()}
                     mode="single"
-                    selected={new Date(new Date(field.value).setHours(0,0,0,0))}
-                    onSelect={(val)=>{field.onChange(convertDateToISOString(val));}}
+                    selected={field.value}
+                    onSelect={field.onChange}
                     disabled={(date) =>
                       date <  new Date(new Date().setHours(0,0,0,0)) 
                     }
@@ -153,8 +153,8 @@ const ListForm = ({ list }: Props) => {
                   <Calendar
                     mode="single"
                     fromMonth={form.watch('endDate') ? new Date(form.watch('endDate')) : new Date()}
-                    selected={new Date(new Date(field.value).setHours(0,0,0,0))}
-                    onSelect={(val)=>{field.onChange(convertDateToISOString(val));console.log(form.watch('endDate'))}}
+                    selected={field.value}
+                    onSelect={field.onChange}
                     disabled={(date) =>
                         date <  new Date(new Date().setHours(0,0,0,0)) || date <= new Date(new Date(form.watch('startDate')).setHours(0,0,0,0))
                     }
