@@ -98,7 +98,7 @@ const ListForm = ({ list }: Props) => {
                       )}
                     >
                       {field.value ? (
-                        format(new Date(field.value), "PPP")
+                        format(new Date(field.value), "dd-MM-yyyy")
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -110,8 +110,8 @@ const ListForm = ({ list }: Props) => {
                   <Calendar
                     fromMonth={form.watch('startDate') ? new Date(form.watch('startDate')) : new Date()}
                     mode="single"
-                    selected={new Date(field.value)}
-                    onSelect={(val)=>{field.onChange(convertDateToISOString(val));console.log(val)}}
+                    selected={new Date(new Date(field.value).setHours(0,0,0,0))}
+                    onSelect={(val)=>{field.onChange(convertDateToISOString(val));}}
                     disabled={(date) =>
                       date <  new Date(new Date().setHours(0,0,0,0)) 
                     }
@@ -141,7 +141,7 @@ const ListForm = ({ list }: Props) => {
                       )}
                     >
                       {field.value ? (
-                        format(new Date(field.value), "PPP")
+                        format(new Date(field.value), "dd-MM-yyyy")
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -153,7 +153,7 @@ const ListForm = ({ list }: Props) => {
                   <Calendar
                     mode="single"
                     fromMonth={form.watch('endDate') ? new Date(form.watch('endDate')) : new Date()}
-                    selected={new Date(field.value)}
+                    selected={new Date(new Date(field.value).setHours(0,0,0,0))}
                     onSelect={(val)=>{field.onChange(convertDateToISOString(val));console.log(form.watch('endDate'))}}
                     disabled={(date) =>
                         date <  new Date(new Date().setHours(0,0,0,0)) || date <= new Date(new Date(form.watch('startDate')).setHours(0,0,0,0))

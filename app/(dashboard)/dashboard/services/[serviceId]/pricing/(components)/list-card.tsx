@@ -14,7 +14,8 @@ type Props = {list:List,serviceId:string}
 const ListCard = ({list,serviceId}: Props) => {
     const {setOpen} = useModal()
 
-    console.log('start date',list.startDate)
+    console.log('start date card',list.startDate)
+    console.log('end date card',list.endDate)
   return (
     <div key={list.id} className="border p-8 rounded-md bg-white hover:shadow-lg transition">
     <p className="text-muted-foreground text-xl capitalize font-bold">{list.label || "No Label"}</p>

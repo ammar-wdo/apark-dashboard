@@ -52,6 +52,9 @@ export const useList = (list:List | null) => {
 
 
 
+
+
+
  const handleChange = (value: string, index: number) => {
   
   const newArray:(string | number)[] = [...(myArray || [])];
@@ -215,6 +218,11 @@ export const useList = (list:List | null) => {
         label:list?.label || ''
     },
   });
+
+
+  useEffect(()=>{
+    console.log(form.watch('startDate'),form.watch('endDate'))
+  },[form.watch('startDate'),form.watch('endDate')])
 
   const params = useParams();
   const router = useRouter();
