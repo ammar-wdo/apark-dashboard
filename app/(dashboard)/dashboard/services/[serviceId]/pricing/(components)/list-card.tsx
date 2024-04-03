@@ -17,7 +17,7 @@ const ListCard = ({list,serviceId}: Props) => {
     console.log('start date card',list.startDate)
     console.log('end date card',list.endDate)
   return (
-    <div key={list.id} className="border p-8 rounded-md bg-white hover:shadow-lg transition">
+    <div key={list.id} className="border p-8 rounded-md bg-background hover:shadow-lg transition">
     <p className="text-muted-foreground text-xl capitalize font-bold">{list.label || "No Label"}</p>
     <p>Start Date: {formatDate(list.startDate)}</p>
     <p>End Date: {formatDate(list.endDate)}</p>
