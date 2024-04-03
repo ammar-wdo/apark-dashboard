@@ -1,3 +1,5 @@
+import prisma from "@/lib/db";
+import { availabilitySchema } from "@/schemas";
 import { NextResponse } from "next/server";
 
 const corsHeaders = {
@@ -10,8 +12,9 @@ const corsHeaders = {
     return NextResponse.json({}, { headers: corsHeaders });
   }
   
-export const POST = async(req:Request)=>{
+export const POST = async(req:Request,{params}:{params:{productId:string}})=>{
 
+  if(!params.productId) return NextResponse.json({success:false,error:"productId is requred"},{status:400,headers: corsHeaders})
 
     try {
         const apiKey = req.headers.get("x-api-key");
@@ -26,11 +29,27 @@ export const POST = async(req:Request)=>{
         const body = await req.json()
         console.log(body)
 
-        return NextResponse.json({message:'Request recieved'},{status:200,headers: corsHeaders})
+        const validBody = availabilitySchema.safeParse(body)
+        if(!validBody.success) return NextResponse.json({success:false,error:'Invalid Inputs'},{status:400,headers: corsHeaders})
+
+        const {serviceId,startDate,endDate,...rest} = validBody.data
+
+        const availability = await prisma.availability.create({
+          data:{
+            serviceId:params.productId,
+            startDate:new Date(startDate.setHours(0,0,0,0)),
+            endDate:new Date(endDate.setHours(23,45,0,0)),
+            ...rest
+          }
+        })
+
+        
+
+        return NextResponse.json({success:true,availabilityId:availability.id,message:'successfully created'},{status:200,headers: corsHeaders})
         
     } catch (error) {
         console.log(error)
-        return NextResponse.json({error:'Internal error'},{status:500})
+        return NextResponse.json({error:'Internal error'},{status:500,headers: corsHeaders})
     }
 
 
