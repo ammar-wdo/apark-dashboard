@@ -40,9 +40,14 @@ const page = async({params}: Props) => {
     <div className=''>
       <Heading title='Prijzen' description={`Bekijk prijzen voor ${service?.name} `} />
 
-      <PricingForm pricings={service?.pricings! } />
+     
 <div className='mt-12'>
   <ListFeed serviceId={params.serviceId} />
+</div>
+
+<div className='mt-32'>
+  <Heading title={'Base pricings list'} description='Default list as a fallback in case no specified lists added.' />
+<PricingForm pricings={service?.pricings! } />
 </div>
       
     </div>
