@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/db";
 import { getCurrentCompany } from "@/lib/helpers";
-import { convertDateToISOString } from "@/lib/utils";
+import { combineDateAndTimeToUTC, convertDateToISOString } from "@/lib/utils";
 import { listSchema } from "@/schemas";
 import { getServerSession } from "next-auth";
 
@@ -17,39 +17,47 @@ export const addList = async (serviceId: string, data: any) => {
 
     if (!validData.success) return { success: false, error: "Invalid inputs" };
 
+    const fullStartDate = combineDateAndTimeToUTC(
+      validData.data.startDate,
+      "00:00"
+    );
+    const fullEndDate = combineDateAndTimeToUTC(
+      validData.data.endDate,
+      "23:45"
+    );
+
     const overlapedDate = await prisma.list.findMany({
-        where:{
-            serviceId,
-            
-            startDate: {
-                lte: new Date(validData.data.endDate),
-              },
-            
-            
-              endDate: {
-                gte:new Date(validData.data.startDate),
-              },
-        
-    }})
+      where: {
+        serviceId,
 
+        startDate: {
+          lte: fullEndDate,
+        },
 
-    if(!!overlapedDate.length) return {success:false,error:"Dates are overlaping with another list"}
+        endDate: {
+          gte: fullStartDate,
+        },
+      },
+    });
 
-    const startDateUtc = convertDateToISOString(validData.data.startDate)
-    const endDateUtc = convertDateToISOString(validData.data.endDate)
+    if (!!overlapedDate.length)
+      return {
+        success: false,
+        error: "Dates are overlaping with another list",
+      };
+
+  
 
     const list = await prisma.list.create({
       data: {
         serviceId,
-        startDate: new Date(
-        startDateUtc!
-          ),
-          endDate:new Date(endDateUtc!),
+        startDate: fullStartDate,
+        endDate: fullEndDate,
         label: validData.data.label,
-        pricings:validData.data.pricings
+        pricings: validData.data.pricings,
       },
     });
-    console.log("string",startDateUtc,endDateUtc)
+ 
     return { success: true, message: "Successfully Created" };
   } catch (error) {
     return { success: false, error: "Something went wrong" };
@@ -88,46 +96,51 @@ export const editList = async (
 
     if (!validData.success) return { success: false, error: "Invalid inputs" };
 
+    const fullStartDate = combineDateAndTimeToUTC(
+      validData.data.startDate,
+      "00:00"
+    );
+    const fullEndDate = combineDateAndTimeToUTC(
+      validData.data.endDate,
+      "23:45"
+    );
+
     const overlapedDate = await prisma.list.findMany({
-        where:{
-            serviceId,
-            id:{not:listId},
-            
-                startDate: {
-                  lte: new Date(validData.data.endDate),
-                },
-              
-              
-                endDate: {
-                  gte:new Date(validData.data.startDate),
-                },
-        
-    }})
+      where: {
+        serviceId,
+        id: { not: listId },
+
+        startDate: {
+          lte: fullEndDate,
+        },
+
+        endDate: {
+          gte: fullStartDate,
+        },
+      },
+    });
+
+    if (!!overlapedDate.length)
+      return {
+        success: false,
+        error: "Dates are overlaping with another list",
+      };
 
 
-    if(!!overlapedDate.length) return {success:false,error:"Dates are overlaping with another list"}
 
-    const startDateUtc = convertDateToISOString(validData.data.startDate)
-    const endDateUtc = convertDateToISOString(validData.data.endDate)
 
-    console.log("string",startDateUtc,endDateUtc)
 
     const list = await prisma.list.update({
       where: {
         id: listId,
       },
       data: {
-        startDate: new Date(
-         startDateUtc!
-        ),
-        endDate:new Date(endDateUtc!),
+        startDate: fullStartDate,
+        endDate: fullEndDate,
         label: validData.data.label,
-        pricings:validData.data.pricings
+        pricings: validData.data.pricings,
       },
     });
-
-
-  
 
     return { success: true, message: "Successfully Updated" };
   } catch (error) {

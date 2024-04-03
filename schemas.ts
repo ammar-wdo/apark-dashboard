@@ -178,8 +178,8 @@ export const rulesSchema = z
 
     export const listSchema = z.object({
       label:z.string().optional(),
-      startDate:z.date(),
-      endDate:z.date(),
+      startDate:z.string(),
+      endDate:z.string(),
       pricings: z
       .array(z.number().refine((val) => val >= 0, { message: "Price must be a non-negative number" }))
     }).refine(

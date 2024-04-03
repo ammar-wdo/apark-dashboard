@@ -48,3 +48,18 @@ export function formatDate(
 
   return new Intl.DateTimeFormat(locale, mergedOptions).format(date);
 }
+
+
+
+export function combineDateAndTimeToUTC(
+  dateString: string,
+  timeString: string
+) {
+  // Combine the date and time strings
+  const combinedDateTimeString = `${dateString}T${timeString}:00.000Z`;
+
+  // Create a Date object from the combined string
+  const utcDate = new Date(combinedDateTimeString);
+
+  return utcDate;
+}

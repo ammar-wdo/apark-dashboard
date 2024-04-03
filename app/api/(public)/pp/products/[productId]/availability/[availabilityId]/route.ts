@@ -1,4 +1,5 @@
 import prisma from "@/lib/db";
+import { combineDateAndTimeToUTC } from "@/lib/utils";
 import { availabilitySchema } from "@/schemas";
 import { NextResponse } from "next/server";
 
@@ -37,17 +38,25 @@ export const PATCH = async (
       );
     }
 
-    const body = await req.json();
+  
+    const body = (await req.json()) as {
+      serviceId: string;
+      label: string;
+      startDate: string;
+      endDate: string;
+    };
     console.log(body);
 
-    const validBody = availabilitySchema.safeParse(body);
-    if (!validBody.success)
+    if (!body.startDate || !body.endDate || !body.label)
+
+ 
+
       return NextResponse.json(
         { success: false, error: "Invalid Inputs" },
         { status: 400,headers: corsHeaders }
       );
 
-    const { serviceId ,startDate,endDate,...rest } = validBody.data;
+
 
     const availability = await prisma.availability.findUnique({
       where: {
@@ -66,14 +75,17 @@ export const PATCH = async (
         { status: 400,headers: corsHeaders }
       );
 
+      const startDate  = combineDateAndTimeToUTC(body.startDate,'00:00')
+      const endDate = combineDateAndTimeToUTC(body.endDate,'23:45')
+
     const updated = await prisma.availability.update({
       where: {
         id: params.availabilityId,
       },
       data: {
-        startDate:new Date(startDate.setHours(0,0,0,0)),
-        endDate:new Date(endDate.setHours(23,45,0,0)),
-        ...rest,
+        startDate,
+        endDate,
+      label:body.label,
       },
     });
 
