@@ -12,7 +12,9 @@ const ListFeed = async ({ serviceId }: Props) => {
   const lists = await prisma.list.findMany({
     where: {
       serviceId,
-    },
+    },orderBy:{
+      createdAt:'desc'
+    }
   });
 
   return (

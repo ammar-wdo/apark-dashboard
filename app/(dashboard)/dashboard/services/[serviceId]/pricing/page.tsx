@@ -1,6 +1,6 @@
 import prisma from '@/lib/db'
 import { getCurrentCompany } from '@/lib/helpers'
-import React from 'react'
+import React, { Suspense } from 'react'
 import PricingForm from './(components)/pricing-form'
 import Heading from '@/components/heading'
 import Control from './(components)/control'
@@ -9,6 +9,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import ErrorHolder from '../../../(components)/error-holder'
 import ListFeed from './(components)/lists-feed'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type Props = {
     params:{serviceId:string}
@@ -42,7 +43,10 @@ const page = async({params}: Props) => {
 
      
 <div className='mt-12'>
+  <Suspense fallback={<Skeleton className='h-[300px] w-full rounded-lg ' />}>
   <ListFeed serviceId={params.serviceId} />
+  </Suspense>
+
 </div>
 
 <div className='mt-32'>
