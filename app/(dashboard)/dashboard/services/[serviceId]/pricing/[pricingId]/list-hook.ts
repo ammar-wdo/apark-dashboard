@@ -213,8 +213,8 @@ export const useList = (list:List | null) => {
     resolver: zodResolver(listSchema),
     defaultValues: {
       pricings: list?.pricings || [],
-      startDate:convertDateToISOString(list?.startDate),
-      endDate:convertDateToISOString(list?.endDate),
+      startDate:list?.startDate.toISOString().slice(0,10) || "",
+      endDate:list?.endDate.toISOString().slice(0,10) || "",
         label:list?.label || ''
     },
   });
