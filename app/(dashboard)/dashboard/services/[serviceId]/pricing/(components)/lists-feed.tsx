@@ -21,15 +21,15 @@ const ListFeed = async ({ serviceId }: Props) => {
     <div>
       <div className="flex items-center justify-between">
         <Heading
-          title="Additional lists"
-          description="Manage Additional lists"
+          title="Aanvullende lijsten"
+          description="Beheer aanvullende lijsten"
         />
         <Button asChild>
           <Link
             href={`/dashboard/services/${serviceId}/pricing/new`}
             className="flex items-center gap-2 p-4 rounded-md"
           >
-            <PlusCircle className="" /> New List
+            <PlusCircle className="" /> Nieuwe Lijst
           </Link>
         </Button>
       </div>
@@ -37,7 +37,7 @@ const ListFeed = async ({ serviceId }: Props) => {
       {!lists.length && (
         <p className="mt-12 text-center text-muted-foreground capitalize text-lg">
           {" "}
-          No lists added
+          Geen lijsten toegevoegd
         </p>
       )}
       {!!lists.length && (

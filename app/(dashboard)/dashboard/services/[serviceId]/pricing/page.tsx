@@ -50,7 +50,8 @@ const page = async({params}: Props) => {
 </div>
 
 <div className='mt-32'>
-  <Heading title={'Base pricings list'} description='Default list as a fallback in case no specified lists added.' />
+  <Heading title={'Lijst met basisprijzen'} description='
+Standaardlijst als reserve voor het geval er geen gespecificeerde lijsten zijn toegevoegd.' />
 <PricingForm pricings={service?.pricings! } />
 </div>
       

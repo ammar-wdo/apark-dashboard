@@ -18,7 +18,7 @@ const page = async({params}: Props) => {
 
   return (
     <div>
-<Heading title={list ? 'Edit list' : 'Create list'} description='Manage list' />
+<Heading title={list ? 'Lijst bewerken' : 'Lijst maken'} description='Beheer lijst' />
 
 <div>
     <ListForm  list={list}/>
