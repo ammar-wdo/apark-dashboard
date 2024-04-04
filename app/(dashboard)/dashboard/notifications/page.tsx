@@ -29,7 +29,7 @@ if(!company) return <ErrorHolder/>
 
   return (
     <div>
-        <Heading title='Notifications' description='Manage your activities' />
+        <Heading title='Meldingen' description='Beheer uw activiteiten' />
         <Suspense key={searchParams.list as string} fallback={<NotificationsFeedSkeleton />}><NotificationsFeed  list = {searchParams.list as string }/></Suspense>
         <Revalidator />
     </div>

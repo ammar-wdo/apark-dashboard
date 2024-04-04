@@ -13,8 +13,8 @@ const Search = (props: Props) => {
     const [query, setQuery] = useState('')
   return (
     <div className='flex items-center gap-1'>
-        <Input className='placeholder:text-xs' placeholder='Search by Booking code' value={query} onChange={(e)=>setQuery(e.target.value)} />
-        <Button disabled={!query} onClick={()=>query && router.push(`/dashboard/bookings?bookingCode=${query}`)} variant={'default'}>Search</Button>
+        <Input className='placeholder:text-xs' placeholder='Zoek op reserveringsnummer' value={query} onChange={(e)=>setQuery(e.target.value)} />
+        <Button disabled={!query} onClick={()=>query && router.push(`/dashboard/bookings?bookingCode=${query}`)} variant={'default'}>Zoek</Button>
         <Button onClick={()=>{router.push('/dashboard/bookings');setQuery('')}} variant={'secondary'}>Reset</Button>
     </div>
   )

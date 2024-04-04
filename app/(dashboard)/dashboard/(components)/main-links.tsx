@@ -115,7 +115,7 @@ const MainLinks = ({ isAdmin }: Props) => {
           </Button>
         );
       })}
-      <h3 className="font-semibold px-4 mt-12">Activites</h3>
+      <h3 className="font-semibold px-4 mt-12">Activiteiten</h3>
 
       <Button
         key={activities[0].label}
