@@ -202,7 +202,7 @@ export const usePricing = (pricings: number[]) => {
     try {
       await axios.patch(`/api/service/${params.serviceId}`, values);
       setSave(false)
-      toast.success("Changes saved!", {
+      toast.success("Wijzigingen opgeslagen!", {
         position: "top-center",
         style: { fontSize: "1.3rem" },
       });

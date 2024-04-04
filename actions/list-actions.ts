@@ -180,7 +180,7 @@ export const deleteList = async (serviceId: string, listId: string) => {
       },
     });
 
-    return { success: true, message: "Successfully Updated" };
+    return { success: true, message: "Successfully Deleted" };
   } catch (error) {
     console.log("error", error);
     return { success: false, error: "Something went wrong" };
