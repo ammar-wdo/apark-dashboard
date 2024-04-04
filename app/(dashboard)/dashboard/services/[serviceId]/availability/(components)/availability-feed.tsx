@@ -33,7 +33,7 @@ const AvailabilityFeed = async ({ serviceId }: Props) => {
       }),
       ...(session?.user?.name === "Entity" && { entityId: currentCompany?.id }),
     },
-    select: { id: true },
+    select: { id: true,name:true },
   });
   const availabilitys = await prisma.availability.findMany({
     where: {
@@ -55,6 +55,7 @@ const AvailabilityFeed = async ({ serviceId }: Props) => {
   if (!service) return notFound();
   return (
     <div className=" mt-20 separate">
+      <h3 className="font-bold  text-xl">{service.name}</h3>
       <Table>
         <TableHeader>
           <TableRow>

@@ -55,10 +55,11 @@ if(!company) return <ErrorHolder/>
 
 
     <div className='flex items-center justify-between'><Heading title='Regels' description='Beheer prijsregels' /> 
+  
     <RuleTriggerButton /></div>
 
 <div className='separate'>
-
+<h3 className='font-bold text-xl mb-12'>{service.name}</h3>
     <RulesFeed rules={rules} />
 </div>
 

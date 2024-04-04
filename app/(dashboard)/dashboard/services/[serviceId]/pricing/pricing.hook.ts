@@ -89,10 +89,7 @@ export const usePricing = (pricings: number[]) => {
 
     // console.log(previousArray)
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
   const minusValue = (value: number, from: number, to: number) => {
@@ -110,10 +107,7 @@ export const usePricing = (pricings: number[]) => {
 
   
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
   const addPercentage = (value: number) => {
@@ -129,10 +123,7 @@ export const usePricing = (pricings: number[]) => {
 
   
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
   const reset = (value: number) => {
@@ -144,10 +135,7 @@ export const usePricing = (pricings: number[]) => {
 
   
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
   const addRows = (rows: number, value: number) => {
@@ -161,10 +149,7 @@ export const usePricing = (pricings: number[]) => {
 
   
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
   const addIncrement = (from: number, to: number, value: number) => {
@@ -192,10 +177,7 @@ export const usePricing = (pricings: number[]) => {
 
 
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
  
