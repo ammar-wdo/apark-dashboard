@@ -12,7 +12,8 @@ const page = async(props: Props) => {
   return <ErrorHolder/>
   return (
     <div>
-        <Heading title='Reviews' description='Read your reviews' />
+        <Heading title='Reviews' description='
+Lees uw reviews' />
 <div className='separate'>
 
         <ReviewsFeed />

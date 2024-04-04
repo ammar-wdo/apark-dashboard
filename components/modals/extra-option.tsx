@@ -34,7 +34,7 @@ import { useModal } from "@/hooks/use-modal"
         <DialogContent>
         <DialogHeader>
             <DialogTitle>
-            Add an option
+            Voeg een optie toe
             </DialogTitle>
              <ExtraForm />
             </DialogHeader>

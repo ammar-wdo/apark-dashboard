@@ -36,7 +36,7 @@ const ExtraForm = (props: Props) => {
         name="label"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Label*</FormLabel>
+            <FormLabel>Naam*</FormLabel>
             <FormControl>
               <Input placeholder="label" {...field} />
             </FormControl>
@@ -50,7 +50,7 @@ const ExtraForm = (props: Props) => {
         name="description"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Description*</FormLabel>
+            <FormLabel>Beschrijving*</FormLabel>
             <FormControl>
               <Textarea placeholder="description" {...field} />
             </FormControl>
@@ -64,7 +64,8 @@ const ExtraForm = (props: Props) => {
         name="price"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Price*</FormLabel>
+            <FormLabel>
+Prijs*</FormLabel>
             <FormControl>
               <Input placeholder="€ price" {...field} value={field.value || ''} />
             </FormControl>
@@ -86,7 +87,7 @@ const ExtraForm = (props: Props) => {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>
-               Available
+                Beschikbaar
                 </FormLabel>
              
               </div>
@@ -100,7 +101,7 @@ const ExtraForm = (props: Props) => {
             render={({ field }) => (
               <div className="flex flex-wrap  gap-4 items-center">
                 <FormItem>
-                  <FormLabel>Image*</FormLabel>
+                  <FormLabel>Afbeelding*</FormLabel>
                   <FormControl>
                     <SingleImageDropzone
                       width={200}
@@ -117,7 +118,7 @@ const ExtraForm = (props: Props) => {
                     onClick={uploadImage}
              
                   >
-                    Upload
+                    Uploaden
                   </Button>
 
                   <FormMessage />
@@ -128,7 +129,7 @@ const ExtraForm = (props: Props) => {
             )}
           />
             </div>
-      <Button disabled={isLoadong} className='mt-4 w-full' type="submit">Submit {isLoadong && <Loader className='ml-3 w-4 h-4 animate-spin' />}</Button>
+      <Button disabled={isLoadong} className='mt-4 w-full' type="submit">Verstuur {isLoadong && <Loader className='ml-3 w-4 h-4 animate-spin' />}</Button>
     </form>
   </Form>
   )

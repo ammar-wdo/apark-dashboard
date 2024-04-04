@@ -18,7 +18,7 @@ type Props = {
 
 const RulesFeed = ({ rules }: Props) => {
   return !rules.length ? (
-    <p>No Pricing rules added</p>
+    <p>Geen prijsregels toegevoegd</p>
   ) : (
     <div className="space-y-1">
 
