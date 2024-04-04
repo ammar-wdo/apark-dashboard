@@ -52,7 +52,7 @@ const ExtraForm = (props: Props) => {
           <FormItem>
             <FormLabel>Beschrijving*</FormLabel>
             <FormControl>
-              <Textarea placeholder="description" {...field} />
+              <Textarea placeholder="Beschrijving" {...field} />
             </FormControl>
          
             <FormMessage />
@@ -67,7 +67,7 @@ const ExtraForm = (props: Props) => {
             <FormLabel>
 Prijs*</FormLabel>
             <FormControl>
-              <Input placeholder="€ price" {...field} value={field.value || ''} />
+              <Input placeholder="€ Prijs" {...field} value={field.value || ''} />
             </FormControl>
          
             <FormMessage />
