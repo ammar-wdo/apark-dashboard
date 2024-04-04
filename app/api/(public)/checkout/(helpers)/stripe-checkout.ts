@@ -2,6 +2,7 @@ import { stripe } from "@/lib/stripe";
 import { Booking, ExraOption } from "@prisma/client";
 
 export const stripeCheckout = async (
+  companyEmail:string,
   booking: Booking,
   total: number,
   arrivalDateString: string,
@@ -18,7 +19,7 @@ export const stripeCheckout = async (
   const metaData = {
     id: booking.id,
     bookingCode: booking.bookingCode,
-
+    companyEmail,
     payed: +total.toFixed(2),
     startDate: arrivalDateString,
     endDate: departureDateString,

@@ -118,6 +118,15 @@ export async function POST(req: Request) {
             ],
           },
         },
+        entity:{
+select:{
+  company:{
+    select:{
+      email:true
+    }
+  }
+}
+        },
         availability: true,
         rules: true,
         lists:{
@@ -229,6 +238,7 @@ export async function POST(req: Request) {
       console.log("stripe price", stripePrice);
 
       const metadata = {
+        companyEmail:service.entity.company.email,
         id: booking.id,
         update: "true",
         bookingCode,

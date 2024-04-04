@@ -80,7 +80,17 @@ export async function POST(req: Request) {
         },
         availability: true,
         rules: true,
+        entity:{
+          select:{
+            company:{
+              select:{
+                email:true
+              }
+            }
+          }
+        }
       },
+      
     });
 
     if (!service)
@@ -159,6 +169,7 @@ console.log('name',booking.firstName)
     //  checkout session
 
     const session = await stripeCheckout(
+      service.entity.company.email,
       booking,
       finalTotal,  //from total to final total ??
       arrivalString,
