@@ -11,6 +11,9 @@ import { useRouter } from "next/navigation";
 type Previous = number[];
 export const usePricing = (pricings: number[]) => {
   const [myArray, setMyArray] = useState<(number | string)[]>();
+  const [save, setSave] = useState(false)
+
+  const setSaveFn = (val:boolean)=>setSave(val)
 
 
   useEffect(() => {
@@ -53,12 +56,13 @@ export const usePricing = (pricings: number[]) => {
   const newArray:(string | number)[] = [...(myArray || [])];
   newArray[index] = isNaN(+value.replace(',','.')) ? 0 : value.replace(',','.')
   setMyArray(newArray);
+  setSave(true)
 };
 
   const addRow = () => {
     const newState = [...myArray!, 0];
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
-
+    setSave(true)
 
 
   };
@@ -67,7 +71,7 @@ export const usePricing = (pricings: number[]) => {
     const newState = (myArray || []).filter((_, i) => i !== row);
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
 
-
+    setSave(true)
 
   };
 
@@ -83,7 +87,7 @@ export const usePricing = (pricings: number[]) => {
     });
 
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
-
+    setSave(true)
 
   
 
@@ -103,7 +107,7 @@ export const usePricing = (pricings: number[]) => {
       }
     });
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
-
+    setSave(true)
 
   
 
@@ -119,7 +123,7 @@ export const usePricing = (pricings: number[]) => {
         : parseInt((el + (el * value) / 100).toString())
     );
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
-
+    setSave(true)
 
   
 
@@ -132,7 +136,7 @@ export const usePricing = (pricings: number[]) => {
     );
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
 
-
+    setSave(true)
   
 
    
@@ -146,7 +150,7 @@ export const usePricing = (pricings: number[]) => {
     const newState = [...(myArray || []), ...Array(rows).fill(value)];
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
 
-
+    setSave(true)
   
 
    
@@ -174,7 +178,7 @@ export const usePricing = (pricings: number[]) => {
     setMyArray(newArry?.map(el=>+Number(el).toFixed(2)));
 
   
-
+    setSave(true)
 
 
    
@@ -197,6 +201,7 @@ export const usePricing = (pricings: number[]) => {
   async function onSubmit(values: z.infer<typeof pricingSchema>) {
     try {
       await axios.patch(`/api/service/${params.serviceId}`, values);
+      setSave(false)
       toast.success("Changes saved!", {
         position: "top-center",
         style: { fontSize: "1.3rem" },
@@ -228,6 +233,8 @@ export const usePricing = (pricings: number[]) => {
     reset,
     addRows,
     addIncrement,
+    save,
+    setSaveFn
 
   };
 };

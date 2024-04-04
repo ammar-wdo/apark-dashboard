@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 
-
 import {
   Table,
   TableBody,
@@ -24,12 +23,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { Calendar } from "@/components/ui/calendar"
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 import { CalendarIcon, Loader, XIcon } from "lucide-react";
 import Control from "../../(components)/control";
 import { cn, convertDateToISOString } from "@/lib/utils";
@@ -38,12 +37,26 @@ import { List } from "@prisma/client";
 import { format } from "date-fns";
 
 type Props = {
- list:List | null
+  list: List | null;
 };
 
 const ListForm = ({ list }: Props) => {
-  const { onSubmit, form, myArray, addRow, handleChange, deleteRow, addValue ,addPercentage,reset,addRows,addIncrement,minusValue} =
-    useList(list);
+  const {
+    onSubmit,
+    form,
+    myArray,
+    addRow,
+    handleChange,
+    deleteRow,
+    addValue,
+    addPercentage,
+    reset,
+    addRows,
+    addIncrement,
+    minusValue,
+    save,
+    setSaveFn,
+  } = useList(list);
 
   const [mount, setMount] = useState(false);
   useEffect(() => {
@@ -56,124 +69,138 @@ const ListForm = ({ list }: Props) => {
 
   return (
     <Form {...form}>
-         
       <div className="flex gap-8 2xl:flex-row flex-col-reverse relative items-start ">
-   
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-3 max-w-[600px] w-full separate"
         >
-
-            <div>
+          <div>
             <FormField
-          control={form.control}
-          name="label"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Label</FormLabel>
-              <FormControl>
-                <Input placeholder="Label" {...field} />
-              </FormControl>
-            
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+              control={form.control}
+              name="label"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Label</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Label" {...field} />
+                  </FormControl>
 
-        <div className="mt-4 flex items-center justify-between">
-        <FormField
-          control={form.control}
-          name="startDate"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Start Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(new Date(field.value), "dd-MM-yyyy")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                   defaultMonth={
-                    new Date(form.watch("startDate") || new Date())
-                  }
-                    mode="single"
-                    selected={new Date(new Date(field.value).setHours(0,0,0,0))}
-                    onSelect={date=>field.onChange(convertDateToISOString(date))}
-                    disabled={(date) =>
-                      date <  new Date(new Date().setHours(0,0,0,0)) 
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-          
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="endDate"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>End Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(new Date(field.value), "dd-MM-yyyy")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    defaultMonth={
-                      new Date(form.watch("endDate") || new Date())
-                    }
-                    selected={new Date(new Date(field.value).setHours(0,0,0,0))}
-                    onSelect={date=>field.onChange(convertDateToISOString(date))}
-                    disabled={(date) =>
-                        date <  new Date(new Date().setHours(0,0,0,0)) || date <= new Date(new Date(form.watch('startDate')).setHours(0,0,0,0))
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-          
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="mt-4 flex items-center justify-between">
+              <FormField
+                control={form.control}
+                name="startDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Start Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(new Date(field.value), "dd-MM-yyyy")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          defaultMonth={
+                            new Date(form.watch("startDate") || new Date())
+                          }
+                          mode="single"
+                          selected={
+                            new Date(new Date(field.value).setHours(0, 0, 0, 0))
+                          }
+                          onSelect={(date) =>
+                            field.onChange(convertDateToISOString(date))
+                          }
+                          disabled={(date) =>
+                            date < new Date(new Date().setHours(0, 0, 0, 0))
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="endDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>End Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(new Date(field.value), "dd-MM-yyyy")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          defaultMonth={
+                            new Date(form.watch("endDate") || new Date())
+                          }
+                          selected={
+                            new Date(new Date(field.value).setHours(0, 0, 0, 0))
+                          }
+                          onSelect={(date) =>
+                            field.onChange(convertDateToISOString(date))
+                          }
+                          disabled={(date) =>
+                            date < new Date(new Date().setHours(0, 0, 0, 0)) ||
+                            date <=
+                              new Date(
+                                new Date(form.watch("startDate")).setHours(
+                                  0,
+                                  0,
+                                  0,
+                                  0
+                                )
+                              )
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-             <div className="flex items-center gap-3 sticky top-12 z-10 bg-background p-2  border ">
+          </div>
+          <div className="flex items-center gap-3 sticky top-12 z-10 bg-background p-2  border ">
             <Button disabled={isLoading} type="submit">
               Opslaan{" "}
               {isLoading && <Loader className="animate-spin w-3 h-3 ml-2" />}
@@ -189,7 +216,6 @@ const ListForm = ({ list }: Props) => {
             render={({ field }) => (
               <>
                 <Table className="w-full border  rounded-sm">
-               
                   <TableHeader>
                     <TableRow>
                       <TableHead className="text-center">Dag</TableHead>
@@ -210,13 +236,12 @@ const ListForm = ({ list }: Props) => {
                               €{" "}
                             </span>
                             <Input
-                         className="border-0 p-0 px-8 outline-none h-8"
-                      
-                         placeholder="0"
-                         value={val.toString().replace('.',',') || ''}
-                         onChange={(e) => {
-                           handleChange(e.target.value, i);
-                         }}
+                              className="border-0 p-0 px-8 outline-none h-8"
+                              placeholder="0"
+                              value={val.toString().replace(".", ",") || ""}
+                              onChange={(e) => {
+                                handleChange(e.target.value, i);
+                              }}
                             />
                             <span className="italic text-gray-400 ml-3">
                               <XIcon
@@ -236,17 +261,22 @@ const ListForm = ({ list }: Props) => {
 
           {form.getFieldState("pricings").error && (
             <p className="p-1 text-sm text-red-400">
-            { form.getFieldState("pricings").error?.message}
+              {form.getFieldState("pricings").error?.message}
             </p>
           )}
-       
         </form>
-        <div className={cn("2xl:sticky top-3  max-w-[500px] w-full separate ")} >
-        <Control addValue={addValue} addPercentage={addPercentage} reset={reset} addRows={addRows} addIncrement={addIncrement}    minusValue={minusValue} />
+        <div className={cn("2xl:sticky top-3  max-w-[500px] w-full separate ")}>
+          <Control
+            save={save}
+            setSaveFn={setSaveFn}
+            addValue={addValue}
+            addPercentage={addPercentage}
+            reset={reset}
+            addRows={addRows}
+            addIncrement={addIncrement}
+            minusValue={minusValue}
+          />
         </div>
-       
-   
-       
       </div>
     </Form>
   );

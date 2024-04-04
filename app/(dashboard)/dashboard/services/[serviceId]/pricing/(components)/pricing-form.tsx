@@ -32,8 +32,22 @@ type Props = {
 };
 
 const PricingForm = ({ pricings }: Props) => {
-  const { onSubmit, form, myArray, addRow, handleChange, deleteRow, addValue ,addPercentage,reset,addRows,addIncrement,minusValue} =
-    usePricing(pricings);
+  const {
+    onSubmit,
+    form,
+    myArray,
+    addRow,
+    handleChange,
+    deleteRow,
+    addValue,
+    addPercentage,
+    reset,
+    addRows,
+    addIncrement,
+    minusValue,
+    save,
+    setSaveFn,
+  } = usePricing(pricings);
 
   const [mount, setMount] = useState(false);
   useEffect(() => {
@@ -46,14 +60,12 @@ const PricingForm = ({ pricings }: Props) => {
 
   return (
     <Form {...form}>
-         
       <div className="flex gap-8 2xl:flex-row flex-col-reverse relative items-start ">
-   
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-3 max-w-[600px] w-full separate"
         >
-             <div className="flex items-center gap-3 sticky top-12 z-10 bg-background p-2  border ">
+          <div className="flex items-center gap-3 sticky top-12 z-10 bg-background p-2  border ">
             <Button disabled={isLoading} type="submit">
               Opslaan{" "}
               {isLoading && <Loader className="animate-spin w-3 h-3 ml-2" />}
@@ -69,7 +81,6 @@ const PricingForm = ({ pricings }: Props) => {
             render={({ field }) => (
               <>
                 <Table className="w-full border  rounded-sm">
-               
                   <TableHeader>
                     <TableRow>
                       <TableHead className="text-center">Dag</TableHead>
@@ -90,13 +101,12 @@ const PricingForm = ({ pricings }: Props) => {
                               €{" "}
                             </span>
                             <Input
-                         className="border-0 p-0 px-8 outline-none h-8"
-                      
-                         placeholder="0"
-                         value={val.toString().replace('.',',') || ''}
-                         onChange={(e) => {
-                           handleChange(e.target.value, i);
-                         }}
+                              className="border-0 p-0 px-8 outline-none h-8"
+                              placeholder="0"
+                              value={val.toString().replace(".", ",") || ""}
+                              onChange={(e) => {
+                                handleChange(e.target.value, i);
+                              }}
                             />
                             <span className="italic text-gray-400 ml-3">
                               <XIcon
@@ -116,17 +126,22 @@ const PricingForm = ({ pricings }: Props) => {
 
           {form.getFieldState("pricings").error && (
             <p className="p-1 text-sm text-red-400">
-            { form.getFieldState("pricings").error?.message}
+              {form.getFieldState("pricings").error?.message}
             </p>
           )}
-       
         </form>
-        <div className={cn("2xl:sticky top-3  max-w-[500px] w-full separate ")} >
-        <Control addValue={addValue} addPercentage={addPercentage} reset={reset} addRows={addRows} addIncrement={addIncrement}    minusValue={minusValue} />
+        <div className={cn("2xl:sticky top-3  max-w-[500px] w-full separate ")}>
+          <Control
+          save={save}
+          setSaveFn={setSaveFn}
+            addValue={addValue}
+            addPercentage={addPercentage}
+            reset={reset}
+            addRows={addRows}
+            addIncrement={addIncrement}
+            minusValue={minusValue}
+          />
         </div>
-       
-   
-       
       </div>
     </Form>
   );

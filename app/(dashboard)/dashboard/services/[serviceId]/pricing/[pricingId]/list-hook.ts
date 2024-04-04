@@ -15,7 +15,9 @@ import { addList, editList } from "@/actions/list-actions";
 ;
 export const useList = (list:List | null) => {
   const [myArray, setMyArray] = useState<(number | string)[]>();
+  const [save, setSave] = useState(false)
 
+  const setSaveFn = (val:boolean)=>setSave(val)
 
   useEffect(() => {
     if (list?.pricings?.length) {
@@ -60,6 +62,7 @@ export const useList = (list:List | null) => {
   const newArray:(string | number)[] = [...(myArray || [])];
   newArray[index] = isNaN(+value.replace(',','.')) ? 0 : value.replace(',','.')
   setMyArray(newArray);
+  setSave(true)
 };
 
   const addRow = () => {
@@ -73,6 +76,7 @@ export const useList = (list:List | null) => {
   const deleteRow = (row: number) => {
     const newState = (myArray || []).filter((_, i) => i !== row);
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
+    setSave(true)
 
 
 
@@ -90,16 +94,13 @@ export const useList = (list:List | null) => {
     });
 
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
-
+    setSave(true)
 
   
 
     // console.log(previousArray)
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
   const minusValue = (value: number, from: number, to: number) => {
@@ -113,14 +114,11 @@ export const useList = (list:List | null) => {
       }
     });
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
-
+    setSave(true)
 
   
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
   const addPercentage = (value: number) => {
@@ -132,14 +130,11 @@ export const useList = (list:List | null) => {
         : parseInt((el + (el * value) / 100).toString())
     );
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
-
+    setSave(true)
 
   
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
   const reset = (value: number) => {
@@ -147,14 +142,11 @@ export const useList = (list:List | null) => {
       +value < 0 ? 0 : value
     );
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
-
+    setSave(true)
 
   
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
   const addRows = (rows: number, value: number) => {
@@ -164,14 +156,11 @@ export const useList = (list:List | null) => {
 
     const newState = [...(myArray || []), ...Array(rows).fill(value)];
     setMyArray(newState.map(el=>+Number(el).toFixed(2)));
-
+    setSave(true)
 
   
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
   const addIncrement = (from: number, to: number, value: number) => {
@@ -195,14 +184,11 @@ export const useList = (list:List | null) => {
   
     setMyArray(newArry?.map(el=>+Number(el).toFixed(2)));
 
-  
+    setSave(true)
 
 
 
-    toast.success("Successfully done!", {
-      position: "top-center",
-      style: { fontSize: "1.3rem" },
-    });
+   
   };
 
  
@@ -249,6 +235,7 @@ export const useList = (list:List | null) => {
       });
       router.refresh();
       router.push(`/dashboard/services/${params.serviceId}/pricing`)
+      setSave(false)
   }
 
     } catch (error) {
@@ -277,6 +264,8 @@ export const useList = (list:List | null) => {
     reset,
     addRows,
     addIncrement,
+    save,
+    setSaveFn
 
   };
 };

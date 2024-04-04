@@ -15,18 +15,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { boolean } from "zod";
+import { XIcon } from "lucide-react";
 
 type Props = {
- 
+  save: boolean;
+  setSaveFn: (val: boolean) => void;
   addValue: (value: number, from: number, to: number) => void;
   minusValue: (value: number, from: number, to: number) => void;
   addPercentage: (value: number) => void;
   reset: (value: number) => void;
   addRows: (rows: number, value: number) => void;
   addIncrement: (from: number, to: number, value: number) => void;
-
-
-
 };
 
 const Control = ({
@@ -36,9 +35,8 @@ const Control = ({
   addRows,
   addIncrement,
   minusValue,
-
- 
-  
+  save,
+  setSaveFn,
 }: Props) => {
   const [dayValue, setDayValue] = useState(0);
   const [fromValue, setFromValue] = useState(0);
@@ -55,22 +53,21 @@ const Control = ({
   const [to, setTo] = useState(0);
   const [incrementValue, setIncrementValue] = useState(0);
 
-
-
   return (
     <section className=" p-3 rounded-sm  text-xs">
+      {save && (
+        <div className="items-center flex gap-12 justify-between border-orange-500 bg-orange-500/25 p-4 mb-12 rounded-lg">
+          <h3 className="text-orange-500">Vergeet niet de wijzigingen op te slaan</h3>{" "}
+          <XIcon className="cursor-pointer text-orange-500" onClick={()=>setSaveFn(false)}/>
+        </div>
+      )}
       <div className="flex items-center justify-between ">
         <span className="font-bold text-lg">Aanpassen</span>
-       
-     
-        
       </div>
 
       <div className="grid grid-col-1 md:grid-cols-2 gap-2 mt-4 group">
         <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] hover:shadow-md transition bg-background group-hover:scale-95 group-hover:opacity-60 group-hover:hover:opacity-100">
-          <span className="font-semibold">
-           Vaste prijs voor iedere dag
-          </span>
+          <span className="font-semibold">Vaste prijs voor iedere dag</span>
 
           <Input
             type="number"
@@ -190,7 +187,9 @@ const Control = ({
         </div>
 
         <div className="flex flex-col gap-1 p-3 rounded-md border md:group-hover:hover:scale-[1.01] group-hover:opacity-60 group-hover:hover:opacity-100 hover:shadow-md transition bg-background group-hover:scale-95">
-          <span className="font-semibold">Voeg percentage toe aan elke dag</span>
+          <span className="font-semibold">
+            Voeg percentage toe aan elke dag
+          </span>
 
           <div className="relative flex items-center">
             <span className="absolute left-2 text-xs text-gray-500">%</span>
