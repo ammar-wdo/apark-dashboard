@@ -28,7 +28,7 @@ const showController = count > 12 * +list
 
   return (
     <div className='max-w-[800px] mt-10 flex flex-col gap-2'>
-        {noNotifications && <p className='mt-10'>No notifications</p>}
+        {noNotifications && <p className='mt-10'>Geen notificaties</p>}
         {notifications.map((notification)=><NotificationComponent key={notification.id} notification={notification} />) }
         {showController && <Controller list={list} />}
         <Scroller  />

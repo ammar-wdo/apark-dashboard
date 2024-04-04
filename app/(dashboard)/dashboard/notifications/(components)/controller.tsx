@@ -15,7 +15,8 @@ const Controller = ({list}: Props) => {
         router.push(`/dashboard/notifications?list=${+list +1}`,{scroll:false})
     }
   return (
-    <div onClick={handleClick} className=' py-2 text-blue-500 underline cursor-pointer w-fit text-xs mx-auto'>See more</div>
+    <div onClick={handleClick} className=' py-2 text-blue-500 underline cursor-pointer w-fit text-xs mx-auto'>
+    Bekijk meer</div>
   )
 }
 
