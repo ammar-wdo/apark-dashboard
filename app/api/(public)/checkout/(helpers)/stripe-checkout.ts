@@ -12,7 +12,8 @@ export const stripeCheckout = async (
   serviceName: string,
   myPayment: "card" | "paypal" | "ideal",
   daysofparking: number,
-  options: ExraOption[]
+  options: ExraOption[],
+  parkingproServiceId:string | null,
 ) => {
 
   
@@ -24,6 +25,8 @@ export const stripeCheckout = async (
     licensePlate:booking.carLicense,
     carModel:booking.carModel,
     numberOfPeople:booking.numberOfPeople,
+    parkingproServiceId,
+    
 
     companyEmail,
     payed: +total.toFixed(2),

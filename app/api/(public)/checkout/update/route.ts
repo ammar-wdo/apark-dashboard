@@ -239,6 +239,11 @@ select:{
 
       const metadata = {
         companyEmail:service.entity.company.email,
+        parkingproServiceId:service.parkingproId,
+        flightNumber:booking.flightNumber,
+    phoneNumber:booking.phoneNumber,
+    licensePlate:booking.carLicense,
+    carModel:booking.carModel,
         id: booking.id,
         update: "true",
         bookingCode,

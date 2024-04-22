@@ -179,7 +179,8 @@ console.log('name',booking.firstName)
       service.name,
       myPayment as "card" | "paypal" | "ideal",
       daysofparking,
-      options
+      options,
+      service.parkingproId
     );
 
     return NextResponse.json(
