@@ -19,6 +19,12 @@ export const stripeCheckout = async (
   const metaData = {
     id: booking.id,
     bookingCode: booking.bookingCode,
+    flightNumber:booking.flightNumber,
+    phoneNumber:booking.phoneNumber,
+    licensePlate:booking.carLicense,
+    carModel:booking.carModel,
+    numberOfPeople:booking.numberOfPeople,
+
     companyEmail,
     payed: +total.toFixed(2),
     startDate: arrivalDateString,

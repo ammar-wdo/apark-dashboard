@@ -275,6 +275,9 @@ model Service {
   parkingPlace   String
   parkingZipcode String
 
+  isParkingproService Boolean @default(false)
+  parkingproId  String?
+
   terms         String
   bookingsEmail String?
 

@@ -103,7 +103,9 @@ export const serviceSchema = z.object({
  parkingLocation:z.enum(['INDOOR',"OUTDOOR"]).default('INDOOR'),
  available:z.boolean().default(false),
 
- entityId:z.string().min(1)
+ entityId:z.string().min(1),
+ isParkingproService:z.boolean(),
+ parkingproId:z.string().optional().or(z.literal(undefined))
 
 
 
