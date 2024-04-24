@@ -23,14 +23,14 @@ const ReviewsFeed =async (props: Props) => {
             where:{
                 entity:{companyId:company?.id},
                 
-            },include:{service:{select:{name:true}},entity:{select:{entityName:true,company:{select:{name:true}}}},booking:{select:{firstName:true,lastName:true,email:true}}}
+            },include:{service:{select:{name:true}},entity:{select:{entityName:true,company:{select:{name:true}}}}}
             
         })
     }else if(session?.user?.name === 'Entity'){
         reviews = await prisma.review.findMany({
             where:{
                 entityId:company?.id
-            },include:{service:{select:{name:true}},entity:{select:{entityName:true,company:{select:{name:true}}}},booking:{select:{firstName:true,lastName:true,email:true}}}
+            },include:{service:{select:{name:true}},entity:{select:{entityName:true,company:{select:{name:true}}}}}
         })
     }
 

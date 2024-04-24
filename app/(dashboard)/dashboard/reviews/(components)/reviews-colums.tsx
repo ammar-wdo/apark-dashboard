@@ -24,20 +24,20 @@ export const reviewColumns: ColumnDef<
   Review & {
     service: { name: string };
     entity: { entityName: string; };
-    booking: { firstName: string; lastName: string; email: string };
+  
   }
 >[] = [
   {
-    accessorKey: "booking.email",
+    accessorKey: "email",
     header: "E-mail",
-    cell: ({ row }) => <p>{row.original.booking.email}</p>,
+    cell: ({ row }) => <p>{row.original.email}</p>,
   },
   {
-    accessorKey: "booking.firstName",
+    accessorKey: "firstName",
     header: "First name",
   },
   {
-    accessorKey: "booking.lastName",
+    accessorKey: "lastName",
     header: "Last name",
   },
   {
