@@ -91,7 +91,7 @@ try {
         orderBy:{
             createdAt:'desc'
         },include:{
-            booking:{select:{firstName:true,lastName:true}},
+            
             entity:{select:{entityName:true,slug:true,airport:{select:{name:true,slug:true}}}}
         }
     })
