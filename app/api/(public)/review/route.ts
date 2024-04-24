@@ -42,6 +42,9 @@ if(booking?.reivew) return NextResponse.json({error:'Already has a review'},{sta
 const review  = await prisma.review.create({
     data:{
         ...validBody.data,
+        email:booking?.email!,
+        firstName:booking?.firstName,
+        lastName:booking?.lastName
         
     }
 })
