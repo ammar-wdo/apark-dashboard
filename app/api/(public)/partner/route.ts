@@ -21,7 +21,7 @@ console.log('contact')
             return NextResponse.json({error:validValues.error},{status:500})
         }
 
-        await sendMail(validValues.data.email,validValues.data.firstName,validValues.data.lastname,validValues.data.subject || '',validValues.data.message,"info@aparking.nl","aparking","Contact us")
+        await sendMail(validValues.data.email,validValues.data.firstName,validValues.data.lastname,validValues.data.subject||'',validValues.data.message,"info@aparking.nl","aparking","Become a partner")
         return NextResponse.json({message:'success'},{status:200})
 
 
