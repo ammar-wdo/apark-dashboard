@@ -21,7 +21,7 @@ console.log('contact')
             return NextResponse.json({error:validValues.error},{status:500})
         }
 
-        await sendMail('contact',validValues.data.message,"ammar@wdodigital.com","Ammar")
+        await sendMail(validValues.data.email,validValues.data.message,"ammar@wdodigital.com","Ammar")
         return NextResponse.json({message:'success'},{status:200})
 
 

@@ -1,7 +1,8 @@
 import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
 
 export const sendMail = async (
- subject:string,
+  from:string,
+
  text:string,
   toEmail: string,
   toName: string
@@ -10,7 +11,7 @@ export const sendMail = async (
     apiKey: process.env.NEXT_PUBLIC_MAILER_API!,
   });
 
-  const sentFrom = new Sender("info@solsoft.nl", "admin");
+  const sentFrom = new Sender(from, "client");
 
   const recipients = [new Recipient(toEmail, toName)];
 
@@ -18,7 +19,7 @@ export const sendMail = async (
     .setFrom(sentFrom)
     .setTo(recipients)
     .setReplyTo(sentFrom)
-    .setSubject(subject)
+    .setSubject("contact")
     .setHtml(`<strong>${text}</strong>`)
     .setText(text);
 
