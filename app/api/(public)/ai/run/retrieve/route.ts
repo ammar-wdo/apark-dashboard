@@ -1,43 +1,43 @@
-import { NextRequest, NextResponse } from "next/server"
-import OpenAI from 'OpenAI'
+// import { NextRequest, NextResponse } from "next/server"
+// import OpenAI from 'OpenAI'
 
 
 
 
-export const GET = async(req:NextRequest)=>{
+// export const GET = async(req:NextRequest)=>{
 
-    const openai = new OpenAI()
+//     const openai = new OpenAI()
 
-    const searchParams = req.nextUrl.searchParams
+//     const searchParams = req.nextUrl.searchParams
 
-    const threadId = searchParams.get('threadId')
-    const runId = searchParams.get('runId')
+//     const threadId = searchParams.get('threadId')
+//     const runId = searchParams.get('runId')
 
 
 
-    if(!threadId || ! runId) return NextResponse.json({success:false,error:'thread Id and runId are required'},{status:200})
+//     if(!threadId || ! runId) return NextResponse.json({success:false,error:'thread Id and runId are required'},{status:200})
 
-    try {
+//     try {
 
-        const run = await openai.beta.threads.runs.retrieve(
-            threadId,
-          runId
-          )
+//         const run = await openai.beta.threads.runs.retrieve(
+//             threadId,
+//           runId
+//           )
 
-          if(run.status!=='completed'){
-            return NextResponse.json({success:false,error:'Not completed'},{status:200})
-          }
+//           if(run.status!=='completed'){
+//             return NextResponse.json({success:false,error:'Not completed'},{status:200})
+//           }
 
-          const threadMessages = await openai.beta.threads.messages.list(
-           threadId
-          )
+//           const threadMessages = await openai.beta.threads.messages.list(
+//            threadId
+//           )
 
           
 
-        return NextResponse.json({success:true,threadMessages},{status:200})
+//         return NextResponse.json({success:true,threadMessages},{status:200})
         
-    } catch (error) {
-        console.log(error)
-        return NextResponse.json({success:false,error:'Internal server error'},{status:200})
-    }
-}
+//     } catch (error) {
+//         console.log(error)
+//         return NextResponse.json({success:false,error:'Internal server error'},{status:200})
+//     }
+// }
