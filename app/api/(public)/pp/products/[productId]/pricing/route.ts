@@ -41,6 +41,11 @@ export const PATCH = async (
         { status: 400, headers: corsHeaders }
       );
 
+      if(!body.endDate || !body.startDate) return NextResponse.json(
+        { error: "start date and end date are required" },
+        { status: 500, headers: corsHeaders }
+      )
+
     const service = await prisma.service.findUnique({
       where: {
         id: params.productId,
