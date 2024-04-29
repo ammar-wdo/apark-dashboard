@@ -98,6 +98,11 @@ export const POST = async (
     const body = await req.json();
     console.log(body);
 
+    if(!body.endDate || !body.startDate) return NextResponse.json(
+      { error: "start date and end date are required" },
+      { status: 500, headers: corsHeaders }
+    )
+
     const validBody = listSchema.safeParse(body);
     if (!validBody.success)
       return NextResponse.json(
@@ -119,10 +124,7 @@ export const POST = async (
 
     const { endDate, startDate, ...rest } = validBody.data;
 
-    if(!endDate || !startDate) return NextResponse.json(
-      { error: "start date and end date are required" },
-      { status: 500, headers: corsHeaders }
-    )
+   
 
     const fullStartDate = combineDateAndTimeToUTC(body.startDate, "00:00");
     const fullEndDate = combineDateAndTimeToUTC(body.endDate, "23:45");
