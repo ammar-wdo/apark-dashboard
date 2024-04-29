@@ -119,6 +119,11 @@ export const POST = async (
 
     const { endDate, startDate, ...rest } = validBody.data;
 
+    if(!endDate || !startDate) return NextResponse.json(
+      { error: "start date and end date are required" },
+      { status: 500, headers: corsHeaders }
+    )
+
     const fullStartDate = combineDateAndTimeToUTC(body.startDate, "00:00");
     const fullEndDate = combineDateAndTimeToUTC(body.endDate, "23:45");
     const overlapedDate = await prisma.list.findMany({
