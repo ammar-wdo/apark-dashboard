@@ -10,9 +10,10 @@ type Props = {
 
 const DailyChart = ({data,bookingsPerDay}: Props) => {
 
-
     const usedDate =Array.isArray(data) ? data.map(el=>({name:el.day,total:el.revenue.toFixed(2)})) : data
-    const tickCount = bookingsPerDay ? Math.max(...bookingsPerDay.map(d => d.total)) + 1 : undefined;
+    const tickCount = bookingsPerDay ? Math.max(...bookingsPerDay.map(d => d.total))  : Math.max(...data!.map(d => d.revenue))  ;
+
+   
 
    
   return (
@@ -27,10 +28,12 @@ const DailyChart = ({data,bookingsPerDay}: Props) => {
         left: 20,
         bottom: 5,
       }}
+
+      
     >
      
       <XAxis dataKey="name"   />
-      <YAxis  dataKey="total"   tickCount={tickCount} />
+      <YAxis  dataKey="total"     domain={[0, tickCount]}/>
       <Tooltip />
       
    
