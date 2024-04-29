@@ -41,6 +41,11 @@ export const PATCH = async (
     const body = await req.json();
     console.log(body);
 
+    if(!body.endDate || !body.startDate) return NextResponse.json(
+      { error: "start date and end date are required" },
+      { status: 500, headers: corsHeaders }
+    )
+
     const validBody = listSchema.safeParse(body);
     if (!validBody.success)
       return NextResponse.json(
