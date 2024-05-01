@@ -17,6 +17,8 @@ export const addList = async (serviceId: string, data: any) => {
 
     if (!validData.success) return { success: false, error: "Invalid inputs" };
 
+    if(!validData.data.startDate || !validData.data.endDate) return {success:false,error:'Missing start or end date'}
+
     const fullStartDate = combineDateAndTimeToUTC(
       validData.data.startDate,
       "00:00"
@@ -95,6 +97,8 @@ export const editList = async (
     const validData = listSchema.safeParse(data);
 
     if (!validData.success) return { success: false, error: "Invalid inputs" };
+
+    if(!validData.data.startDate || !validData.data.endDate) return {success:false,error:'Missing start or end date'}
 
     const fullStartDate = combineDateAndTimeToUTC(
       validData.data.startDate,
