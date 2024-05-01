@@ -180,12 +180,14 @@ export const rulesSchema = z
 
     export const listSchema = z.object({
       label:z.string().optional(),
-      startDate:z.string(),
-      endDate:z.string(),
+      startDate:z.string().optional(),
+      endDate:z.string().optional(),
       pricings: z
-      .array(z.number().refine((val) => val >= 0, { message: "Price must be a non-negative number" }))
+      .array(z.number().refine((val) => val >= 0, { message: "Price must be a non-negative number" })).optional()
     }).refine(
       (date) =>
-        new Date(date.startDate).getTime() <= new Date(date.endDate).getTime(),
+      { 
+        if(!date.endDate || !date.startDate) return true
+       return  new Date(date.startDate).getTime() <= new Date(date.endDate).getTime()},
       { message: "Invalid blocking range", path: ["startDate"] }
     );

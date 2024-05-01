@@ -108,7 +108,7 @@ export const POST = async (
     const validBody = listSchema.safeParse(body);
     if (!validBody.success)
       return NextResponse.json(
-        { success: false, error: "Invalid Inputs" },
+        { success: false, error:validBody.error.message },
         { status: 400, headers: corsHeaders }
       );
 

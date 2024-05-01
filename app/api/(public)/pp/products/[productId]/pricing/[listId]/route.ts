@@ -41,10 +41,7 @@ export const PATCH = async (
     const body = await req.json();
     console.log(body);
 
-    if(!body.endDate || !body.startDate) return NextResponse.json(
-      { error: "start date and end date are required" },
-      { status: 500, headers: corsHeaders }
-    )
+   
 
     const validBody = listSchema.safeParse(body);
     if (!validBody.success)
@@ -55,8 +52,8 @@ export const PATCH = async (
 
     const { endDate, startDate, ...rest } = validBody.data;
 
-    const fullStartDate = combineDateAndTimeToUTC(body.startDate, "00:00");
-    const fullEndDate = combineDateAndTimeToUTC(body.endDate, "23:45");
+    // const fullStartDate = combineDateAndTimeToUTC(body.startDate, "00:00");
+    // const fullEndDate = combineDateAndTimeToUTC(body.endDate, "23:45");
 
     const list = await prisma.list.findUnique({
       where: {
@@ -74,6 +71,10 @@ export const PATCH = async (
         { success: false, error: "List belongs to an other service" },
         { status: 400, headers: corsHeaders }
       );
+
+      const fullStartDate = startDate ? combineDateAndTimeToUTC(body.startDate, "00:00") : list.startDate
+      const fullEndDate = endDate ? combineDateAndTimeToUTC(body.endDate, "23:45") : list.endDate
+      const pricings = !!rest.pricings?.length ?rest.pricings : list.pricings
 
     const overlapedDate = await prisma.list.findMany({
       where: {
@@ -103,6 +104,7 @@ export const PATCH = async (
       data: {
         startDate: fullStartDate,
         endDate: fullEndDate,
+        pricings,
         ...rest,
       },
     });
