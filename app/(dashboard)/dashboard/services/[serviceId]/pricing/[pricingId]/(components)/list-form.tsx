@@ -123,7 +123,7 @@ const ListForm = ({ list }: Props) => {
                           }
                           mode="single"
                           selected={
-                            new Date(new Date(field.value).setHours(0, 0, 0, 0))
+                            new Date(new Date(field.value || '').setHours(0, 0, 0, 0))
                           }
                           onSelect={(date) =>
                             field.onChange(convertDateToISOString(date))
@@ -172,7 +172,7 @@ const ListForm = ({ list }: Props) => {
                             new Date(form.watch("endDate") || new Date())
                           }
                           selected={
-                            new Date(new Date(field.value).setHours(0, 0, 0, 0))
+                            new Date(new Date(field.value || '').setHours(0, 0, 0, 0))
                           }
                           onSelect={(date) =>
                             field.onChange(convertDateToISOString(date))
@@ -181,7 +181,7 @@ const ListForm = ({ list }: Props) => {
                             date < new Date(new Date().setHours(0, 0, 0, 0)) ||
                             date <=
                               new Date(
-                                new Date(form.watch("startDate")).setHours(
+                                new Date(form.watch("startDate") || '').setHours(
                                   0,
                                   0,
                                   0,
