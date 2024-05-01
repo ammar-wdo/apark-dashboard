@@ -16,7 +16,18 @@ model Airport {
   name      String    @unique
   slug      String?   @unique
   images    String[]  @default([])
+
+
   content   String    @default("")
+
+faq         Json[]
+
+blockOneImage String @default("")
+blockTwoImage String @default("")
+
+blockOneContent String @default("")
+blockTwoContent String @default("")
+
   Company   Company[]
 
   entities Entity[]
