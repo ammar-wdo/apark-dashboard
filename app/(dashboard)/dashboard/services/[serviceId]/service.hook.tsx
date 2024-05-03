@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 import * as z from "zod";
-import { serviceDefaultValues } from "./service-schema";
-import { Service } from "@prisma/client";
+
+import { Key, ParkingLocation, ParkingType, Service } from "@prisma/client";
 import axios from "axios";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,7 +27,24 @@ export const useService = ({service,isCompany,entityId}: Props) => {
 
   const form = useForm<z.infer<typeof serviceSchema>>({
     resolver: zodResolver(serviceSchema),
-    defaultValues: serviceDefaultValues(service),
+    defaultValues:  { name: service?.name || "",
+    terms: service?.terms || "",
+    bookingsEmail: service?.bookingsEmail || "",
+    parkingAddress: service?.parkingAddress || "",
+    parkingZipcode: service?.parkingZipcode || "",
+    parkingCountry: service?.parkingCountry || "",
+    parkingPlace: service?.parkingPlace || "",
+    arrivalTodos: service?.arrivalTodos || "",
+    departureTodos: service?.departureTodos || "",
+    electricCharging :service?.electricCharging || false,
+    keyStatus:service?.keyStatus || Key.LEAVE,
+    parkingLocation:service?.parkingLocation || ParkingLocation.INDOOR,
+    parkingType: service?.parkingType || ParkingType.shuttle,
+    spots: service?.spots || 1,
+    available: service?.available || false,
+  isParkingproService:service?.isParkingproService ,
+  parkingproId:service?.parkingproId || undefined,
+    entityId:service?.entityId || ''},
   });
 
 

@@ -104,7 +104,7 @@ export const serviceSchema = z.object({
  available:z.boolean().default(false),
 
  entityId:z.string().min(1),
- isParkingproService:z.boolean(),
+ isParkingproService:z.boolean().default(false),
  parkingproId:z.string().optional().or(z.literal(undefined))
 
 
