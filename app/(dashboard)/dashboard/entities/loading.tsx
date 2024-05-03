@@ -8,7 +8,7 @@ const loading = (props: Props) => {
     <div>
          <div className='space-y-2 mb-6'>
         <Skeleton className='text-3xl first-letter:uppercase font-bold w-[100px] p-2'/>
-        <Skeleton className='text-sm text-muted-foreground p-2 w-[200px]'/>
+        <Skeleton className='text-sm  text-muted-foreground p-2 w-[200px]'/>
     </div>
 
     <div className='w- full flex items-center gap-4 mt-10 flex-wrap'>
