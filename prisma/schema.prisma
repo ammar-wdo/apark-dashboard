@@ -461,6 +461,14 @@ model About {
 
   content String
 
+  faq         Json[]
+
+  blockOneImage String @default("")
+blockTwoImage String @default("")
+
+blockOneContent String @default("")
+blockTwoContent String @default("")
+
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt
 }

@@ -10,15 +10,16 @@ export const GET = async(req:Request)=>{
 
         const about = await prisma.about.findUnique({
             where:{
-                id:'about'
+                id:'about',
+
             }
         })
 
-        return NextResponse.json({about},{status:200})
+        return NextResponse.json({success:true,about},{status:200})
         
     } catch (error) {
         console.log(error)
 
-        return NextResponse.json({error:'Internal error'},{status:500})
+        return NextResponse.json({success:false,error:'Internal error'},{status:200})
     }
 }
