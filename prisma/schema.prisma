@@ -24,6 +24,8 @@ faq         Json[]
 
 blockOneImage String @default("")
 blockTwoImage String @default("")
+blockOneImageAlt String @default("")
+blockTwoImageAlt String @default("")
 
 blockOneContent String @default("")
 blockTwoContent String @default("")
@@ -465,6 +467,8 @@ model About {
 
   blockOneImage String @default("")
 blockTwoImage String @default("")
+
+blockTwoImageAlt String @default("")
 
 blockOneContent String @default("")
 blockTwoContent String @default("")
