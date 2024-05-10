@@ -106,7 +106,7 @@ export const editList = async (
     });
 
     if (!listToEdit) return { success: false, error: "Unauthorized" };
-    if(!!listToEdit.service.isParkingproService) return {success:false,error:"Could be managed only by  ParkingPro platform"}
+    if(!!listToEdit.service.isParkingproService) return {success:false,error:"Kan alleen worden beheerd door het ParkingPro-platform"}
 
     
 
@@ -203,7 +203,7 @@ export const deleteList = async (serviceId: string, listId: string) => {
     });
 
     if (!listToEdit) return { success: false, error: "Unauthorized" };
-    if(!!listToEdit.service.isParkingproService) return {success:false,error:"Could be managed only by ParkingPro platform"}
+    if(!!listToEdit.service.isParkingproService) return {success:false,error:"Kan alleen worden beheerd door het ParkingPro-platform"}
 
     await prisma.list.delete({
       where: {

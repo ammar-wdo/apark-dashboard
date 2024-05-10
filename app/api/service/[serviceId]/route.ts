@@ -24,7 +24,16 @@ export async function PATCH(
 
     if(!!body.pricings) {
       try {
+const service = await prisma.service.findUnique({
+  where:{
+    id:params.serviceId
+  },
+  select:{
+    isParkingproService:true
+  }
+})
 
+if(!!service?.isParkingproService)   return  NextResponse.json({success:false,error:"Kan alleen worden beheerd door het ParkingPro-platform"},{status:200});
         if(session?.user?.name === "Company"){
           await prisma.service.update({
             where:{ id: params.serviceId, entity:{companyId:currentCompany.id} },
@@ -45,6 +54,7 @@ export async function PATCH(
        
 
         return NextResponse.json({
+          success:true,
           message:'success'
         })
       } catch (error) {

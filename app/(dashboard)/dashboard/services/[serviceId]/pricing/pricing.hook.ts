@@ -200,7 +200,12 @@ export const usePricing = (pricings: number[]) => {
 
   async function onSubmit(values: z.infer<typeof pricingSchema>) {
     try {
-      await axios.patch(`/api/service/${params.serviceId}`, values);
+    const res =   await axios.patch(`/api/service/${params.serviceId}`, values);
+    if(!res.data.success) return   toast.error(res.data.error, {
+      position: "top-center",
+      style: { fontSize: "1.3rem" },
+    });
+
       setSave(false)
       toast.success("Wijzigingen opgeslagen!", {
         position: "top-center",
