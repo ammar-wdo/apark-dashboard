@@ -106,7 +106,7 @@ export const editList = async (
     });
 
     if (!listToEdit) return { success: false, error: "Unauthorized" };
-    if(!!listToEdit.service.isParkingproService) return {success:false,error:"Could be managed by from ParkingPro platform"}
+    if(!!listToEdit.service.isParkingproService) return {success:false,error:"Could be managed only by  ParkingPro platform"}
 
     
 
