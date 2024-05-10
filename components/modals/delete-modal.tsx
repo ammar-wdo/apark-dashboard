@@ -39,7 +39,7 @@ const DeleteModal = (props: Props) => {
           setClose();
         }
         if (!res.success) {
-          toast.error("Someting went wrong");
+          toast.error(res.error);
         }
 
         return;
