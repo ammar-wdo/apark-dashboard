@@ -1,5 +1,6 @@
 "use server";
 
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import prisma from "@/lib/db";
 import { getCurrentCompany } from "@/lib/helpers";
 import { combineDateAndTimeToUTC, convertDateToISOString } from "@/lib/utils";
@@ -75,24 +76,39 @@ export const editList = async (
     if (!serviceId) return { success: false, error: "Service Id is required" };
     if (!listId) return { success: false, error: "List id Id is required" };
 
-    const currentCompany = await getCurrentCompany();
-    if (!currentCompany) return { success: false, error: "Unauthorized" };
+
+
+
+    const session = await getServerSession(authOptions)
+    if(!session?.user?.email) return {success:false,error:'Not Authorized'}
+    const isCompany = session?.user?.name ==='Company'
+    const isEntity = session?.user?.name ==='Entity'
+   
 
     const listToEdit = await prisma.list.findUnique({
       where: {
         id: listId,
         serviceId: serviceId,
-        service: {
-          entity: {
-            company: {
-              email: currentCompany.email,
-            },
-          },
-        },
-      },
+        ...(isCompany && {service:{
+          entity:{
+            company:{email:session.user?.email}
+          }
+        }}),
+        ...(isEntity && {service:{entity:{email:session.user.email}}})
+       
+      },select:{
+        service:{
+          select:{
+            isParkingproService:true
+          }
+        }
+      }
     });
 
     if (!listToEdit) return { success: false, error: "Unauthorized" };
+    if(!!listToEdit.service.isParkingproService) return {success:false,error:"Could be managed only from ParkingPro platform"}
+
+    
 
     const validData = listSchema.safeParse(data);
 
