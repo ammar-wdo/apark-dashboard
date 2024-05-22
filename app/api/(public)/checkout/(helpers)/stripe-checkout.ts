@@ -14,6 +14,7 @@ export const stripeCheckout = async (
   daysofparking: number,
   options: ExraOption[],
   parkingproServiceId:string | null,
+  parkingproCompanyId:string | null,
 ) => {
 
   
@@ -26,6 +27,7 @@ export const stripeCheckout = async (
     carModel:booking.carModel,
     numberOfPeople:booking.numberOfPeople,
     parkingproServiceId,
+    parkingproCompanyId,
     
 
     companyEmail,

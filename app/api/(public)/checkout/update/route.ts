@@ -240,6 +240,7 @@ select:{
       const metadata = {
         companyEmail:service.entity.company.email,
         parkingproServiceId:service.parkingproId,
+        parkingproCompanyId:service.parkingproCompanyId,
         flightNumber:booking.flightNumber,
     phoneNumber:booking.phoneNumber,
     licensePlate:booking.carLicense,

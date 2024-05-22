@@ -180,7 +180,8 @@ console.log('name',booking.firstName)
       myPayment as "card" | "paypal" | "ideal",
       daysofparking,
       options,
-      service.parkingproId
+      service.parkingproId,
+      service.parkingproCompanyId
     );
 
     return NextResponse.json(
