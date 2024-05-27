@@ -51,6 +51,8 @@ export const stripeCheckout = async (
       .padStart(2, "0")}-${booking.departureDate.getFullYear()} ${endTime}`,
     firstName: booking.firstName,
     lastName: booking.lastName,
+    arrivalDateIso:booking.arrivalDate.toISOString(),
+    departureDateIso:booking.departureDate.toISOString()
   };
 
   const session = await stripe.checkout.sessions.create({

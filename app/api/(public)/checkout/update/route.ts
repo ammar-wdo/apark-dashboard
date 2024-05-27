@@ -272,6 +272,8 @@ select:{
         }`,
         firstName: updatedBooking.firstName,
         lastName: updatedBooking.lastName,
+        updatedArrivalDateIso:updatedBooking.arrivalDate.toISOString(),
+        updatedDepartureDateIso:updatedBooking.departureDate.toISOString()
       };
 
       const session = await stripe.checkout.sessions.create({
