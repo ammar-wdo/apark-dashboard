@@ -3,34 +3,35 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-   directUrl         = env("DIRECT_URL")
-
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Airport {
-  id        String    @id @default(uuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  name      String    @unique
-  slug      String?   @unique
-  images    String[]  @default([])
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique
+  slug      String?  @unique
+  images    String[] @default([])
 
+  seoTitle       String?
+  seoDescription String?
 
-  content   String    @default("")
+  content String @default("")
 
-faq         Json[]
+  faq Json[]
 
-blockOneImage String @default("")
-blockTwoImage String @default("")
-blockOneImageAlt String @default("")
-blockTwoImageAlt String @default("")
+  blockOneImage    String @default("")
+  blockTwoImage    String @default("")
+  blockOneImageAlt String @default("")
+  blockTwoImageAlt String @default("")
 
-blockOneContent String @default("")
-blockTwoContent String @default("")
+  blockOneContent String @default("")
+  blockTwoContent String @default("")
 
-  Company   Company[]
+  Company Company[]
 
   entities Entity[]
 }
@@ -73,7 +74,7 @@ model Booking {
   flightNumber          String?
   isCompany             Boolean       @default(false)
   parkingPrice          Float
-  paymentStatus         STATUS?       @default(PENDING) 
+  paymentStatus         STATUS?       @default(PENDING)
   bookingStatus         BookingStatus @default(ACTIVE)
   place                 String?
   phoneNumber           String
@@ -88,7 +89,7 @@ model Booking {
   extraServiceFee       Float?
   status                String?
   paymentMethod         PaymentMethod @default(IDEAL)
-  serviceId             String 
+  serviceId             String
   service               Service       @relation(fields: [serviceId], references: [id])
   logs                  Log[]
   extraOptions          Json[]
@@ -96,13 +97,12 @@ model Booking {
   discount              Json?
   serviceCommession     Float
 
-
-   @@index([arrivalDate])
+  @@index([arrivalDate])
   @@index([departureDate])
   @@index([paymentStatus])
   @@index([bookingStatus])
   @@index([serviceId])
-   @@index([arrivalDate, departureDate])
+  @@index([arrivalDate, departureDate])
 }
 
 enum Attempt {
@@ -189,6 +189,9 @@ model Entity {
   entityZipcode String
   entityPlace   String
   phone         String
+
+  seoTitle       String?
+  seoDescription String?
 
   contactPerson  String?
   invoiceEmail   String?
@@ -289,7 +292,7 @@ model Service {
   parkingZipcode String
 
   isParkingproService Boolean @default(false)
-  parkingproId  String?
+  parkingproId        String?
   parkingproCompanyId String?
 
   terms         String
@@ -325,12 +328,15 @@ model Service {
 
   commession Float @default(0)
 
+  seoTitle       String?
+  seoDescription String?
+
   availability Availability[]
   bookings     Booking[]
   rules        Rule[]
   reviews      Review[]
   extraOptions ExraOption[]
-  lists        List[] 
+  lists        List[]
 
   entity Entity @relation(fields: [entityId], references: [id])
 
@@ -338,20 +344,18 @@ model Service {
   updatedAt DateTime @updatedAt
 }
 
-
 model List {
-  
   id String @id @default(uuid())
 
   label String?
 
-  startDate DateTime 
-  endDate DateTime
+  startDate DateTime
+  endDate   DateTime
 
   pricings Float[]
 
   serviceId String
-  service Service @relation(fields: [serviceId],references: [id])
+  service   Service @relation(fields: [serviceId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -409,23 +413,23 @@ enum ReviewVisibility {
 }
 
 model Review {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   bookingId String?  @unique
   booking   Booking? @relation(fields: [bookingId], references: [id])
   entityId  String
-  entity    Entity  @relation(fields: [entityId], references: [id])
+  entity    Entity   @relation(fields: [entityId], references: [id])
   serviceId String
-  service   Service @relation(fields: [serviceId], references: [id])
+  service   Service  @relation(fields: [serviceId], references: [id])
 
   firstName String?
-  lastName String?
-  email String
+  lastName  String?
+  email     String
 
   reviewContent String?
   rate          Float
 
-  status     ReviewStatus     @default(PENDING)
-  visibility ReviewVisibility
+  status          ReviewStatus     @default(PENDING)
+  visibility      ReviewVisibility
   placeHolderDate DateTime?
 
   createdAt DateTime @default(now())
@@ -464,15 +468,15 @@ model About {
 
   content String
 
-  faq         Json[]
+  faq Json[]
 
   blockOneImage String @default("")
-blockTwoImage String @default("")
+  blockTwoImage String @default("")
 
-blockTwoImageAlt String @default("")
+  blockTwoImageAlt String @default("")
 
-blockOneContent String @default("")
-blockTwoContent String @default("")
+  blockOneContent String @default("")
+  blockTwoContent String @default("")
 
   createdAt DateTime @default(now())
   updatedUt DateTime @updatedAt
@@ -551,7 +555,7 @@ model Discount {
   id    String @id @default(uuid())
   label String
 
-  code  String @unique
+  code String @unique
 
   type  DiscountType @default(PERCENTAGE)
   based Based        @default(CREATING)
